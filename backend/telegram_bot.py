@@ -31,7 +31,7 @@ from telegram.ext import (
     filters,
 )
 
-from agents import build_default_agents, OrchestratorAgent, WORKFLOWS
+from agents import build_full_agency, FinalReport, OrchestratorAgent, WORKFLOWS
 from agents.ceo import CEOAgent
 from config import get_settings
 from utils.approvals import (
@@ -59,6 +59,22 @@ logger = get_logger("telegram_bot")
 
 # In-memory store for the last BD run — used by approve/skip callbacks
 _bd_session: dict = {"prospects": [], "run_at": None}
+
+
+async def _run_workflow(
+    workflow: str,
+    client_brief: dict,
+    llm: LLMClient | None = None,
+) -> FinalReport:
+    """Run any workflow through the orchestrator with the full agency agent set.
+
+    Every command that calls this gets proper context flow:
+    agents earlier in the DAG write to SharedMemory → downstream agents read it.
+    """
+    _llm = llm or LLMClient()
+    agents = build_full_agency(_llm)
+    orchestrator = OrchestratorAgent(agents=agents, llm_client=_llm)
+    return await orchestrator.run_workflow(client_brief=client_brief, workflow=workflow)
 
 
 def _get_application() -> Application:
@@ -129,13 +145,26 @@ async def cmd_status(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 async def cmd_brief(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not _security_check(update):
         return
-    await update.message.reply_html("🚀 <b>Starting CEO Daily Brief...</b>\nAll departments will run. Check back in ~60 seconds.")
+    await update.message.reply_html(
+        "🚀 <b>Running the full agency...</b>\n\n"
+        "Wave 0 — Market Research (SG + MM)\n"
+        "Wave 1 — CMO · COO · CFO · HR · Events · Ops (parallel)\n"
+        "Wave 2 — Creative · NOVA BD · Copywriter (read research + CMO)\n"
+        "Wave 3 — CEO Leadership Meeting + Report\n\n"
+        "Reports routing to each group when ready. Takes ~2 min."
+    )
     try:
         llm = LLMClient()
-        memory = SharedMemory(client_brief={"agency": "ZYNTH", "mode": "daily_brief"})
+        memory = SharedMemory(client_brief={"agency": "ZYNTH", "market": "Singapore and Myanmar"})
         ceo = CEOAgent(llm_client=llm)
-        await ceo.run_full_day(memory)
-        await update.message.reply_html("✅ <b>Daily brief complete!</b>\nCheck your Telegram for the full report.")
+        result = await ceo.run_full_day(memory)
+        tokens = await memory.total_tokens()
+        await update.message.reply_html(
+            f"✅ <b>Full agency run complete.</b>\n"
+            f"Tokens used: {tokens:,}\n"
+            "Each group received their department output.\n"
+            "Your CEO brief is above. /pipeline for BD prospects."
+        )
     except Exception as exc:
         logger.exception("CEO brief failed: %s", exc)
         await update.message.reply_html(f"❌ Brief failed: {exc}")
@@ -154,114 +183,159 @@ async def cmd_report(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     await update.message.reply_html("📋 Report sent above.")
 
 
-async def cmd_creative(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    if not _security_check(update):
-        return
-    await update.message.reply_html("🎨 Running Creative Portfolio agent...")
-    try:
-        from agents.portfolio import PortfolioAgent
-        llm = LLMClient()
-        memory = SharedMemory()
-        agent = PortfolioAgent(llm_client=llm)
-        result = await agent.run(memory)
-        if result.success:
-            brand = result.data.get("brand", "Unknown")
-            tagline = result.data.get("creative_direction", {}).get("tagline", "")
-            posted = await send_to_creative_group(result.data)
-            group_note = " Posted to Creative group ✅" if posted else ""
-            await update.message.reply_html(
-                f"✅ <b>Portfolio piece complete!</b>\n\n"
-                f"Brand: <b>{brand}</b>\n"
-                f"Tagline: <i>{tagline}</i>\n\n"
-                f"Full package saved to outputs/portfolio/{group_note}"
-            )
-        else:
-            await update.message.reply_html(f"❌ Creative agent failed: {result.error}")
-    except Exception as exc:
-        await update.message.reply_html(f"❌ Error: {exc}")
-
-
 async def cmd_research(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not _security_check(update):
         return
-    await update.message.reply_html("🔍 Running Market Research & SEO agent...")
+    await update.message.reply_html("🔍 <b>Running Market Research...</b>")
     try:
-        from agents.research_seo import MarketResearchSEOAgent
         llm = LLMClient()
-        memory = SharedMemory(client_brief={"industry": "digital marketing Myanmar"})
-        agent = MarketResearchSEOAgent(llm_client=llm)
-        result = await agent.run(memory)
-        if result.success:
+        report = await _run_workflow(
+            "research_only",
+            client_brief={"market": "Singapore and Myanmar"},
+            llm=llm,
+        )
+        result = report.agent_results.get("research_seo")
+        if result and result.success:
             keywords = result.data.get("high_intent_keywords", [])
-            kw_list = "\n".join(f"• {k['keyword']}" for k in keywords[:5] if isinstance(k, dict))
+            kw_list = "\n".join(f"• {k.get('keyword', k)}" for k in keywords[:5] if isinstance(k, dict))
+            focus = ", ".join(result.data.get("recommended_focus_areas", [])[:3])
             posted = await send_to_marketing_group(result.data)
-            group_note = " Posted to Marketing group ✅" if posted else ""
+            group_note = " → Marketing group ✅" if posted else ""
             await update.message.reply_html(
-                f"✅ <b>Research complete!</b>\n\n"
-                f"Top keywords found:\n{kw_list}\n\n"
-                f"Focus areas: {', '.join(result.data.get('recommended_focus_areas', [])[:3])}"
-                f"{group_note}"
+                f"✅ <b>Research complete{group_note}</b>\n\n"
+                f"<b>Top keywords:</b>\n{kw_list}\n\n"
+                f"<b>Focus areas:</b> {focus}"
             )
         else:
-            await update.message.reply_html(f"❌ Research failed: {result.error}")
+            await update.message.reply_html("❌ Research failed.")
     except Exception as exc:
         await update.message.reply_html(f"❌ Error: {exc}")
 
 
 async def cmd_bd(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Run NOVA BD agent — sends 3 prospects with approve/skip buttons to personal chat."""
+    """BD pipeline: Research → NOVA. Findings from research flow into prospect selection."""
     if not _security_check(update):
         return
     await update.message.reply_html(
-        "📊 <b>NOVA is running...</b>\n"
-        "Finding 3 real prospects for ZYNTH. Takes ~30 seconds."
+        "📊 <b>NOVA BD Pipeline running...</b>\n\n"
+        "Step 1 — Market Research (SG + MM)\n"
+        "Step 2 — NOVA picks 3 prospects informed by that research\n\n"
+        "~60 seconds."
     )
     try:
-        from agents.lead_gen import LeadGenOutreachAgent
+        settings = get_settings()
         llm = LLMClient()
-        memory = SharedMemory(client_brief={"market": "Singapore and Myanmar", "agency": "ZYNTH"})
-        agent = LeadGenOutreachAgent(llm_client=llm)
-        result = await agent.run(memory)
+        report = await _run_workflow(
+            "bd_pipeline",
+            client_brief={"market": "Singapore and Myanmar", "agency": "ZYNTH"},
+            llm=llm,
+        )
+        research_result = report.agent_results.get("research_seo")
+        lead_result = report.agent_results.get("lead_gen")
 
-        if not result.success:
-            await update.message.reply_html(f"❌ NOVA failed: {result.error}")
+        if not lead_result or not lead_result.success:
+            await update.message.reply_html("❌ NOVA failed. Try again.")
             return
 
-        # Store results for callback handler
-        prospects = result.data.get("prospects", [])
+        prospects = lead_result.data.get("prospects", [])
         _bd_session["prospects"] = prospects
         _bd_session["run_at"] = datetime.now().isoformat()
-        _bd_session["full_data"] = result.data
+        _bd_session["full_data"] = lead_result.data
 
-        settings = get_settings()
+        # Post read-only to BD group
+        await send_bd_brief(lead_result.data)
+        # Post interactive cards with buttons to personal chat
+        await send_bd_brief_interactive(lead_result.data, settings.telegram_chat_id)
 
-        # 1. Send read-only brief to BD group
-        await send_bd_brief(result.data)
-
-        # 2. Send interactive version with buttons to personal chat
-        await send_bd_brief_interactive(result.data, settings.telegram_chat_id)
+        # Show what research context NOVA used
+        research_context = ""
+        if research_result and research_result.success:
+            kws = research_result.data.get("high_intent_keywords", [])
+            top = [k.get("keyword", k) if isinstance(k, dict) else k for k in kws[:3]]
+            research_context = f"\n<i>Research found: {', '.join(top)}</i>"
 
         await update.message.reply_html(
-            f"✅ <b>NOVA complete — {len(prospects)} prospects ready.</b>\n"
-            "Tap ✅ Approve or ⏭ Skip on each one above.\n"
-            "Approved prospects → /pipeline"
+            f"✅ <b>NOVA complete — {len(prospects)} prospects above.</b>{research_context}\n\n"
+            "Tap ✅ or ⏭ on each card.\n"
+            "/pipeline to see your approved prospects."
         )
     except Exception as exc:
-        logger.exception("BD agent error: %s", exc)
+        logger.exception("BD pipeline error: %s", exc)
+        await update.message.reply_html(f"❌ Error: {exc}")
+
+
+async def cmd_creative(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Creative pipeline: Research → Copywriter direction → Portfolio executes."""
+    if not _security_check(update):
+        return
+    await update.message.reply_html(
+        "🎨 <b>Creative Pipeline running...</b>\n\n"
+        "Step 1 — Market Research\n"
+        "Step 2 — Copy direction (what content the market needs)\n"
+        "Step 3 — Portfolio executes brand brief from that direction\n\n"
+        "~60 seconds."
+    )
+    try:
+        llm = LLMClient()
+        report = await _run_workflow(
+            "creative_pipeline",
+            client_brief={"agency": "ZYNTH"},
+            llm=llm,
+        )
+        portfolio_result = report.agent_results.get("portfolio")
+        copy_result = report.agent_results.get("copywriter")
+
+        if portfolio_result and portfolio_result.success:
+            brand = portfolio_result.data.get("brand", "Unknown")
+            tagline = portfolio_result.data.get("creative_direction", {}).get("tagline", "")
+            posted = await send_to_creative_group(portfolio_result.data)
+            group_note = " → Creative group ✅" if posted else ""
+
+            copy_note = ""
+            if copy_result and copy_result.success:
+                hook = copy_result.data.get("campaign_concepts", [{}])[0].get("hook", "")
+                if hook:
+                    copy_note = f"\n<i>Copy hook: {hook[:80]}</i>"
+
+            await update.message.reply_html(
+                f"✅ <b>Creative complete{group_note}</b>\n\n"
+                f"<b>Brand:</b> {brand}\n"
+                f"<b>Tagline:</b> <i>{tagline}</i>"
+                f"{copy_note}\n\n"
+                "Saved to outputs/portfolio/"
+            )
+        else:
+            await update.message.reply_html("❌ Creative pipeline failed.")
+    except Exception as exc:
         await update.message.reply_html(f"❌ Error: {exc}")
 
 
 async def handle_bd_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Handle approve/skip button taps on BD prospect cards."""
+    """Handle approve/skip/contacted button taps on BD prospect cards."""
     query = update.callback_query
     await query.answer()
 
-    if not query.data.startswith("bd_"):
+    data = query.data or ""
+
+    if data.startswith("bd_contacted_"):
+        # Fired from /pipeline — company name is the payload
+        company = data[len("bd_contacted_"):]
+        mark_contacted(company)
+        await query.edit_message_text(
+            f"🔵 <b>{company} marked as contacted.</b>\n"
+            "Following up later? Send /pipeline.",
+            parse_mode="HTML",
+        )
         return
 
-    parts = query.data.split("_")
-    action = parts[1]  # approve or skip
-    idx = int(parts[2]) if len(parts) > 2 else 0
+    if data.startswith("bd_approve_"):
+        idx = int(data[len("bd_approve_"):])
+        action = "approve"
+    elif data.startswith("bd_skip_"):
+        idx = int(data[len("bd_skip_"):])
+        action = "skip"
+    else:
+        return
 
     prospects = _bd_session.get("prospects", [])
     if idx >= len(prospects):
@@ -275,20 +349,13 @@ async def handle_bd_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
         approve_prospect(prospect)
         await query.edit_message_text(
             f"✅ <b>{company} approved!</b>\n"
-            f"Added to BD pipeline → /pipeline to track progress.",
+            "Added to BD pipeline → /pipeline to track progress.",
             parse_mode="HTML",
         )
-    elif action == "skip":
+    else:
         skip_prospect(company)
         await query.edit_message_text(
             f"⏭ <b>{company} skipped.</b>",
-            parse_mode="HTML",
-        )
-    elif action == "contacted":
-        mark_contacted(company)
-        await query.edit_message_text(
-            f"🔵 <b>{company} marked as contacted.</b>\n"
-            "Following up later? Send /pipeline.",
             parse_mode="HTML",
         )
 
@@ -348,7 +415,7 @@ async def cmd_pipeline(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             keyboard = InlineKeyboardMarkup([[
                 InlineKeyboardButton(
                     "🔵 Mark as Contacted",
-                    callback_data=f"bd_contacted_{list(get_all()['approved']).index(p) if p in get_all()['approved'] else 0}",
+                    callback_data=f"bd_contacted_{company}",
                 ),
             ]])
             await update.message.reply_html(text, reply_markup=keyboard)
@@ -416,12 +483,7 @@ async def cmd_run(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     await update.message.reply_html(f"▶️ Running workflow: <b>{workflow}</b>...")
     try:
-        agents = build_default_agents()
-        orchestrator = OrchestratorAgent(agents=agents)
-        report = await orchestrator.run_workflow(
-            client_brief={"agency": "ZYNTH"},
-            workflow=workflow,
-        )
+        report = await _run_workflow(workflow, client_brief={"agency": "ZYNTH"})
         succeeded = sum(1 for r in report.agent_results.values() if r.success)
         total = len(report.agent_results)
         await update.message.reply_html(

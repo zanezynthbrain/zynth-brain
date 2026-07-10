@@ -78,8 +78,11 @@ DEFAULT_WORKFLOW: list[WorkflowStep] = [
 ]
 
 WORKFLOWS: dict[str, list[WorkflowStep]] = {
+    # ----- Core marketing workflows (original 4 agents) -----
     "full_campaign": DEFAULT_WORKFLOW,
-    "research_only": [WorkflowStep(agent_key="research_seo")],
+    "research_only": [
+        WorkflowStep(agent_key="research_seo"),
+    ],
     "content_only": [
         WorkflowStep(agent_key="research_seo"),
         WorkflowStep(agent_key="copywriter", depends_on=["research_seo"]),
@@ -92,6 +95,25 @@ WORKFLOWS: dict[str, list[WorkflowStep]] = {
         WorkflowStep(agent_key="research_seo"),
         WorkflowStep(agent_key="copywriter", depends_on=["research_seo"]),
         WorkflowStep(agent_key="paid_ads", depends_on=["copywriter"]),
+    ],
+    # ----- Department workflows (full agency agents) -----
+    # BD pipeline: research → NOVA picks prospects informed by real intel
+    "bd_pipeline": [
+        WorkflowStep(agent_key="research_seo"),
+        WorkflowStep(agent_key="lead_gen", depends_on=["research_seo"]),
+    ],
+    # Creative pipeline: research → copy direction → portfolio executes
+    "creative_pipeline": [
+        WorkflowStep(agent_key="research_seo"),
+        WorkflowStep(agent_key="copywriter", depends_on=["research_seo"]),
+        WorkflowStep(agent_key="portfolio", depends_on=["copywriter"]),
+    ],
+    # Full agency campaign: all 4 original specialists chained
+    "full_agency_campaign": [
+        WorkflowStep(agent_key="research_seo"),
+        WorkflowStep(agent_key="copywriter", depends_on=["research_seo"]),
+        WorkflowStep(agent_key="lead_gen", depends_on=["research_seo"]),
+        WorkflowStep(agent_key="paid_ads", depends_on=["copywriter", "lead_gen"]),
     ],
 }
 

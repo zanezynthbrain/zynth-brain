@@ -156,27 +156,48 @@ class CEOAgent(BaseAgent):
         return data
 
     async def _run_departments(self, memory: SharedMemory) -> None:
-        """Import and run all department agents concurrently."""
+        """Run all departments in three sequential waves so context flows properly.
+
+        Wave 0 — Research: market intelligence goes into shared memory first.
+        Wave 1 — Leadership + Ops: CMO/COO/CFO/HR/Events/Operations run in
+                  parallel; CMO can read research, ops are largely independent.
+        Wave 2 — Creative + BD specialists: read from both research AND CMO
+                  direction before producing their outputs.
+        """
         from agents.cmo import CMOAgent
         from agents.coo import COOAgent
         from agents.cfo import CFOAgent
         from agents.hr import HRAgent
-
-        dept_agents = [CMOAgent(self.llm), COOAgent(self.llm), CFOAgent(self.llm), HRAgent(self.llm)]
-        results = await asyncio.gather(*[agent.run(memory) for agent in dept_agents])
-
-        for r in results:
-            if not r.success:
-                await memory.log(self.agent_key, "department_failed", agent=r.agent, error=r.error)
-
-        # After CMO and COO run, kick off specialist agents in parallel
         from agents.event_manager import EventManagerAgent
         from agents.operations import OperationsAgent
         from agents.portfolio import PortfolioAgent
         from agents.research_seo import MarketResearchSEOAgent
         from agents.copywriter import ContentCopywriterAgent
+        from agents.lead_gen import LeadGenOutreachAgent
 
-        # Set portfolio brand from agenda
+        # Wave 0: Research first — everything downstream benefits from this
+        await memory.log(self.agent_key, "wave_0_research")
+        research_result = await MarketResearchSEOAgent(self.llm).run(memory)
+        if not research_result.success:
+            await memory.log(self.agent_key, "research_failed", error=research_result.error)
+
+        # Wave 1: Leadership + Operations in parallel (CMO reads research)
+        await memory.log(self.agent_key, "wave_1_leadership")
+        wave1 = [
+            CMOAgent(self.llm),
+            COOAgent(self.llm),
+            CFOAgent(self.llm),
+            HRAgent(self.llm),
+            EventManagerAgent(self.llm),
+            OperationsAgent(self.llm),
+        ]
+        results = await asyncio.gather(*[a.run(memory) for a in wave1])
+        for r in results:
+            if not r.success:
+                await memory.log(self.agent_key, "department_failed", agent=r.agent, error=r.error)
+
+        # Wave 2: Creative + BD specialists — read research + CMO direction
+        await memory.log(self.agent_key, "wave_2_specialists")
         agenda = await memory.get("ceo_agenda", {})
         brand_name = agenda.get("portfolio_brand_today", "")
         if brand_name:
@@ -185,17 +206,16 @@ class CEOAgent(BaseAgent):
             if brand_info:
                 await memory.set("portfolio_brand_today", brand_info)
 
-        specialist_agents = [
-            EventManagerAgent(self.llm),
-            OperationsAgent(self.llm),
-            PortfolioAgent(self.llm),
-            MarketResearchSEOAgent(self.llm),
+        wave2 = [
             ContentCopywriterAgent(self.llm),
+            LeadGenOutreachAgent(self.llm),
+            PortfolioAgent(self.llm),
         ]
-        await asyncio.gather(*[agent.run(memory) for agent in specialist_agents])
+        await asyncio.gather(*[a.run(memory) for a in wave2])
 
     async def _build_synthesis_prompt(self, memory: SharedMemory, **kwargs: Any) -> str:
         agenda = await memory.get("ceo_agenda", {})
+        research = await memory.get("research_seo", {})
         cmo = await memory.get("cmo", {})
         coo = await memory.get("coo", {})
         cfo = await memory.get("cfo", {})
@@ -203,13 +223,33 @@ class CEOAgent(BaseAgent):
         events = await memory.get("event_manager", {})
         ops = await memory.get("operations", {})
         portfolio = await memory.get("portfolio", {})
+        lead_gen = await memory.get("lead_gen", {})
+        copywriter = await memory.get("copywriter", {})
         qa_feedback = kwargs.get("qa_feedback", "")
+
+        # Summarize research for the CEO (keep it tight)
+        research_summary = ""
+        if research:
+            kws = research.get("high_intent_keywords", [])
+            top_kw = [k.get("keyword", k) if isinstance(k, dict) else k for k in kws[:5]]
+            focus = research.get("recommended_focus_areas", [])[:3]
+            research_summary = f"Top keywords: {', '.join(top_kw)}. Focus: {', '.join(focus)}."
+
+        # Summarize BD prospects
+        bd_summary = ""
+        if lead_gen:
+            prospects = lead_gen.get("prospects", [])
+            companies = [p.get("company", "?") for p in prospects[:3]]
+            bd_summary = f"NOVA identified {len(prospects)} prospects today: {', '.join(companies)}."
 
         prompt = (
             f"Today's Agenda: {agenda}\n\n"
-            "--- LEADERSHIP MEETING ---\n"
-            "All departments have submitted their reports. As CEO, review them, identify "
-            "alignment and conflicts, make key decisions, and summarize the day's outcomes.\n\n"
+            "--- FULL AGENCY DAY REPORT ---\n"
+            "All departments have run and submitted their outputs. "
+            "Research ran first, its findings flowed into all specialist work. "
+            "As CEO, review everything, identify alignment and conflicts, "
+            "make decisions, and produce the daily leadership summary.\n\n"
+            f"Market Research:\n{research_summary or research}\n\n"
             f"CMO Report:\n{cmo}\n\n"
             f"COO Report:\n{coo}\n\n"
             f"CFO Report:\n{cfo}\n\n"
@@ -217,10 +257,12 @@ class CEOAgent(BaseAgent):
             f"Event Manager:\n{events}\n\n"
             f"Operations:\n{ops}\n\n"
             f"Portfolio Creative (brand of the day):\n{portfolio}\n\n"
-            "Produce: (1) meeting notes capturing key discussion points, (2) key decisions "
-            "you made today, (3) specific action items for each department for tomorrow, "
-            "(4) an executive summary (3-4 sentences you'd send to a board), "
-            "(5) tomorrow's priorities, (6) a brief performance grade for each department head."
+            f"Content & Copy:\n{copywriter}\n\n"
+            f"BD / Lead Gen (NOVA):\n{bd_summary or lead_gen}\n\n"
+            "Produce: (1) meeting notes — key highlights from each department, "
+            "(2) key decisions you made, (3) action items for each department for tomorrow, "
+            "(4) executive summary (3-4 sentences you'd send to the board), "
+            "(5) tomorrow's priorities, (6) performance grade for each department head."
         )
         if qa_feedback:
             prompt += f"\n\nQA feedback to address: {qa_feedback}"
