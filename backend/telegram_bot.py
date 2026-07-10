@@ -49,7 +49,13 @@ from utils.logging_config import configure_logging, get_logger
 from utils.llm_client import LLMClient
 from utils.state import SharedMemory
 from utils.storage import load_latest_report
-from utils.telegram import send_message
+from utils.telegram import (
+    send_message,
+    send_bd_brief,
+    send_to_creative_group,
+    send_to_marketing_group,
+    send_to_gm_group,
+)
 
 logger = get_logger("telegram_bot")
 
@@ -79,8 +85,9 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/status — Current system status\n"
         "/report — Load today's saved CEO report\n\n"
         "<b>Department Commands:</b>\n"
-        "/creative — Run creative portfolio work\n"
-        "/research — Run market research\n"
+        "/creative — Creative brief → posts to Creative group\n"
+        "/research — Market intel → posts to Marketing group\n"
+        "/bd — BD outreach brief → posts to BD group\n"
         "/event — Generate event proposal\n"
         "/ops — Vendor research + SOP\n\n"
         "<b>Workflows:</b>\n"
@@ -154,11 +161,13 @@ async def cmd_creative(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         if result.success:
             brand = result.data.get("brand", "Unknown")
             tagline = result.data.get("creative_direction", {}).get("tagline", "")
+            posted = await send_to_creative_group(result.data)
+            group_note = " Posted to Creative group ✅" if posted else ""
             await update.message.reply_html(
                 f"✅ <b>Portfolio piece complete!</b>\n\n"
                 f"Brand: <b>{brand}</b>\n"
                 f"Tagline: <i>{tagline}</i>\n\n"
-                f"Full package saved to outputs/portfolio/"
+                f"Full package saved to outputs/portfolio/{group_note}"
             )
         else:
             await update.message.reply_html(f"❌ Creative agent failed: {result.error}")
@@ -178,14 +187,44 @@ async def cmd_research(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         result = await agent.run(memory)
         if result.success:
             keywords = result.data.get("high_intent_keywords", [])
-            kw_list = "\n".join(f"• {k['keyword']}" for k in keywords[:5])
+            kw_list = "\n".join(f"• {k['keyword']}" for k in keywords[:5] if isinstance(k, dict))
+            posted = await send_to_marketing_group(result.data)
+            group_note = " Posted to Marketing group ✅" if posted else ""
             await update.message.reply_html(
                 f"✅ <b>Research complete!</b>\n\n"
                 f"Top keywords found:\n{kw_list}\n\n"
                 f"Focus areas: {', '.join(result.data.get('recommended_focus_areas', [])[:3])}"
+                f"{group_note}"
             )
         else:
             await update.message.reply_html(f"❌ Research failed: {result.error}")
+    except Exception as exc:
+        await update.message.reply_html(f"❌ Error: {exc}")
+
+
+async def cmd_bd(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not _security_check(update):
+        return
+    await update.message.reply_html("📊 Running BD Lead Gen agent...")
+    try:
+        from agents.lead_gen import LeadGenOutreachAgent
+        llm = LLMClient()
+        memory = SharedMemory(client_brief={"market": "Myanmar", "agency": "ZYNTH"})
+        agent = LeadGenOutreachAgent(llm_client=llm)
+        result = await agent.run(memory)
+        if result.success:
+            prospects = result.data.get("prospect_list", [])
+            posted = await send_bd_brief(result.data)
+            group_note = " Posted to BD group ✅" if posted else ""
+            companies = ", ".join(p.get("company", "?") for p in prospects[:3])
+            await update.message.reply_html(
+                f"✅ <b>BD Brief ready!</b>\n\n"
+                f"🎯 Top targets: {companies}\n"
+                f"📲 Cold emails drafted: {len(result.data.get('cold_emails', []))}"
+                f"{group_note}"
+            )
+        else:
+            await update.message.reply_html(f"❌ BD agent failed: {result.error}")
     except Exception as exc:
         await update.message.reply_html(f"❌ Error: {exc}")
 
@@ -305,6 +344,7 @@ def main() -> None:
     app.add_handler(CommandHandler("report", cmd_report))
     app.add_handler(CommandHandler("creative", cmd_creative))
     app.add_handler(CommandHandler("research", cmd_research))
+    app.add_handler(CommandHandler("bd", cmd_bd))
     app.add_handler(CommandHandler("event", cmd_event))
     app.add_handler(CommandHandler("ops", cmd_ops))
     app.add_handler(CommandHandler("run", cmd_run))

@@ -25,7 +25,14 @@ from agents.base import BaseAgent
 from config import ZYNTH_BRAND
 from utils.state import SharedMemory
 from utils.storage import save_report
-from utils.telegram import send_ceo_daily_brief, send_department_update
+from utils.telegram import (
+    send_ceo_daily_brief,
+    send_department_update,
+    send_bd_brief,
+    send_to_creative_group,
+    send_to_marketing_group,
+    send_to_gm_group,
+)
 
 # ---- Agenda-setting schema (Phase 1) ------------------------------------
 _AGENDA_SCHEMA: dict[str, Any] = {
@@ -220,13 +227,29 @@ class CEOAgent(BaseAgent):
         return prompt
 
     async def _send_department_telegrams(self, memory: SharedMemory) -> None:
+        # --- Route structured outputs to the right Telegram groups ---
+        portfolio_data = await memory.get("portfolio", {})
+        if portfolio_data:
+            await send_to_creative_group(portfolio_data)
+
+        lead_gen_data = await memory.get("lead_gen", {})
+        if lead_gen_data:
+            await send_bd_brief(lead_gen_data)
+
+        research_data = await memory.get("research_seo", {})
+        if research_data:
+            await send_to_marketing_group(research_data)
+
+        ceo_data = await memory.get("ceo_final", {})
+        if ceo_data:
+            await send_to_gm_group(ceo_data)
+
+        # --- Fallback: leadership summaries to founder personal chat ---
         dept_map = [
-            ("cmo", "📣 Marketing (CMO)", "marketing_priorities"),
             ("coo", "⚙️ Operations (COO)", "operations_priorities"),
             ("cfo", "💰 Finance (CFO)", "financial_priorities"),
             ("hr", "👥 HR", "hr_priorities"),
             ("event_manager", "🎪 Events", "active_event_pipeline"),
-            ("portfolio", "🎨 Creative Portfolio", "brand"),
         ]
         for key, label, field in dept_map:
             data = await memory.get(key, {})

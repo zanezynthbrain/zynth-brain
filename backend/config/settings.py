@@ -44,9 +44,15 @@ class Settings(BaseSettings):
     jina_api_key: str = Field(default="", alias="JINA_API_KEY")
     allow_network: bool = Field(default=False, alias="ZYNTH_ALLOW_NETWORK")
 
-    # --- Telegram bot ----------------------------------------------------
+    # --- Telegram bot (ZYNTH MD / @zynth_md_approval_bot) ----------------
     telegram_bot_token: str = Field(default="", alias="TELEGRAM_BOT_TOKEN")
+    # Your personal chat ID — receives CEO briefs and is your command center
     telegram_chat_id: str = Field(default="", alias="TELEGRAM_CHAT_ID")
+    # Department group chat IDs — bot posts dept-specific content here
+    telegram_bd_chat_id: str = Field(default="", alias="TELEGRAM_BD_CHAT_ID")
+    telegram_creative_chat_id: str = Field(default="", alias="TELEGRAM_CREATIVE_CHAT_ID")
+    telegram_marketing_chat_id: str = Field(default="", alias="TELEGRAM_MARKETING_CHAT_ID")
+    telegram_gm_chat_id: str = Field(default="", alias="TELEGRAM_GM_CHAT_ID")
 
     # --- Scheduler / timezone --------------------------------------------
     # Yangon is UTC+6:30 (Asia/Rangoon)
