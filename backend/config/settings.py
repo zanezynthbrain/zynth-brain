@@ -44,9 +44,28 @@ class Settings(BaseSettings):
     jina_api_key: str = Field(default="", alias="JINA_API_KEY")
     allow_network: bool = Field(default=False, alias="ZYNTH_ALLOW_NETWORK")
 
+    # --- Telegram bot ----------------------------------------------------
+    telegram_bot_token: str = Field(default="", alias="TELEGRAM_BOT_TOKEN")
+    telegram_chat_id: str = Field(default="", alias="TELEGRAM_CHAT_ID")
+
+    # --- Scheduler / timezone --------------------------------------------
+    # Yangon is UTC+6:30 (Asia/Rangoon)
+    scheduler_timezone: str = Field(default="Asia/Rangoon", alias="ZYNTH_TIMEZONE")
+    daily_brief_hour: int = Field(default=8, alias="ZYNTH_BRIEF_HOUR")
+    daily_brief_minute: int = Field(default=0, alias="ZYNTH_BRIEF_MINUTE")
+    eod_report_hour: int = Field(default=18, alias="ZYNTH_EOD_HOUR")
+
+    # --- Storage ---------------------------------------------------------
+    google_drive_folder_id: str = Field(default="", alias="ZYNTH_GDRIVE_FOLDER_ID")
+
     # --- Misc -------------------------------------------------------------
     log_level: str = Field(default="INFO", alias="ZYNTH_LOG_LEVEL")
     output_dir: str = Field(default="outputs", alias="ZYNTH_OUTPUT_DIR")
+    agency_name: str = Field(default="ZYNTH", alias="ZYNTH_AGENCY_NAME")
+
+    @property
+    def has_telegram(self) -> bool:
+        return bool(self.telegram_bot_token and self.telegram_chat_id)
 
     @property
     def has_llm_credentials(self) -> bool:
