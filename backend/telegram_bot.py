@@ -1,41 +1,30 @@
 """ZYNTH Telegram Bot — your AI agency in your pocket.
 
-Commands you can send from your iPad/phone:
-
-    /brief          → Run the full daily CEO brief right now
-    /status         → Get a quick status of what's running
-    /report         → Show yesterday's CEO report
-    /creative       → Run just the Portfolio agent (get today's creative work)
-    /research       → Run just the Market Research agent
-    /event          → Generate a new event proposal
-    /ops            → Run Operations (vendor research + SOP)
-    /run <workflow> → Run a specific workflow (full_campaign, research_only, etc.)
-    /approve        → Approve the latest action items from CEO
-    /help           → Show all commands
-
-Setup:
-    1. Create bot: message @BotFather on Telegram → /newbot → save token
-    2. Get your chat ID: start your bot, then visit:
-       https://api.telegram.org/bot<TOKEN>/getUpdates
-    3. Add to .env:
-       TELEGRAM_BOT_TOKEN=...
-       TELEGRAM_CHAT_ID=...
-    4. Run: python telegram_bot.py
-
-တည်ဆောက်နည်း:
-    Telegram မှာ @BotFather ကို message ပေး → /newbot → token ရမယ်
-    .env ထဲ TELEGRAM_BOT_TOKEN ထည့် → python telegram_bot.py run လုပ်
+Commands:
+    /brief          → Run full CEO daily brief (all departments)
+    /status         → System status
+    /report         → Load today's saved CEO report
+    /bd             → Run NOVA BD agent — 3 prospects, approve/skip with buttons
+    /pipeline       → Show your BD approval pipeline
+    /creative       → Run creative portfolio → posts to Creative group
+    /research       → Market research → posts to Marketing group
+    /event          → Generate event proposal
+    /ops            → Vendor research + SOP
+    /run <workflow> → full_campaign / research_only / ads_only / leads_only
+    /approve        → Confirm CEO action items
+    /help           → All commands
 """
 
 from __future__ import annotations
 
 import asyncio
-import json
 import sys
+from datetime import datetime
 
-from telegram import Update
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import (
     Application,
+    CallbackQueryHandler,
     CommandHandler,
     ContextTypes,
     MessageHandler,
@@ -45,19 +34,31 @@ from telegram.ext import (
 from agents import build_default_agents, OrchestratorAgent, WORKFLOWS
 from agents.ceo import CEOAgent
 from config import get_settings
+from utils.approvals import (
+    approve_prospect,
+    get_all,
+    get_pending,
+    mark_contacted,
+    pipeline_summary,
+    skip_prospect,
+)
 from utils.logging_config import configure_logging, get_logger
 from utils.llm_client import LLMClient
 from utils.state import SharedMemory
 from utils.storage import load_latest_report
 from utils.telegram import (
-    send_message,
     send_bd_brief,
+    send_bd_brief_interactive,
+    send_message,
     send_to_creative_group,
-    send_to_marketing_group,
     send_to_gm_group,
+    send_to_marketing_group,
 )
 
 logger = get_logger("telegram_bot")
+
+# In-memory store for the last BD run — used by approve/skip callbacks
+_bd_session: dict = {"prospects": [], "run_at": None}
 
 
 def _get_application() -> Application:
@@ -78,26 +79,31 @@ def _security_check(update: Update) -> bool:
 async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not _security_check(update):
         return
+    pending = len(get_pending())
+    pipeline_note = f"\n⚡ {pending} prospect(s) waiting for outreach → /pipeline" if pending else ""
     text = (
-        "🧠 <b>ZYNTH AI Agency Bot</b>\n\n"
+        "🧠 <b>ZYNTH AI Agency — Command Center</b>\n\n"
+        "<b>BD & Sales:</b>\n"
+        "/bd — NOVA runs BD: 3 prospects, approve/skip with buttons\n"
+        "/pipeline — Show approved prospects + mark contacted\n\n"
         "<b>Daily Operations:</b>\n"
-        "/brief — Run CEO daily brief (all departments)\n"
-        "/status — Current system status\n"
-        "/report — Load today's saved CEO report\n\n"
-        "<b>Department Commands:</b>\n"
-        "/creative — Creative brief → posts to Creative group\n"
-        "/research — Market intel → posts to Marketing group\n"
-        "/bd — BD outreach brief → posts to BD group\n"
-        "/event — Generate event proposal\n"
+        "/brief — Full CEO daily brief (all departments)\n"
+        "/report — Load today's saved CEO report\n"
+        "/status — System status\n\n"
+        "<b>Department Agents:</b>\n"
+        "/creative — Creative brief → Creative group\n"
+        "/research — Market intel → Marketing group\n"
+        "/event — Event proposal (Yangon venues)\n"
         "/ops — Vendor research + SOP\n\n"
-        "<b>Workflows:</b>\n"
+        "<b>Campaign Workflows:</b>\n"
         "/run full_campaign\n"
         "/run research_only\n"
         "/run ads_only\n"
         "/run leads_only\n\n"
-        "<b>Management:</b>\n"
-        "/approve — Confirm today's action items\n"
+        "<b>Approvals:</b>\n"
+        "/approve — Confirm CEO action items\n"
         "/help — This message"
+        f"{pipeline_note}"
     )
     await update.message.reply_html(text)
 
@@ -203,30 +209,149 @@ async def cmd_research(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
 
 async def cmd_bd(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Run NOVA BD agent — sends 3 prospects with approve/skip buttons to personal chat."""
     if not _security_check(update):
         return
-    await update.message.reply_html("📊 Running BD Lead Gen agent...")
+    await update.message.reply_html(
+        "📊 <b>NOVA is running...</b>\n"
+        "Finding 3 real prospects for ZYNTH. Takes ~30 seconds."
+    )
     try:
         from agents.lead_gen import LeadGenOutreachAgent
         llm = LLMClient()
-        memory = SharedMemory(client_brief={"market": "Myanmar", "agency": "ZYNTH"})
+        memory = SharedMemory(client_brief={"market": "Singapore and Myanmar", "agency": "ZYNTH"})
         agent = LeadGenOutreachAgent(llm_client=llm)
         result = await agent.run(memory)
-        if result.success:
-            prospects = result.data.get("prospect_list", [])
-            posted = await send_bd_brief(result.data)
-            group_note = " Posted to BD group ✅" if posted else ""
-            companies = ", ".join(p.get("company", "?") for p in prospects[:3])
-            await update.message.reply_html(
-                f"✅ <b>BD Brief ready!</b>\n\n"
-                f"🎯 Top targets: {companies}\n"
-                f"📲 Cold emails drafted: {len(result.data.get('cold_emails', []))}"
-                f"{group_note}"
-            )
-        else:
-            await update.message.reply_html(f"❌ BD agent failed: {result.error}")
+
+        if not result.success:
+            await update.message.reply_html(f"❌ NOVA failed: {result.error}")
+            return
+
+        # Store results for callback handler
+        prospects = result.data.get("prospects", [])
+        _bd_session["prospects"] = prospects
+        _bd_session["run_at"] = datetime.now().isoformat()
+        _bd_session["full_data"] = result.data
+
+        settings = get_settings()
+
+        # 1. Send read-only brief to BD group
+        await send_bd_brief(result.data)
+
+        # 2. Send interactive version with buttons to personal chat
+        await send_bd_brief_interactive(result.data, settings.telegram_chat_id)
+
+        await update.message.reply_html(
+            f"✅ <b>NOVA complete — {len(prospects)} prospects ready.</b>\n"
+            "Tap ✅ Approve or ⏭ Skip on each one above.\n"
+            "Approved prospects → /pipeline"
+        )
     except Exception as exc:
+        logger.exception("BD agent error: %s", exc)
         await update.message.reply_html(f"❌ Error: {exc}")
+
+
+async def handle_bd_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle approve/skip button taps on BD prospect cards."""
+    query = update.callback_query
+    await query.answer()
+
+    if not query.data.startswith("bd_"):
+        return
+
+    parts = query.data.split("_")
+    action = parts[1]  # approve or skip
+    idx = int(parts[2]) if len(parts) > 2 else 0
+
+    prospects = _bd_session.get("prospects", [])
+    if idx >= len(prospects):
+        await query.edit_message_text("⚠️ Session expired. Run /bd again.")
+        return
+
+    prospect = prospects[idx]
+    company = prospect.get("company", "Unknown")
+
+    if action == "approve":
+        approve_prospect(prospect)
+        await query.edit_message_text(
+            f"✅ <b>{company} approved!</b>\n"
+            f"Added to BD pipeline → /pipeline to track progress.",
+            parse_mode="HTML",
+        )
+    elif action == "skip":
+        skip_prospect(company)
+        await query.edit_message_text(
+            f"⏭ <b>{company} skipped.</b>",
+            parse_mode="HTML",
+        )
+    elif action == "contacted":
+        mark_contacted(company)
+        await query.edit_message_text(
+            f"🔵 <b>{company} marked as contacted.</b>\n"
+            "Following up later? Send /pipeline.",
+            parse_mode="HTML",
+        )
+
+
+async def cmd_pipeline(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Show the BD approval pipeline with pending prospects."""
+    if not _security_check(update):
+        return
+
+    pending = get_pending()
+    all_data = get_all()
+    contacted = [p for p in all_data.get("approved", []) if p.get("status") == "contacted"]
+    won = [p for p in all_data.get("approved", []) if p.get("status") == "closed_won"]
+
+    if not pending and not contacted and not won:
+        await update.message.reply_html(
+            "📋 <b>BD Pipeline is empty.</b>\n\n"
+            "Run /bd to find prospects and approve them."
+        )
+        return
+
+    lines = [
+        "📋 <b>BD Pipeline</b>",
+        "",
+        f"🟡 Pending outreach: {len(pending)}",
+        f"🔵 Contacted: {len(contacted)}",
+        f"🟢 Won: {len(won)}",
+        "",
+    ]
+
+    if pending:
+        lines.append("━━━ <b>Ready for Outreach</b> ━━━")
+        for p in pending[:5]:
+            company = p.get("company", "?")
+            approved_at = p.get("approved_at", "")[:10]
+            services = ", ".join(p.get("suggested_services", [])[:2])
+            budget = p.get("budget_estimate", "")
+            lines.append(
+                f"\n🎯 <b>{company}</b>\n"
+                f"   {p.get('market', '')} | {services}\n"
+                f"   Budget: {budget}\n"
+                f"   Approved: {approved_at}"
+            )
+
+    await update.message.reply_html("\n".join(lines))
+
+    # Send each pending prospect with a "Mark Contacted" button
+    if pending:
+        await update.message.reply_html("Tap to update status:")
+        for p in pending[:5]:
+            company = p.get("company", "?")
+            outreach = p.get("outreach_message", "")
+            text = (
+                f"🎯 <b>{company}</b>\n\n"
+                f"📲 Ready to send:\n<code>{outreach[:300]}</code>"
+            )
+            keyboard = InlineKeyboardMarkup([[
+                InlineKeyboardButton(
+                    "🔵 Mark as Contacted",
+                    callback_data=f"bd_contacted_{list(get_all()['approved']).index(p) if p in get_all()['approved'] else 0}",
+                ),
+            ]])
+            await update.message.reply_html(text, reply_markup=keyboard)
 
 
 async def cmd_event(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -342,13 +467,15 @@ def main() -> None:
     app.add_handler(CommandHandler("status", cmd_status))
     app.add_handler(CommandHandler("brief", cmd_brief))
     app.add_handler(CommandHandler("report", cmd_report))
+    app.add_handler(CommandHandler("bd", cmd_bd))
+    app.add_handler(CommandHandler("pipeline", cmd_pipeline))
     app.add_handler(CommandHandler("creative", cmd_creative))
     app.add_handler(CommandHandler("research", cmd_research))
-    app.add_handler(CommandHandler("bd", cmd_bd))
     app.add_handler(CommandHandler("event", cmd_event))
     app.add_handler(CommandHandler("ops", cmd_ops))
     app.add_handler(CommandHandler("run", cmd_run))
     app.add_handler(CommandHandler("approve", cmd_approve))
+    app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, fallback_handler))
 
     logger.info("ZYNTH Telegram Bot starting (polling mode)...")

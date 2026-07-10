@@ -33,7 +33,12 @@ TELEGRAM_API = "https://api.telegram.org/bot{token}/{method}"
 # Core send helper
 # ---------------------------------------------------------------------------
 
-async def _send_to_chat(chat_id: str, text: str, parse_mode: str = "HTML") -> bool:
+async def _send_to_chat(
+    chat_id: str,
+    text: str,
+    parse_mode: str = "HTML",
+    reply_markup: dict | None = None,
+) -> bool:
     """Internal: send text to an arbitrary chat_id. Returns True on success."""
     settings = get_settings()
     if not settings.telegram_bot_token:
@@ -44,7 +49,9 @@ async def _send_to_chat(chat_id: str, text: str, parse_mode: str = "HTML") -> bo
         return False
 
     url = TELEGRAM_API.format(token=settings.telegram_bot_token, method="sendMessage")
-    payload = {"chat_id": chat_id, "text": text, "parse_mode": parse_mode}
+    payload: dict[str, Any] = {"chat_id": chat_id, "text": text, "parse_mode": parse_mode}
+    if reply_markup:
+        payload["reply_markup"] = reply_markup
     try:
         async with httpx.AsyncClient(timeout=15) as client:
             r = await client.post(url, json=payload)
@@ -118,44 +125,111 @@ async def send_department_update(dept_name: str, summary: str, emoji: str = "�
 # Department group routing
 # ---------------------------------------------------------------------------
 
-async def send_bd_brief(lead_gen_output: dict[str, Any], date: str | None = None) -> bool:
-    """Send BD outreach brief to ZYNTH BD Department group.
+def _format_prospect_block(idx: int, total: int, p: dict[str, Any]) -> str:
+    """Format a single prospect in the ZYNTH BD Brief style."""
+    company = p.get("company", "?")
+    market = p.get("market", "?")
+    what = p.get("what_they_do", "")
+    role = p.get("contact_title", "?")
+    fit = p.get("fit_score", 0)
+    fit_pct = int(fit * 100)
+    why_now = p.get("why_now", "")
+    angle = p.get("angle", "")
+    outreach = p.get("outreach_message", "")
+    move = p.get("expected_move", "")
+    services = ", ".join(p.get("suggested_services", []))
+    budget = p.get("budget_estimate", "")
 
-    Matches the existing ZYNTH MD format:
-    🎯 TARGET / 💡 ANGLE / 📲 OUTREACH / ⚡ EXPECTED MOVE
-    """
+    lines = [
+        f"━━━ {idx}/{total} — {market} ━━━",
+        f"🎯 <b>TARGET</b>",
+        f"{company} — {what}",
+        f"Contact: {role} | Fit: {fit_pct}%",
+        "",
+        f"💡 <b>ANGLE</b>",
+        f"{angle}",
+        f"<i>Why now: {why_now}</i>",
+        "",
+        f"📲 <b>OUTREACH</b>",
+        f"<code>{outreach}</code>",
+        "",
+        f"⚡ <b>EXPECTED MOVE</b>",
+        f"{move}",
+        "",
+        f"🛠 Pitch: {services}",
+        f"💰 Budget est: {budget}",
+    ]
+    return "\n".join(lines)
+
+
+async def send_bd_brief(lead_gen_output: dict[str, Any], date: str | None = None) -> bool:
+    """Send all 3 BD prospects to ZYNTH BD Department group (read-only, no buttons)."""
     settings = get_settings()
     today = date or datetime.now().strftime("%d %b %Y")
-    prospects = lead_gen_output.get("prospect_list", [])
-    emails = lead_gen_output.get("cold_emails", [])
-    personas = lead_gen_output.get("personas", [])
+    prospects = lead_gen_output.get("prospects", [])
+    is_mock = not get_settings().has_llm_credentials
 
-    lines = [f"📊 <b>ZYNTH BD Brief — {today}</b>", ""]
+    header = [
+        f"📊 <b>ZYNTH BD BRIEF — {today}</b>",
+        f"<i>NOVA | {len(prospects)} prospects</i>",
+        "",
+    ]
 
-    for i, prospect in enumerate(prospects[:3]):
-        company = prospect.get("company", "?")
-        role = prospect.get("contact_title", "?")
-        fit = prospect.get("fit_score", 0)
-        email = emails[i] if i < len(emails) else {}
-        persona = personas[i] if i < len(personas) else {}
-        pain = (persona.get("pain_points") or ["—"])[0]
-        channels = ", ".join(persona.get("channels", ["Direct"]))
+    blocks = []
+    for i, p in enumerate(prospects[:3]):
+        blocks.append(_format_prospect_block(i + 1, len(prospects[:3]), p))
 
-        lines += [
-            f"━━━ Prospect {i + 1} ━━━",
-            f"🎯 <b>TARGET</b>: {company} — {role} (Fit: {int(fit * 10)}/10)",
-            f"💡 <b>ANGLE</b>: {pain}",
-            f"📲 <b>OUTREACH</b>: {channels}",
-            f"⚡ <b>EXPECTED MOVE</b>: {email.get('subject', 'Schedule intro call')}",
-            "",
-        ]
+    source_note = (
+        "⚠️ <i>Data: AI knowledge base (Aug 2025). Verify details before outreach.</i>\n"
+        "<i>Add SERPER_API_KEY + ZYNTH_ALLOW_NETWORK=true for live web research.</i>"
+        if not is_mock else
+        "🔵 <i>MOCK MODE — add ANTHROPIC_API_KEY for real AI-generated prospects.</i>"
+    )
 
-    qual = lead_gen_output.get("inbound_lead_evaluation", {})
-    if qual.get("qualification_notes"):
-        lines += [f"📋 <b>Lead Notes:</b> {qual['qualification_notes'][:200]}"]
+    full_text = "\n".join(header) + "\n\n" + "\n\n".join(blocks) + "\n\n" + source_note
+    return await _send_chunks(settings.telegram_bd_chat_id, full_text)
 
-    lines += ["", "─────────────────────", "Powered by ZYNTH AI 🤖"]
-    return await _send_chunks(settings.telegram_bd_chat_id, "\n".join(lines))
+
+async def send_bd_brief_interactive(
+    lead_gen_output: dict[str, Any],
+    personal_chat_id: str,
+    date: str | None = None,
+) -> bool:
+    """Send 3 BD prospects to the MD's personal chat with approve/skip buttons.
+
+    Each prospect gets its own message + inline keyboard so the MD can
+    tap ✅ Approve or ⏭ Skip directly. No typing required.
+    """
+    today = date or datetime.now().strftime("%d %b %Y")
+    prospects = lead_gen_output.get("prospects", [])
+    is_mock = not get_settings().has_llm_credentials
+
+    # Send header first
+    header = (
+        f"📊 <b>ZYNTH BD BRIEF — {today}</b>\n"
+        f"NOVA found {len(prospects[:3])} prospects. Tap to approve or skip each one.\n"
+    )
+    if is_mock:
+        header += "\n🔵 <i>MOCK MODE — add ANTHROPIC_API_KEY for real prospects.</i>"
+    else:
+        header += "\n⚠️ <i>AI knowledge base. Verify before reaching out.</i>"
+
+    await _send_to_chat(personal_chat_id, header)
+
+    # Send each prospect as its own message with inline buttons
+    success = True
+    for i, p in enumerate(prospects[:3]):
+        text = _format_prospect_block(i + 1, len(prospects[:3]), p)
+        keyboard = {
+            "inline_keyboard": [[
+                {"text": "✅ Approve — add to pipeline", "callback_data": f"bd_approve_{i}"},
+                {"text": "⏭ Skip", "callback_data": f"bd_skip_{i}"},
+            ]]
+        }
+        if not await _send_to_chat(personal_chat_id, text, reply_markup=keyboard):
+            success = False
+
+    return success
 
 
 async def send_to_creative_group(portfolio_output: dict[str, Any], date: str | None = None) -> bool:
