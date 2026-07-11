@@ -79,13 +79,41 @@ async def _run_workflow(
     return await orchestrator.run_workflow(client_brief=client_brief, workflow=workflow)
 
 
+async def _post_init(application: Application) -> None:
+    """Start the APScheduler once the asyncio event loop is running."""
+    from scheduler import build_scheduler
+    settings = get_settings()
+    scheduler = build_scheduler(settings)
+    scheduler.start()
+    application.bot_data["scheduler"] = scheduler
+    logger.info(
+        "ZYNTH Scheduler started — brief at %02d:%02d, EOD at %02d:00 Yangon time",
+        settings.daily_brief_hour,
+        settings.daily_brief_minute,
+        settings.eod_report_hour,
+    )
+
+
+async def _post_stop(application: Application) -> None:
+    """Shut the scheduler down cleanly when the bot exits."""
+    scheduler = application.bot_data.get("scheduler")
+    if scheduler and scheduler.running:
+        scheduler.shutdown(wait=False)
+
+
 def _get_application() -> Application:
     settings = get_settings()
     if not settings.has_telegram:
         raise RuntimeError(
             "Telegram not configured. Set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in .env"
         )
-    return Application.builder().token(settings.telegram_bot_token).build()
+    return (
+        Application.builder()
+        .token(settings.telegram_bot_token)
+        .post_init(_post_init)
+        .post_stop(_post_stop)
+        .build()
+    )
 
 
 def _security_check(update: Update) -> bool:
@@ -751,16 +779,7 @@ def main() -> None:
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, fallback_handler))
 
-    # Start the APScheduler inside the same process so one script runs both
-    from scheduler import build_scheduler
-    scheduler = build_scheduler(settings)
-    scheduler.start()
-    logger.info(
-        "ZYNTH Telegram Bot + Scheduler starting — brief at %02d:%02d, EOD at %02d:00 Yangon time",
-        settings.daily_brief_hour,
-        settings.daily_brief_minute,
-        settings.eod_report_hour,
-    )
+    logger.info("ZYNTH Telegram Bot starting…")
     app.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
