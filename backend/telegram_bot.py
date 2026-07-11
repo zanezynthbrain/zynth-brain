@@ -12,6 +12,8 @@ Commands:
     /ops            → Vendor research + SOP
     /run <workflow> → full_campaign / research_only / ads_only / leads_only
     /approve        → Confirm CEO action items
+    /proposals      → Browse proposal data pool stats
+    /generate       → Generate proposals (industry, month, market optional)
     /help           → All commands
 """
 
@@ -120,6 +122,10 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/run research_only\n"
         "/run ads_only\n"
         "/run leads_only\n\n"
+        "<b>Proposal Factory:</b>\n"
+        "/generate — Generate proposals (auto-picks next uncovered combo)\n"
+        "/generate banking january mm — Specific industry · month · market\n"
+        "/proposals — Browse proposal pool stats\n\n"
         "<b>Approvals:</b>\n"
         "/approve — Confirm CEO action items\n"
         "/help — This message"
@@ -544,6 +550,177 @@ async def cmd_cost(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         await update.message.reply_html(f"❌ Cost tracker error: {exc}")
 
 
+async def cmd_proposals(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Show proposal pool stats and optionally filter by industry."""
+    if not _security_check(update):
+        return
+    from utils.proposal_pool import ProposalPool
+    pool = ProposalPool()
+    stats = pool.get_stats()
+    total = stats.get("total", 0)
+
+    if total == 0:
+        await update.message.reply_html(
+            "📂 <b>Proposal Pool is empty.</b>\n\n"
+            "Run /generate to start building the library.\n"
+            "Example: /generate banking january mm"
+        )
+        return
+
+    industry_filter = " ".join(context.args).strip() if context.args else None
+
+    if industry_filter:
+        # Show proposals for a specific industry
+        entries = pool.search(industry=industry_filter, limit=8)
+        if not entries:
+            await update.message.reply_html(f"❌ No proposals found for '{industry_filter}'.")
+            return
+        lines = [f"📂 <b>Proposals — {industry_filter.title()}</b>\n"]
+        for e in entries:
+            lines.append(
+                f"• <b>{e['title']}</b>\n"
+                f"  {e['type']} | {e['month']} | {e['market']}"
+            )
+        await update.message.reply_html("\n".join(lines))
+        return
+
+    # Overall stats
+    by_industry = stats.get("by_industry", {})
+    by_market = stats.get("by_market", {})
+    by_month = stats.get("by_month", {})
+
+    ind_lines = "\n".join(
+        f"  • {ind}: {cnt}" for ind, cnt in list(by_industry.items())[:8]
+    )
+    market_summary = " | ".join(f"{mk}: {cnt}" for mk, cnt in by_market.items())
+
+    covered_months = sorted(by_month.keys(), key=lambda m: MONTHS.index(m) if m in MONTHS else 99)
+    month_summary = ", ".join(covered_months[:6]) + ("..." if len(covered_months) > 6 else "")
+
+    await update.message.reply_html(
+        f"📂 <b>Proposal Pool — {total} proposals</b>\n\n"
+        f"Markets: {market_summary}\n"
+        f"Months covered: {month_summary}\n\n"
+        f"<b>Top industries:</b>\n{ind_lines}\n\n"
+        "Filter: /proposals banking\n"
+        "Add more: /generate"
+    )
+
+
+async def cmd_generate(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Generate proposals for an industry × month × market combo and add to pool.
+
+    Usage:
+        /generate                        ← auto-picks next uncovered MM combo
+        /generate banking                ← Banking & Finance, current month, MM
+        /generate banking january        ← specific month, MM
+        /generate banking january sg     ← specific combo, SG market
+    """
+    if not _security_check(update):
+        return
+
+    from agents.proposal_factory import ProposalFactoryAgent, INDUSTRIES_MM, INDUSTRIES_SG, MONTHS
+    from utils.proposal_pool import ProposalPool
+
+    args = [a.strip() for a in context.args] if context.args else []
+    pool = ProposalPool()
+    llm = LLMClient()
+    memory = SharedMemory(client_brief={"agency": "ZYNTH"})
+    agent = ProposalFactoryAgent(llm_client=llm)
+
+    # Parse market
+    market = "MM"
+    if args and args[-1].upper() in ("MM", "SG"):
+        market = args.pop().upper()
+
+    # Parse month
+    month = datetime.now().strftime("%B")
+    if args and args[-1].title() in MONTHS:
+        month = args.pop().title()
+
+    # Parse industry (rest of args = industry keyword)
+    industry = None
+    industries = INDUSTRIES_MM if market == "MM" else INDUSTRIES_SG
+    if args:
+        query = " ".join(args).lower()
+        industry = next(
+            (ind for ind in industries if query in ind.lower()),
+            None,
+        )
+        if not industry:
+            await update.message.reply_html(
+                f"❌ Industry not found for '<b>{' '.join(args)}</b>'.\n\n"
+                f"Available ({market}):\n" +
+                "\n".join(f"• {ind}" for ind in industries[:8]) +
+                "\n...\n\nType part of the name, e.g. /generate banking"
+            )
+            return
+    else:
+        # Auto-pick next uncovered combo
+        next_combo = agent.next_uncovered(market, pool)
+        if next_combo:
+            industry, month = next_combo
+        else:
+            industry = industries[0]
+
+    market_name = "Myanmar" if market == "MM" else "Singapore"
+    await update.message.reply_html(
+        f"🏭 <b>Proposal Factory running...</b>\n\n"
+        f"Industry: <b>{industry}</b>\n"
+        f"Month: <b>{month}</b>\n"
+        f"Market: <b>{market_name}</b>\n\n"
+        "Generating 4-5 proposals (~30 sec)..."
+    )
+
+    try:
+        proposals = await agent.generate_batch(industry, month, market, memory, pool)
+        if not proposals:
+            await update.message.reply_html("❌ No proposals generated. Try again.")
+            return
+
+        # Send summary of generated proposals
+        pool_stats = pool.get_stats()
+        lines = [
+            f"✅ <b>{len(proposals)} proposals added to pool!</b>",
+            f"Industry: {industry} | {month} | {market_name}",
+            f"Pool total: {pool_stats['total']} proposals\n",
+        ]
+        for p in proposals:
+            budget = p.get("budget_range", {})
+            curr = budget.get("currency", "")
+            bmin = int(budget.get("min", 0))
+            bmax = int(budget.get("max", 0))
+            value = p.get("estimated_value_sgd", 0)
+            lines.append(
+                f"📋 <b>{p['title']}</b>\n"
+                f"   {p.get('type', '?')} | {bmin:,}–{bmax:,} {curr}\n"
+                f"   {p.get('timeline_weeks', '?')} weeks | Est. S${int(value):,}\n"
+                f"   Services: {', '.join(p.get('zynth_services', [])[:3])}"
+            )
+
+        # Send in chunks if needed (avoid Telegram 4096 char limit)
+        full_text = "\n\n".join(lines)
+        if len(full_text) <= 4000:
+            await update.message.reply_html(full_text)
+        else:
+            header = lines[0] + "\n" + lines[1] + "\n" + lines[2]
+            await update.message.reply_html(header)
+            for prop_text in lines[3:]:
+                await update.message.reply_html(prop_text)
+
+        # Show next suggestion
+        next_combo = agent.next_uncovered(market, pool)
+        if next_combo:
+            next_ind, next_mo = next_combo
+            await update.message.reply_html(
+                f"💡 Next: /generate {next_ind.split(' ')[0].lower()} {next_mo.lower()} {market.lower()}"
+            )
+
+    except Exception as exc:
+        logger.exception("Proposal generation failed: %s", exc)
+        await update.message.reply_html(f"❌ Generation failed: {exc}")
+
+
 async def fallback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not _security_check(update):
         return
@@ -569,6 +746,8 @@ def main() -> None:
     app.add_handler(CommandHandler("run", cmd_run))
     app.add_handler(CommandHandler("approve", cmd_approve))
     app.add_handler(CommandHandler("cost", cmd_cost))
+    app.add_handler(CommandHandler("proposals", cmd_proposals))
+    app.add_handler(CommandHandler("generate", cmd_generate))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, fallback_handler))
 
