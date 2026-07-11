@@ -194,7 +194,7 @@ class CEOAgent(BaseAgent):
         results = await asyncio.gather(*[a.run(memory) for a in wave1])
         for r in results:
             if not r.success:
-                await memory.log(self.agent_key, "department_failed", agent=r.agent, error=r.error)
+                await memory.log(self.agent_key, "department_failed", dept=r.agent, error=r.error)
 
         # Wave 2: Creative + BD specialists — read research + CMO direction
         await memory.log(self.agent_key, "wave_2_specialists")
