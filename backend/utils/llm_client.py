@@ -83,11 +83,21 @@ class LLMClient:
                     timeout=self.settings.request_timeout_seconds,
                 )
                 text = "".join(block.text for block in response.content if block.type == "text")
-                return LLMResponse(
+                result = LLMResponse(
                     text=text,
                     input_tokens=response.usage.input_tokens,
                     output_tokens=response.usage.output_tokens,
                 )
+                # Record spend — raises CostBudgetExceeded if daily cap hit
+                try:
+                    from utils.cost_tracker import get_cost_tracker, CostBudgetExceeded
+                    tracker = await get_cost_tracker()
+                    await tracker.record(self.settings.model_name, result.input_tokens, result.output_tokens)
+                except Exception as cost_exc:  # noqa: BLE001
+                    from utils.cost_tracker import CostBudgetExceeded
+                    if isinstance(cost_exc, CostBudgetExceeded):
+                        raise LLMCallError(str(cost_exc)) from cost_exc
+                return result
             except Exception as exc:  # noqa: BLE001 - any SDK/network error is retryable
                 last_exc = exc
                 backoff = (2 ** (attempt - 1)) + random.random()

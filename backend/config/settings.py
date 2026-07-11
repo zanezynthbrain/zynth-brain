@@ -44,9 +44,45 @@ class Settings(BaseSettings):
     jina_api_key: str = Field(default="", alias="JINA_API_KEY")
     allow_network: bool = Field(default=False, alias="ZYNTH_ALLOW_NETWORK")
 
+    # --- Telegram bot (ZYNTH MD / @zynth_md_approval_bot) ----------------
+    telegram_bot_token: str = Field(default="", alias="TELEGRAM_BOT_TOKEN")
+    # Your personal chat ID — receives CEO briefs and is your command center
+    telegram_chat_id: str = Field(default="", alias="TELEGRAM_CHAT_ID")
+    # Department group chat IDs — bot posts dept-specific content here
+    telegram_bd_chat_id: str = Field(default="", alias="TELEGRAM_BD_CHAT_ID")
+    telegram_creative_chat_id: str = Field(default="", alias="TELEGRAM_CREATIVE_CHAT_ID")
+    telegram_marketing_chat_id: str = Field(default="", alias="TELEGRAM_MARKETING_CHAT_ID")
+    telegram_gm_chat_id: str = Field(default="", alias="TELEGRAM_GM_CHAT_ID")
+
+    # --- Scheduler / timezone --------------------------------------------
+    # Yangon is UTC+6:30 (Asia/Rangoon)
+    scheduler_timezone: str = Field(default="Asia/Rangoon", alias="ZYNTH_TIMEZONE")
+    daily_brief_hour: int = Field(default=8, alias="ZYNTH_BRIEF_HOUR")
+    daily_brief_minute: int = Field(default=0, alias="ZYNTH_BRIEF_MINUTE")
+    eod_report_hour: int = Field(default=18, alias="ZYNTH_EOD_HOUR")
+
+    # --- Storage ---------------------------------------------------------
+    google_drive_folder_id: str = Field(default="", alias="ZYNTH_GDRIVE_FOLDER_ID")
+
+    # --- Cost governance -------------------------------------------------
+    # Hard daily API spend cap in Singapore dollars. Bot halts LLM calls and
+    # alerts via Telegram when this is reached. Alert fires at 80%.
+    daily_budget_sgd: float = Field(default=5.0, alias="ZYNTH_DAILY_BUDGET_SGD")
+
+    # --- Business events -------------------------------------------------
+    # ISO date (YYYY-MM-DD) for the next major ZYNTH event (e.g. IGNITE).
+    # Shown as a countdown in every CEO morning brief.
+    ignite_date: str = Field(default="2026-11-14", alias="ZYNTH_IGNITE_DATE")
+    ignite_name: str = Field(default="IGNITE Summit", alias="ZYNTH_IGNITE_NAME")
+
     # --- Misc -------------------------------------------------------------
     log_level: str = Field(default="INFO", alias="ZYNTH_LOG_LEVEL")
     output_dir: str = Field(default="outputs", alias="ZYNTH_OUTPUT_DIR")
+    agency_name: str = Field(default="ZYNTH", alias="ZYNTH_AGENCY_NAME")
+
+    @property
+    def has_telegram(self) -> bool:
+        return bool(self.telegram_bot_token and self.telegram_chat_id)
 
     @property
     def has_llm_credentials(self) -> bool:

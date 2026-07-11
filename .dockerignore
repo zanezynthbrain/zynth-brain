@@ -1,0 +1,10 @@
+.git
+.github
+zynth-brain
+backend/.venv
+backend/__pycache__
+backend/**/__pycache__
+backend/.pytest_cache
+backend/outputs
+backend/.env
+*.pyc
