@@ -110,13 +110,31 @@ class CEOAgent(BaseAgent):
     async def build_user_prompt(self, memory: SharedMemory, **kwargs: Any) -> str:
         return await self._build_synthesis_prompt(memory, **kwargs)
 
+    @staticmethod
+    def _ignite_countdown() -> str:
+        """Return a one-line IGNITE event countdown string for injection into prompts."""
+        try:
+            from config import get_settings
+            s = get_settings()
+            event_date = datetime.strptime(s.ignite_date, "%Y-%m-%d")
+            days = (event_date - datetime.now()).days
+            if days > 0:
+                return f"⚡ {s.ignite_name}: {days} days away ({s.ignite_date})"
+            elif days == 0:
+                return f"⚡ {s.ignite_name}: TODAY!"
+            else:
+                return f"⚡ {s.ignite_name}: completed {abs(days)} days ago"
+        except Exception:
+            return ""
+
     async def run_full_day(self, memory: SharedMemory) -> dict[str, Any]:
         """Execute the full CEO daily cycle: set agenda → run departments → meeting → report."""
         today = datetime.now().strftime("%A, %B %d, %Y")
+        ignite_line = self._ignite_countdown()
 
         # Phase 1: CEO sets the daily agenda
         await memory.log(self.agent_key, "setting_agenda")
-        agenda = await self._set_agenda(memory, today)
+        agenda = await self._set_agenda(memory, today, ignite_line)
         await memory.set("ceo_agenda", agenda)
         await memory.log(self.agent_key, "agenda_set", theme=agenda.get("daily_theme"))
 
@@ -130,11 +148,13 @@ class CEOAgent(BaseAgent):
 
         final_output = result.data or {}
         final_output["date"] = today
+        if ignite_line:
+            final_output["ignite_countdown"] = ignite_line
         await memory.set("ceo_final", final_output)
 
         # Save the daily report and send to Telegram
         save_report(final_output, "ceo_daily_report", department="reports/ceo")
-        await send_ceo_daily_brief(final_output, date=today)
+        await send_ceo_daily_brief(final_output, date=today, ignite_line=ignite_line)
 
         # Department summaries also go to Telegram
         await self._send_department_telegrams(memory)
@@ -142,10 +162,12 @@ class CEOAgent(BaseAgent):
         await memory.log(self.agent_key, "day_complete")
         return final_output
 
-    async def _set_agenda(self, memory: SharedMemory, today: str) -> dict[str, Any]:
+    async def _set_agenda(self, memory: SharedMemory, today: str, ignite_line: str = "") -> dict[str, Any]:
         system = self.build_system_prompt()
+        ignite_context = f"\n\n{ignite_line}" if ignite_line else ""
         prompt = (
-            f"Today is {today}. Set the daily agenda for ZYNTH.\n\n"
+            f"Today is {today}.{ignite_context}\n\n"
+            "Set the daily agenda for ZYNTH.\n\n"
             "Produce: (1) a daily theme (one inspiring/strategic phrase), (2) 3-5 strategic "
             "focus areas for today, (3) specific directives for CMO, COO, CFO, and HR "
             "(what each should prioritize TODAY), (4) which portfolio brand the creative "
@@ -191,9 +213,11 @@ class CEOAgent(BaseAgent):
             EventManagerAgent(self.llm),
             OperationsAgent(self.llm),
         ]
-        results = await asyncio.gather(*[a.run(memory) for a in wave1])
-        for r in results:
-            if not r.success:
+        wave1_results = await asyncio.gather(*[a.run(memory) for a in wave1], return_exceptions=True)
+        for agent, r in zip(wave1, wave1_results):
+            if isinstance(r, Exception):
+                await memory.log(self.agent_key, "department_crashed", dept=agent.agent_key, error=str(r))
+            elif not r.success:
                 await memory.log(self.agent_key, "department_failed", dept=r.agent, error=r.error)
 
         # Wave 2: Creative + BD specialists — read research + CMO direction
@@ -211,7 +235,10 @@ class CEOAgent(BaseAgent):
             LeadGenOutreachAgent(self.llm),
             PortfolioAgent(self.llm),
         ]
-        await asyncio.gather(*[a.run(memory) for a in wave2])
+        wave2_results = await asyncio.gather(*[a.run(memory) for a in wave2], return_exceptions=True)
+        for agent, r in zip(wave2, wave2_results):
+            if isinstance(r, Exception):
+                await memory.log(self.agent_key, "department_crashed", dept=agent.agent_key, error=str(r))
 
     async def _build_synthesis_prompt(self, memory: SharedMemory, **kwargs: Any) -> str:
         agenda = await memory.get("ceo_agenda", {})

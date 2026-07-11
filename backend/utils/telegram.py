@@ -90,11 +90,19 @@ async def send_report(report: dict[str, Any], title: str = "ZYNTH Daily Brief") 
     return await _send_chunks(get_settings().telegram_chat_id, text)
 
 
-async def send_ceo_daily_brief(ceo_output: dict[str, Any], date: str | None = None) -> bool:
+async def send_ceo_daily_brief(
+    ceo_output: dict[str, Any],
+    date: str | None = None,
+    ignite_line: str = "",
+) -> bool:
     """Send the CEO daily brief to the founder's personal chat."""
     today = date or datetime.now().strftime("%B %d, %Y")
     lines = [
         f"🧠 <b>ZYNTH Daily Brief — {today}</b>",
+    ]
+    if ignite_line:
+        lines.append(ignite_line)
+    lines += [
         f"📋 Theme: {ceo_output.get('daily_theme', 'N/A')}",
         "",
         "📌 <b>Key Decisions:</b>",
@@ -110,7 +118,17 @@ async def send_ceo_daily_brief(ceo_output: dict[str, Any], date: str | None = No
         lines.append(f"  [{dept}] {task} (due: {due})")
 
     lines += ["", f"📊 {ceo_output.get('executive_summary', '')}"]
-    lines += ["", "─────────────────────", "/status  /brief  /report"]
+
+    # Append today's cost summary
+    try:
+        from utils.cost_tracker import get_cost_tracker
+        tracker = await get_cost_tracker()
+        cost = await tracker.today_summary()
+        lines.append(f"\n💰 API cost today: S${cost['sgd']:.2f} ({cost['calls']} calls)")
+    except Exception:
+        pass
+
+    lines += ["", "─────────────────────", "/status  /brief  /report  /cost"]
 
     return await send_message("\n".join(lines))
 

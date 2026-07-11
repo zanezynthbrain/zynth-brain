@@ -64,6 +64,17 @@ class Settings(BaseSettings):
     # --- Storage ---------------------------------------------------------
     google_drive_folder_id: str = Field(default="", alias="ZYNTH_GDRIVE_FOLDER_ID")
 
+    # --- Cost governance -------------------------------------------------
+    # Hard daily API spend cap in Singapore dollars. Bot halts LLM calls and
+    # alerts via Telegram when this is reached. Alert fires at 80%.
+    daily_budget_sgd: float = Field(default=5.0, alias="ZYNTH_DAILY_BUDGET_SGD")
+
+    # --- Business events -------------------------------------------------
+    # ISO date (YYYY-MM-DD) for the next major ZYNTH event (e.g. IGNITE).
+    # Shown as a countdown in every CEO morning brief.
+    ignite_date: str = Field(default="2026-11-14", alias="ZYNTH_IGNITE_DATE")
+    ignite_name: str = Field(default="IGNITE Summit", alias="ZYNTH_IGNITE_NAME")
+
     # --- Misc -------------------------------------------------------------
     log_level: str = Field(default="INFO", alias="ZYNTH_LOG_LEVEL")
     output_dir: str = Field(default="outputs", alias="ZYNTH_OUTPUT_DIR")

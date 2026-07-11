@@ -97,15 +97,19 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         return
     pending = len(get_pending())
     pipeline_note = f"\n⚡ {pending} prospect(s) waiting for outreach → /pipeline" if pending else ""
+    ignite_line = CEOAgent._ignite_countdown()
+    ignite_note = f"\n{ignite_line}" if ignite_line else ""
     text = (
-        "🧠 <b>ZYNTH AI Agency — Command Center</b>\n\n"
+        "🧠 <b>ZYNTH AI Agency — Command Center</b>"
+        f"{ignite_note}\n\n"
         "<b>BD & Sales:</b>\n"
         "/bd — NOVA runs BD: 3 prospects, approve/skip with buttons\n"
         "/pipeline — Show approved prospects + mark contacted\n\n"
         "<b>Daily Operations:</b>\n"
         "/brief — Full CEO daily brief (all departments)\n"
         "/report — Load today's saved CEO report\n"
-        "/status — System status\n\n"
+        "/status — System status\n"
+        "/cost — Today's API spend vs S$5 budget\n\n"
         "<b>Department Agents:</b>\n"
         "/creative — Creative brief → Creative group\n"
         "/research — Market intel → Marketing group\n"
@@ -513,6 +517,33 @@ async def cmd_approve(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     await update.message.reply_html("\n".join(lines))
 
 
+async def cmd_cost(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Show today's API cost vs daily budget."""
+    if not _security_check(update):
+        return
+    try:
+        from utils.cost_tracker import get_cost_tracker
+        tracker = await get_cost_tracker()
+        cost = await tracker.today_summary()
+        sgd = cost.get("sgd", 0.0)
+        usd = cost.get("usd", 0.0)
+        calls = cost.get("calls", 0)
+        budget = tracker.daily_budget_sgd
+        pct = sgd / budget * 100 if budget else 0
+        bar_filled = int(pct / 10)
+        bar = "█" * bar_filled + "░" * (10 - bar_filled)
+        status = "🟢" if pct < 80 else ("🟡" if pct < 100 else "🔴")
+        await update.message.reply_html(
+            f"💰 <b>API Cost Today — {cost.get('date', 'N/A')}</b>\n\n"
+            f"{status} [{bar}] {pct:.0f}%\n"
+            f"S${sgd:.3f} / S${budget:.0f} budget\n"
+            f"US${usd:.4f} | {calls} API calls\n\n"
+            "Budget resets at midnight Yangon time."
+        )
+    except Exception as exc:
+        await update.message.reply_html(f"❌ Cost tracker error: {exc}")
+
+
 async def fallback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not _security_check(update):
         return
@@ -537,10 +568,20 @@ def main() -> None:
     app.add_handler(CommandHandler("ops", cmd_ops))
     app.add_handler(CommandHandler("run", cmd_run))
     app.add_handler(CommandHandler("approve", cmd_approve))
+    app.add_handler(CommandHandler("cost", cmd_cost))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, fallback_handler))
 
-    logger.info("ZYNTH Telegram Bot starting (polling mode)...")
+    # Start the APScheduler inside the same process so one script runs both
+    from scheduler import build_scheduler
+    scheduler = build_scheduler(settings)
+    scheduler.start()
+    logger.info(
+        "ZYNTH Telegram Bot + Scheduler starting — brief at %02d:%02d, EOD at %02d:00 Yangon time",
+        settings.daily_brief_hour,
+        settings.daily_brief_minute,
+        settings.eod_report_hour,
+    )
     app.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
