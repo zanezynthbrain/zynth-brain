@@ -14,6 +14,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from config import ZYNTH_BRAND
+from utils.knowledge import load_knowledge
 from utils.llm_client import LLMClient, LLMCallError, MalformedOutputError
 from utils.logging_config import get_logger
 from utils.state import SharedMemory
@@ -53,8 +54,12 @@ class BaseAgent(ABC):
         self.logger = get_logger(f"agents.{self.agent_key}")
 
     def build_system_prompt(self) -> str:
-        """Compose the agent's persona: brand voice + specific role."""
-        return f"{ZYNTH_BRAND.as_system_prompt_block()}\n\nYour specific role: {self.role_description}"
+        """Compose the agent's persona: brand voice + specific role + business knowledge."""
+        prompt = f"{ZYNTH_BRAND.as_system_prompt_block()}\n\nYour specific role: {self.role_description}"
+        knowledge = load_knowledge()
+        if knowledge:
+            prompt += knowledge
+        return prompt
 
     @abstractmethod
     async def build_user_prompt(self, memory: SharedMemory, **kwargs: Any) -> str:
