@@ -154,6 +154,8 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/generate — Generate proposals (auto-picks next uncovered combo)\n"
         "/generate banking january mm — Specific industry · month · market\n"
         "/proposals — Browse proposal pool stats\n\n"
+        "<b>Knowledge Base:</b>\n"
+        "/kb — Which business knowledge files the agents are using\n\n"
         "<b>Approvals:</b>\n"
         "/approve — Confirm CEO action items\n"
         "/help — This message"
@@ -749,6 +751,41 @@ async def cmd_generate(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         await update.message.reply_html(f"❌ Generation failed: {exc}")
 
 
+async def cmd_kb(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Show which knowledge files the agents are reading."""
+    if not _security_check(update):
+        return
+    from utils.knowledge import list_knowledge_files, load_knowledge
+
+    files = list_knowledge_files()
+    if not files:
+        await update.message.reply_html(
+            "📚 <b>Knowledge Base is empty.</b>\n\n"
+            "Add Markdown files to <code>backend/knowledge/</code> on GitHub "
+            "and the agents will use them automatically after redeploy."
+        )
+        return
+
+    lines = ["📚 <b>ZYNTH Knowledge Base</b>\n"]
+    active_count = 0
+    for name, size, active in files:
+        if name.lower() == "readme.md":
+            continue
+        if active:
+            active_count += 1
+            lines.append(f"✅ <code>{name}</code> — {size:,} bytes")
+        else:
+            lines.append(f"⬜ <code>{name}</code> — template not filled yet")
+
+    block = load_knowledge(force=True)
+    lines.append(
+        f"\n{active_count} file(s) active — {len(block):,} chars injected into every agent."
+        if block
+        else "\nNo active files yet — fill a template (delete the TEMPLATE marker) to activate it."
+    )
+    await update.message.reply_html("\n".join(lines))
+
+
 async def fallback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not _security_check(update):
         return
@@ -776,6 +813,7 @@ def main() -> None:
     app.add_handler(CommandHandler("cost", cmd_cost))
     app.add_handler(CommandHandler("proposals", cmd_proposals))
     app.add_handler(CommandHandler("generate", cmd_generate))
+    app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, fallback_handler))
 
