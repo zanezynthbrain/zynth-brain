@@ -32,7 +32,8 @@ class Settings(BaseSettings):
     max_tokens_per_workflow: int = Field(default=60_000, alias="ZYNTH_MAX_TOKENS_PER_WORKFLOW")
     max_llm_retries: int = Field(default=3, alias="ZYNTH_MAX_LLM_RETRIES")
     max_json_repair_attempts: int = Field(default=2, alias="ZYNTH_MAX_JSON_REPAIR_ATTEMPTS")
-    request_timeout_seconds: float = Field(default=60.0, alias="ZYNTH_REQUEST_TIMEOUT_SECONDS")
+    # Generous timeout: a 4k-token structured proposal batch takes 1-3 min
+    request_timeout_seconds: float = Field(default=240.0, alias="ZYNTH_REQUEST_TIMEOUT_SECONDS")
 
     # --- Orchestrator QA gate -------------------------------------------
     max_agent_retries: int = Field(default=2, alias="ZYNTH_MAX_AGENT_RETRIES")
