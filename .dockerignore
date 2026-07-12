@@ -6,5 +6,6 @@ backend/__pycache__
 backend/**/__pycache__
 backend/.pytest_cache
 backend/outputs
+!backend/outputs/proposal_pool
 backend/.env
 *.pyc

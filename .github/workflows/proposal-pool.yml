@@ -1,0 +1,81 @@
+name: ZYNTH Proposal Pool Builder
+
+on:
+  schedule:
+    # 10:00 Yangon time (UTC+6:30) = 03:30 UTC — daily batch, both markets
+    - cron: "30 3 * * *"
+  workflow_dispatch:
+    inputs:
+      market:
+        description: "Market"
+        type: choice
+        options: [MM, SG, both]
+        default: both
+      batches:
+        description: "Industry×month combos per market"
+        default: "2"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: proposal-pool
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for API key
+        id: key
+        run: |
+          if [ -z "${{ secrets.ANTHROPIC_API_KEY }}" ]; then
+            echo "have=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::ANTHROPIC_API_KEY secret not set — skipping generation. Add it in repo Settings → Secrets and variables → Actions."
+          else
+            echo "have=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-python@v5
+        if: steps.key.outputs.have == 'true'
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        if: steps.key.outputs.have == 'true'
+        run: pip install -r backend/requirements.txt
+
+      - name: Generate proposals
+        if: steps.key.outputs.have == 'true'
+        working-directory: backend
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          MARKET="${{ inputs.market || 'both' }}"
+          BATCHES="${{ inputs.batches || '2' }}"
+          if [ "$MARKET" = "both" ] || [ "$MARKET" = "MM" ]; then
+            python run_proposal_batch.py --market MM --batches "$BATCHES"
+          fi
+          if [ "$MARKET" = "both" ] || [ "$MARKET" = "SG" ]; then
+            python run_proposal_batch.py --market SG --batches "$BATCHES"
+          fi
+
+      - name: Commit proposal pool to the repo
+        if: steps.key.outputs.have == 'true'
+        run: |
+          git config user.name "zynth-bot"
+          git config user.email "bot@zynth.asia"
+          git add backend/outputs/proposal_pool/
+          if git diff --cached --quiet; then
+            echo "No new proposals to commit."
+          else
+            git commit -m "chore: proposal pool batch $(date -u +%F)"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi

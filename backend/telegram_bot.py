@@ -158,7 +158,8 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/kb — Which business knowledge files the agents are using\n\n"
         "<b>Approvals:</b>\n"
         "/approve — Confirm CEO action items\n"
-        "/help — This message"
+        "/help — This message\n\n"
+        "💬 <i>Or just type anything — your AI Chief of Staff will answer.</i>"
         f"{pipeline_note}"
     )
     await update.message.reply_html(text)
@@ -786,10 +787,87 @@ async def cmd_kb(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_html("\n".join(lines))
 
 
-async def fallback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+_CHAT_HISTORY_KEY = "chat_history"
+_CHAT_MAX_TURNS = 6  # remember the last 6 exchanges per chat
+
+
+async def chat_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Free-text conversation — ask the AI chief of staff anything.
+
+    Uses the knowledge base + today's CEO report as context and keeps a
+    short per-chat history so follow-up questions work naturally.
+    Every reply goes through the same daily cost guard as agent runs.
+    """
     if not _security_check(update):
         return
-    await update.message.reply_html("Not sure what you mean. Send /help to see all commands.")
+    text = (update.message.text or "").strip()
+    if not text:
+        return
+
+    from config import ZYNTH_BRAND
+    from utils.knowledge import load_knowledge
+
+    llm = LLMClient()
+    if llm.is_mocked:
+        await update.message.reply_html(
+            "🔵 Chat needs a live ANTHROPIC_API_KEY (currently in mock mode).\n"
+            "Commands like /status still work."
+        )
+        return
+
+    await update.message.chat.send_action("typing")
+
+    # --- Assemble context: brand + knowledge + today's report + IGNITE ---
+    system = (
+        f"{ZYNTH_BRAND.as_system_prompt_block()}\n\n"
+        "Your specific role: You are the AI Chief of Staff for ZYNTH's founder. "
+        "You run their AI agency team (CEO, CMO, BD, Proposal Factory and more, "
+        "available via bot commands). Answer questions about the business, brainstorm, "
+        "draft messages, and advise on strategy. Be direct, practical, and concise — "
+        "this is a Telegram chat, so keep replies short unless asked for detail. "
+        "Reply in the language the founder writes in (Burmese or English). "
+        "When a bot command would do the job better, mention it "
+        "(e.g. /generate for proposals, /bd for prospects, /brief for a full day run)."
+    )
+    knowledge = load_knowledge()
+    if knowledge:
+        system += knowledge
+
+    ignite_line = CEOAgent._ignite_countdown()
+    if ignite_line:
+        system += f"\n\nToday's context: {ignite_line}"
+
+    report = load_latest_report("ceo_daily_report", department="reports/ceo")
+    if report:
+        summary = str(report.get("executive_summary", ""))[:600]
+        if summary:
+            system += f"\n\nLatest CEO daily report summary: {summary}"
+
+    # --- Short per-chat conversation memory ---
+    history: list[tuple[str, str]] = context.chat_data.setdefault(_CHAT_HISTORY_KEY, [])
+    transcript = "".join(f"\n{who}: {msg}" for who, msg in history)
+    prompt = (
+        f"Conversation so far:{transcript}\nFounder: {text}\n\n"
+        "Reply as the AI Chief of Staff."
+        if history
+        else text
+    )
+
+    try:
+        response = await llm.complete(system=system, user_prompt=prompt, max_tokens=1024)
+    except Exception as exc:
+        logger.exception("Chat reply failed: %s", exc)
+        await update.message.reply_html(f"❌ Couldn't reply: {exc}")
+        return
+
+    reply = response.text.strip() or "…"
+    history.append(("Founder", text[:500]))
+    history.append(("Chief of Staff", reply[:500]))
+    del history[: max(0, len(history) - _CHAT_MAX_TURNS * 2)]
+
+    # Telegram messages cap at 4096 chars — send in plain-text chunks
+    for i in range(0, len(reply), 4000):
+        await update.message.reply_text(reply[i : i + 4000])
 
 
 def main() -> None:
@@ -815,7 +893,7 @@ def main() -> None:
     app.add_handler(CommandHandler("generate", cmd_generate))
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, fallback_handler))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_handler))
 
     logger.info("ZYNTH Telegram Bot starting…")
     app.run_polling(allowed_updates=Update.ALL_TYPES)

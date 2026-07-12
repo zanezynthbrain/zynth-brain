@@ -10,6 +10,8 @@ outputs/**/*.csv
 outputs/**/*.txt
 outputs/**/*.md
 !outputs/.gitkeep
+# The proposal pool IS the product — versioned so it survives redeploys
+!outputs/proposal_pool/**
 
 .pytest_cache/
 *.egg-info/
