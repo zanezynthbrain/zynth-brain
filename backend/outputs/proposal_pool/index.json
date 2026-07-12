@@ -1,0 +1,52 @@
+[
+  {
+    "proposal_id": "3e429fba",
+    "title": "Youth Money Matters: Gen Z Financial Literacy Campaign",
+    "type": "Seasonal Campaign",
+    "industry": "Banking & Finance",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-12T09:15:36.351091",
+    "file": "banking_and_finance/july.json"
+  },
+  {
+    "proposal_id": "0cc2ee78",
+    "title": "Digital Banking Forward: Fintech Innovation Conference Yangon 2026",
+    "type": "Corporate Conference",
+    "industry": "Banking & Finance",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-12T09:15:36.351091",
+    "file": "banking_and_finance/july.json"
+  },
+  {
+    "proposal_id": "b8861103",
+    "title": "Branch Walk-In Blitz: Summer Savings Activation",
+    "type": "Brand Activation",
+    "industry": "Banking & Finance",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-12T09:15:36.351091",
+    "file": "banking_and_finance/july.json"
+  },
+  {
+    "proposal_id": "50e03bad",
+    "title": "KYC-Free in 5 Minutes: Mobile App Digital Launch Campaign",
+    "type": "Digital Campaign",
+    "industry": "Banking & Finance",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-12T09:15:36.351091",
+    "file": "banking_and_finance/july.json"
+  },
+  {
+    "proposal_id": "9b2f4134",
+    "title": "Faces of Financial Freedom: Influencer-Led Savings Stories Campaign",
+    "type": "Influencer Campaign",
+    "industry": "Banking & Finance",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-12T09:15:36.351091",
+    "file": "banking_and_finance/july.json"
+  }
+]
