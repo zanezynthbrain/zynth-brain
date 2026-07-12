@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import asyncio
 import sys
+import time
 from datetime import datetime
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
@@ -151,8 +152,8 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/run ads_only\n"
         "/run leads_only\n\n"
         "<b>Proposal Factory:</b>\n"
-        "/generate — Generate proposals (auto-picks next uncovered combo)\n"
-        "/generate banking january mm — Specific industry · month · market\n"
+        "/generate — Quick idea drafts (cheap model, fills the pool)\n"
+        "/proposal &lt;brief&gt; — FULL client-ready proposal as a Word doc 📄\n"
         "/proposals — Browse proposal pool stats\n\n"
         "<b>Knowledge Base:</b>\n"
         "/kb — Which business knowledge files the agents are using\n\n"
@@ -638,6 +639,38 @@ async def cmd_proposals(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     )
 
 
+async def _await_with_progress(update: Update, label: str, coro):
+    """Run a long task while keeping the user informed via one live status message.
+
+    Edits the same Telegram message every ~25s with elapsed time so long
+    generations never look frozen. Deletes the status message when done.
+    """
+    msg = await update.message.reply_html(f"⏳ <b>{label}</b>\nStarting…")
+    task = asyncio.create_task(coro)
+    start = time.monotonic()
+    try:
+        while True:
+            done, _ = await asyncio.wait({task}, timeout=25)
+            if done:
+                break
+            elapsed = int(time.monotonic() - start)
+            try:
+                await msg.edit_text(
+                    f"⏳ <b>{label}</b>\n"
+                    f"Still working… {elapsed}s elapsed "
+                    f"(a full proposal can take 2-3 minutes — this is normal)",
+                    parse_mode="HTML",
+                )
+            except Exception:  # edit can fail if unchanged/too fast — never fatal
+                pass
+    finally:
+        try:
+            await msg.delete()
+        except Exception:
+            pass
+    return await task
+
+
 async def cmd_generate(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Generate proposals for an industry × month × market combo and add to pool.
 
@@ -695,16 +728,13 @@ async def cmd_generate(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             industry = industries[0]
 
     market_name = "Myanmar" if market == "MM" else "Singapore"
-    await update.message.reply_html(
-        f"🏭 <b>Proposal Factory running...</b>\n\n"
-        f"Industry: <b>{industry}</b>\n"
-        f"Month: <b>{month}</b>\n"
-        f"Market: <b>{market_name}</b>\n\n"
-        "Generating 4-5 proposals (~30 sec)..."
-    )
 
     try:
-        proposals = await agent.generate_batch(industry, month, market, memory, pool)
+        proposals = await _await_with_progress(
+            update,
+            f"Proposal Factory: {industry} × {month} × {market_name}",
+            agent.generate_batch(industry, month, market, memory, pool),
+        )
         if not proposals:
             await update.message.reply_html("❌ No proposals generated. Try again.")
             return
@@ -750,6 +780,59 @@ async def cmd_generate(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     except Exception as exc:
         logger.exception("Proposal generation failed: %s", exc)
         await update.message.reply_html(f"❌ Generation failed: {exc}")
+
+
+async def cmd_proposal(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Write a FULL client-ready proposal and deliver it as a Word document.
+
+    Usage:
+        /proposal fintech app launch event in Yangon, 300 guests, November
+        /proposal rebranding campaign for a Singapore F&B chain, S$25k budget
+    """
+    if not _security_check(update):
+        return
+    if not context.args:
+        await update.message.reply_html(
+            "📄 <b>Full Proposal Writer</b>\n\n"
+            "Describe what you want in one line and I'll deliver a complete "
+            "8-section proposal as a Word document.\n\n"
+            "Examples:\n"
+            "<code>/proposal fintech app launch event Yangon 300 pax November</code>\n"
+            "<code>/proposal IGNITE sponsor pitch for a Myanmar bank</code>\n"
+            "<code>/proposal social media retainer for SG beauty clinic</code>\n\n"
+            "💡 Tip: you can also pick an idea from /proposals and describe it here."
+        )
+        return
+
+    brief = " ".join(context.args)
+    from agents.master_proposal import MasterProposalAgent
+    from utils.docgen import build_proposal_docx
+
+    llm = LLMClient()
+    memory = SharedMemory(client_brief={"agency": "ZYNTH", "mode": "master_proposal"})
+    agent = MasterProposalAgent(llm_client=llm)
+
+    try:
+        data = await _await_with_progress(
+            update,
+            f"Writing full proposal: {brief[:70]}",
+            agent.write_proposal(brief, memory),
+        )
+        path = build_proposal_docx(
+            title=data.get("title", "ZYNTH Proposal"),
+            client=data.get("client", "Prospective Client"),
+            market=data.get("market", ""),
+            sections=data.get("sections", []),
+        )
+        caption = f"📄 {data.get('title', 'ZYNTH Proposal')}"
+        if data.get("estimated_value"):
+            caption += f"\n💰 Estimated value: {data['estimated_value']}"
+        caption += "\n\nSave to Google Drive from here with one tap 📁"
+        with open(path, "rb") as f:
+            await update.message.reply_document(document=f, filename=path.name, caption=caption)
+    except Exception as exc:
+        logger.exception("Master proposal failed: %s", exc)
+        await update.message.reply_html(f"❌ Proposal failed: {exc}")
 
 
 async def cmd_kb(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -891,6 +974,7 @@ def main() -> None:
     app.add_handler(CommandHandler("cost", cmd_cost))
     app.add_handler(CommandHandler("proposals", cmd_proposals))
     app.add_handler(CommandHandler("generate", cmd_generate))
+    app.add_handler(CommandHandler("proposal", cmd_proposal))
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_handler))
