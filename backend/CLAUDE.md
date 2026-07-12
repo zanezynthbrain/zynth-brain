@@ -20,6 +20,9 @@ backend/
   agents/
     base.py          BaseAgent abstract class, AgentResult, AgentError
     orchestrator.py   OrchestratorAgent: routing, DAG execution, QA gate
+    ceo.py             CEOAgent: agenda → departments in waves → synthesis → Telegram
+    cmo/coo/cfo/hr/event_manager/operations/portfolio.py   department agents
+    proposal_factory.py Proposal Factory: industry × month × market proposal batches
     research_seo.py   Market Research & SEO Agent
     copywriter.py      Content & Creative Copywriter Agent
     lead_gen.py        Lead Generation & Outreach Agent
@@ -27,17 +30,49 @@ backend/
   utils/
     state.py          SharedMemory: async-safe centralized state/memory
     llm_client.py      Claude API wrapper: retries, token budget, JSON repair, mock mode
+    knowledge.py       Loads knowledge/*.md into every agent's system prompt
+    proposal_pool.py   JSON data pool at outputs/proposal_pool/ (committed to git)
+    cost_tracker.py    Daily S$ budget cap, Telegram alerts at 80%/100%
+    telegram.py        Notification senders (per-department group routing)
     tools.py           HTTP, file read/write, JSON validation tool mockups
     logging_config.py  Logging setup
   config/
     settings.py        Env-driven settings (pydantic-settings)
     brand.py            ZYNTH brand voice/persona constants
+    flagship.py         IGNITE Myanmar Business Summit context
+  knowledge/            Business knowledge base (Markdown; see below)
   tests/                pytest suite (runs fully offline via mock mode)
   main.py               Async CLI entrypoint
+  telegram_bot.py       Command bot + free-text AI Chief of Staff chat
+  scheduler.py          Daily cron jobs (morning brief / EOD / weekly review)
+  run_proposal_batch.py One-shot proposal generation for CI
   server.py              Optional FastAPI HTTP surface
   requirements.txt
   .env.example
 ```
+
+## Deployment
+
+The bot runs 24/7 on Railway from a root-level `Dockerfile` (builds
+`backend/`, runs `telegram_bot.py`; the APScheduler starts inside
+`Application.post_init` because `AsyncIOScheduler` needs a running event
+loop). Merging to `main` auto-redeploys. `tzdata` must stay in
+requirements — the slim Python image has no IANA timezone database and
+the scheduler uses `Asia/Rangoon`.
+
+`.github/workflows/proposal-pool.yml` generates proposal batches daily
+(10:00 Yangon) and commits them to `backend/outputs/proposal_pool/`,
+which is un-gitignored and shipped in the Docker image — the repo is the
+persistent data pool. The workflow skips gracefully until the
+`ANTHROPIC_API_KEY` Actions secret is set.
+
+## Knowledge base
+
+`backend/knowledge/*.md` is injected into every agent's system prompt by
+`utils/knowledge.py` (per-file 4k / total 12k char caps). Files containing
+a `<!-- TEMPLATE -->` marker in the first 300 chars are skipped, as is
+README.md. The `/kb` bot command lists active files. When adding real
+business content, delete the marker.
 
 ## How the pieces fit together
 
