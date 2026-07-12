@@ -2,8 +2,9 @@ name: ZYNTH Proposal Pool Builder
 
 on:
   schedule:
-    # 10:00 Yangon time (UTC+6:30) = 03:30 UTC — daily batch, both markets
-    - cron: "30 3 * * *"
+    # 07:00 Singapore time (UTC+8) = 23:00 UTC — daily batch, both markets
+    # (equivalent to 05:30 Yangon time)
+    - cron: "0 23 * * *"
   workflow_dispatch:
     inputs:
       market:
