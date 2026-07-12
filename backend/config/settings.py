@@ -57,8 +57,9 @@ class Settings(BaseSettings):
     # --- Scheduler / timezone --------------------------------------------
     # Yangon is UTC+6:30 (Asia/Rangoon)
     scheduler_timezone: str = Field(default="Asia/Rangoon", alias="ZYNTH_TIMEZONE")
-    daily_brief_hour: int = Field(default=8, alias="ZYNTH_BRIEF_HOUR")
-    daily_brief_minute: int = Field(default=0, alias="ZYNTH_BRIEF_MINUTE")
+    # 05:30 Yangon = 07:00 Singapore — morning brief lands at 7am SGT
+    daily_brief_hour: int = Field(default=5, alias="ZYNTH_BRIEF_HOUR")
+    daily_brief_minute: int = Field(default=30, alias="ZYNTH_BRIEF_MINUTE")
     eod_report_hour: int = Field(default=18, alias="ZYNTH_EOD_HOUR")
 
     # --- Storage ---------------------------------------------------------

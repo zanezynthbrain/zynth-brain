@@ -23,8 +23,8 @@ from pathlib import Path
 KNOWLEDGE_DIR = Path(__file__).resolve().parent.parent / "knowledge"
 
 _TEMPLATE_MARKER = "<!-- TEMPLATE -->"
-_PER_FILE_CHAR_CAP = 4_000
-_TOTAL_CHAR_BUDGET = 12_000
+_PER_FILE_CHAR_CAP = 6_000
+_TOTAL_CHAR_BUDGET = 24_000
 
 _cache: str | None = None
 
