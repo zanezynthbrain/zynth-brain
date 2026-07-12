@@ -217,8 +217,12 @@ class ProposalFactoryAgent(BaseAgent):
         """
         system = self.build_system_prompt()
         prompt = self._build_prompt(industry, month, market)
+        # Idea drafts are high-volume — route to the cheap fallback model.
+        # The client-grade document comes from MasterProposalAgent instead.
+        from config import get_settings
         data, response = await self.llm.complete_json(
-            system=system, user_prompt=prompt, schema=_BATCH_SCHEMA
+            system=system, user_prompt=prompt, schema=_BATCH_SCHEMA,
+            model=get_settings().fallback_model_name,
         )
         await memory.record_tokens(response.input_tokens, response.output_tokens)
 

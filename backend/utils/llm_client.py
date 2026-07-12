@@ -66,8 +66,13 @@ class LLMClient:
         system: str,
         user_prompt: str,
         max_tokens: int | None = None,
+        model: str | None = None,
     ) -> LLMResponse:
-        """Run a single completion with retry/backoff on transient failures."""
+        """Run a single completion with retry/backoff on transient failures.
+
+        ``model`` overrides the default for this one call — used to route
+        high-volume draft work to the cheaper fallback model.
+        """
         if self.is_mocked:
             return self._mock_complete(user_prompt)
 
@@ -76,7 +81,7 @@ class LLMClient:
         for attempt in range(1, self.settings.max_llm_retries + 1):
             try:
                 response = await self._client.messages.create(
-                    model=self.settings.model_name,
+                    model=model or self.settings.model_name,
                     max_tokens=budget,
                     system=system,
                     messages=[{"role": "user", "content": user_prompt}],
@@ -92,7 +97,7 @@ class LLMClient:
                 try:
                     from utils.cost_tracker import get_cost_tracker, CostBudgetExceeded
                     tracker = await get_cost_tracker()
-                    await tracker.record(self.settings.model_name, result.input_tokens, result.output_tokens)
+                    await tracker.record(model or self.settings.model_name, result.input_tokens, result.output_tokens)
                 except Exception as cost_exc:  # noqa: BLE001
                     from utils.cost_tracker import CostBudgetExceeded
                     if isinstance(cost_exc, CostBudgetExceeded):
@@ -119,6 +124,7 @@ class LLMClient:
         user_prompt: str,
         schema: dict[str, Any],
         max_tokens: int | None = None,
+        model: str | None = None,
     ) -> tuple[dict[str, Any], LLMResponse]:
         """Run a completion and guarantee the result validates against ``schema``.
 
@@ -144,7 +150,7 @@ class LLMClient:
             if repair_note:
                 prompt += f"\n\nYour previous response was invalid: {last_error}\nReturn corrected JSON only."
 
-            response = await self.complete(system, prompt, max_tokens=max_tokens)
+            response = await self.complete(system, prompt, max_tokens=max_tokens, model=model)
             cleaned = _strip_markdown_fence(response.text)
             result = validate_json(cleaned, schema)
             if result.ok:
