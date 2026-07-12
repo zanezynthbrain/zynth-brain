@@ -39,6 +39,10 @@ class Settings(BaseSettings):
     max_agent_retries: int = Field(default=2, alias="ZYNTH_MAX_AGENT_RETRIES")
     qa_min_pass_score: float = Field(default=0.7, alias="ZYNTH_QA_MIN_PASS_SCORE")
 
+    # --- Voice transcription (free Gemini key: aistudio.google.com) ------
+    gemini_api_key: str = Field(default="", alias="GEMINI_API_KEY")
+    transcribe_model_name: str = Field(default="gemini-2.5-flash", alias="ZYNTH_TRANSCRIBE_MODEL")
+
     # --- Third-party research/SEO tooling -------------------------------
     serper_api_key: str = Field(default="", alias="SERPER_API_KEY")
     semrush_api_key: str = Field(default="", alias="SEMRUSH_API_KEY")

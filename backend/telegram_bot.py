@@ -160,7 +160,8 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "<b>Approvals:</b>\n"
         "/approve — Confirm CEO action items\n"
         "/help — This message\n\n"
-        "💬 <i>Or just type anything — your AI Chief of Staff will answer.</i>"
+        "💬 <i>Or just type anything — your AI Chief of Staff will answer.</i>\n"
+        "🎙 <i>Voice messages work too — Burmese and English.</i>"
         f"{pipeline_note}"
     )
     await update.message.reply_html(text)
@@ -875,18 +876,58 @@ _CHAT_MAX_TURNS = 6  # remember the last 6 exchanges per chat
 
 
 async def chat_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Free-text conversation — ask the AI chief of staff anything.
-
-    Uses the knowledge base + today's CEO report as context and keeps a
-    short per-chat history so follow-up questions work naturally.
-    Every reply goes through the same daily cost guard as agent runs.
-    """
+    """Free-text conversation — ask the AI chief of staff anything."""
     if not _security_check(update):
         return
     text = (update.message.text or "").strip()
     if not text:
         return
+    await _chat_reply(update, context, text)
 
+
+async def voice_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Voice messages: transcribe (Burmese/English via Gemini) then chat."""
+    if not _security_check(update):
+        return
+    voice = update.message.voice or update.message.audio
+    if not voice:
+        return
+
+    from utils.transcribe import has_transcription, transcribe_voice
+
+    if not has_transcription():
+        await update.message.reply_html(
+            "🎙 <b>Voice needs a one-time (free) setup.</b>\n\n"
+            "1. Go to <b>aistudio.google.com</b> → Get API key (free)\n"
+            "2. Railway → Variables → add <code>GEMINI_API_KEY</code>\n\n"
+            "Then send your voice message again — Burmese and English both work."
+        )
+        return
+
+    try:
+        await update.message.chat.send_action("typing")
+        tg_file = await context.bot.get_file(voice.file_id)
+        audio = bytes(await tg_file.download_as_bytearray())
+        mime = getattr(voice, "mime_type", None) or "audio/ogg"
+        text = await transcribe_voice(audio, mime_type=mime)
+    except Exception as exc:
+        logger.exception("Voice transcription failed: %s", exc)
+        await update.message.reply_html(f"❌ Couldn't transcribe that voice message: {exc}")
+        return
+
+    if not text:
+        await update.message.reply_html("🎙 I couldn't hear anything in that clip — try again?")
+        return
+
+    await update.message.reply_html(f"🎙 <i>{text}</i>")
+    await _chat_reply(update, context, text)
+
+
+async def _chat_reply(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str) -> None:
+    """Shared chat brain: knowledge + today's report + short history → reply.
+
+    Every reply goes through the same daily cost guard as agent runs.
+    """
     from config import ZYNTH_BRAND
     from utils.knowledge import load_knowledge
 
@@ -978,6 +1019,7 @@ def main() -> None:
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_handler))
+    app.add_handler(MessageHandler(filters.VOICE | filters.AUDIO, voice_handler))
 
     logger.info("ZYNTH Telegram Bot starting…")
     app.run_polling(allowed_updates=Update.ALL_TYPES)
