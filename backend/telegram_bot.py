@@ -149,7 +149,7 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "<b>Department Agents:</b>\n"
         "/creative — Creative brief → Creative group\n"
         "/research — Market intel → Marketing group\n"
-        "/event — Event proposal (Yangon venues)\n"
+        "/event &lt;brief&gt; — Event Specialist Team → full proposal + approve/revise 🎪\n"
         "/ops — Vendor research + SOP\n\n"
         "<b>Campaign Workflows:</b>\n"
         "/run full_campaign\n"
@@ -475,32 +475,127 @@ async def cmd_pipeline(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             await update.message.reply_html(text, reply_markup=keyboard)
 
 
+# ── Event Specialist Team (HITL: approve / revise, max 3 cycles) ─────────────
+_event_session: dict = {}
+_MAX_EVENT_CYCLES = 3
+
+
+async def _run_event_cycle(update: Update, brief: str, feedback: str, cycle: int) -> None:
+    """One full event-team cycle: 3 specialists + merge → docx → HITL buttons."""
+    from agents.event_team import run_event_pipeline
+    from utils.docgen import build_proposal_docx
+    from utils.cost_tracker import get_cost_tracker
+
+    tracker = await get_cost_tracker()
+    sgd_before = (await tracker.today_summary()).get("sgd", 0.0)
+
+    memory = SharedMemory(client_brief={"agency": "ZYNTH", "mode": "event_team"})
+    proposal = await _await_with_progress(
+        update,
+        f"Event team cycle {cycle}/{_MAX_EVENT_CYCLES}: Concept + Design + Ops working in parallel",
+        run_event_pipeline(brief, memory, feedback=feedback, cycle=cycle),
+    )
+
+    path = build_proposal_docx(
+        title=proposal.get("title", "ZYNTH Event Proposal"),
+        client=proposal.get("client", "Prospective Client"),
+        market=proposal.get("market", ""),
+        sections=proposal.get("sections", []),
+    )
+    sgd_after = (await tracker.today_summary()).get("sgd", 0.0)
+
+    _event_session.update(
+        {"brief": brief, "cycle": cycle, "proposal": proposal, "doc_path": str(path), "awaiting_feedback": False}
+    )
+
+    caption = (
+        f"🎪 {proposal.get('title', 'Event Proposal')}\n"
+        f"💰 {proposal.get('estimated_value', '')}\n"
+        f"🔄 Cycle {cycle}/{_MAX_EVENT_CYCLES} · cost this cycle ~S${max(sgd_after - sgd_before, 0):.2f}"
+    )
+    with open(path, "rb") as f:
+        await update.message.reply_document(document=f, filename=path.name, caption=caption)
+
+    buttons = [[
+        InlineKeyboardButton("✅ Approve & lock", callback_data="evt_approve"),
+        InlineKeyboardButton("✏️ Revise", callback_data="evt_revise"),
+    ]]
+    await update.message.reply_html(
+        "Review the document. <b>Approve</b> locks this version (and emails it if "
+        "email is set up). <b>Revise</b> lets you send feedback for the next cycle.",
+        reply_markup=InlineKeyboardMarkup(buttons),
+    )
+
+
 async def cmd_event(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Event Specialist Team: /event <brief> → full proposal with HITL loop."""
     if not _security_check(update):
         return
-    await update.message.reply_html("🎪 Generating event proposal...")
+    if not context.args:
+        await update.message.reply_html(
+            "🎪 <b>Event Specialist Team</b>\n\n"
+            "Describe the event in one line — Concept, Design, and Ops/Vendor "
+            "specialists work in parallel, then you approve or revise (max 3 cycles).\n\n"
+            "<code>/event fintech product launch, Lotte Hotel, 300 pax, November, premium feel</code>\n"
+            "<code>/event IGNITE sponsor gala dinner 400 pax Sedona</code>"
+        )
+        return
+    brief = " ".join(context.args)
     try:
-        from agents.event_manager import EventManagerAgent
-        llm = LLMClient()
-        memory = SharedMemory(client_brief={"market": "Yangon, Myanmar"})
-        agent = EventManagerAgent(llm_client=llm)
-        result = await agent.run(memory)
-        if result.success:
-            proposals = result.data.get("event_proposals", [])
-            lines = ["✅ <b>Event Proposals ready!</b>\n"]
-            for p in proposals[:2]:
-                lines.append(
-                    f"🎪 <b>{p.get('name')}</b>\n"
-                    f"   Venue: {p.get('proposed_venue')}\n"
-                    f"   Budget: {p.get('est_budget_mmk')}\n"
-                    f"   Timeline: {p.get('timeline_weeks')} weeks\n"
-                )
-            lines.append("\nSaved to outputs/event_management/")
-            await update.message.reply_html("\n".join(lines))
-        else:
-            await update.message.reply_html(f"❌ Event planning failed: {result.error}")
+        await _run_event_cycle(update, brief, feedback="", cycle=1)
     except Exception as exc:
-        await update.message.reply_html(f"❌ Error: {exc}")
+        logger.exception("Event pipeline failed: %s", exc)
+        await update.message.reply_html(f"❌ Event team failed: {exc}")
+
+
+async def handle_event_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Approve / Revise buttons on event proposals."""
+    query = update.callback_query
+    await query.answer()
+    data = query.data or ""
+    proposal = _event_session.get("proposal")
+    if not proposal:
+        await query.edit_message_text("Session expired — run /event again.")
+        return
+
+    if data == "evt_approve":
+        _event_session["awaiting_feedback"] = False
+        blender = proposal.get("blender_block", "")
+        await query.edit_message_text(
+            f"✅ APPROVED — {proposal.get('title', 'proposal')} (cycle {proposal.get('cycle', 1)}) is locked.\n"
+            "Next steps: send to client from your inbox · confirm venue/vendor rates (RFQ) "
+            "· collect the 50% deposit before any work starts.",
+        )
+        from utils.mailer import send_email
+        from pathlib import Path as _P
+        doc = _event_session.get("doc_path")
+        if doc and await send_email(
+            subject=f"APPROVED event proposal: {proposal.get('title', '')}",
+            body=f"Approved at cycle {proposal.get('cycle', 1)}.\nBrief: {_event_session.get('brief', '')}",
+            attachments=[_P(doc)],
+        ):
+            await query.message.reply_html("📧 Approved document emailed to you.")
+        if blender:
+            await query.message.reply_html(
+                "🧊 <b>3D preview block</b> — paste this into Claude Desktop (with Blender MCP) "
+                "to render the stage:"
+            )
+            await query.message.reply_text(blender[:4000])
+        return
+
+    if data == "evt_revise":
+        cycle = _event_session.get("cycle", 1)
+        if cycle >= _MAX_EVENT_CYCLES:
+            await query.edit_message_text(
+                f"⛔ Max {_MAX_EVENT_CYCLES} cycles reached. Approve this version or "
+                "start fresh with a sharper /event brief (cheaper than endless revision)."
+            )
+            return
+        _event_session["awaiting_feedback"] = True
+        await query.edit_message_text(
+            f"✏️ Revision cycle {cycle + 1}/{_MAX_EVENT_CYCLES} — send your feedback as a "
+            "normal message now (what to change, what to keep)."
+        )
 
 
 async def cmd_ops(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -1053,6 +1148,18 @@ async def chat_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     text = (update.message.text or "").strip()
     if not text:
         return
+
+    # If the MD just hit "Revise" on an event proposal, this message is feedback
+    if _event_session.get("awaiting_feedback"):
+        _event_session["awaiting_feedback"] = False
+        next_cycle = _event_session.get("cycle", 1) + 1
+        try:
+            await _run_event_cycle(update, _event_session.get("brief", ""), feedback=text, cycle=next_cycle)
+        except Exception as exc:
+            logger.exception("Event revision failed: %s", exc)
+            await update.message.reply_html(f"❌ Revision failed: {exc}")
+        return
+
     await _chat_reply(update, context, text)
 
 
@@ -1197,6 +1304,7 @@ def main() -> None:
     app.add_handler(CommandHandler("venue", cmd_venue))
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
+    app.add_handler(CallbackQueryHandler(handle_event_callback, pattern="^evt_"))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_handler))
     app.add_handler(MessageHandler(filters.VOICE | filters.AUDIO, voice_handler))
 

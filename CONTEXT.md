@@ -55,7 +55,12 @@ sponsorship-funded, ZYNTH-owned IP.
    /venue list|search|add|outreach; runtime adds → outputs/proposal_pool/venues_extra.json
    (committed daily by pool workflow); venue table injected into MasterProposal prompts;
    outreach emails are DRAFTS the MD forwards manually
-3. ⬜ Event team v1 (3 agents → merged proposal → docx → HITL yes/no+feedback, max 3 cycles)
+3. ✅ Event team v1 — agents/event_team.py: ConceptPlanner + Designer +
+   Ops/Vendor run in parallel on the cheap model, merge on primary model
+   into 8-section docx; /event <brief> → document + Approve/Revise buttons;
+   revise feedback flows into all specialists (max 3 cycles); approved docs
+   emailed; Designer outputs a Blender MCP block (sent on approval, not in
+   the client doc); per-cycle cost shown in the caption
 4. ⬜ Talent DB (Google Sheets service account, /talent add manual-first)
 - Not building yet: CampaignPlanner, Blender automation, scraping enrichment, HubSpot, hosted DB.
 
