@@ -48,5 +48,55 @@
     "month": "July",
     "created_at": "2026-07-12T09:15:36.351091",
     "file": "banking_and_finance/july.json"
+  },
+  {
+    "proposal_id": "1119dfd1",
+    "title": "Mid-Year Financial Reset: Digital Campaign for Young Professionals",
+    "type": "Digital Campaign",
+    "industry": "Banking & Fintech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-13T12:26:26.588468",
+    "file": "banking_and_fintech/july.json"
+  },
+  {
+    "proposal_id": "4ce00811",
+    "title": "Fintech Innovation Summit 2026: Flagship Thought Leadership Event",
+    "type": "Corporate Conference",
+    "industry": "Banking & Fintech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-13T12:26:26.588468",
+    "file": "banking_and_fintech/july.json"
+  },
+  {
+    "proposal_id": "d7b3792c",
+    "title": "Holiday Savings Challenge: Influencer-Driven Brand Activation",
+    "type": "Influencer Campaign",
+    "industry": "Banking & Fintech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-13T12:26:26.588468",
+    "file": "banking_and_fintech/july.json"
+  },
+  {
+    "proposal_id": "63d5d74a",
+    "title": "Fintech Rebrand Campaign: Visual Identity & Market Launch",
+    "type": "Rebranding Campaign",
+    "industry": "Banking & Fintech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-13T12:26:26.588468",
+    "file": "banking_and_fintech/july.json"
+  },
+  {
+    "proposal_id": "26e9a263",
+    "title": "Lead Generation Bootcamp: Digital Sales Funnel for B2B Fintech",
+    "type": "Lead Generation Campaign",
+    "industry": "Banking & Fintech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-13T12:26:26.588468",
+    "file": "banking_and_fintech/july.json"
   }
 ]
