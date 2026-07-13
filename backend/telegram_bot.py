@@ -348,7 +348,11 @@ async def cmd_creative(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
                 "Saved to outputs/portfolio/"
             )
         else:
-            await update.message.reply_html("❌ Creative pipeline failed.")
+            err = (portfolio_result.error if portfolio_result else "portfolio step did not run") or "unknown"
+            await update.message.reply_html(
+                f"❌ Creative pipeline failed: <i>{err[:300]}</i>\n\n"
+                "Try /creative again — if it keeps failing, send me this message."
+            )
     except Exception as exc:
         await update.message.reply_html(f"❌ Error: {exc}")
 
