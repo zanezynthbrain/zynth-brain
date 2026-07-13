@@ -41,7 +41,8 @@ class Settings(BaseSettings):
 
     # --- Voice transcription (free Gemini key: aistudio.google.com) ------
     gemini_api_key: str = Field(default="", alias="GEMINI_API_KEY")
-    transcribe_model_name: str = Field(default="gemini-2.5-flash", alias="ZYNTH_TRANSCRIBE_MODEL")
+    # -latest alias tracks Google's newest flash model as older IDs retire
+    transcribe_model_name: str = Field(default="gemini-flash-latest", alias="ZYNTH_TRANSCRIBE_MODEL")
 
     # --- Third-party research/SEO tooling -------------------------------
     serper_api_key: str = Field(default="", alias="SERPER_API_KEY")

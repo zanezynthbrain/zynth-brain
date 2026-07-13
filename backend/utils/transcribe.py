@@ -33,9 +33,52 @@ _PROMPT = (
 class TranscriptionError(Exception):
     """User-safe transcription failure — message never contains the API key."""
 
+    def __init__(self, message: str, status: int | None = None) -> None:
+        super().__init__(message)
+        self.status = status
+
 
 def has_transcription() -> bool:
     return bool(get_settings().gemini_api_key)
+
+
+# Google retires model IDs over time ('gemini-2.5-flash is no longer
+# available to new users'). The -latest aliases track the newest flash
+# model automatically; the rest are best-effort fallbacks. On a 404 we
+# walk down this list instead of failing.
+_FALLBACK_MODELS = [
+    "gemini-flash-latest",
+    "gemini-flash-lite-latest",
+    "gemini-3-flash-preview",
+    "gemini-2.0-flash",
+]
+
+
+async def _call_gemini(model: str, payload: dict, api_key: str) -> dict:
+    url = _GEMINI_URL.format(model=model)
+    try:
+        async with httpx.AsyncClient(timeout=90) as client:
+            # Key goes in the header — newer 'AQ.'-style AI Studio keys are
+            # not accepted as a ?key= query param, and headers keep the key
+            # out of URLs/logs entirely.
+            resp = await client.post(url, headers={"x-goog-api-key": api_key}, json=payload)
+            resp.raise_for_status()
+            return resp.json()
+    except httpx.HTTPStatusError as exc:
+        # NEVER propagate the raw error — it may reference the request URL.
+        status = exc.response.status_code
+        detail = ""
+        try:
+            detail = exc.response.json().get("error", {}).get("message", "")[:200]
+        except Exception:
+            pass
+        logger.warning("Gemini model %s HTTP %s: %s", model, status, detail)
+        raise TranscriptionError(
+            f"Google rejected the request (HTTP {status}). {detail}", status=status
+        ) from None
+    except httpx.HTTPError as exc:
+        logger.warning("Gemini network error: %s", type(exc).__name__)
+        raise TranscriptionError("Network problem reaching Google — try again in a minute.") from None
 
 
 async def transcribe_voice(audio: bytes, mime_type: str = "audio/ogg") -> str:
@@ -56,37 +99,24 @@ async def transcribe_voice(audio: bytes, mime_type: str = "audio/ogg") -> str:
             }
         ]
     }
-    url = _GEMINI_URL.format(model=settings.transcribe_model_name)
-    try:
-        async with httpx.AsyncClient(timeout=90) as client:
-            # Key goes in the header — newer 'AQ.'-style AI Studio keys are
-            # not accepted as a ?key= query param, and headers keep the key
-            # out of URLs/logs entirely.
-            resp = await client.post(
-                url,
-                headers={"x-goog-api-key": settings.gemini_api_key},
-                json=payload,
-            )
-            resp.raise_for_status()
-            data = resp.json()
-    except httpx.HTTPStatusError as exc:
-        # NEVER propagate the raw error — it may reference the request URL.
-        status = exc.response.status_code
-        detail = ""
+
+    candidates = [settings.transcribe_model_name]
+    candidates += [m for m in _FALLBACK_MODELS if m not in candidates]
+
+    data = None
+    last_error: TranscriptionError | None = None
+    for model in candidates:
         try:
-            detail = exc.response.json().get("error", {}).get("message", "")[:200]
-        except Exception:
-            pass
-        logger.warning("Gemini transcription HTTP %s: %s", status, detail)
-        if status in (400, 401, 403, 404):
-            raise TranscriptionError(
-                f"Google rejected the request (HTTP {status}). "
-                f"Check GEMINI_API_KEY in Railway Variables. {detail}"
-            ) from None
-        raise TranscriptionError(f"Google transcription service error (HTTP {status}). Try again.") from None
-    except httpx.HTTPError as exc:
-        logger.warning("Gemini transcription network error: %s", type(exc).__name__)
-        raise TranscriptionError("Network problem reaching Google — try again in a minute.") from None
+            data = await _call_gemini(model, payload, settings.gemini_api_key)
+            logger.info("Transcription model in use: %s", model)
+            break
+        except TranscriptionError as exc:
+            last_error = exc
+            if exc.status == 404:  # model retired/unknown — try the next one
+                continue
+            raise
+    if data is None:
+        raise last_error or TranscriptionError("No transcription model available.")
 
     try:
         text = data["candidates"][0]["content"]["parts"][0]["text"].strip()
