@@ -78,6 +78,35 @@ def build_proposal_docx(
             else:
                 doc.add_paragraph(block.replace("\n", " "))
 
+        # Structured tables — this is what makes a proposal executable
+        for tbl in section.get("tables") or []:
+            headers = [h for h in (tbl.get("headers") or []) if str(h).strip()]
+            rows = tbl.get("rows") or []
+            if not headers or not rows:
+                continue
+            if tbl.get("title"):
+                cap = doc.add_paragraph()
+                cap_run = cap.add_run(tbl["title"])
+                cap_run.bold = True
+                cap_run.font.size = Pt(10)
+                cap_run.font.color.rgb = _ZYNTH_ACCENT
+            table = doc.add_table(rows=1, cols=len(headers))
+            try:
+                table.style = "Light Grid Accent 1"
+            except Exception:
+                table.style = "Table Grid"
+            for j, h in enumerate(headers):
+                cell = table.rows[0].cells[j]
+                cell.text = str(h)
+                for p in cell.paragraphs:
+                    for r in p.runs:
+                        r.bold = True
+            for row in rows:
+                cells = table.add_row().cells
+                for j in range(len(headers)):
+                    cells[j].text = str(row[j]) if j < len(row) else ""
+            doc.add_paragraph()
+
     # ── Footer note (deposit clause is business law R2) ────────────────────
     doc.add_paragraph()
     note = doc.add_paragraph()
