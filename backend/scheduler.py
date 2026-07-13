@@ -88,6 +88,73 @@ async def run_weekly_portfolio_review() -> None:
     )
 
 
+# ── MD Learning Brief ────────────────────────────────────────────────────────
+# One event discipline per week, rotating. Goal: the MD can read a budget,
+# a run-of-show, and an AV quote without being fooled.
+LEARNING_TOPICS = [
+    "Event budgeting: full cost structure of a 200-pax corporate dinner (venue, F&B per pax, AV, staging, staffing, 10% contingency, permits, overtime) and where margins leak",
+    "Run-of-show & cue sheets: load-in/load-out windows, soundcheck timing, changeovers, and how to read a production schedule",
+    "AV & staging vocabulary: truss, rigging points, LED pixel pitch (P2.6 vs P3.9), projector throw distance, power distribution, dB limits — the negotiating armor",
+    "Venue site inspection checklist: capacity by setup, ceiling height, loading access, power, in-house AV exclusivity clauses, corkage",
+    "Corporate summit format: agenda design, speaker management, registration flow, sponsor visibility tiers",
+    "Product launch events: reveal moments, press handling, demo zones, influencer seeding",
+    "Brand activations & roadshows: footfall math, sampling logistics, permits, staffing ratios",
+    "Gala dinners & award nights: seating politics, programme pacing, F&B timing with the show",
+    "Concerts & live entertainment: artist riders, security ratios, sound limits, ticketing basics",
+    "Exhibitions & trade shows: booth economics, floorplan flow, lead capture",
+    "Hybrid & livestreamed events: switching, IMAG, platform choice, remote speaker handling",
+    "Sustainable staging: modular re-usable builds, material choices, what SG clients now demand",
+    "Vendor negotiation: RFQ discipline (3 quotes), deposit terms, cancellation clauses, penalty terms",
+    "Event P&L review: post-event reconciliation, actual-vs-budget variance, what to log for next time",
+    "Sponsorship packaging: tier design, benefit costing, activation rights — the IGNITE revenue engine",
+    "Client-side commercial discipline: change orders in writing, scope creep, the 50% deposit rule in practice",
+]
+
+
+async def run_learning_brief() -> None:
+    """Monday morning: teach the MD one event discipline + one regional trend."""
+    week = int(datetime.now().strftime("%W"))
+    topic = LEARNING_TOPICS[week % len(LEARNING_TOPICS)]
+    logger.info("📚 MD Learning Brief: %s", topic[:60])
+
+    from utils.llm_client import LLMClient
+    llm = LLMClient()
+    system = (
+        "You are a veteran SE-Asia event producer (Singapore + Yangon markets) mentoring "
+        "a new agency MD. Teach clearly and practically. No fluff. Use real numbers and "
+        "local context (Yangon vendor realities, SG client standards). Reply in English "
+        "with key terms usable in conversation with vendors."
+    )
+    prompt = (
+        f"This week's lesson: {topic}\n\n"
+        "Write a Telegram-friendly brief (~400 words):\n"
+        "1. The concept, explained like a mentor on a site visit\n"
+        "2. Concrete numbers/benchmarks (Yangon MMK and SG SGD where relevant)\n"
+        "3. The 3 mistakes rookies make\n"
+        "4. One question the MD should ask a vendor this week to practice\n"
+        "5. Finish with ONE current regional creative trend (SG/TH/VN) in 2 sentences."
+    )
+    try:
+        response = await llm.complete(system=system, user_prompt=prompt, max_tokens=1500)
+        text = f"📚 <b>MD Learning Brief — Week {week}</b>\n\n{response.text.strip()}"
+        await send_message(text[:4000])
+        from utils.mailer import send_email
+        await send_email(
+            subject=f"ZYNTH MD Learning Brief — Week {week}",
+            body=f"Topic: {topic}\n\n{response.text.strip()}",
+        )
+    except Exception as exc:
+        logger.exception("Learning brief failed: %s", exc)
+
+
+async def run_fx_refresh() -> None:
+    """Daily: refresh MMK market rates so every proposal prices correctly."""
+    from utils.fx import refresh_rates
+    live, data = await refresh_rates()
+    if not live:
+        logger.info("FX refresh: live source unavailable, using %s", data.get("source"))
+
+
 def build_scheduler(settings=None) -> AsyncIOScheduler:
     settings = settings or get_settings()
     scheduler = AsyncIOScheduler(timezone=settings.scheduler_timezone)
@@ -124,6 +191,24 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
         CronTrigger(day_of_week="mon", hour=9, minute=0, timezone=settings.scheduler_timezone),
         id="weekly_portfolio_review",
         name="Weekly Portfolio Review",
+        replace_existing=True,
+    )
+
+    # MD Learning Brief (Monday 08:30 Yangon = 10:00 SGT)
+    scheduler.add_job(
+        run_learning_brief,
+        CronTrigger(day_of_week="mon", hour=8, minute=30, timezone=settings.scheduler_timezone),
+        id="md_learning_brief",
+        name="MD Learning Brief",
+        replace_existing=True,
+    )
+
+    # Daily market FX refresh (07:00 Yangon, before the day's proposals)
+    scheduler.add_job(
+        run_fx_refresh,
+        CronTrigger(hour=7, minute=0, timezone=settings.scheduler_timezone),
+        id="fx_refresh",
+        name="Market FX Refresh",
         replace_existing=True,
     )
 

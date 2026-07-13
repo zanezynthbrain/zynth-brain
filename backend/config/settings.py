@@ -39,6 +39,19 @@ class Settings(BaseSettings):
     max_agent_retries: int = Field(default=2, alias="ZYNTH_MAX_AGENT_RETRIES")
     qa_min_pass_score: float = Field(default=0.7, alias="ZYNTH_QA_MIN_PASS_SCORE")
 
+    # --- Market FX rates (fallback when live fetch is blocked) -----------
+    # Format "buy/sell" in MMK. Update via /fx set in Telegram, or here.
+    fx_usd: str = Field(default="4290/4400", alias="ZYNTH_FX_USD")
+    fx_sgd: str = Field(default="3288/3380", alias="ZYNTH_FX_SGD")
+    fx_thb: str = Field(default="128.9/132.2", alias="ZYNTH_FX_THB")
+
+    # --- Email channel (Gmail/Workspace App Password) --------------------
+    smtp_host: str = Field(default="smtp.gmail.com", alias="SMTP_HOST")
+    smtp_port: int = Field(default=587, alias="SMTP_PORT")
+    smtp_user: str = Field(default="", alias="SMTP_USER")
+    smtp_password: str = Field(default="", alias="SMTP_PASSWORD")
+    email_to: str = Field(default="zane@zynth.asia", alias="ZYNTH_EMAIL_TO")
+
     # --- Voice transcription (free Gemini key: aistudio.google.com) ------
     gemini_api_key: str = Field(default="", alias="GEMINI_API_KEY")
     # -latest alias tracks Google's newest flash model as older IDs retire
