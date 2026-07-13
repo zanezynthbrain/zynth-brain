@@ -50,6 +50,9 @@ class Settings(BaseSettings):
     smtp_port: int = Field(default=587, alias="SMTP_PORT")
     smtp_user: str = Field(default="", alias="SMTP_USER")
     smtp_password: str = Field(default="", alias="SMTP_PASSWORD")
+    # From-address override (needed for relays like Resend where the SMTP
+    # login is not an email address). Defaults to smtp_user.
+    email_from: str = Field(default="", alias="ZYNTH_EMAIL_FROM")
     email_to: str = Field(default="zane@zynth.asia", alias="ZYNTH_EMAIL_TO")
 
     # --- Voice transcription (free Gemini key: aistudio.google.com) ------
