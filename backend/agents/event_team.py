@@ -19,7 +19,7 @@ import asyncio
 from typing import Any
 
 from agents.base import BaseAgent
-from agents.master_proposal import SECTION_NAMES
+from agents.master_proposal import SECTION_NAMES, _PROPOSAL_SCHEMA
 from config import get_settings
 from utils.state import SharedMemory
 from utils.venues import venues_block
@@ -172,29 +172,9 @@ class EventOpsVendorAgent(BaseAgent):
         )
 
 
-_MERGE_SCHEMA: dict[str, Any] = {
-    "type": "object",
-    "required": ["title", "client", "market", "estimated_value", "sections"],
-    "properties": {
-        "title": {"type": "string"},
-        "client": {"type": "string"},
-        "market": {"type": "string"},
-        "estimated_value": {"type": "string"},
-        "sections": {
-            "type": "array",
-            "minItems": 8,
-            "maxItems": 8,
-            "items": {
-                "type": "object",
-                "required": ["heading", "body"],
-                "properties": {
-                    "heading": {"type": "string"},
-                    "body": {"type": "string", "description": "client-grade prose, 150-400 words, \\n\\n paragraphs, '- ' bullets, NO emoji"},
-                },
-            },
-        },
-    },
-}
+# Merge output uses the same IGNITE-standard 11-section, table-heavy schema
+# as MasterProposalAgent so both /proposal and /event hit the same bar.
+_MERGE_SCHEMA: dict[str, Any] = _PROPOSAL_SCHEMA
 
 
 async def run_event_pipeline(
@@ -237,12 +217,18 @@ async def run_event_pipeline(
         f"DESIGN TEAM OUTPUT (exclude the blender_block from the client doc):\n"
         f"{ {k: v for k, v in design_out.items() if k != 'blender_block'} }\n\n"
         f"OPERATIONS TEAM OUTPUT:\n{ops_out}\n\n"
-        f"Merge into ONE cohesive client-ready event proposal with exactly these "
-        f"eight sections:\n{section_list}\n\n"
-        "Rules: resolve any contradictions between teams in favour of feasibility; "
-        "budget section itemised at MARKET FX with 10% contingency and the 50% "
-        "deposit clause; unverified vendor/venue figures tagged 'to be confirmed'; "
-        "client-grade prose, no emoji."
+        f"Merge into ONE cohesive, EXECUTABLE client-ready event proposal with "
+        f"exactly these eleven sections:\n{section_list}\n\n"
+        "Rules: resolve contradictions between teams in favour of feasibility. "
+        "Prose carries strategy; STRUCTURED TABLES carry the detail — programme/"
+        "run-of-show table (time, duration, segment, owner), itemised cost table "
+        "with USD/SGD/MMK columns at MARKET FX + 10% contingency, revenue and "
+        "Lean/Standard/Premium P&L tables when the event earns (tickets/sponsors), "
+        "week-by-week marketing table, phase-gate table, vendor register table "
+        "(category, recommendation, est cost, lead time, backup — unverified "
+        "tagged TBC), KPI table (metric, formula, target), risk register table "
+        "(risk, likelihood, impact, mitigation). 50% deposit clause in the final "
+        "section. Client-grade, no emoji."
         + _feedback_note(feedback)
     )
     merger = EventConceptPlannerAgent()  # reuse brand+knowledge system prompt shell
@@ -254,7 +240,7 @@ async def run_event_pipeline(
         system=merger.build_system_prompt(),
         user_prompt=merge_prompt,
         schema=_MERGE_SCHEMA,
-        max_tokens=8000,
+        max_tokens=16000,
     )
     await memory.record_tokens(response.input_tokens, response.output_tokens)
 
