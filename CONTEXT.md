@@ -51,7 +51,10 @@ sponsorship-funded, ZYNTH-owned IP.
 
 ## Build phases
 1. ✅ CONTEXT.md + docs/event-knowledge + weekly MD Learning Brief (Mon 08:30 Yangon) + FX system + email channel
-2. ⬜ Venue DB (repo JSON, 14 Yangon venues seed, /venue add|search, outreach email drafts)
+2. ✅ Venue DB — backend/data/venues.json (14 Yangon venues, all verified:false),
+   /venue list|search|add|outreach; runtime adds → outputs/proposal_pool/venues_extra.json
+   (committed daily by pool workflow); venue table injected into MasterProposal prompts;
+   outreach emails are DRAFTS the MD forwards manually
 3. ⬜ Event team v1 (3 agents → merged proposal → docx → HITL yes/no+feedback, max 3 cycles)
 4. ⬜ Talent DB (Google Sheets service account, /talent add manual-first)
 - Not building yet: CampaignPlanner, Blender automation, scraping enrichment, HubSpot, hosted DB.

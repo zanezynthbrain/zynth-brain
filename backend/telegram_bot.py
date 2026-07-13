@@ -162,7 +162,8 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/proposals — Browse proposal pool stats\n\n"
         "<b>Knowledge Base:</b>\n"
         "/kb — Which business knowledge files the agents are using\n"
-        "/fx — MMK market rates used in every proposal (/fx set usd 4290 4400)\n\n"
+        "/fx — MMK market rates used in every proposal (/fx set usd 4290 4400)\n"
+        "/venue — Yangon venue DB (search · add · outreach email drafts)\n\n"
         "<b>Approvals:</b>\n"
         "/approve — Confirm CEO action items\n"
         "/help — This message\n\n"
@@ -860,6 +861,115 @@ async def cmd_proposal(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         await update.message.reply_html(f"❌ Proposal failed: {exc}")
 
 
+_VENUE_ADD_SCHEMA = {
+    "type": "object",
+    "required": ["name", "type", "location"],
+    "properties": {
+        "name": {"type": "string"},
+        "type": {"type": "string", "description": "hotel ballroom / convention / outdoor / park / entertainment"},
+        "location": {"type": "string"},
+        "capacity": {
+            "type": "object",
+            "properties": {
+                "banquet": {"type": ["integer", "null"]},
+                "theatre": {"type": ["integer", "null"]},
+                "cocktail": {"type": ["integer", "null"]},
+            },
+        },
+        "sqm": {"type": ["number", "null"]},
+        "phone": {"type": ["string", "null"]},
+        "email": {"type": ["string", "null"]},
+        "sales_contact": {"type": ["string", "null"]},
+        "price_signal": {"type": ["string", "null"]},
+        "notes": {"type": ["string", "null"]},
+    },
+}
+
+
+async def cmd_venue(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Yangon venue database.
+
+    /venue                      → list all venues (name + capacity)
+    /venue search ballroom 500  → filter by keyword and/or min capacity
+    /venue add <free text>      → AI structures it into the database
+    /venue outreach Novotel     → draft email requesting event kit + floor plans
+    """
+    if not _security_check(update):
+        return
+    from utils.venues import all_venues, search, add_venue, format_venue, outreach_email
+
+    args = list(context.args or [])
+    sub = args[0].lower() if args else "list"
+
+    if sub == "add":
+        raw = " ".join(args[1:]).strip()
+        if not raw:
+            await update.message.reply_html(
+                "Add a venue in free text — I'll structure it. Example:\n"
+                "<code>/venue add Yangon Gallery, event hall in Dagon, banquet 300 "
+                "theatre 500, contact Ma Su 09-123456, mid-range pricing</code>"
+            )
+            return
+        llm = LLMClient()
+        try:
+            data, _ = await llm.complete_json(
+                system="Extract venue details into the schema. Unknown fields = null. Do not invent numbers.",
+                user_prompt=f"Venue info: {raw}",
+                schema=_VENUE_ADD_SCHEMA,
+                model=get_settings().fallback_model_name,
+            )
+        except Exception as exc:
+            await update.message.reply_html(f"❌ Couldn't parse that: {exc}")
+            return
+        add_venue(data)
+        await update.message.reply_html(
+            f"✅ Added (UNVERIFIED until you confirm with the venue):\n\n{format_venue(data)}"
+        )
+        return
+
+    if sub == "outreach":
+        name_q = " ".join(args[1:]).strip()
+        matches = search(name_q) if name_q else []
+        venue_name = matches[0]["name"] if matches else (name_q or "the venue")
+        email_text = outreach_email(venue_name)
+        await update.message.reply_html(
+            f"📧 <b>Draft outreach — {venue_name}</b>\n"
+            "<i>Copy, adjust, and send from your own inbox (nothing auto-sends):</i>"
+        )
+        await update.message.reply_text(email_text)
+        from utils.mailer import send_email
+        if await send_email(
+            subject=f"[DRAFT to forward] Venue outreach — {venue_name}",
+            body=email_text,
+        ):
+            await update.message.reply_html("📨 Draft also emailed to you for easy forwarding.")
+        return
+
+    # list / search
+    if sub == "search":
+        args = args[1:]
+    min_cap = None
+    words = []
+    for a in args:
+        if a.isdigit():
+            min_cap = int(a)
+        elif sub != "list" or a != "list":
+            words.append(a)
+    results = search(" ".join(words), min_capacity=min_cap)
+    if not results:
+        await update.message.reply_html(
+            "No venues matched. Try /venue search ballroom 500 — or /venue add to add one."
+        )
+        return
+    header = f"🏛 <b>Venues ({len(results)}/{len(all_venues())})</b>\n\n"
+    cards = [format_venue(v) for v in results[:10]]
+    text = header + "\n\n".join(cards)
+    for i in range(0, len(text), 4000):
+        await update.message.reply_html(text[i : i + 4000])
+    if len(results) > 10:
+        await update.message.reply_html(f"…and {len(results) - 10} more. Narrow with /venue search <keyword>.")
+
+
 async def cmd_fx(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Show or set the MMK market exchange rates used in every proposal.
 
@@ -1084,6 +1194,7 @@ def main() -> None:
     app.add_handler(CommandHandler("generate", cmd_generate))
     app.add_handler(CommandHandler("proposal", cmd_proposal))
     app.add_handler(CommandHandler("fx", cmd_fx))
+    app.add_handler(CommandHandler("venue", cmd_venue))
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_handler))

@@ -77,10 +77,12 @@ class MasterProposalAgent(BaseAgent):
 
     @staticmethod
     def _build_prompt(brief: str) -> str:
+        from utils.venues import venues_block
         section_list = "\n".join(f"{i}. {name}" for i, name in enumerate(SECTION_NAMES, 1))
         return (
             f"Write a COMPLETE client-ready proposal for this brief:\n\n"
-            f"BRIEF: {brief}\n\n"
+            f"BRIEF: {brief}\n"
+            f"{venues_block()}\n\n"
             f"Produce exactly these eight sections:\n{section_list}\n\n"
             "Rules:\n"
             "- Infer the market (Myanmar or Singapore) and industry from the brief; "

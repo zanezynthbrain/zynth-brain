@@ -1,0 +1,173 @@
+{
+  "_note": "Yangon venue database. ALL capacity/price figures are APPROXIMATE and verified:false until a human confirms with the venue. Agents must tag unverified figures. Runtime additions land in outputs/proposal_pool/venues_extra.json (committed daily by the pool workflow).",
+  "venues": [
+    {
+      "name": "Novotel Yangon Max",
+      "type": "hotel ballroom",
+      "location": "459 Pyay Road, Kamayut, Yangon",
+      "capacity": {"banquet": 700, "theatre": 1200, "cocktail": 1000},
+      "sqm": 1180, "ceiling_height_m": null,
+      "sales_contact": null, "email": null, "phone": null,
+      "price_signal": null,
+      "floorplan_status": "none", "floorplan_path": null,
+      "verified": false,
+      "notes": "Largest premium hotel ballroom cluster on Pyay Rd; multiple breakout rooms. Capacity approximate — confirm."
+    },
+    {
+      "name": "Meliá Yangon",
+      "type": "hotel ballroom",
+      "location": "192 Kaba Aye Pagoda Road, Bahan, Yangon",
+      "capacity": {"banquet": 450, "theatre": 800, "cocktail": 600},
+      "sqm": null, "ceiling_height_m": null,
+      "sales_contact": null, "email": null, "phone": null,
+      "price_signal": null,
+      "floorplan_status": "none", "floorplan_path": null,
+      "verified": false,
+      "notes": "Strong F&B reputation; corporate gala favourite. Capacity approximate — confirm."
+    },
+    {
+      "name": "Chatrium Hotel Royal Lake Yangon",
+      "type": "hotel ballroom",
+      "location": "40 Natmauk Road, Tamwe, Yangon",
+      "capacity": {"banquet": 500, "theatre": 800, "cocktail": 700},
+      "sqm": null, "ceiling_height_m": null,
+      "sales_contact": null, "email": null, "phone": null,
+      "price_signal": null,
+      "floorplan_status": "none", "floorplan_path": null,
+      "verified": false,
+      "notes": "Lakeside setting near Kandawgyi; in-house AV common. Capacity approximate — confirm."
+    },
+    {
+      "name": "Pan Pacific Yangon",
+      "type": "hotel ballroom",
+      "location": "Corner of Bogyoke Aung San Rd & Shwedagon Pagoda Rd (Junction City), Yangon",
+      "capacity": {"banquet": 400, "theatre": 700, "cocktail": 550},
+      "sqm": null, "ceiling_height_m": null,
+      "sales_contact": null, "email": null, "phone": null,
+      "price_signal": null,
+      "floorplan_status": "none", "floorplan_path": null,
+      "verified": false,
+      "notes": "Downtown premium, attached to Junction City mall — good for launches. Capacity approximate — confirm."
+    },
+    {
+      "name": "PARKROYAL Yangon",
+      "type": "hotel ballroom",
+      "location": "33 Alan Pya Phaya Road, Dagon, Yangon",
+      "capacity": {"banquet": 350, "theatre": 550, "cocktail": 450},
+      "sqm": null, "ceiling_height_m": null,
+      "sales_contact": null, "email": null, "phone": null,
+      "price_signal": null,
+      "floorplan_status": "none", "floorplan_path": null,
+      "verified": false,
+      "notes": "Central location; mid-size corporate events. Capacity approximate — confirm."
+    },
+    {
+      "name": "Lotte Hotel Yangon",
+      "type": "hotel ballroom",
+      "location": "82 Sin Phyu Shin Avenue, Pyay Road, Hlaing, Yangon",
+      "capacity": {"banquet": 600, "theatre": 1000, "cocktail": 800},
+      "sqm": null, "ceiling_height_m": null,
+      "sales_contact": null, "email": null, "phone": null,
+      "price_signal": null,
+      "floorplan_status": "none", "floorplan_path": null,
+      "verified": false,
+      "notes": "Modern build, Inya Lake views, strong for high-end launches. Capacity approximate — confirm."
+    },
+    {
+      "name": "Sedona Hotel Yangon",
+      "type": "hotel ballroom",
+      "location": "1 Kaba Aye Pagoda Road, Yankin, Yangon",
+      "capacity": {"banquet": 800, "theatre": 1500, "cocktail": 1200},
+      "sqm": null, "ceiling_height_m": null,
+      "sales_contact": null, "email": null, "phone": null,
+      "price_signal": null,
+      "floorplan_status": "none", "floorplan_path": null,
+      "verified": false,
+      "notes": "One of the biggest hotel ballrooms in Yangon; exhibitions + large galas. Capacity approximate — confirm."
+    },
+    {
+      "name": "Sule Shangri-La Yangon",
+      "type": "hotel ballroom",
+      "location": "223 Sule Pagoda Road, Kyauktada, Yangon",
+      "capacity": {"banquet": 470, "theatre": 800, "cocktail": 600},
+      "sqm": null, "ceiling_height_m": null,
+      "sales_contact": null, "email": null, "phone": null,
+      "price_signal": null,
+      "floorplan_status": "none", "floorplan_path": null,
+      "verified": false,
+      "notes": "Downtown institution; corporate conference staple. Capacity approximate — confirm."
+    },
+    {
+      "name": "Wyndham Grand Yangon",
+      "type": "hotel ballroom",
+      "location": "No.9, U Aung Myat Street, Mingalar Taung Nyunt, Yangon",
+      "capacity": {"banquet": null, "theatre": null, "cocktail": null},
+      "sqm": null, "ceiling_height_m": null,
+      "sales_contact": null, "email": null, "phone": null,
+      "price_signal": null,
+      "floorplan_status": "none", "floorplan_path": null,
+      "verified": false,
+      "notes": "Details unknown — needs full fact-find (event kit + floor plans)."
+    },
+    {
+      "name": "Rose Garden Hotel Yangon",
+      "type": "hotel ballroom",
+      "location": "171 Upper Pansodan Road, Mingalar Taung Nyunt, Yangon",
+      "capacity": {"banquet": 400, "theatre": 650, "cocktail": 500},
+      "sqm": null, "ceiling_height_m": null,
+      "sales_contact": null, "email": null, "phone": null,
+      "price_signal": null,
+      "floorplan_status": "none", "floorplan_path": null,
+      "verified": false,
+      "notes": "Garden + ballroom combo; weddings and corporate dinners. Capacity approximate — confirm."
+    },
+    {
+      "name": "Yangon Convention Centre (YCC)",
+      "type": "convention",
+      "location": "Mindhamma Road, Mayangone, Yangon",
+      "capacity": {"banquet": 1500, "theatre": 3000, "cocktail": 2500},
+      "sqm": null, "ceiling_height_m": null,
+      "sales_contact": null, "email": null, "phone": null,
+      "price_signal": null,
+      "floorplan_status": "none", "floorplan_path": null,
+      "verified": false,
+      "notes": "Largest indoor convention capacity in Yangon; exhibitions, mega-conferences. IGNITE candidate. Capacity approximate — confirm."
+    },
+    {
+      "name": "Inya Lake Hotel",
+      "type": "hotel ballroom + outdoor",
+      "location": "37 Kaba Aye Pagoda Road, Mayangone, Yangon",
+      "capacity": {"banquet": 500, "theatre": 800, "cocktail": 1000},
+      "sqm": null, "ceiling_height_m": null,
+      "sales_contact": null, "email": null, "phone": null,
+      "price_signal": null,
+      "floorplan_status": "none", "floorplan_path": null,
+      "verified": false,
+      "notes": "Lakeside lawns for large outdoor formats + indoor ballroom. Weather plan mandatory for lawn events. Capacity approximate — confirm."
+    },
+    {
+      "name": "Myanmar Event Park (MEP Mindama)",
+      "type": "outdoor / expo park",
+      "location": "Mindama Road, Mayangone, Yangon",
+      "capacity": {"banquet": null, "theatre": null, "cocktail": 10000},
+      "sqm": null, "ceiling_height_m": null,
+      "sales_contact": null, "email": null, "phone": null,
+      "price_signal": null,
+      "floorplan_status": "none", "floorplan_path": null,
+      "verified": false,
+      "notes": "Large-scale concerts, festivals, expos; full generator + infrastructure build required. Capacity approximate — confirm."
+    },
+    {
+      "name": "One Entertainment Park",
+      "type": "entertainment / concert",
+      "location": "Thingangyun, Yangon",
+      "capacity": {"banquet": null, "theatre": null, "cocktail": null},
+      "sqm": null, "ceiling_height_m": null,
+      "sales_contact": null, "email": null, "phone": null,
+      "price_signal": null,
+      "floorplan_status": "none", "floorplan_path": null,
+      "verified": false,
+      "notes": "Concert/entertainment complex — needs full fact-find (event kit + floor plans)."
+    }
+  ]
+}
