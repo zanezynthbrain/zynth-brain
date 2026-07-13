@@ -83,10 +83,15 @@ async def _run_workflow(
 async def _post_init(application: Application) -> None:
     """Start the APScheduler once the asyncio event loop is running."""
     from scheduler import build_scheduler
+    from utils.fx import refresh_rates
     settings = get_settings()
     scheduler = build_scheduler(settings)
     scheduler.start()
     application.bot_data["scheduler"] = scheduler
+    try:
+        await refresh_rates()  # best-effort live FX at startup
+    except Exception:
+        pass
     logger.info(
         "ZYNTH Scheduler started — brief at %02d:%02d, EOD at %02d:00 Yangon time",
         settings.daily_brief_hour,
@@ -156,7 +161,8 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/proposal &lt;brief&gt; — FULL client-ready proposal as a Word doc 📄\n"
         "/proposals — Browse proposal pool stats\n\n"
         "<b>Knowledge Base:</b>\n"
-        "/kb — Which business knowledge files the agents are using\n\n"
+        "/kb — Which business knowledge files the agents are using\n"
+        "/fx — MMK market rates used in every proposal (/fx set usd 4290 4400)\n\n"
         "<b>Approvals:</b>\n"
         "/approve — Confirm CEO action items\n"
         "/help — This message\n\n"
@@ -835,9 +841,60 @@ async def cmd_proposal(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         caption += "\n\nSave to Google Drive from here with one tap 📁"
         with open(path, "rb") as f:
             await update.message.reply_document(document=f, filename=path.name, caption=caption)
+
+        # Email the document too — inbox is the MD's filing cabinet
+        from utils.mailer import send_email
+        emailed = await send_email(
+            subject=f"ZYNTH Proposal: {data.get('title', 'Untitled')}",
+            body=(
+                f"Proposal generated from brief: {brief}\n"
+                f"Estimated value: {data.get('estimated_value', 'n/a')}\n\n"
+                "Document attached. — ZYNTH AI"
+            ),
+            attachments=[path],
+        )
+        if emailed:
+            await update.message.reply_html("📧 Also sent to your email.")
     except Exception as exc:
         logger.exception("Master proposal failed: %s", exc)
         await update.message.reply_html(f"❌ Proposal failed: {exc}")
+
+
+async def cmd_fx(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Show or set the MMK market exchange rates used in every proposal.
+
+    /fx                     → refresh (live if possible) and show current rates
+    /fx set usd 4290 4400   → manual update (buy sell)
+    """
+    if not _security_check(update):
+        return
+    from utils.fx import get_rates, refresh_rates, set_manual
+
+    args = [a.lower() for a in (context.args or [])]
+    if len(args) == 4 and args[0] == "set":
+        try:
+            cur, buy, sell = args[1].upper(), float(args[2].replace(",", "")), float(args[3].replace(",", ""))
+        except ValueError:
+            await update.message.reply_html("Usage: <code>/fx set usd 4290 4400</code>")
+            return
+        data = set_manual(cur, buy, sell)
+        await update.message.reply_html(
+            f"✅ <b>{cur}/MMK updated</b> — buy {buy:,.0f} · sell {sell:,.0f}\n"
+            "All proposals now use this market rate."
+        )
+        return
+
+    live, data = await refresh_rates()
+    lines = [
+        f"• <b>{cur}</b>/MMK — buy {v['buy']:,.0f} · sell {v['sell']:,.0f}"
+        for cur, v in data.get("rates", {}).items()
+    ]
+    await update.message.reply_html(
+        "💱 <b>MMK Market Rates</b> (proposals use these — never the CBM rate)\n\n"
+        + "\n".join(lines)
+        + f"\n\nSource: {data.get('source')}\nUpdated: {data.get('updated')}"
+        + ("" if live else "\n\n⚠️ Live fetch unavailable — update manually anytime:\n<code>/fx set usd 4290 4400</code>")
+    )
 
 
 async def cmd_kb(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -964,6 +1021,9 @@ async def _chat_reply(update: Update, context: ContextTypes.DEFAULT_TYPE, text: 
     if knowledge:
         system += knowledge
 
+    from utils.fx import rates_block
+    system += rates_block()
+
     ignite_line = CEOAgent._ignite_countdown()
     if ignite_line:
         system += f"\n\nToday's context: {ignite_line}"
@@ -1023,6 +1083,7 @@ def main() -> None:
     app.add_handler(CommandHandler("proposals", cmd_proposals))
     app.add_handler(CommandHandler("generate", cmd_generate))
     app.add_handler(CommandHandler("proposal", cmd_proposal))
+    app.add_handler(CommandHandler("fx", cmd_fx))
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_handler))

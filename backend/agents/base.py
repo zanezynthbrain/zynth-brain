@@ -54,11 +54,13 @@ class BaseAgent(ABC):
         self.logger = get_logger(f"agents.{self.agent_key}")
 
     def build_system_prompt(self) -> str:
-        """Compose the agent's persona: brand voice + specific role + business knowledge."""
+        """Compose the agent's persona: brand voice + role + knowledge + market FX."""
         prompt = f"{ZYNTH_BRAND.as_system_prompt_block()}\n\nYour specific role: {self.role_description}"
         knowledge = load_knowledge()
         if knowledge:
             prompt += knowledge
+        from utils.fx import rates_block
+        prompt += rates_block()
         return prompt
 
     @abstractmethod
