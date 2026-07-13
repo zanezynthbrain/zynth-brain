@@ -30,7 +30,7 @@ def has_email() -> bool:
 def _send_sync(subject: str, body: str, attachments: list[Path]) -> None:
     s = get_settings()
     msg = EmailMessage()
-    msg["From"] = s.smtp_user
+    msg["From"] = s.email_from or s.smtp_user
     msg["To"] = s.email_to or s.smtp_user
     msg["Subject"] = subject
     msg.set_content(body)
