@@ -893,12 +893,12 @@ async def voice_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     if not voice:
         return
 
-    from utils.transcribe import has_transcription, transcribe_voice
+    from utils.transcribe import has_transcription, transcribe_voice, TranscriptionError
 
     if not has_transcription():
         await update.message.reply_html(
             "🎙 <b>Voice needs a one-time (free) setup.</b>\n\n"
-            "1. Go to <b>aistudio.google.com</b> → Get API key (free)\n"
+            "1. Go to <b>aistudio.google.com/app/apikey</b> → Create API key (free)\n"
             "2. Railway → Variables → add <code>GEMINI_API_KEY</code>\n\n"
             "Then send your voice message again — Burmese and English both work."
         )
@@ -910,9 +910,12 @@ async def voice_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
         audio = bytes(await tg_file.download_as_bytearray())
         mime = getattr(voice, "mime_type", None) or "audio/ogg"
         text = await transcribe_voice(audio, mime_type=mime)
+    except TranscriptionError as exc:
+        await update.message.reply_html(f"❌ {exc}")
+        return
     except Exception as exc:
         logger.exception("Voice transcription failed: %s", exc)
-        await update.message.reply_html(f"❌ Couldn't transcribe that voice message: {exc}")
+        await update.message.reply_html("❌ Couldn't transcribe that voice message — check the logs.")
         return
 
     if not text:
