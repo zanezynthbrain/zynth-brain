@@ -1,40 +1,58 @@
 """Business knowledge base — feeds real ZYNTH context into every agent.
 
-Drop Markdown files into ``backend/knowledge/`` (exported from Obsidian or
-written by hand) and every agent automatically reads them as part of its
-system prompt. This is how the AI team knows ZYNTH's actual services,
-clients, SOPs, and market position instead of guessing.
+Three sources, all Markdown, merged at read time:
+  1. backend/knowledge/*.md      — curated agency knowledge (baked in image)
+  2. vault/**/*.md               — Obsidian vault synced via Obsidian Git
+                                    (reaches the bot on the next redeploy)
+  3. outputs/proposal_pool/vault/**/*.md — instant /note captures, persisted
+                                    by the daily pool commit (live, no redeploy)
+
+Every agent reads all three as part of its system prompt, so the AI team
+knows ZYNTH's actual services, clients, SOPs, notes, and market position
+instead of guessing.
 
 Rules:
-  - Only ``*.md`` files are loaded.
-  - ``README.md`` is documentation for humans — always skipped.
-  - Files still containing the ``<!-- TEMPLATE -->`` marker are skipped,
-    so unfilled starter templates never pollute agent prompts.
-  - Each file is capped and the total block is budgeted so knowledge
-    never blows up token costs.
+  - Only ``*.md`` files. ``README.md`` is skipped (human docs).
+  - Files containing ``<!-- TEMPLATE -->`` in the first 300 chars are skipped.
+  - Per-file and total char budgets keep token cost bounded.
 """
 
 from __future__ import annotations
 
 from pathlib import Path
 
-# knowledge/ sits next to agents/ and utils/ inside backend/, so this
-# resolves correctly both locally and in the Docker image (/app/knowledge).
-KNOWLEDGE_DIR = Path(__file__).resolve().parent.parent / "knowledge"
+_BACKEND = Path(__file__).resolve().parent.parent
+KNOWLEDGE_DIR = _BACKEND / "knowledge"
+# Obsidian Git sync target and instant-capture folder. Two vault-root
+# candidates cover both layouts: local repo (../vault next to backend/) and
+# the Docker image (backend copied to /app, vault copied to /app/vault).
+VAULT_DIRS = [
+    _BACKEND.parent / "vault",   # local: zynth-brain/vault
+    _BACKEND / "vault",          # docker: /app/vault
+    Path("outputs/proposal_pool/vault"),  # instant /note captures
+]
 
 _TEMPLATE_MARKER = "<!-- TEMPLATE -->"
 _PER_FILE_CHAR_CAP = 6_000
-_TOTAL_CHAR_BUDGET = 24_000
+_TOTAL_CHAR_BUDGET = 30_000
+_VAULT_PER_FILE_CAP = 2_500  # notes are many + small; keep each tight
 
 _cache: str | None = None
 
 
-def list_knowledge_files() -> list[tuple[str, int, bool]]:
-    """Return (filename, size_bytes, active) for every .md file in knowledge/."""
-    if not KNOWLEDGE_DIR.is_dir():
+def _iter_md(root: Path, recursive: bool) -> list[Path]:
+    if not root.is_dir():
         return []
+    return sorted(root.rglob("*.md") if recursive else root.glob("*.md"))
+
+
+def list_knowledge_files() -> list[tuple[str, int, bool]]:
+    """Return (name, size_bytes, active) for curated + vault markdown files."""
     entries: list[tuple[str, int, bool]] = []
-    for path in sorted(KNOWLEDGE_DIR.glob("*.md")):
+    paths = _iter_md(KNOWLEDGE_DIR, recursive=False)
+    for root in VAULT_DIRS:
+        paths += _iter_md(root, recursive=True)
+    for path in paths:
         try:
             text = path.read_text(encoding="utf-8")
         except Exception:
@@ -52,8 +70,10 @@ def load_knowledge(force: bool = False) -> str:
 
     sections: list[str] = []
     total = 0
-    if KNOWLEDGE_DIR.is_dir():
-        for path in sorted(KNOWLEDGE_DIR.glob("*.md")):
+
+    def _add(paths: list[Path], cap: int) -> None:
+        nonlocal total
+        for path in paths:
             if path.name.lower() == "readme.md":
                 continue
             try:
@@ -62,12 +82,16 @@ def load_knowledge(force: bool = False) -> str:
                 continue
             if not text or _TEMPLATE_MARKER in text[:300]:
                 continue
-            if len(text) > _PER_FILE_CHAR_CAP:
-                text = text[:_PER_FILE_CHAR_CAP] + "\n[...truncated]"
+            if len(text) > cap:
+                text = text[:cap] + "\n[...truncated]"
             if total + len(text) > _TOTAL_CHAR_BUDGET:
-                break
+                return
             sections.append(f"### {path.stem.replace('_', ' ').title()}\n{text}")
             total += len(text)
+
+    _add(_iter_md(KNOWLEDGE_DIR, recursive=False), _PER_FILE_CHAR_CAP)
+    for root in VAULT_DIRS:
+        _add(_iter_md(root, recursive=True), _VAULT_PER_FILE_CAP)
 
     _cache = (
         "\n\n--- ZYNTH BUSINESS KNOWLEDGE (real internal context — always use this "

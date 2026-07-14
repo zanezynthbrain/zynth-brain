@@ -75,6 +75,18 @@ sponsorship-funded, ZYNTH-owned IP.
 - Every external send (email/outreach) is draft-only → MD confirms.
 - Keep this file updated at the end of every session.
 
+## Obsidian ↔ bot bridge
+- Knowledge loader (utils/knowledge.py) now reads THREE sources: backend/
+  knowledge/*.md (curated) + vault/**/*.md (Obsidian Git sync target, repo
+  root, copied into the image) + outputs/proposal_pool/vault/**/*.md
+  (instant /note captures, pool-persisted, live without redeploy).
+- `/note <text or voice>` → cheap model titles/categorises → written to the
+  live vault folder → agents use it immediately. Zero laptop setup.
+- Bulk path: MD installs Obsidian Git plugin → syncs vault into repo-root
+  `vault/` → reaches bot on next redeploy. Setup documented in vault/README.md.
+- Dockerfile copies vault/ into the image; loader checks both local and
+  /app layouts. Notes capped at 2.5k chars each; total budget 30k.
+
 ## Operating-system layer (bot carries the playbook rhythm)
 - `utils/business.py` — Week 0 audit answers + 12-metric master scorecard,
   persisted to outputs/proposal_pool/business_state.json (survives redeploys).
