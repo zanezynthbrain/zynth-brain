@@ -160,14 +160,17 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/generate — Quick idea drafts (cheap model, fills the pool)\n"
         "/proposal &lt;brief&gt; — FULL client-ready proposal as a Word doc 📄\n"
         "/proposals — Browse proposal pool stats\n\n"
+        "<b>Databases (collect real data daily):</b>\n"
+        "/lead — Client leads &amp; BD pipeline (/lead add · list · stage)\n"
+        "/vendor — Supplier database, all categories (/vendor add · search)\n"
+        "/venue — Yangon venue DB (search · add · outreach)\n\n"
         "<b>Run the Agency (playbook):</b>\n"
         "/audit — Week 0 Honest Audit: find your starting line\n"
         "/scorecard — 12-metric master scorecard (/scorecard set mrr 12000)\n\n"
         "<b>Knowledge Base:</b>\n"
         "/note — Quick-capture a note to the vault (agents use it instantly)\n"
         "/kb — Which business knowledge files the agents are using\n"
-        "/fx — MMK market rates used in every proposal (/fx set usd 4290 4400)\n"
-        "/venue — Yangon venue DB (search · add · outreach email drafts)\n\n"
+        "/fx — MMK market rates used in every proposal (/fx set usd 4290 4400)\n\n"
         "<b>Approvals:</b>\n"
         "/approve — Confirm CEO action items\n"
         "/help — This message\n\n"
@@ -1273,6 +1276,182 @@ async def _run_audit_capture(update: Update, text: str) -> None:
     )
 
 
+async def _send_long(update: Update, text: str, html: bool = True) -> None:
+    """Send a long message split on paragraph/line boundaries (never mid-word)."""
+    limit = 3800
+    if len(text) <= limit:
+        await (update.message.reply_html(text) if html else update.message.reply_text(text))
+        return
+    chunk = ""
+    for para in text.split("\n\n"):
+        block = para + "\n\n"
+        if len(chunk) + len(block) > limit and chunk:
+            await (update.message.reply_html(chunk.rstrip()) if html else update.message.reply_text(chunk.rstrip()))
+            chunk = ""
+        if len(block) > limit:  # a single huge paragraph — hard-split on lines
+            for line in block.split("\n"):
+                if len(chunk) + len(line) + 1 > limit and chunk:
+                    await (update.message.reply_html(chunk.rstrip()) if html else update.message.reply_text(chunk.rstrip()))
+                    chunk = ""
+                chunk += line + "\n"
+        else:
+            chunk += block
+    if chunk.strip():
+        await (update.message.reply_html(chunk.rstrip()) if html else update.message.reply_text(chunk.rstrip()))
+
+
+_VENDOR_ADD_SCHEMA = {
+    "type": "object",
+    "required": ["category", "company"],
+    "properties": {
+        "category": {"type": "string", "description": "MC/Emcee, DJ/Music, Lighting/AV, Staging, LED, Talent/Models, Catering, Florist/Decor, Photography, Videography, Printing, Fabrication, or other"},
+        "company": {"type": "string"},
+        "tier": {"type": ["string", "null"], "description": "Premium / Mid / Budget"},
+        "best_for": {"type": ["string", "null"]},
+        "rate": {"type": ["string", "null"]},
+        "lead_time": {"type": ["string", "null"]},
+        "contact_person": {"type": ["string", "null"]},
+        "phone": {"type": ["string", "null"]},
+        "email": {"type": ["string", "null"]},
+        "notes": {"type": ["string", "null"]},
+    },
+}
+
+
+async def cmd_vendor(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Supplier/vendor database — real data for BD and event sourcing.
+
+    /vendor                       → category summary
+    /vendor catering              → search a category / keyword
+    /vendor add <free text>       → AI structures a new supplier into the DB
+    """
+    if not _security_check(update):
+        return
+    from utils.suppliers import search, add_supplier, format_supplier, stats, categories
+
+    args = list(context.args or [])
+    sub = args[0].lower() if args else ""
+
+    if sub == "add":
+        raw = " ".join(args[1:]).strip()
+        if not raw:
+            await update.message.reply_html(
+                "Add a supplier in free text — I'll structure it:\n"
+                "<code>/vendor add Aung Sound, PA + lighting rental Yangon, MMK 800k-3M, "
+                "contact Ko Aung 09-771234567, mid-tier, 2 week lead</code>"
+            )
+            return
+        try:
+            data, _ = await LLMClient().complete_json(
+                system="Extract supplier details into the schema. Keep the founder's real numbers/contacts. Unknown = null.",
+                user_prompt=f"Supplier: {raw}",
+                schema=_VENDOR_ADD_SCHEMA, model=get_settings().fallback_model_name,
+            )
+        except Exception as exc:
+            await update.message.reply_html(f"❌ Couldn't parse: {exc}")
+            return
+        add_supplier(data)
+        await update.message.reply_html("✅ Added to the supplier database:\n\n" + format_supplier(data))
+        return
+
+    if not args:
+        await update.message.reply_html(
+            "🧰 <b>Supplier / Vendor Database</b>\n\n" + stats() +
+            "\n\nSearch: <code>/vendor catering</code> · <code>/vendor LED</code>\n"
+            "Add real data: <code>/vendor add ...</code>"
+        )
+        return
+
+    results = search(" ".join(args))
+    if not results:
+        await update.message.reply_html(
+            "No suppliers matched. Categories:\n" + "\n".join(f"• {c}" for c in categories())
+        )
+        return
+    header = f"🧰 <b>Suppliers ({len(results)})</b>\n\n"
+    await _send_long(update, header + "\n\n".join(format_supplier(v) for v in results[:15]))
+
+
+_LEAD_ADD_SCHEMA = {
+    "type": "object",
+    "required": ["company"],
+    "properties": {
+        "company": {"type": "string"},
+        "contact_person": {"type": ["string", "null"]},
+        "phone": {"type": ["string", "null"]},
+        "email": {"type": ["string", "null"]},
+        "industry": {"type": ["string", "null"]},
+        "market": {"type": ["string", "null"], "description": "Myanmar / Singapore"},
+        "source": {"type": ["string", "null"], "description": "how the lead came in"},
+        "value_sgd": {"type": ["number", "null"], "description": "estimated deal value in SGD"},
+        "next_step": {"type": ["string", "null"]},
+        "notes": {"type": ["string", "null"]},
+    },
+}
+
+
+async def cmd_lead(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Client leads / BD pipeline — collect real data day by day.
+
+    /lead                         → pipeline summary
+    /lead list [stage]            → list leads (optionally by stage)
+    /lead add <free text>         → AI structures a new lead
+    /lead stage <company> <stage> → move a lead (new/contacted/meeting/proposal/won/lost)
+    """
+    if not _security_check(update):
+        return
+    from utils.leads import add_lead, update_stage, search, format_lead, pipeline_stats, STAGES
+
+    args = list(context.args or [])
+    sub = args[0].lower() if args else ""
+
+    if sub == "add":
+        raw = " ".join(args[1:]).strip()
+        if not raw:
+            await update.message.reply_html(
+                "Add a lead in free text (voice works too):\n"
+                "<code>/lead add KBZ Bank, fintech launch enquiry, contact U Aung 09-..., "
+                "~S$40k, met at event, next: send proposal</code>"
+            )
+            return
+        try:
+            data, _ = await LLMClient().complete_json(
+                system="Extract the sales lead into the schema. Keep real names/numbers. Unknown = null.",
+                user_prompt=f"Lead: {raw}",
+                schema=_LEAD_ADD_SCHEMA, model=get_settings().fallback_model_name,
+            )
+        except Exception as exc:
+            await update.message.reply_html(f"❌ Couldn't parse: {exc}")
+            return
+        lead_id = add_lead(data)
+        await update.message.reply_html(f"✅ Lead saved <i>[{lead_id}]</i>:\n\n{format_lead({**data, 'id': lead_id})}")
+        return
+
+    if sub == "stage" and len(args) >= 3:
+        target, stage = " ".join(args[1:-1]), args[-1].lower()
+        lead = update_stage(target, stage)
+        if not lead:
+            await update.message.reply_html(f"Couldn't move '{target}'. Stages: {', '.join(STAGES)}")
+            return
+        await update.message.reply_html(f"✅ {lead['company']} → <b>{stage}</b>")
+        return
+
+    if sub == "list":
+        stage = args[1].lower() if len(args) > 1 and args[1].lower() in STAGES else None
+        results = search(stage=stage)
+        if not results:
+            await update.message.reply_html("No leads yet. Add one: <code>/lead add ...</code>")
+            return
+        await _send_long(update, f"📇 <b>Leads ({len(results)})</b>\n\n" + "\n\n".join(format_lead(l) for l in results[:20]))
+        return
+
+    await update.message.reply_html(
+        pipeline_stats() +
+        "\n\n<code>/lead add ...</code> · <code>/lead list</code> · "
+        "<code>/lead stage KBZ proposal</code>"
+    )
+
+
 _NOTE_SCHEMA = {
     "type": "object",
     "required": ["title", "category", "body"],
@@ -1582,9 +1761,8 @@ async def _chat_reply(update: Update, context: ContextTypes.DEFAULT_TYPE, text: 
     history.append(("Chief of Staff", reply[:500]))
     del history[: max(0, len(history) - _CHAT_MAX_TURNS * 2)]
 
-    # Telegram messages cap at 4096 chars — send in plain-text chunks
-    for i in range(0, len(reply), 4000):
-        await update.message.reply_text(reply[i : i + 4000])
+    # Telegram caps at 4096 chars — split on paragraph/line boundaries, not mid-word
+    await _send_long(update, reply, html=False)
 
 
 def main() -> None:
@@ -1615,6 +1793,8 @@ def main() -> None:
     app.add_handler(CommandHandler("scorecard", cmd_scorecard))
     app.add_handler(CommandHandler("note", cmd_note))
     app.add_handler(CommandHandler("testemail", cmd_testemail))
+    app.add_handler(CommandHandler("vendor", cmd_vendor))
+    app.add_handler(CommandHandler("lead", cmd_lead))
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
     app.add_handler(CallbackQueryHandler(handle_event_callback, pattern="^evt_"))
