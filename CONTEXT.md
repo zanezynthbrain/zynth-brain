@@ -2,6 +2,10 @@
 
 > Purpose: any Claude session (or human) reads this first and knows exactly
 > where the project stands. Update every working session.
+>
+> **If the MD feels lost, point them to `NORTH_STAR.md` first.** The business
+> bible is `docs/playbook/00`–`08` (agency model, pricing, KPIs, 90-day
+> rollout). The tools serve that playbook; they are not the business.
 
 ## What ZYNTH is
 Digital marketing & events agency (www.zynth.asia), Myanmar + Singapore.
