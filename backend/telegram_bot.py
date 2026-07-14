@@ -1343,6 +1343,35 @@ async def _capture_note(update: Update, text: str) -> None:
     )
 
 
+async def cmd_testemail(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Free check that email delivery actually works (no LLM call)."""
+    if not _security_check(update):
+        return
+    from utils.mailer import has_email, send_email
+    if not has_email():
+        await update.message.reply_html(
+            "📧 Email not configured. Add <code>SMTP_USER</code> + "
+            "<code>SMTP_PASSWORD</code> (Google App Password) in Railway."
+        )
+        return
+    await update.message.reply_html("📧 Sending a test email…")
+    ok = await send_email(
+        subject="ZYNTH bot — email test ✅",
+        body="If you're reading this, email delivery from your ZYNTH bot works. — ZYNTH AI",
+    )
+    if ok:
+        await update.message.reply_html(
+            "✅ <b>Sent.</b> Check your inbox (and spam folder just in case). "
+            "Proposals and the weekly briefs will land here too."
+        )
+    else:
+        await update.message.reply_html(
+            "❌ <b>Send failed.</b> Usually the App Password: it must be the "
+            "16-character Google App Password (no spaces), and 2-Step Verification "
+            "must be ON for zane@zynth.asia. Re-check SMTP_PASSWORD in Railway."
+        )
+
+
 async def cmd_scorecard(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """The 12-metric agency master scorecard."""
     if not _security_check(update):
@@ -1585,6 +1614,7 @@ def main() -> None:
     app.add_handler(CommandHandler("audit", cmd_audit))
     app.add_handler(CommandHandler("scorecard", cmd_scorecard))
     app.add_handler(CommandHandler("note", cmd_note))
+    app.add_handler(CommandHandler("testemail", cmd_testemail))
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
     app.add_handler(CallbackQueryHandler(handle_event_callback, pattern="^evt_"))
