@@ -210,13 +210,20 @@ async def run_event_pipeline(
     )
 
     # Merge on the primary model — this is the client-facing artifact
+    from agents.master_proposal import load_exemplar
     section_list = "\n".join(f"{i}. {n}" for i, n in enumerate(SECTION_NAMES, 1))
+    exemplar = load_exemplar()
+    exemplar_block = (
+        f"\n===== GOLD-STANDARD REFERENCE (match this bar) =====\n{exemplar}\n"
+        "===== END REFERENCE =====\n\n" if exemplar else ""
+    )
     merge_prompt = (
         f"EVENT BRIEF: {brief}\n\n"
         f"CONCEPT TEAM OUTPUT:\n{concept_out}\n\n"
         f"DESIGN TEAM OUTPUT (exclude the blender_block from the client doc):\n"
         f"{ {k: v for k, v in design_out.items() if k != 'blender_block'} }\n\n"
-        f"OPERATIONS TEAM OUTPUT:\n{ops_out}\n\n"
+        f"OPERATIONS TEAM OUTPUT:\n{ops_out}\n"
+        f"{exemplar_block}"
         f"Merge into ONE cohesive, EXECUTABLE client-ready event proposal with "
         f"exactly these eleven sections:\n{section_list}\n\n"
         "Rules: resolve contradictions between teams in favour of feasibility. "

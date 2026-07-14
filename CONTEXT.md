@@ -71,6 +71,15 @@ sponsorship-funded, ZYNTH-owned IP.
 - Every external send (email/outreach) is draft-only → MD confirms.
 - Keep this file updated at the end of every session.
 
+## Proposal quality system
+- 11-section IGNITE-standard schema, table-heavy (docgen renders real .docx tables).
+- `backend/data/proposal_exemplar.md` = condensed IGNITE Master Proposal skeleton,
+  injected as a few-shot GOLD-STANDARD reference into /proposal and /event merge prompts.
+- Guided wizard: `/proposal` (no args) → buttons (type · market · scale) → one-line
+  detail → assembled brief. `/proposal <text>` still works for power use.
+- To raise the bar further, replace/extend proposal_exemplar.md with more approved
+  examples (keep it a skeleton, ~8-10k chars, to control per-call cost).
+
 ## MD setup still pending
 - Anthropic credit top-up (bot brain offline without it)
 - SMTP_USER + SMTP_PASSWORD (Google App Password) in Railway → activates email
