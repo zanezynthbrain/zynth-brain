@@ -9,5 +9,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the backend source
 COPY backend/ .
 
+# Obsidian-synced vault (repo root) → readable by the knowledge loader
+COPY vault/ ./vault/
+
 # Bot + embedded APScheduler run in one process
 CMD ["python", "telegram_bot.py"]

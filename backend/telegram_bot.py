@@ -164,6 +164,7 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/audit — Week 0 Honest Audit: find your starting line\n"
         "/scorecard — 12-metric master scorecard (/scorecard set mrr 12000)\n\n"
         "<b>Knowledge Base:</b>\n"
+        "/note — Quick-capture a note to the vault (agents use it instantly)\n"
         "/kb — Which business knowledge files the agents are using\n"
         "/fx — MMK market rates used in every proposal (/fx set usd 4290 4400)\n"
         "/venue — Yangon venue DB (search · add · outreach email drafts)\n\n"
@@ -1218,6 +1219,76 @@ async def _run_audit_capture(update: Update, text: str) -> None:
     )
 
 
+_NOTE_SCHEMA = {
+    "type": "object",
+    "required": ["title", "category", "body"],
+    "properties": {
+        "title": {"type": "string", "description": "short filename-safe title"},
+        "category": {"type": "string", "description": "clients / projects / events / ideas / market / general"},
+        "body": {"type": "string", "description": "the note as clean Markdown, keep the founder's facts"},
+    },
+}
+
+
+async def cmd_note(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Quick-capture a note into the vault — agents use it immediately.
+
+    /note KBZ wants a fintech launch in Nov, budget ~S$40k, contact U Aung
+    """
+    if not _security_check(update):
+        return
+    if not context.args:
+        await update.message.reply_html(
+            "🗒 <b>Quick note → vault</b>\n\n"
+            "Send <code>/note &lt;anything&gt;</code> (typing or voice) and I'll file it "
+            "so every agent can use it in proposals and briefs.\n\n"
+            "<code>/note Meliá sales contact Ma Hnin 09-..., ballroom held for 12 Nov</code>"
+        )
+        return
+    await _capture_note(update, " ".join(context.args))
+
+
+async def _capture_note(update: Update, text: str) -> None:
+    import json as _json
+    import re as _re
+    from pathlib import Path as _P
+    from datetime import datetime as _dt
+
+    llm = LLMClient()
+    try:
+        data, _ = await llm.complete_json(
+            system="File the founder's quick note. Pick a category and a short title. Keep their facts; clean it into Markdown.",
+            user_prompt=f"Note: {text}",
+            schema=_NOTE_SCHEMA,
+            model=get_settings().fallback_model_name,
+        )
+    except Exception:
+        # Even if the model fails, never lose the note — save raw.
+        data = {"title": "note", "category": "general", "body": text}
+
+    cat = _re.sub(r"[^a-z]", "", data.get("category", "general").lower()) or "general"
+    slug = _re.sub(r"[^\w-]", "_", data.get("title", "note").lower())[:50] or "note"
+    stamp = _dt.now().strftime("%Y%m%d_%H%M")
+    folder = _P("outputs/proposal_pool/vault") / cat
+    folder.mkdir(parents=True, exist_ok=True)
+    path = folder / f"{slug}_{stamp}.md"
+    path.write_text(
+        f"# {data.get('title', 'Note')}\n"
+        f"<!-- captured {stamp} via Telegram -->\n\n{data.get('body', text)}\n",
+        encoding="utf-8",
+    )
+    # Refresh the knowledge cache so the note is live right away
+    try:
+        from utils.knowledge import load_knowledge
+        load_knowledge(force=True)
+    except Exception:
+        pass
+    await update.message.reply_html(
+        f"🗒 <b>Filed:</b> {data.get('title')}  ·  <i>{cat}</i>\n"
+        "Agents can use it now. It's saved to the vault and syncs to the repo."
+    )
+
+
 async def cmd_scorecard(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """The 12-metric agency master scorecard."""
     if not _security_check(update):
@@ -1459,6 +1530,7 @@ def main() -> None:
     app.add_handler(CommandHandler("venue", cmd_venue))
     app.add_handler(CommandHandler("audit", cmd_audit))
     app.add_handler(CommandHandler("scorecard", cmd_scorecard))
+    app.add_handler(CommandHandler("note", cmd_note))
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
     app.add_handler(CallbackQueryHandler(handle_event_callback, pattern="^evt_"))
