@@ -98,5 +98,55 @@
     "month": "July",
     "created_at": "2026-07-13T12:26:26.588468",
     "file": "banking_and_fintech/july.json"
+  },
+  {
+    "proposal_id": "161c9ef9",
+    "title": "Luxury Apartment Launch — 'Summer Living' Digital Campaign",
+    "type": "Digital Campaign",
+    "industry": "Real Estate & Property",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T16:44:45.007623",
+    "file": "real_estate_and_property/july.json"
+  },
+  {
+    "proposal_id": "134de826",
+    "title": "Mid-Rise Development Launch Event — 'Home at the Heart of Yangon'",
+    "type": "Product Launch Event",
+    "industry": "Real Estate & Property",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T16:44:45.007623",
+    "file": "real_estate_and_property/july.json"
+  },
+  {
+    "proposal_id": "b3ca3135",
+    "title": "Real Estate Youth Influencer Campaign — 'First Home, First Dreams'",
+    "type": "Influencer Campaign",
+    "industry": "Real Estate & Property",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T16:44:45.007623",
+    "file": "real_estate_and_property/july.json"
+  },
+  {
+    "proposal_id": "bd770633",
+    "title": "Community Living Activation — 'Pop-Up Home Design Experience'",
+    "type": "Brand Activation",
+    "industry": "Real Estate & Property",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T16:44:45.007623",
+    "file": "real_estate_and_property/july.json"
+  },
+  {
+    "proposal_id": "1542fb76",
+    "title": "Real Estate Agent Rebranding Campaign — 'Modern Myanmar Property'",
+    "type": "Rebranding Campaign",
+    "industry": "Real Estate & Property",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T16:44:45.007623",
+    "file": "real_estate_and_property/july.json"
   }
 ]
