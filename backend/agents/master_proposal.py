@@ -9,10 +9,25 @@ document standard. The result is rendered to .docx by utils/docgen.py.
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 
 from agents.base import BaseAgent
 from utils.state import SharedMemory
+
+_EXEMPLAR_PATH = Path(__file__).resolve().parent.parent / "data" / "proposal_exemplar.md"
+_exemplar_cache: str | None = None
+
+
+def load_exemplar() -> str:
+    """The IGNITE gold-standard skeleton — few-shot target for every proposal."""
+    global _exemplar_cache
+    if _exemplar_cache is None:
+        try:
+            _exemplar_cache = _EXEMPLAR_PATH.read_text(encoding="utf-8")
+        except Exception:
+            _exemplar_cache = ""
+    return _exemplar_cache
 
 # IGNITE-standard structure: 11 sections, table-heavy, executable — not a
 # narrative pitch. Benchmarked against the ZYNTH IGNITE Master Proposal.
@@ -104,10 +119,17 @@ class MasterProposalAgent(BaseAgent):
     def _build_prompt(brief: str) -> str:
         from utils.venues import venues_block
         section_list = "\n".join(f"{i}. {name}" for i, name in enumerate(SECTION_NAMES, 1))
+        exemplar = load_exemplar()
+        exemplar_block = (
+            f"\n\n===== GOLD-STANDARD REFERENCE (match this bar) =====\n{exemplar}\n"
+            "===== END REFERENCE =====\n\n"
+            if exemplar else ""
+        )
         return (
             f"Write a COMPLETE, EXECUTABLE client-ready proposal for this brief:\n\n"
             f"BRIEF: {brief}\n"
-            f"{venues_block()}\n\n"
+            f"{venues_block()}"
+            f"{exemplar_block}"
             f"Produce exactly these eleven sections:\n{section_list}\n\n"
             "TABLE REQUIREMENTS (a document without these is a pitch, not a plan):\n"
             "- Sec 2: audience segment table (segment, demographics, channel behaviour) "

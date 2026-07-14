@@ -889,40 +889,22 @@ async def cmd_generate(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         await update.message.reply_html(f"❌ Generation failed: {exc}")
 
 
-async def cmd_proposal(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Write a FULL client-ready proposal and deliver it as a Word document.
-
-    Usage:
-        /proposal fintech app launch event in Yangon, 300 guests, November
-        /proposal rebranding campaign for a Singapore F&B chain, S$25k budget
-    """
-    if not _security_check(update):
-        return
-    if not context.args:
-        await update.message.reply_html(
-            "📄 <b>Full Proposal Writer</b>\n\n"
-            "Describe what you want in one line and I'll deliver a complete "
-            "8-section proposal as a Word document.\n\n"
-            "Examples:\n"
-            "<code>/proposal fintech app launch event Yangon 300 pax November</code>\n"
-            "<code>/proposal IGNITE sponsor pitch for a Myanmar bank</code>\n"
-            "<code>/proposal social media retainer for SG beauty clinic</code>\n\n"
-            "💡 Tip: you can also pick an idea from /proposals and describe it here."
-        )
-        return
-
-    brief = " ".join(context.args)
+async def _generate_proposal(update: Update, brief: str) -> None:
+    """Shared proposal generation: brief → docx → Telegram + email."""
     from agents.master_proposal import MasterProposalAgent
     from utils.docgen import build_proposal_docx
+    from utils.cost_tracker import get_cost_tracker
 
-    llm = LLMClient()
+    tracker = await get_cost_tracker()
+    sgd_before = (await tracker.today_summary()).get("sgd", 0.0)
+
     memory = SharedMemory(client_brief={"agency": "ZYNTH", "mode": "master_proposal"})
-    agent = MasterProposalAgent(llm_client=llm)
+    agent = MasterProposalAgent(llm_client=LLMClient())
 
     try:
         data = await _await_with_progress(
             update,
-            f"Writing full proposal: {brief[:70]}",
+            f"Writing full IGNITE-standard proposal: {brief[:60]}",
             agent.write_proposal(brief, memory),
         )
         path = build_proposal_docx(
@@ -931,14 +913,14 @@ async def cmd_proposal(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             market=data.get("market", ""),
             sections=data.get("sections", []),
         )
+        sgd_after = (await tracker.today_summary()).get("sgd", 0.0)
         caption = f"📄 {data.get('title', 'ZYNTH Proposal')}"
         if data.get("estimated_value"):
             caption += f"\n💰 Estimated value: {data['estimated_value']}"
-        caption += "\n\nSave to Google Drive from here with one tap 📁"
+        caption += f"\n💵 Cost ~S${max(sgd_after - sgd_before, 0):.2f}\n\nSave to Google Drive with one tap 📁"
         with open(path, "rb") as f:
             await update.message.reply_document(document=f, filename=path.name, caption=caption)
 
-        # Email the document too — inbox is the MD's filing cabinet
         from utils.mailer import send_email
         emailed = await send_email(
             subject=f"ZYNTH Proposal: {data.get('title', 'Untitled')}",
@@ -954,6 +936,72 @@ async def cmd_proposal(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     except Exception as exc:
         logger.exception("Master proposal failed: %s", exc)
         await update.message.reply_html(f"❌ Proposal failed: {exc}")
+
+
+# ── Guided proposal wizard (buttons → precise brief) ─────────────────────────
+_proposal_wizard: dict = {}
+
+_WIZ_TYPE = [
+    ("🎪 Event", "Event"), ("📣 Marketing Campaign", "Marketing Campaign"),
+    ("🤝 Sponsorship Pitch", "Sponsorship Pitch"), ("🚀 Product Launch", "Product Launch"),
+]
+_WIZ_MARKET = [("🇲🇲 Myanmar", "Myanmar"), ("🇸🇬 Singapore", "Singapore")]
+_WIZ_SCALE = [
+    ("Small (<100 / <S$5k)", "Small"), ("Mid (100-300 / S$5-20k)", "Mid"),
+    ("Large (300-800 / S$20-60k)", "Large"), ("Flagship (800+ / S$60k+)", "Flagship"),
+]
+
+
+def _wiz_buttons(options: list[tuple[str, str]], prefix: str) -> InlineKeyboardMarkup:
+    rows = [[InlineKeyboardButton(label, callback_data=f"{prefix}{val}")] for label, val in options]
+    return InlineKeyboardMarkup(rows)
+
+
+async def cmd_proposal(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Full IGNITE-standard proposal as a Word doc — free text OR guided buttons."""
+    if not _security_check(update):
+        return
+    if context.args:
+        await _generate_proposal(update, " ".join(context.args))
+        return
+    # No args → launch guided wizard for a precise brief
+    _proposal_wizard.clear()
+    await update.message.reply_html(
+        "📄 <b>Proposal Builder</b> — answer 3 quick taps, then one line of detail.\n\n"
+        "<b>1/3 · What type?</b>",
+        reply_markup=_wiz_buttons(_WIZ_TYPE, "pw_type_"),
+    )
+
+
+async def handle_proposal_wizard(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Button steps for the guided proposal builder."""
+    query = update.callback_query
+    await query.answer()
+    data = query.data or ""
+
+    if data.startswith("pw_type_"):
+        _proposal_wizard["type"] = data[len("pw_type_"):]
+        await query.edit_message_text(
+            f"Type: <b>{_proposal_wizard['type']}</b>\n\n<b>2/3 · Which market?</b>",
+            parse_mode="HTML", reply_markup=_wiz_buttons(_WIZ_MARKET, "pw_market_"),
+        )
+    elif data.startswith("pw_market_"):
+        _proposal_wizard["market"] = data[len("pw_market_"):]
+        await query.edit_message_text(
+            f"Type: <b>{_proposal_wizard['type']}</b> · Market: <b>{_proposal_wizard['market']}</b>\n\n"
+            "<b>3/3 · What scale?</b>",
+            parse_mode="HTML", reply_markup=_wiz_buttons(_WIZ_SCALE, "pw_scale_"),
+        )
+    elif data.startswith("pw_scale_"):
+        _proposal_wizard["scale"] = data[len("pw_scale_"):]
+        _proposal_wizard["awaiting_detail"] = True
+        await query.edit_message_text(
+            f"✅ <b>{_proposal_wizard['type']}</b> · <b>{_proposal_wizard['market']}</b> · "
+            f"<b>{_proposal_wizard['scale']}</b>\n\n"
+            "Now send one line of detail — client/industry, date, and anything specific:\n"
+            "<i>e.g. \"fintech app launch for KBZ, November, premium feel, Lotte Hotel\"</i>",
+            parse_mode="HTML",
+        )
 
 
 _VENUE_ADD_SCHEMA = {
@@ -1149,6 +1197,17 @@ async def chat_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     if not text:
         return
 
+    # If the proposal wizard is waiting for the detail line, assemble the brief
+    if _proposal_wizard.get("awaiting_detail"):
+        _proposal_wizard["awaiting_detail"] = False
+        brief = (
+            f"{_proposal_wizard.get('type', '')} proposal for the "
+            f"{_proposal_wizard.get('market', '')} market, "
+            f"{_proposal_wizard.get('scale', '')} scale. Details: {text}"
+        )
+        await _generate_proposal(update, brief)
+        return
+
     # If the MD just hit "Revise" on an event proposal, this message is feedback
     if _event_session.get("awaiting_feedback"):
         _event_session["awaiting_feedback"] = False
@@ -1305,6 +1364,7 @@ def main() -> None:
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
     app.add_handler(CallbackQueryHandler(handle_event_callback, pattern="^evt_"))
+    app.add_handler(CallbackQueryHandler(handle_proposal_wizard, pattern="^pw_"))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_handler))
     app.add_handler(MessageHandler(filters.VOICE | filters.AUDIO, voice_handler))
 
