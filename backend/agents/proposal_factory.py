@@ -219,10 +219,13 @@ class ProposalFactoryAgent(BaseAgent):
         prompt = self._build_prompt(industry, month, market)
         # Idea drafts are high-volume — route to the cheap fallback model.
         # The client-grade document comes from MasterProposalAgent instead.
+        # 4-5 full proposals need generous max_tokens or the JSON truncates
+        # mid-string (seen in proposal-pool run #6).
         from config import get_settings
         data, response = await self.llm.complete_json(
             system=system, user_prompt=prompt, schema=_BATCH_SCHEMA,
             model=get_settings().fallback_model_name,
+            max_tokens=8000,
         )
         await memory.record_tokens(response.input_tokens, response.output_tokens)
 
