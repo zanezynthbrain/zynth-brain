@@ -75,6 +75,20 @@ sponsorship-funded, ZYNTH-owned IP.
 - Every external send (email/outreach) is draft-only → MD confirms.
 - Keep this file updated at the end of every session.
 
+## Data collection layer (BD + sourcing, real records)
+- `utils/suppliers.py` + `backend/data/suppliers_mm.json` — structured
+  supplier/vendor DB across all categories (MC, DJ, Lighting, LED, Staging,
+  Talent, Catering, Florist, Photo, Video, Printing, Fabrication) with
+  company/tier/best_for/rate/lead_time/contact/phone/email/verified.
+  `/vendor` list|search|add (AI structures free text). Runtime adds →
+  outputs/proposal_pool/suppliers_extra.json (pool-persisted).
+- `utils/leads.py` — client leads / BD pipeline; `/lead` add|list|stage,
+  stages new→contacted→meeting→proposal→won/lost, open-value total.
+  Persisted to outputs/proposal_pool/leads.json. NOTE: NOVA /bd could later
+  auto-append qualified prospects here.
+- Telegram truncation fixed: `_send_long` splits on paragraph/line
+  boundaries (was hard-cutting at 4000 chars mid-word).
+
 ## Obsidian ↔ bot bridge
 - Knowledge loader (utils/knowledge.py) now reads THREE sources: backend/
   knowledge/*.md (curated) + vault/**/*.md (Obsidian Git sync target, repo
