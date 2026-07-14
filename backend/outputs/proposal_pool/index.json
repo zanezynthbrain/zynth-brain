@@ -148,5 +148,205 @@
     "month": "July",
     "created_at": "2026-07-14T16:44:45.007623",
     "file": "real_estate_and_property/july.json"
+  },
+  {
+    "proposal_id": "b29825a1",
+    "title": "School Holiday Family Dining Campaign — 'Summer Feast Moments'",
+    "type": "Seasonal Campaign",
+    "industry": "F&B & Restaurant",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T23:44:59.625081",
+    "file": "fandb_and_restaurant/july.json"
+  },
+  {
+    "proposal_id": "788740e5",
+    "title": "Restaurant Grand Reopening Event — 'Rebirth & Taste'",
+    "type": "Product Launch Event",
+    "industry": "F&B & Restaurant",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T23:44:59.625081",
+    "file": "fandb_and_restaurant/july.json"
+  },
+  {
+    "proposal_id": "63878281",
+    "title": "F&B Delivery Platform Activation — 'Order Now, Eat Better' Roadshow",
+    "type": "Brand Activation",
+    "industry": "F&B & Restaurant",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T23:44:59.625081",
+    "file": "fandb_and_restaurant/july.json"
+  },
+  {
+    "proposal_id": "14fc049d",
+    "title": "Restaurant Brand Refresh Campaign — 'Elevated Casual'",
+    "type": "Rebranding Campaign",
+    "industry": "F&B & Restaurant",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T23:44:59.625081",
+    "file": "fandb_and_restaurant/july.json"
+  },
+  {
+    "proposal_id": "d48f6296",
+    "title": "F&B Digital Lead Generation Campaign — 'Corporate Catering Intelligence'",
+    "type": "Lead Generation Campaign",
+    "industry": "F&B & Restaurant",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T23:44:59.625081",
+    "file": "fandb_and_restaurant/july.json"
+  },
+  {
+    "proposal_id": "479e2fd0",
+    "title": "Mid-Year Clearance Flash Sale Campaign — Digital-First Retail Push",
+    "type": "Digital Campaign",
+    "industry": "Retail & Fashion",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T23:45:39.534974",
+    "file": "retail_and_fashion/july.json"
+  },
+  {
+    "proposal_id": "9076c678",
+    "title": "Mid-Year Fashion & Lifestyle Festival — 2-Day Pop-Up Activation",
+    "type": "Brand Activation",
+    "industry": "Retail & Fashion",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T23:45:39.534974",
+    "file": "retail_and_fashion/july.json"
+  },
+  {
+    "proposal_id": "ed47a1dc",
+    "title": "Brand Refresh Campaign — Relaunch with New Visual Identity & Storytelling",
+    "type": "Rebranding Campaign",
+    "industry": "Retail & Fashion",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T23:45:39.534974",
+    "file": "retail_and_fashion/july.json"
+  },
+  {
+    "proposal_id": "ff877085",
+    "title": "School Holiday Fashion Lookbook & Influencer Content Series",
+    "type": "Influencer Campaign",
+    "industry": "Retail & Fashion",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T23:45:39.534974",
+    "file": "retail_and_fashion/july.json"
+  },
+  {
+    "proposal_id": "957be71b",
+    "title": "Summer Fashion Startup Launch — 360° Campaign (Event + Digital + PR)",
+    "type": "Product Launch Event",
+    "industry": "Retail & Fashion",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T23:45:39.534974",
+    "file": "retail_and_fashion/july.json"
+  },
+  {
+    "proposal_id": "7a058fd6",
+    "title": "Summer Property Hunt: Mid-Market Digital Campaign for First-Time Buyers",
+    "type": "Digital Campaign",
+    "industry": "Real Estate & PropTech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-14T23:46:40.811681",
+    "file": "real_estate_and_proptech/july.json"
+  },
+  {
+    "proposal_id": "eecefc24",
+    "title": "Urban Oasis: PropTech Startup Product Launch Event (120–150 pax)",
+    "type": "Product Launch Event",
+    "industry": "Real Estate & PropTech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-14T23:46:40.811681",
+    "file": "real_estate_and_proptech/july.json"
+  },
+  {
+    "proposal_id": "4d309556",
+    "title": "Back-to-School Property Upgrade: Parent-Focused Influencer Campaign",
+    "type": "Influencer Campaign",
+    "industry": "Real Estate & PropTech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-14T23:46:40.811681",
+    "file": "real_estate_and_proptech/july.json"
+  },
+  {
+    "proposal_id": "3e436009",
+    "title": "Urban Living Expo 2024: Multi-Developer Trade Show & Brand Activation",
+    "type": "Trade Show / Exhibition",
+    "industry": "Real Estate & PropTech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-14T23:46:40.811681",
+    "file": "real_estate_and_proptech/july.json"
+  },
+  {
+    "proposal_id": "eb5bf271",
+    "title": "PropTech Thought Leadership: Executive Content & Personal Branding Series",
+    "type": "Seasonal Campaign",
+    "industry": "Real Estate & PropTech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-14T23:46:40.811681",
+    "file": "real_estate_and_proptech/july.json"
+  },
+  {
+    "proposal_id": "150a4789",
+    "title": "School Holiday Family Dining Campaign – 'July Feast Fest'",
+    "type": "Seasonal Campaign",
+    "industry": "F&B & Restaurant",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-14T23:47:26.379038",
+    "file": "fandb_and_restaurant/july.json"
+  },
+  {
+    "proposal_id": "1ee2fd6d",
+    "title": "Restaurant Rebranding Launch Event – 'Taste of Tomorrow'",
+    "type": "Product Launch Event",
+    "industry": "F&B & Restaurant",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-14T23:47:26.379038",
+    "file": "fandb_and_restaurant/july.json"
+  },
+  {
+    "proposal_id": "3f88d265",
+    "title": "Social Media Growth Sprint – 'Viral Dish Challenge' TikTok Campaign",
+    "type": "Digital Campaign",
+    "industry": "F&B & Restaurant",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-14T23:47:26.379038",
+    "file": "fandb_and_restaurant/july.json"
+  },
+  {
+    "proposal_id": "e78f9b24",
+    "title": "Mid-Market Restaurant F&B Trade Activation – 'July Suppliers Networking Summit'",
+    "type": "Brand Activation",
+    "industry": "F&B & Restaurant",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-14T23:47:26.379038",
+    "file": "fandb_and_restaurant/july.json"
+  },
+  {
+    "proposal_id": "ac6432d6",
+    "title": "Restaurant Group Email & SEO Retainer – 'Growth Momentum Q3'",
+    "type": "Lead Generation Campaign",
+    "industry": "F&B & Restaurant",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-14T23:47:26.379038",
+    "file": "fandb_and_restaurant/july.json"
   }
 ]

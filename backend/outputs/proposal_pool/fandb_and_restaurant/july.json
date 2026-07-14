@@ -1,0 +1,526 @@
+[
+  {
+    "title": "School Holiday Family Dining Campaign — 'Summer Feast Moments'",
+    "type": "Seasonal Campaign",
+    "objective": "Drive family dining footfall during July school holidays by positioning the restaurant as the go-to venue for affordable, shareable meal experiences. Target 400 new family visits, average spend MMK 150K per visit.",
+    "target_audience": "Parents (25–45) and school-age children (6–18) in Yangon with household income >MMK 3M/month; value family time and casual dining.",
+    "key_activities": [
+      "Design 3 seasonal menu items (kids-friendly, shareables, Instagram-worthy plating)",
+      "Create 12 organic social posts (carousel, Reels, Stories) with family-dining narrative and menu photography",
+      "Run 10-day Meta paid campaign (carousel ads + video) targeting parents 25–45 in Yangon with holiday messaging",
+      "Partner with 4 local parenting influencers (50K–200K followers) for 2 Reels each (unboxing meal, family moments)",
+      "In-store promotion: printed vouchers ('Bring this post to get 15% off kids meal'), table tents, staff training",
+      "Weekly email newsletter to loyalty members (if database exists; if not, collect on-site)"
+    ],
+    "budget_range": {
+      "min": 8500000,
+      "max": 12500000,
+      "currency": "MMK"
+    },
+    "timeline_weeks": 4,
+    "kpis": [
+      "400 new family visits (tracked via voucher redemption + till data)",
+      "1,200 new social followers",
+      "12% average engagement rate on paid carousel ads",
+      "18% CTR on email newsletter (if applicable)",
+      "15 influencer Reels with combined 250K+ impressions"
+    ],
+    "zynth_services": [
+      "Social Media Management",
+      "Content Creation",
+      "Paid Ads",
+      "Influencer Marketing",
+      "Photography & Video"
+    ],
+    "why_now": "July is peak school-holiday season in Myanmar; families actively search for dining experiences. Parents have disposable income and time to dine out. This is the last major holiday before school resumes—urgency works.",
+    "deliverables": [
+      "3 new seasonal menu items with photography & copywriting",
+      "12 organic social posts (mix of Reels, carousels, Stories) + 8 email newsletter templates",
+      "1 paid Meta campaign (10-day run, 2 ad variants, carousel + video, MMK 2M ad spend)",
+      "4 influencer partnership briefs + content calendar",
+      "In-store collateral: 200 printed vouchers, 20 table tents, staff briefing document",
+      "Post-campaign analytics report (footfall lift %, revenue impact, ROAS)"
+    ],
+    "estimated_value_sgd": 2800,
+    "proposal_id": "b29825a1",
+    "industry": "F&B & Restaurant",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T23:44:59.625081"
+  },
+  {
+    "title": "Restaurant Grand Reopening Event — 'Rebirth & Taste'",
+    "type": "Product Launch Event",
+    "objective": "Host an exclusive 150-person grand reopening dinner showcasing the restaurant's refreshed menu, renovated space, and new brand identity. Drive PR coverage, social buzz, and retain existing customer base while acquiring VIP diners.",
+    "target_audience": "High-net-worth individuals (HNI) aged 30–60, food media, influencers, corporate decision-makers, and loyal existing patrons in Yangon.",
+    "key_activities": [
+      "Venue setup: seating for 150 (round tables, renovated dining space), full AV (stage, LED screens, PA)",
+      "3-course tasting menu developed with chef; wine pairings curated",
+      "Live jazz duo (2 hrs) during cocktail + dinner service",
+      "Welcome remarks by owner/chef; menu storytelling narrative",
+      "Professional event photography (400+ shots) + video recap (3–5 min highlight film)",
+      "Post-event PR: media pitch to food journalists, lifestyle press (3–5 outlets)",
+      "Guest list management (RSVP tracking, dietary requirements, seating plan)"
+    ],
+    "budget_range": {
+      "min": 18000000,
+      "max": 28000000,
+      "currency": "MMK"
+    },
+    "timeline_weeks": 6,
+    "kpis": [
+      "150 confirmed attendees (90%+ RSVP rate)",
+      "5+ media mentions (print/online)",
+      "500 event video views (YouTube + social)",
+      "2,000+ social impressions from attendee posts (#RestaurantName)",
+      "25 new VIP customer bookings within 30 days of event"
+    ],
+    "zynth_services": [
+      "Event Management",
+      "Content Creation",
+      "PR & Media",
+      "Photography & Video",
+      "Social Media Management"
+    ],
+    "why_now": "July soft-season timing means better vendor availability and catering slots. Reopening in summer captures holiday travelers and entertainment-seeking HNIs. Perfect moment for media coverage before August business travel season.",
+    "deliverables": [
+      "Full run-of-show document (timeline, seating plan, menu card, speaker notes)",
+      "Vendor contracts: catering (1 menu option, 150 pax), live band (3–4 hrs), AV (PA, basic staging, LED screens), photography/video",
+      "Catering brief: 3-course tasting menu concept + dietary requirement form",
+      "Invitation design (digital + print): 200 invites, 3 reminder emails",
+      "Day-of coordination: guest check-in, dietary management, AV ops, timeline management",
+      "1 professional event video (3–5 min highlight film, color-graded)",
+      "400+ edited event photographs (organized by course/activity)",
+      "3 PR pitches to lifestyle journalists + follow-up",
+      "Post-event report: attendance, media coverage summary, attendee sentiment analysis"
+    ],
+    "estimated_value_sgd": 6500,
+    "proposal_id": "788740e5",
+    "industry": "F&B & Restaurant",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T23:44:59.625081"
+  },
+  {
+    "title": "F&B Delivery Platform Activation — 'Order Now, Eat Better' Roadshow",
+    "type": "Brand Activation",
+    "objective": "Launch or amplify restaurant presence on a major delivery platform (Grab, FoodPanda, Zomato) via a 3-site roadshow in high-traffic areas (Junction City, Parkson, Chinatown). Drive platform orders, app downloads, and customer acquisition across youth and working professionals.",
+    "target_audience": "Urban Yangon residents aged 18–40 (students, young professionals, office workers) with smartphone access and delivery app familiarity; monthly food spend >MMK 50K on delivery.",
+    "key_activities": [
+      "3 roadshow sites (Junction City, Parkson, Chinatown market): each 3 days, 4 hrs/day",
+      "Booth setup: sampling station (3–4 signature dishes), brand signage, QR codes (app download incentive)",
+      "Staff training: 6–8 brand ambassadors (rotating), product knowledge, sampling etiquette",
+      "Sampling logistics: 300+ portions per site (900 total), cold storage, plating setup",
+      "Digital promotion: 15 TikTok/Instagram Reels (user-generated, on-site moments, before/after reviews)",
+      "Influencer attendance: 2 mid-tier food influencers (100K–300K followers) at 1–2 sites for Reel creation",
+      "Promotional mechanics: QR-code coupon (15% off first delivery order), app-exclusive discounts",
+      "Post-activation email/SMS: 500+ email addresses captured for follow-up nurture"
+    ],
+    "budget_range": {
+      "min": 12000000,
+      "max": 18500000,
+      "currency": "MMK"
+    },
+    "timeline_weeks": 5,
+    "kpis": [
+      "900 samples served across 3 sites",
+      "1,500 QR code scans (app download proxy)",
+      "25% of samplers redeem first-order coupon within 7 days",
+      "500+ email addresses captured",
+      "15 Reels with combined 400K+ impressions",
+      "200+ new app orders in 14 days post-activation (platform attribution)"
+    ],
+    "zynth_services": [
+      "Event Management",
+      "Content Creation",
+      "Influencer Marketing",
+      "Social Media Management",
+      "Photography & Video"
+    ],
+    "why_now": "July school holidays mean foot traffic spikes at malls and markets. Delivery appetite is highest during hot months. Roadshow activation during low-commitment leisure time maximizes sampling conversion.",
+    "deliverables": [
+      "3 roadshow site briefs (venue layout, booth design, logistics plan, vendor contracts for catering/sampling)",
+      "Staff briefing: 8-page ambassador guide (brand story, menu highlights, sampling technique, FAQ)",
+      "Sampling logistics plan: 900 portions, cold chain management, packaging, waste management",
+      "15 TikTok/Instagram Reels (script, shot list, on-site production coordination)",
+      "2 influencer partnership briefs (content calendar, usage rights, posting timeline)",
+      "QR coupon design & print: 1,000 printed cards + digital version",
+      "Email capture form (on-site iPad/tablet + post-event follow-up sequence, 5 emails)",
+      "On-site photography: 200+ images (booth, crowd, sampling moments)",
+      "Post-activation report: foot traffic, sample redemption, email engagement, order attribution by platform"
+    ],
+    "estimated_value_sgd": 4100,
+    "proposal_id": "63878281",
+    "industry": "F&B & Restaurant",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T23:44:59.625081"
+  },
+  {
+    "title": "Restaurant Brand Refresh Campaign — 'Elevated Casual'",
+    "type": "Rebranding Campaign",
+    "objective": "Position a mid-market restaurant for upmarket perception shift (casual → elevated casual) via refreshed visual identity, new social presence, and paid awareness campaign. Target 25–40 affluent diners and increase average check size by 20% within 60 days.",
+    "target_audience": "Affluent Yangon diners aged 25–50 with household income >MMK 5M/month; current diners seeking refined casual dining; corporate entertaining; Instagram-active food enthusiasts.",
+    "key_activities": [
+      "Brand strategy workshop: positioning, tone of voice, visual direction, menu narrative",
+      "Visual identity refresh: logo refinement, color palette, typography, brand guidelines (20-page document)",
+      "Photography shoot: 80 food images (hero shots, lifestyle, plating detail), 20 interior space images (professional lighting)",
+      "Website refresh: new landing page (Wix/Webflow), menu integration, reservation link, Instagram feed embed",
+      "Social media relaunch: 40 organic posts (mix of content themes over 8 weeks), Stories calendar, Bio optimization",
+      "Paid campaign: 4-week Meta campaign (image + video ads) targeting upmarket demographics, 'New Chapter' narrative",
+      "Staff training: 2-hour session on brand positioning, upselling language, service standards",
+      "Launch event (optional add-on, separate line): 50-person VIP preview dinner"
+    ],
+    "budget_range": {
+      "min": 14000000,
+      "max": 22000000,
+      "currency": "MMK"
+    },
+    "timeline_weeks": 8,
+    "kpis": [
+      "800 new social followers",
+      "12% average organic engagement rate",
+      "10% CTR on paid brand awareness campaign",
+      "20% increase in average check size (tracked via POS data)",
+      "15% increase in repeat visits (POS/reservation data)",
+      "500+ website visits, 8% reservation conversion"
+    ],
+    "zynth_services": [
+      "Branding",
+      "Content Creation",
+      "Photography & Video",
+      "Social Media Management",
+      "Paid Ads"
+    ],
+    "why_now": "July provides a natural 'reset' moment before the business entertaining season (Aug–Sep). Cooler social algorithms in low-season mean cost-efficient early adoption. Brand refresh timing aligns with back-to-work sentiment in August.",
+    "deliverables": [
+      "Brand strategy deck: positioning, competitor analysis, tone of voice, visual direction (30 slides)",
+      "Brand guidelines document: logo usage, color palette (CMYK + Hex), typography, imagery style, tone of voice examples (20 pages)",
+      "80 food photography images (high-res, edited, ready for social/print)",
+      "20 interior/lifestyle photography images (venue, staff, customer moments)",
+      "Refreshed website landing page: menu integration, reservation flow, Instagram feed embed, mobile-optimized",
+      "40 organic social posts (8-week content calendar, mix of behind-the-scenes, menu highlights, customer stories, lifestyle)",
+      "Stories template pack: 20 editable Canva templates (weekly Stories calendar)",
+      "4-week paid Meta campaign: 4 video ads + 6 static image ads, targeting parameters, audience segmentation",
+      "Staff training deck + 1-hour session delivery (brand positioning, language, upselling examples)",
+      "Post-campaign analytics: social growth, engagement metrics, paid ROAS, POS data correlation"
+    ],
+    "estimated_value_sgd": 5600,
+    "proposal_id": "14fc049d",
+    "industry": "F&B & Restaurant",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T23:44:59.625081"
+  },
+  {
+    "title": "F&B Digital Lead Generation Campaign — 'Corporate Catering Intelligence'",
+    "type": "Lead Generation Campaign",
+    "objective": "Capture 40 qualified corporate catering leads (events >50 pax, budgets >MMK 10M) via targeted digital campaign and nurture funnel. Position restaurant as a premium catering partner for corporate events, year-end functions, and celebrations.",
+    "target_audience": "Corporate event planners, HR managers, office managers at mid-market companies (50–500 employees) in Yangon; annual catering budget signals >MMK 50M; existing relationships with external caterers.",
+    "key_activities": [
+      "LinkedIn & Meta campaign: B2B targeting (job titles: event planner, HR, office manager), lead magnet (catering guide, menu samples)",
+      "Landing page: catering portfolio, testimonials, sample menus, inquiry form (name, company, event date, budget, pax count)",
+      "Email nurture sequence: 8 emails (menu samples, case studies, testimonials, pricing transparency, discount for early booking)",
+      "Content assets: 1 downloadable catering guide (PDF, 15 pages), 5 case study PDFs, 3 video testimonials (past corporate clients)",
+      "Organic LinkedIn strategy: 12 posts (behind-the-scenes catering prep, menu innovation, client success stories)",
+      "Sales follow-up: phone/WhatsApp outreach to leads within 24 hrs, proposal development for qualified leads"
+    ],
+    "budget_range": {
+      "min": 9000000,
+      "max": 14500000,
+      "currency": "MMK"
+    },
+    "timeline_weeks": 6,
+    "kpis": [
+      "40 qualified leads (form submissions with company name, event date, pax count >50)",
+      "12% landing page conversion rate (visitors → form submissions)",
+      "25% email open rate (nurture sequence)",
+      "35% email click-through rate (catering guide download, menu inquiry)",
+      "8 proposals sent to qualified leads",
+      "3 booked catering events (within 60 days)"
+    ],
+    "zynth_services": [
+      "Paid Ads",
+      "Content Creation",
+      "Email Marketing",
+      "Social Media Management",
+      "Photography & Video"
+    ],
+    "why_now": "July is corporate planning month for year-end functions (Nov–Dec). Event planners lock catering vendors 4–6 months in advance. Early-bird positioning captures high-intent buyers before competitor saturation in August.",
+    "deliverables": [
+      "Landing page design & build: catering portfolio, testimonial section, inquiry form, mobile-optimized (1 page, 3 sections)",
+      "Catering guide (PDF): 15-page downloadable asset covering menu options, portions, pricing tiers, dietary accommodations, case studies",
+      "5 case study PDFs: past corporate client scenarios (event type, pax count, budget, outcome/testimonial)",
+      "3 video testimonials: past corporate clients speaking to quality, reliability, customization (30–45 sec each, phone-recorded OK)",
+      "LinkedIn & Meta lead campaign: 4-week run, lead magnet ads (catering guide offer), audience targeting by job title/company size",
+      "Email nurture sequence: 8 emails (welcome, catering guide delivery, menu samples, 2x case studies, pricing transparency, discount offer, follow-up)",
+      "12 organic LinkedIn posts: content calendar, behind-the-scenes catering content, client success stories, menu innovation, thought leadership",
+      "Lead tracking spreadsheet: form submissions, email engagement data, phone follow-up notes, proposal status, deal close tracking",
+      "Monthly reporting: lead volume, conversion funnel (leads → proposals → booked events), email performance, ROAS by campaign"
+    ],
+    "estimated_value_sgd": 3900,
+    "proposal_id": "d48f6296",
+    "industry": "F&B & Restaurant",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-14T23:44:59.625081"
+  },
+  {
+    "title": "School Holiday Family Dining Campaign – 'July Feast Fest'",
+    "type": "Seasonal Campaign",
+    "objective": "Drive family dining footfall and average spend during 4-week school holidays (1–28 July); position restaurant as top destination for family meals; build email list for Q3 retention.",
+    "target_audience": "Parents (30–50yo) with children aged 5–16; household income SGD 80k–250k; active on Instagram/Facebook; seeking convenient, high-value dining experiences.",
+    "key_activities": [
+      "Creative development: 3x family dining campaign concepts (parent-relief angle, kids-eat-free variant, multi-generational gatherings)",
+      "Content production: 12x social posts (Instagram carousel, TikTok reels, Facebook feed), 3x short video testimonials from parent influencers (20–100k followers each)",
+      "Paid media: Meta (Instagram/Facebook) + TikTok ads targeting parents in SG (S$8,000 budget over 4 weeks); Google Search ads on 'family dining', 'school holidays Singapore', 'kids lunch near me'",
+      "Email nurture: 4x weekly newsletters to captured email list (pre-holiday teaser, opening offer, mid-week promotion, closing reminder)",
+      "In-venue collateral: printed menus highlighting family-friendly dishes, A2 posters, table tents with QR code to email signup"
+    ],
+    "budget_range": {
+      "min": 18000,
+      "max": 28000,
+      "currency": "SGD"
+    },
+    "timeline_weeks": 6,
+    "kpis": [
+      "1,200 new email subscribers (growing email list by 40%+ from baseline)",
+      "35,000 social media impressions (Meta + TikTok combined)",
+      "8% click-through rate on paid ads (Meta avg CTR > 1.5%; TikTok > 3%)",
+      "450 families booked via email/social during campaign window",
+      "25% lift in average spend per family visit vs. June baseline"
+    ],
+    "zynth_services": [
+      "Content Creation",
+      "Social Media Management",
+      "Paid Ads",
+      "Influencer Marketing",
+      "Email Marketing",
+      "Branding"
+    ],
+    "why_now": "July school holidays (4 weeks) is peak family dining season in Singapore; parents actively seek convenient, child-friendly venues; early-bird promotion builds month-long traffic momentum; email capture now fuels Aug–Sep retention campaigns.",
+    "deliverables": [
+      "12x social media posts (mix of carousels, Reels, TikTok videos)",
+      "3x parent influencer video testimonials (60–90 sec each)",
+      "Meta + TikTok paid ad creative (8 variants: image + video)",
+      "Google Search ad copy (15 keyword variations)",
+      "4x weekly email templates + copy",
+      "In-venue collateral (menu highlights, posters, table tents)",
+      "Weekly performance dashboard (impressions, clicks, conversions, email signups)"
+    ],
+    "estimated_value_sgd": 24000,
+    "proposal_id": "150a4789",
+    "industry": "F&B & Restaurant",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-14T23:47:26.379038"
+  },
+  {
+    "title": "Restaurant Rebranding Launch Event – 'Taste of Tomorrow'",
+    "type": "Product Launch Event",
+    "objective": "Introduce refreshed brand identity (menu, interior, positioning) to 150 influencers, media, loyal customers, and industry stakeholders; generate 20+ press mentions; secure 500+ new Instagram followers from event buzz.",
+    "target_audience": "Tier-1 food & lifestyle influencers (50k–500k followers), food writers/journalists, restaurant critics, loyal repeat customers, local foodies aged 25–45, Instagram-active.",
+    "key_activities": [
+      "Venue setup: curated tasting experience with 6-course progression (new menu items), branded stage + photo backdrop reflecting new visual identity",
+      "Talent + entertainment: premium MC (S$2,000), live music performer during cocktail hour (S$1,500), 4x brand ambassadors/models to circulate",
+      "Influencer activation: pre-event briefing to 40 invited creators; gifting package (branded merch + exclusive menu item); curated Instagram Story takeovers during event",
+      "Press coverage: media kit distribution, 1-on-1 interviews with owner/chef, professional photography (200+ edited images), 3-min event highlight video",
+      "Amplification: live Instagram Stories from ZYNTH account + influencer posts (organic + paid boost), email to CRM database 48h pre-event + day-of, post-event follow-up sequence"
+    ],
+    "budget_range": {
+      "min": 35000,
+      "max": 55000,
+      "currency": "SGD"
+    },
+    "timeline_weeks": 8,
+    "kpis": [
+      "150 confirmed attendees (90%+ RSVP-to-show rate)",
+      "20+ press mentions (news articles, food blogs, lifestyle media)",
+      "500+ new Instagram followers within 7 days of event",
+      "2.5M organic + paid social impressions (event coverage + post-event amplification)",
+      "8 influencer posts with min 50k combined organic reach; minimum 3% engagement rate"
+    ],
+    "zynth_services": [
+      "Event Management",
+      "Content Creation",
+      "Influencer Marketing",
+      "PR & Media",
+      "Photography & Video",
+      "Social Media Management",
+      "Branding"
+    ],
+    "why_now": "July marks start of school holidays + peak influencer marketing season; brands refresh for H2; launching ahead of August bank holiday weekend drives second wave of traffic; rebranding news hooks summer lifestyle media cycles.",
+    "deliverables": [
+      "Full event concept + run-of-show (timeline, vendor roles, contingencies)",
+      "150-person venue (catering, AV, lighting, décor included)",
+      "MC + live musician booking & coordination",
+      "Brand ambassador recruitment + briefing (4 people)",
+      "Influencer briefing pack + gifting coordination",
+      "Professional photography (200+ edited images)",
+      "3-min event highlight video (for YouTube/Instagram)",
+      "Press kit (1-pager + hi-res imagery)",
+      "Email campaign (3x sends: pre-event, day-of, post-event)",
+      "Weekly media monitoring report (20+ article references tracked)"
+    ],
+    "estimated_value_sgd": 48000,
+    "proposal_id": "1ee2fd6d",
+    "industry": "F&B & Restaurant",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-14T23:47:26.379038"
+  },
+  {
+    "title": "Social Media Growth Sprint – 'Viral Dish Challenge' TikTok Campaign",
+    "type": "Digital Campaign",
+    "objective": "Build restaurant's TikTok presence from 5k–50k followers in 8 weeks via trending audio + user-generated content mechanic; drive first-time visitors aged 18–35; achieve 5M video views and 50k video shares/saves.",
+    "target_audience": "Gen Z & millennial foodies (18–35yo); TikTok users in SG; short-form video creators; school-holiday-at-home audience; food-curious, share-happy segment.",
+    "key_activities": [
+      "Concept development: 'Viral Dish Challenge' — customers film 15-sec video tasting/reacting to signature dish; ZYNTH produces 5x high-energy reference videos (pro-quality); upload with trending audio + restaurant-branded hashtag",
+      "Influencer seeding: 8x micro-influencers (100k–500k followers) create challenge videos; each paid S$500 + free meal; stagger uploads over 4 weeks for sustained momentum",
+      "Content production: 40x social clips (TikTok, Instagram Reels, YouTube Shorts) — mix of UGC highlights, behind-the-scenes prep, chef reaction videos, trending audio mashups",
+      "Paid TikTok amplification: S$12,000 budget over 8 weeks; target lookalike audiences from top-performing organic posts; A/B test 6 creative variants",
+      "Community management: daily comment moderation, reply to top 50 comments, reshare best UGC to restaurant TikTok account (credit original creators)"
+    ],
+    "budget_range": {
+      "min": 28000,
+      "max": 42000,
+      "currency": "SGD"
+    },
+    "timeline_weeks": 8,
+    "kpis": [
+      "50,000 TikTok followers (10x growth from 5k baseline)",
+      "5,000,000 total video views across all TikTok uploads",
+      "12% average engagement rate (likes + comments + shares / views)",
+      "1,200 user-generated challenge submissions (tagged restaurant account)",
+      "2,500 first-time restaurant visits attributed to TikTok traffic (tracked via discount code + QR code unique to campaign)"
+    ],
+    "zynth_services": [
+      "Content Creation",
+      "Social Media Management",
+      "Paid Ads",
+      "Influencer Marketing",
+      "Video Production"
+    ],
+    "why_now": "July school holidays = peak TikTok engagement for Gen Z at home; trend cycles fastest on TikTok summer; first-time visitors aged 18–35 are most likely to share/tag during holidays; building followers now gives restaurant algorithm momentum into August–September.",
+    "deliverables": [
+      "Campaign concept + creative brief (5 reference video concepts)",
+      "5x professional TikTok reference videos (15–30 sec)",
+      "40x social media clips (mix of UGC, behind-the-scenes, trend mashups)",
+      "Influencer outreach + negotiation (8 creators; contracts & payment)",
+      "TikTok ad setup (6 creative variants, audience targeting, bid strategy)",
+      "Daily community management (comments, replies, UGC reshares)",
+      "Weekly performance dashboard (followers, views, engagement, UGC count, traffic attribution)"
+    ],
+    "estimated_value_sgd": 36000,
+    "proposal_id": "3f88d265",
+    "industry": "F&B & Restaurant",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-14T23:47:26.379038"
+  },
+  {
+    "title": "Mid-Market Restaurant F&B Trade Activation – 'July Suppliers Networking Summit'",
+    "type": "Brand Activation",
+    "objective": "Position restaurant group as premium venue partner; activate supplier relationships; generate 25 qualified B2B leads (catering opportunities, wholesale partnerships, venue rentals); build corporate event pipeline for Q3–Q4.",
+    "target_audience": "SME food distributors (20–100 people), corporate event planners (50–150 pax), hotel purchasing managers, wedding planners, F&B wholesalers, industry associations; decision-makers aged 35–60 with corporate event budgets.",
+    "key_activities": [
+      "Concept: luncheon + walking tour + networking lounge; demo 3 private dining spaces; showcase restaurant's event hosting capability; sponsor local F&B suppliers/artisans (coffee roaster, bakery, wine merchant) as 'featured partners'",
+      "Venue hosting: restaurant provides space for 80–100 guests; ZYNTH designs layout, signage, registration flow, speaker/demo schedule",
+      "Talent: premium MC (S$2,000); 2x chef demonstrations + Q&A (restaurant's executive chef + special guest chef); 1x industry speaker on 'Corporate Dining Trends 2026'",
+      "Content production: professional photography (150+ images), 2-min highlight video for social + LinkedIn, delegate list capture + follow-up email sequence",
+      "Post-event lead nurturing: personalized email to all attendees + captured leads within 48h; LinkedIn outreach to attendees; 1-on-1 follow-up calls to top-scored prospects"
+    ],
+    "budget_range": {
+      "min": 32000,
+      "max": 48000,
+      "currency": "SGD"
+    },
+    "timeline_weeks": 10,
+    "kpis": [
+      "80–100 qualified attendees on day-of (75%+ from target list)",
+      "25+ qualified B2B leads (email + phone captured; lead-scored 60+/100)",
+      "3+ immediate catering RFQ requests within 2 weeks of event",
+      "500+ LinkedIn impressions from event content + speaker mentions",
+      "20% of attendees convert to exploratory meetings with restaurant sales team within 60 days"
+    ],
+    "zynth_services": [
+      "Event Management",
+      "Content Creation",
+      "Branding",
+      "PR & Media",
+      "Photography & Video",
+      "Lead Generation Campaign",
+      "Social Media Management"
+    ],
+    "why_now": "July is quiet conference season; corporate planners actively scout venues for year-end galas + team buildings (July bookings for Sep–Dec events); school holidays mean attendees easier to schedule; early activation wins Q3–Q4 catering contracts.",
+    "deliverables": [
+      "Event concept + run-of-show (80–100 pax, 4-hour format)",
+      "Venue layout + signage design (registration, dining, demo station, lounge)",
+      "MC briefing + script (networking opener, chef intros, transition cues)",
+      "Chef demo briefs + ingredients list + timing (2x live demos)",
+      "Professional photography (150+ edited images)",
+      "2-min event highlight video (Instagram + LinkedIn + YouTube)",
+      "Post-event email sequence (3x sends: 48h follow-up, 1-week nurture, 2-week soft pitch)",
+      "Lead scoring spreadsheet (all attendees + contact info scored 0–100)",
+      "LinkedIn post series (5x posts, event recap + speaker insights)"
+    ],
+    "estimated_value_sgd": 42000,
+    "proposal_id": "e78f9b24",
+    "industry": "F&B & Restaurant",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-14T23:47:26.379038"
+  },
+  {
+    "title": "Restaurant Group Email & SEO Retainer – 'Growth Momentum Q3'",
+    "type": "Lead Generation Campaign",
+    "objective": "Build owned-channel revenue (email, organic search) to reduce reliance on paid ads and influencers; capture 2,000+ new email subscribers by end of August; improve organic search visibility for 15 high-intent keywords (reservations, private dining, catering); reduce CAC by 35% vs. paid-only baseline by Q4.",
+    "target_audience": "Repeat customers & newsletter subscribers, first-time diners via organic search (30–55yo, high disposable income), corporate event planners, wedding couples, families seeking casual dining.",
+    "key_activities": [
+      "Email strategy: design 8-week nurture sequence (weekly newsletter + 2x promotional sends); segment list by dining frequency, occasion (casual vs. events), lifecycle stage; A/B test subject lines (50% open rate target)",
+      "SEO audit: technical health check (site speed, mobile, crawlability); on-page optimization for 15 target keywords ('private dining Singapore', 'corporate catering SG', 'birthday venue near me', 'date night restaurant Orchard', etc.); backlink strategy (3x local directory additions, 5x local partnership links)",
+      "Content creation: 8x blog posts (800–1,200 words each) on event hosting, seasonal menus, chef interviews, dining guides; optimized for search intent + internal linking to booking pages",
+      "Lead magnets: downloadable catering menu + event checklist (PDF, email-gated); video tour of private dining spaces (YouTube + website embed)",
+      "Analytics + reporting: weekly dashboard (email open rate, CTR, conversion; organic keyword ranking movement, traffic, lead attribution)"
+    ],
+    "budget_range": {
+      "min": 8000,
+      "max": 14000,
+      "currency": "SGD"
+    },
+    "timeline_weeks": 12,
+    "kpis": [
+      "2,000 new email subscribers acquired (organic newsletter signup, lead magnet downloads)",
+      "35% average email open rate; 4% click-through rate (internal benchmarks: hospitality avg 20% open, 2% CTR)",
+      "8x blog posts published; 200+ organic keywords tracked; 5+ target keywords in top 10 Google results",
+      "15% increase in organic search traffic to website (month-on-month, June→August baseline)",
+      "60+ qualified leads from email + organic search (scored 60+/100; contacted sales team)"
+    ],
+    "zynth_services": [
+      "Email Marketing",
+      "SEO",
+      "Content Creation",
+      "Social Media Management",
+      "Lead Generation Campaign"
+    ],
+    "why_now": "July–August is retainer ramp season; building email list + SEO foundations now pays dividends in peak season (Sep–Dec galas, year-end parties); owned channels reduce ad dependency during algorithm shifts; email nurture compound growth lasts year-round.",
+    "deliverables": [
+      "Email strategy document (audience segments, send calendar, content themes)",
+      "8x weekly newsletter templates + content calendar",
+      "8x blog posts (800–1,200 words, SEO-optimized; topics: private dining, catering, events, chef interviews)",
+      "2x lead magnet PDFs (catering menu, event checklist) + landing pages",
+      "1x video tour of private dining spaces (3–5 min; YouTube + embedded on website)",
+      "SEO audit report (technical + on-page + competitor analysis)",
+      "Keyword research + ranking tracking (15 target keywords, fortnightly updates)",
+      "5x local directory + partnership link placements (Google Business, Yelp, TripAdvisor, local blogs)",
+      "Weekly email performance dashboard (open rate, CTR, conversions, subscriber growth)",
+      "Monthly SEO + organic traffic dashboard (keyword rankings, traffic, lead attribution)"
+    ],
+    "estimated_value_sgd": 11500,
+    "proposal_id": "ac6432d6",
+    "industry": "F&B & Restaurant",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-14T23:47:26.379038"
+  }
+]
