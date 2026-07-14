@@ -63,6 +63,57 @@ logger = get_logger("telegram_bot")
 # In-memory store for the last BD run — used by approve/skip callbacks
 _bd_session: dict = {"prospects": [], "run_at": None}
 
+_dashboard_started = False
+
+
+def _start_dashboard_server() -> None:
+    """Serve the live command-center dashboard on $PORT (Railway exposes it).
+
+    Runs a tiny stdlib HTTP server in a daemon thread so it never blocks the
+    Telegram polling loop. Re-renders fresh data on every request.
+    """
+    global _dashboard_started
+    if _dashboard_started:
+        return
+    import os
+    import threading
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+    port = int(os.environ.get("PORT", "8080"))
+
+    class _Handler(BaseHTTPRequestHandler):
+        def do_GET(self):  # noqa: N802
+            if self.path in ("/health", "/healthz"):
+                self.send_response(200)
+                self.end_headers()
+                self.wfile.write(b"ok")
+                return
+            try:
+                from utils.dashboard import render_dashboard
+                html = render_dashboard().encode("utf-8")
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Cache-Control", "no-store")
+                self.end_headers()
+                self.wfile.write(html)
+            except Exception as exc:  # never crash the server
+                self.send_response(500)
+                self.end_headers()
+                self.wfile.write(f"dashboard error: {exc}".encode())
+
+        def log_message(self, *args):  # silence access logs
+            pass
+
+    def _serve():
+        try:
+            ThreadingHTTPServer(("0.0.0.0", port), _Handler).serve_forever()
+        except Exception as exc:
+            logger.warning("Dashboard server failed to start: %s", exc)
+
+    threading.Thread(target=_serve, daemon=True).start()
+    _dashboard_started = True
+    logger.info("Dashboard server listening on :%d", port)
+
 
 async def _run_workflow(
     workflow: str,
@@ -88,6 +139,7 @@ async def _post_init(application: Application) -> None:
     scheduler = build_scheduler(settings)
     scheduler.start()
     application.bot_data["scheduler"] = scheduler
+    _start_dashboard_server()  # live web dashboard on $PORT
     try:
         await refresh_rates()  # best-effort live FX at startup
     except Exception:
@@ -160,6 +212,9 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/generate — Quick idea drafts (cheap model, fills the pool)\n"
         "/proposal &lt;brief&gt; — FULL client-ready proposal as a Word doc 📄\n"
         "/proposals — Browse proposal pool stats\n\n"
+        "<b>Command Center:</b>\n"
+        "/dashboard — Live visual dashboard of everything (opens in browser)\n"
+        "/status — Activation checklist (what's live / needs a key)\n\n"
         "<b>Databases (collect real data daily):</b>\n"
         "/lead — Client leads &amp; BD pipeline (/lead add · list · stage)\n"
         "/vendor — Supplier database, all categories (/vendor add · search)\n"
@@ -179,6 +234,33 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         f"{pipeline_note}"
     )
     await update.message.reply_html(text)
+
+
+async def cmd_dashboard(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Send the live command-center dashboard (HTML) + the live URL if exposed."""
+    if not _security_check(update):
+        return
+    import os
+    from pathlib import Path as _P
+    from utils.dashboard import render_dashboard
+
+    await update.message.reply_html("🧠 Building your command center…")
+    try:
+        html = render_dashboard()
+        path = _P("outputs/zynth_dashboard.html")
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(html, encoding="utf-8")
+        domain = os.environ.get("RAILWAY_PUBLIC_DOMAIN")
+        caption = "🧠 <b>ZYNTH Command Center</b> — open in any browser."
+        if domain:
+            caption += f"\n🌐 Always live: https://{domain}"
+        else:
+            caption += "\n💡 Expose a public URL in Railway → Settings → Networking to get an always-live link."
+        with open(path, "rb") as f:
+            await update.message.reply_document(document=f, filename="zynth_dashboard.html", caption=caption)
+    except Exception as exc:
+        logger.exception("Dashboard failed: %s", exc)
+        await update.message.reply_html(f"❌ Dashboard failed: {exc}")
 
 
 async def cmd_status(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -1773,6 +1855,7 @@ def main() -> None:
     app.add_handler(CommandHandler("help", cmd_help))
     app.add_handler(CommandHandler("start", cmd_help))
     app.add_handler(CommandHandler("status", cmd_status))
+    app.add_handler(CommandHandler("dashboard", cmd_dashboard))
     app.add_handler(CommandHandler("brief", cmd_brief))
     app.add_handler(CommandHandler("report", cmd_report))
     app.add_handler(CommandHandler("bd", cmd_bd))

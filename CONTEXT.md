@@ -75,6 +75,17 @@ sponsorship-funded, ZYNTH-owned IP.
 - Every external send (email/outreach) is draft-only → MD confirms.
 - Keep this file updated at the end of every session.
 
+## Command center + autonomy
+- `utils/dashboard.py` renders a self-contained HTML command center (pipeline,
+  proposals, suppliers, venues, scorecard, resources, system health) from live
+  data. Served by a stdlib HTTP server in a daemon thread on $PORT (bot
+  post_init) — Railway exposes it as a public URL (Settings → Networking).
+  `/dashboard` also sends the HTML file to Telegram. `/health` route for probes.
+- `scheduler.run_consolidation` (21:00 Yangon nightly): the bot reviews leads/
+  suppliers on its own, computes deterministic gaps (stale leads, missing
+  contacts, unverified), and the LLM turns them into a <250-word action digest
+  to Telegram + email — "works like a department while the MD is away."
+
 ## Data collection layer (BD + sourcing, real records)
 - `utils/suppliers.py` + `backend/data/suppliers_mm.json` — structured
   supplier/vendor DB across all categories (MC, DJ, Lighting, LED, Staging,

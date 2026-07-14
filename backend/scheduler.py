@@ -155,6 +155,65 @@ async def run_fx_refresh() -> None:
         logger.info("FX refresh: live source unavailable, using %s", data.get("source"))
 
 
+async def run_consolidation() -> None:
+    """Autonomous nightly consolidation — the bot works like a department while
+    the MD is away: reviews all the data, organises it, flags what needs
+    attention, and reports a digest.
+    """
+    logger.info("🧩 Nightly consolidation starting")
+    try:
+        from utils.leads import all_leads
+        from utils.suppliers import all_suppliers
+        from utils.business import scorecard_view
+        from utils.llm_client import LLMClient
+        from datetime import datetime as _dt
+
+        leads = all_leads()
+        suppliers = all_suppliers()
+
+        # Deterministic facts first (never trust the model for counts)
+        stale = [l for l in leads if l.get("stage") not in ("won", "lost")]
+        no_contact = [v for v in suppliers if not (v.get("phone") or v.get("email"))]
+        unverified_v = [v for v in suppliers if not v.get("verified")]
+
+        llm = LLMClient()
+        if llm.is_mocked:
+            logger.info("Consolidation skipped — no API key")
+            return
+
+        system = (
+            "You are ZYNTH's autonomous Operations department doing a nightly review "
+            "while the founder sleeps. Be concise, specific, and action-oriented. "
+            "No fluff, no restating the numbers you're given — turn them into the 3-5 "
+            "things that actually move the business tomorrow."
+        )
+        prompt = (
+            f"Nightly data review for {_dt.now():%A %d %b}.\n\n"
+            f"Leads: {len(leads)} total, {len(stale)} open. Stages: "
+            f"{[l.get('stage') for l in leads]}.\n"
+            f"Open lead details: {[{k: l.get(k) for k in ('company','stage','next_step','value_sgd')} for l in stale][:15]}\n\n"
+            f"Suppliers: {len(suppliers)} total, {len(no_contact)} with no contact captured, "
+            f"{len(unverified_v)} unverified.\n\n"
+            "Produce a short nightly digest for the founder:\n"
+            "1. What needs action tomorrow (leads to follow up, by name)\n"
+            "2. Data gaps to close (which suppliers/venues need contacts or verification)\n"
+            "3. One pattern or opportunity you notice\n"
+            "Keep it under 250 words. Address the founder directly."
+        )
+        resp = await llm.complete(system=system, user_prompt=prompt, max_tokens=900)
+        digest = (
+            "🧩 <b>Nightly Consolidation</b> — your AI ops team worked while you were away\n\n"
+            f"{resp.text.strip()}\n\n"
+            f"<i>Snapshot: {len(leads)} leads · {len(suppliers)} suppliers · "
+            f"{len(no_contact)} missing contacts</i>"
+        )
+        await send_message(digest[:4000])
+        from utils.mailer import send_email
+        await send_email(subject="ZYNTH — nightly consolidation digest", body=resp.text.strip())
+    except Exception as exc:
+        logger.exception("Consolidation failed: %s", exc)
+
+
 async def run_monday_priorities() -> None:
     """Monday: the playbook's weekly cadence kickoff + scorecard snapshot."""
     from utils.business import scorecard_view
@@ -235,6 +294,15 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
         CronTrigger(hour=7, minute=0, timezone=settings.scheduler_timezone),
         id="fx_refresh",
         name="Market FX Refresh",
+        replace_existing=True,
+    )
+
+    # Autonomous nightly consolidation (21:00 Yangon — while the MD is away)
+    scheduler.add_job(
+        run_consolidation,
+        CronTrigger(hour=21, minute=0, timezone=settings.scheduler_timezone),
+        id="nightly_consolidation",
+        name="Nightly Consolidation",
         replace_existing=True,
     )
 
