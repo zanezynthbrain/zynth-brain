@@ -75,6 +75,16 @@ sponsorship-funded, ZYNTH-owned IP.
 - Every external send (email/outreach) is draft-only → MD confirms.
 - Keep this file updated at the end of every session.
 
+## Operating-system layer (bot carries the playbook rhythm)
+- `utils/business.py` — Week 0 audit answers + 12-metric master scorecard,
+  persisted to outputs/proposal_pool/business_state.json (survives redeploys).
+- `/audit` — one-message (or voice) Week 0 Honest Audit → AI structures it →
+  starting-line summary + top-3 priorities, emailed.
+- `/scorecard` — view all 12 KPIs with 🟢🟡🔴 vs playbook targets/red-flags;
+  `/scorecard set gross_margin 48` to update.
+- Scheduler nudges: Monday 08:45 Yangon weekly cadence + scorecard snapshot;
+  Friday 15:30 client-updates + weekly-review (the PROVE/EXPAND discipline).
+
 ## Proposal quality system
 - 11-section IGNITE-standard schema, table-heavy (docgen renders real .docx tables).
 - `backend/data/proposal_exemplar.md` = condensed IGNITE Master Proposal skeleton,

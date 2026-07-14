@@ -155,6 +155,32 @@ async def run_fx_refresh() -> None:
         logger.info("FX refresh: live source unavailable, using %s", data.get("source"))
 
 
+async def run_monday_priorities() -> None:
+    """Monday: the playbook's weekly cadence kickoff + scorecard snapshot."""
+    from utils.business import scorecard_view
+    await send_message(
+        "🗓 <b>Monday — Weekly Operating Cadence</b>\n\n"
+        "Playbook rhythm for this week:\n"
+        "• 09:00 Standup — this week's priorities\n"
+        "• Traffic/Resourcing — who works on what\n"
+        "• Pipeline Review — deals to push\n\n"
+        "Reply with your 3 priorities for the week (I'll remember them).\n\n"
+        + scorecard_view()
+    )
+
+
+async def run_friday_review() -> None:
+    """Friday: the non-negotiable client update + weekly review nudge."""
+    await send_message(
+        "🌆 <b>Friday — Weekly Review & Client Updates</b>\n\n"
+        "The Speed Moat is non-negotiable:\n"
+        "• Send EVERY active client their weekly update (no exception)\n"
+        "• Log this week's numbers → /scorecard set ...\n"
+        "• Review: what shipped, what slipped, what's at risk\n\n"
+        "Agencies die at PROVE + EXPAND. Friday is where you win them."
+    )
+
+
 def build_scheduler(settings=None) -> AsyncIOScheduler:
     settings = settings or get_settings()
     scheduler = AsyncIOScheduler(timezone=settings.scheduler_timezone)
@@ -209,6 +235,22 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
         CronTrigger(hour=7, minute=0, timezone=settings.scheduler_timezone),
         id="fx_refresh",
         name="Market FX Refresh",
+        replace_existing=True,
+    )
+
+    # Weekly operating rhythm — Monday priorities + scorecard, Friday review
+    scheduler.add_job(
+        run_monday_priorities,
+        CronTrigger(day_of_week="mon", hour=8, minute=45, timezone=settings.scheduler_timezone),
+        id="monday_priorities",
+        name="Monday Weekly Cadence",
+        replace_existing=True,
+    )
+    scheduler.add_job(
+        run_friday_review,
+        CronTrigger(day_of_week="fri", hour=15, minute=30, timezone=settings.scheduler_timezone),
+        id="friday_review",
+        name="Friday Weekly Review",
         replace_existing=True,
     )
 

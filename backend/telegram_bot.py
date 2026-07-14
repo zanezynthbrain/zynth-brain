@@ -160,6 +160,9 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/generate — Quick idea drafts (cheap model, fills the pool)\n"
         "/proposal &lt;brief&gt; — FULL client-ready proposal as a Word doc 📄\n"
         "/proposals — Browse proposal pool stats\n\n"
+        "<b>Run the Agency (playbook):</b>\n"
+        "/audit — Week 0 Honest Audit: find your starting line\n"
+        "/scorecard — 12-metric master scorecard (/scorecard set mrr 12000)\n\n"
         "<b>Knowledge Base:</b>\n"
         "/kb — Which business knowledge files the agents are using\n"
         "/fx — MMK market rates used in every proposal (/fx set usd 4290 4400)\n"
@@ -1150,6 +1153,93 @@ async def cmd_fx(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     )
 
 
+_audit_session: dict = {}
+
+_AUDIT_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "finance": {"type": "string"},
+        "clients": {"type": "string"},
+        "operations": {"type": "string"},
+        "pipeline": {"type": "string"},
+        "starting_line_summary": {"type": "string", "description": "2-3 sentences: honest state of the business and the single most urgent issue"},
+        "top_3_priorities": {"type": "array", "items": {"type": "string"}, "minItems": 1, "maxItems": 3},
+    },
+}
+
+
+async def cmd_audit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Week 0 Honest Audit — the playbook's starting line."""
+    if not _security_check(update):
+        return
+    from utils.business import AUDIT_QUESTIONS, get_audit
+
+    prev = get_audit()
+    prev_note = f"\n\n<i>(Last done: {prev.get('completed_at')})</i>" if prev.get("completed_at") else ""
+    _audit_session["awaiting"] = True
+    qs = "\n".join(f"{i}. {q}" for i, q in enumerate(AUDIT_QUESTIONS, 1))
+    await update.message.reply_html(
+        "🩺 <b>Week 0 — The Honest Audit</b>\n"
+        "The playbook's starting line. Answer honestly — lying here only lies to yourself.\n\n"
+        f"{qs}\n\n"
+        "📝 Reply in ONE message (voice works too) — rough answers are fine. "
+        "I'll structure it and give you your starting line."
+        f"{prev_note}"
+    )
+
+
+async def _run_audit_capture(update: Update, text: str) -> None:
+    from utils.business import save_audit
+    from utils.llm_client import LLMClient
+    llm = LLMClient()
+    try:
+        data, _ = await llm.complete_json(
+            system="Structure the founder's honest business audit into the schema. Keep their real numbers. Be direct in the starting_line_summary — name the most urgent issue.",
+            user_prompt=f"Audit answers: {text}",
+            schema=_AUDIT_SCHEMA,
+            model=get_settings().fallback_model_name,
+        )
+    except Exception as exc:
+        await update.message.reply_html(f"❌ Couldn't process the audit: {exc}")
+        return
+    save_audit(data)
+    prios = "\n".join(f"{i}. {p}" for i, p in enumerate(data.get("top_3_priorities", []), 1))
+    await update.message.reply_html(
+        "✅ <b>Audit saved — this is your starting line:</b>\n\n"
+        f"{data.get('starting_line_summary', '')}\n\n"
+        f"<b>Top priorities:</b>\n{prios}\n\n"
+        "Next: Phase 1 (Days 1–30) in docs/playbook/08 — stop the bleeding. "
+        "Track progress with /scorecard."
+    )
+    from utils.mailer import send_email
+    await send_email(
+        subject="ZYNTH Week 0 Audit — your starting line",
+        body=f"{data.get('starting_line_summary','')}\n\nPriorities:\n{prios}\n\nFull answers:\n{text}",
+    )
+
+
+async def cmd_scorecard(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """The 12-metric agency master scorecard."""
+    if not _security_check(update):
+        return
+    from utils.business import set_metric, scorecard_view
+
+    args = [a.lower() for a in (context.args or [])]
+    if len(args) == 3 and args[0] == "set":
+        try:
+            value = float(args[2].replace(",", "").replace("%", ""))
+        except ValueError:
+            await update.message.reply_html("Usage: <code>/scorecard set gross_margin 48</code>")
+            return
+        spec = set_metric(args[1], value)
+        if not spec:
+            await update.message.reply_html(f"Unknown metric '{args[1]}'. See /scorecard for keys.")
+            return
+        await update.message.reply_html(f"✅ {spec['label']} = {spec['unit']}{value:g} (target {spec['target']})")
+        return
+    await update.message.reply_html(scorecard_view())
+
+
 async def cmd_kb(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Show which knowledge files the agents are reading."""
     if not _security_check(update):
@@ -1195,6 +1285,12 @@ async def chat_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         return
     text = (update.message.text or "").strip()
     if not text:
+        return
+
+    # If the Week 0 audit is waiting for answers, capture them
+    if _audit_session.get("awaiting"):
+        _audit_session["awaiting"] = False
+        await _run_audit_capture(update, text)
         return
 
     # If the proposal wizard is waiting for the detail line, assemble the brief
@@ -1361,6 +1457,8 @@ def main() -> None:
     app.add_handler(CommandHandler("proposal", cmd_proposal))
     app.add_handler(CommandHandler("fx", cmd_fx))
     app.add_handler(CommandHandler("venue", cmd_venue))
+    app.add_handler(CommandHandler("audit", cmd_audit))
+    app.add_handler(CommandHandler("scorecard", cmd_scorecard))
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
     app.add_handler(CallbackQueryHandler(handle_event_callback, pattern="^evt_"))
