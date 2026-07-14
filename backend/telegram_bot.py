@@ -179,19 +179,73 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 async def cmd_status(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Activation dashboard — what's live, what still needs a key, at a glance."""
     if not _security_check(update):
         return
     settings = get_settings()
     llm = LLMClient()
+
+    def row(ok: bool, name: str, live: str, todo: str) -> str:
+        return f"{'✅' if ok else '⚠️'} <b>{name}</b> — {live if ok else todo}"
+
+    # Live checks
+    llm_ok = not llm.is_mocked
+    email_ok = bool(settings.smtp_user and settings.smtp_password)
+    voice_ok = bool(settings.gemini_api_key)
+    try:
+        from utils.knowledge import list_knowledge_files
+        kb_active = sum(1 for _, _, a in list_knowledge_files() if a)
+    except Exception:
+        kb_active = 0
+    try:
+        from utils.venues import all_venues
+        n_venues = len(all_venues())
+        n_verified = sum(1 for v in all_venues() if v.get("verified"))
+    except Exception:
+        n_venues = n_verified = 0
+    try:
+        from utils.business import get_audit, _load
+        audit_done = bool(get_audit().get("completed_at"))
+        n_scores = len(_load().get("scorecard", {}))
+    except Exception:
+        audit_done, n_scores = False, 0
+    try:
+        from utils.fx import get_rates
+        fx = get_rates()
+        fx_line = f"{fx.get('source', '?')}"
+    except Exception:
+        fx_line = "unavailable"
+
+    # Cost today
+    try:
+        from utils.cost_tracker import get_cost_tracker
+        tracker = await get_cost_tracker()
+        c = await tracker.today_summary()
+        cost_line = f"S${c.get('sgd', 0):.2f} / S${tracker.daily_budget_sgd:.0f} today"
+    except Exception:
+        cost_line = "n/a"
+
+    core = [
+        row(llm_ok, "AI brain (Claude)", "live", "❗ add Anthropic credit → console.anthropic.com"),
+        "✅ <b>Telegram</b> — connected",
+        row(voice_ok, "Voice (MM/EN)", "on", "add GEMINI_API_KEY in Railway"),
+        row(email_ok, "Email delivery", "on", "add SMTP_USER + SMTP_PASSWORD (App Password)"),
+    ]
+    data = [
+        f"📚 <b>Knowledge</b> — {kb_active} active files",
+        f"🏛 <b>Venues</b> — {n_venues} ({n_verified} verified{'  ⚠️ verify some!' if n_verified == 0 else ''})",
+        f"💱 <b>Market FX</b> — {fx_line}",
+        f"📊 <b>Scorecard</b> — {n_scores}/12 set{'  · run /scorecard' if n_scores < 12 else ''}",
+        f"🩺 <b>Week 0 Audit</b> — {'done ✅' if audit_done else 'not done — run /audit ❗'}",
+    ]
     text = (
-        "⚡ <b>ZYNTH System Status</b>\n\n"
-        f"🤖 LLM: {'✅ Live (Claude)' if not llm.is_mocked else '🔵 Mock mode (no API key)'}\n"
-        f"📱 Telegram: ✅ Connected\n"
-        f"🌐 Network tools: {'✅ Enabled' if settings.allow_network else '🔵 Mock mode'}\n"
-        f"🕐 Timezone: {settings.scheduler_timezone}\n"
-        f"⏰ Daily brief: {settings.daily_brief_hour:02d}:{settings.daily_brief_minute:02d}\n"
-        f"🌙 EOD report: {settings.eod_report_hour:02d}:00\n\n"
-        "All agents operational. Send /brief to run the full day."
+        "⚡ <b>ZYNTH — Activation Dashboard</b>\n\n"
+        "<b>Core systems</b>\n" + "\n".join(core) +
+        "\n\n<b>Business data</b>\n" + "\n".join(data) +
+        f"\n\n💵 <b>Cost:</b> {cost_line}\n"
+        f"⏰ Brief {settings.daily_brief_hour:02d}:{settings.daily_brief_minute:02d} · "
+        f"Proposals 07:00 SGT · Mon/Fri rhythm\n\n"
+        "⚠️ = needs one setup step. Send /help for all commands."
     )
     await update.message.reply_html(text)
 
