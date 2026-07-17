@@ -75,31 +75,65 @@ def _start_dashboard_server() -> None:
     global _dashboard_started
     if _dashboard_started:
         return
+    import json as _json
     import os
     import threading
     from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
     port = int(os.environ.get("PORT", "8080"))
+    token = os.environ.get("ZYNTH_DASHBOARD_TOKEN", "")
 
     class _Handler(BaseHTTPRequestHandler):
+        def _json(self, obj, code=200):
+            body = _json.dumps(obj).encode("utf-8")
+            self.send_response(code)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            self.wfile.write(body)
+
         def do_GET(self):  # noqa: N802
             if self.path in ("/health", "/healthz"):
-                self.send_response(200)
-                self.end_headers()
-                self.wfile.write(b"ok")
+                self.send_response(200); self.end_headers(); self.wfile.write(b"ok"); return
+            if self.path.startswith("/api/state"):
+                try:
+                    from utils.dashboard import build_state
+                    self._json(build_state())
+                except Exception as exc:
+                    self._json({"error": str(exc)}, 500)
                 return
             try:
-                from utils.dashboard import render_dashboard
-                html = render_dashboard().encode("utf-8")
+                from utils.dashboard import render_spa
+                html = render_spa().encode("utf-8")
                 self.send_response(200)
                 self.send_header("Content-Type", "text/html; charset=utf-8")
                 self.send_header("Cache-Control", "no-store")
                 self.end_headers()
                 self.wfile.write(html)
             except Exception as exc:  # never crash the server
-                self.send_response(500)
-                self.end_headers()
+                self.send_response(500); self.end_headers()
                 self.wfile.write(f"dashboard error: {exc}".encode())
+
+        def do_POST(self):  # noqa: N802
+            if not self.path.startswith("/api/task"):
+                self._json({"ok": False}, 404); return
+            # optional token guard (only enforced when ZYNTH_DASHBOARD_TOKEN set)
+            if token and self.headers.get("X-Token") != token and token not in self.path:
+                self._json({"ok": False, "error": "unauthorized"}, 401); return
+            try:
+                n = int(self.headers.get("Content-Length", 0))
+                data = _json.loads(self.rfile.read(n) or b"{}")
+                from utils.tasks import add_task, set_status, assign_task
+                act = data.get("action")
+                if act == "add":
+                    add_task(data.get("title", ""), data.get("department", "Operations"), source="dashboard")
+                elif act == "status":
+                    set_status(data.get("id", ""), data.get("status", ""))
+                elif act == "assign":
+                    assign_task(data.get("id", ""), data.get("assignee", ""))
+                self._json({"ok": True})
+            except Exception as exc:
+                self._json({"ok": False, "error": str(exc)}, 500)
 
         def log_message(self, *args):  # silence access logs
             pass
@@ -213,7 +247,8 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/proposal &lt;brief&gt; — FULL client-ready proposal as a Word doc 📄\n"
         "/proposals — Browse proposal pool stats\n\n"
         "<b>Command Center:</b>\n"
-        "/dashboard — Live visual dashboard of everything (opens in browser)\n"
+        "/dashboard — Live interactive dashboard (departments, tasks, activity)\n"
+        "/task — Tasks by department (/task add · list · done) — synced to dashboard\n"
         "/status — Activation checklist (what's live / needs a key)\n\n"
         "<b>Databases (collect real data daily):</b>\n"
         "/lead — Client leads &amp; BD pipeline (/lead add · list · stage)\n"
@@ -1064,6 +1099,8 @@ async def _generate_proposal(update: Update, brief: str) -> None:
         with open(path, "rb") as f:
             await update.message.reply_document(document=f, filename=path.name, caption=caption)
 
+        from utils.tasks import log_activity
+        log_activity("Marketing", f"Proposal generated: {data.get('title','proposal')[:50]}", source="telegram")
         from utils.mailer import send_email
         emailed = await send_email(
             subject=f"ZYNTH Proposal: {data.get('title', 'Untitled')}",
@@ -1433,6 +1470,8 @@ async def cmd_vendor(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
             await update.message.reply_html(f"❌ Couldn't parse: {exc}")
             return
         add_supplier(data)
+        from utils.tasks import log_activity
+        log_activity("Events", f"Supplier added: {data.get('company','?')} ({data.get('category','?')})", source="telegram")
         await update.message.reply_html("✅ Added to the supplier database:\n\n" + format_supplier(data))
         return
 
@@ -1506,6 +1545,8 @@ async def cmd_lead(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             await update.message.reply_html(f"❌ Couldn't parse: {exc}")
             return
         lead_id = add_lead(data)
+        from utils.tasks import log_activity
+        log_activity("BD", f"Lead added: {data.get('company','?')}", source="telegram")
         await update.message.reply_html(f"✅ Lead saved <i>[{lead_id}]</i>:\n\n{format_lead({**data, 'id': lead_id})}")
         return
 
@@ -1531,6 +1572,80 @@ async def cmd_lead(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         pipeline_stats() +
         "\n\n<code>/lead add ...</code> · <code>/lead list</code> · "
         "<code>/lead stage KBZ proposal</code>"
+    )
+
+
+_TASK_ADD_SCHEMA = {
+    "type": "object",
+    "required": ["title", "department"],
+    "properties": {
+        "title": {"type": "string"},
+        "department": {"type": "string", "description": "BD, Events, Creative, Marketing, Operations, Finance, or Content"},
+        "assignee": {"type": ["string", "null"]},
+    },
+}
+
+
+async def cmd_task(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Tasks — shared with the dashboard. /task add · list · done.
+
+    /task add follow up KBZ proposal, BD, assign me
+    /task list [department]
+    /task done T003
+    """
+    if not _security_check(update):
+        return
+    from utils.tasks import add_task, set_status, all_tasks, tasks_by_department, DEPARTMENTS
+
+    args = list(context.args or [])
+    sub = args[0].lower() if args else ""
+
+    if sub == "add":
+        raw = " ".join(args[1:]).strip()
+        if not raw:
+            await update.message.reply_html(
+                "Add a task (voice works): <code>/task add follow up KBZ proposal, BD</code>"
+            )
+            return
+        try:
+            data, _ = await LLMClient().complete_json(
+                system="Extract a work task. Pick the department from BD/Events/Creative/Marketing/Operations/Finance/Content.",
+                user_prompt=f"Task: {raw}", schema=_TASK_ADD_SCHEMA, model=get_settings().fallback_model_name,
+            )
+        except Exception:
+            data = {"title": raw, "department": "Operations"}
+        t = add_task(data.get("title", raw), data.get("department", "Operations"), assignee=data.get("assignee") or "", source="telegram")
+        await update.message.reply_html(f"✅ Task <i>[{t['id']}]</i> → <b>{t['department']}</b>\n{t['title']}")
+        return
+
+    if sub == "done" and len(args) >= 2:
+        t = set_status(args[1], "done")
+        await update.message.reply_html(f"✅ Done: {t['title']}" if t else "Task not found.")
+        return
+
+    if sub == "list":
+        dept = None
+        if len(args) > 1:
+            from utils.tasks import normalize_dept
+            dept = normalize_dept(args[1])
+        tbd = tasks_by_department()
+        depts = [dept] if dept else DEPARTMENTS
+        lines = []
+        for d in depts:
+            items = [t for t in tbd.get(d, []) if t.get("status") != "done"]
+            if items:
+                lines.append(f"<b>{d}</b>")
+                lines += [f"  • [{t['id']}] {t['title']} <i>({t['status']})</i>" for t in items]
+        await update.message.reply_html("\n".join(lines) if lines else "No open tasks. Add with /task add.")
+        return
+
+    # summary
+    tasks = all_tasks()
+    openc = sum(1 for t in tasks if t.get("status") != "done")
+    await update.message.reply_html(
+        f"📋 <b>Tasks:</b> {openc} open / {len(tasks)} total\n\n"
+        "<code>/task add ...</code> · <code>/task list</code> · <code>/task done T001</code>\n"
+        "Or manage them visually in /dashboard."
     )
 
 
@@ -1598,6 +1713,8 @@ async def _capture_note(update: Update, text: str) -> None:
         load_knowledge(force=True)
     except Exception:
         pass
+    from utils.tasks import log_activity
+    log_activity("Content", f"Note filed: {data.get('title','note')}", source="telegram")
     await update.message.reply_html(
         f"🗒 <b>Filed:</b> {data.get('title')}  ·  <i>{cat}</i>\n"
         "Agents can use it now. It's saved to the vault and syncs to the repo."
@@ -1878,6 +1995,7 @@ def main() -> None:
     app.add_handler(CommandHandler("testemail", cmd_testemail))
     app.add_handler(CommandHandler("vendor", cmd_vendor))
     app.add_handler(CommandHandler("lead", cmd_lead))
+    app.add_handler(CommandHandler("task", cmd_task))
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
     app.add_handler(CallbackQueryHandler(handle_event_callback, pattern="^evt_"))
