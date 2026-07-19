@@ -67,6 +67,15 @@ _PROPOSAL_SCHEMA: dict[str, Any] = {
         "client": {"type": "string", "description": "Client or prospect name (or 'Prospective Client')"},
         "market": {"type": "string", "description": "Myanmar or Singapore"},
         "estimated_value": {"type": "string", "description": "e.g. 'MMK 45,000,000' or 'S$18,000'"},
+        "one_line_ask": {
+            "type": "string",
+            "description": (
+                "ONE sentence the client reads first: who engages ZYNTH to do what, "
+                "for what turnkey investment, targeting which single headline result. "
+                "e.g. 'WavePay engages ZYNTH to deliver a 250-guest premium launch for "
+                "~129M MMK, targeting 250 premium sign-ups in 30 days.'"
+            ),
+        },
         "sections": {
             "type": "array",
             "minItems": 11,
@@ -130,32 +139,63 @@ class MasterProposalAgent(BaseAgent):
             f"BRIEF: {brief}\n"
             f"{venues_block()}"
             f"{exemplar_block}"
-            f"Produce exactly these eleven sections:\n{section_list}\n\n"
+            "FIRST, write `one_line_ask`: ONE sentence — who engages ZYNTH to do what, "
+            "for what turnkey investment, targeting which single headline result. This is "
+            "the line the client reads before anything else.\n\n"
+            f"Then produce exactly these eleven sections:\n{section_list}\n\n"
+            "OPEN Section 1 by restating the one-line ask and the strategic read — WHY this, "
+            "WHY now, and the single audience insight the whole plan is built on (not just "
+            "an overview).\n\n"
             "TABLE REQUIREMENTS (a document without these is a pitch, not a plan):\n"
             "- Sec 2: audience segment table (segment, demographics, channel behaviour) "
             "and/or competitor table\n"
             "- Sec 3: programme/run-of-show table (time, duration, segment, owner) for "
             "events; content calendar table for campaigns\n"
             "- Sec 4: itemised cost table with USD/SGD/MMK columns at the MARKET rate, "
-            "10% contingency line, quoted total; if the project generates revenue "
-            "(tickets/sponsorship), add a revenue table AND a Lean/Standard/Premium "
+            "10% contingency line, quoted total; THEN a transparent commercial table "
+            "(delivered cost + ZYNTH management fee with its tier %, e.g. Premium 20-25% + "
+            "total client investment) and 50/30/20 payment terms; if the project generates "
+            "revenue (tickets/sponsorship), add a revenue table AND a Lean/Standard/Premium "
             "scenario P&L table\n"
             "- Sec 5: week-by-week plan table (week, phase, activities, channels, budget)\n"
             "- Sec 6: phase-gate table (phase, timeline, gates, owner, risk if skipped)\n"
             "- Sec 7: vendor/talent table (category, recommendation, est cost, lead time, "
-            "backup plan) — unverified rates tagged 'TBC'\n"
-            "- Sec 8: KPI table (metric, formula, target, benchmark)\n"
+            "backup). DATA HONESTY: tag each row 'Verified' (confirmed in ZYNTH's supplier "
+            "DB) or 'Indicative' (market placeholder, confirmed at contracting) — never "
+            "present a guessed number as fact.\n"
+            "- Sec 8: KPI + ATTRIBUTION table (metric, target, HOW measured). State how each "
+            "result is attributed to the work — e.g. a unique QR/tracking link per guest or "
+            "lead — so success is measured, not claimed. Lead with the money/reach metrics.\n"
             "- Sec 9: risk table (risk, likelihood, impact, mitigation, owner)\n"
+            "- Sec 11: investment summary + 50% deposit clause + a 'What we need from you' "
+            "client-input checklist (approvals, assets, spokespeople, disclaimers) so the "
+            "client can act immediately.\n"
             "Other rules: infer market/industry from the brief and state assumptions; "
-            "50% deposit clause in Sec 11; every number realistic for the market; "
-            "prose carries strategy, tables carry the detail; client-grade, no emoji."
+            "every number realistic for the market; prose carries strategy, tables carry "
+            "the detail; client-grade, no emoji, no coding/system jargon."
         )
 
     async def write_proposal(self, brief: str, memory: SharedMemory) -> dict[str, Any]:
-        """Generate the full proposal structure (single high-quality LLM call)."""
+        """Generate the full proposal structure (single high-quality LLM call).
+
+        Best-effort live web research is prepended to the brief so the
+        proposal reflects current market signals — but a failed/blocked
+        fetch never delays or breaks generation.
+        """
+        live_context = ""
+        try:
+            from utils.webresearch import research_block
+            live_context = await research_block(brief)
+        except Exception:
+            live_context = ""
+
+        prompt = self._build_prompt(brief)
+        if live_context:
+            prompt = prompt + live_context
+
         data, response = await self.llm.complete_json(
             system=self.build_system_prompt(),
-            user_prompt=self._build_prompt(brief),
+            user_prompt=prompt,
             schema=_PROPOSAL_SCHEMA,
             max_tokens=16000,
         )

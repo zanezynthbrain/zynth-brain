@@ -2,6 +2,25 @@
 # Match this STRUCTURE and DEPTH. Note how each section pairs a short
 # strategic narrative with hard tables. This is the bar for every proposal.
 
+# NON-NEGOTIABLE STANDARDS FOR EVERY PROPOSAL (learned the hard way):
+#  1. ONE-LINE ASK first — who engages ZYNTH to do what, for what turnkey
+#     investment, targeting which single headline result.
+#  2. MARKET FX ONLY — MMK at the real market rate (~4,400 MMK/USD sell-side),
+#     NEVER the central-bank reference rate (~2,100). Using the CBM rate
+#     underprices a quote by ~2x and is fatal. (Older figures below predate
+#     this rule — always convert with the runtime market rate.)
+#  3. DATA HONESTY — tag vendor rates 'Verified' (in ZYNTH's DB) or
+#     'Indicative' (confirmed at contracting). Never present a guess as fact.
+#  4. ATTRIBUTION — say HOW each result is measured (unique QR/tracking link
+#     per guest or lead), so success is proven, not claimed.
+#  5. TRANSPARENT COMMERCIAL — show delivered cost + ZYNTH management fee (with
+#     its tier %) + total client investment, and 50/30/20 payment terms.
+#  6. 'WHAT WE NEED FROM YOU' — a client-input checklist so they can act now.
+
+ONE-LINE ASK (example): "WavePay engages ZYNTH to deliver a 250-guest premium
+launch at LOTTE Yangon for ~129M MMK (~USD 29,400), targeting 250 premium
+sign-ups in 30 days and 5M+ earned-media impressions."
+
 350 Delegates  |  500 Gala Guests  |  10,000+ Live Stream Viewers
 
 ## SECTION 1: EXECUTIVE OVERVIEW & STRATEGIC RATIONALE
@@ -23,10 +42,11 @@ TABLE (6 rows): | Segment | Demographics | Psychographics | Channel Behaviour |
 TABLE (5 rows): | Event/Platform | Format | Weakness | IGNITE Advantage |
   eg: | UMFCCI Events | Gov-driven, formal | Bureaucratic, limite | Private, fast, premi |
   eg: | StartUp Myanmar | Community meetups | Informal, low produc | High production, awa |
-2.4 CURRENCY REFERENCE RATES (ALL FINANCIAL PROJECTIONS)
-TABLE (5 rows): | From | To | Rate | Example |
-  eg: | USD 1 | MMK | ~2,100 MMK | USD 1,000 = MMK 2,10 |
-  eg: | SGD 1 | MMK | ~1,550 MMK | SGD 1,000 = MMK 1,55 |
+2.4 CURRENCY REFERENCE RATES — MARKET RATE, SELL-SIDE (ALL PROJECTIONS)
+TABLE (5 rows): | From | To | Market Rate (sell) | Example |
+  eg: | USD 1 | MMK | ~4,400 MMK | USD 1,000 = MMK 4,400,000/1000 = 4,400,000 |
+  eg: | SGD 1 | MMK | ~3,300 MMK | SGD 1,000 = MMK 3,300,000 |
+  note: NEVER quote the ~2,100 central-bank rate. Use runtime market rate.
 
 ## SECTION 3: EVENT CONCEPT, PROGRAMME & CREATIVE DIRECTION
 3.1 THE BIG IDEA

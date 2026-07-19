@@ -679,6 +679,8 @@ async def _run_event_cycle(update: Update, brief: str, feedback: str, cycle: int
         client=proposal.get("client", "Prospective Client"),
         market=proposal.get("market", ""),
         sections=proposal.get("sections", []),
+        one_line_ask=proposal.get("one_line_ask", ""),
+        estimated_value=proposal.get("estimated_value", ""),
     )
     sgd_after = (await tracker.today_summary()).get("sgd", 0.0)
 
@@ -1090,6 +1092,8 @@ async def _generate_proposal(update: Update, brief: str) -> None:
             client=data.get("client", "Prospective Client"),
             market=data.get("market", ""),
             sections=data.get("sections", []),
+            one_line_ask=data.get("one_line_ask", ""),
+            estimated_value=data.get("estimated_value", ""),
         )
         sgd_after = (await tracker.today_summary()).get("sgd", 0.0)
         caption = f"📄 {data.get('title', 'ZYNTH Proposal')}"
