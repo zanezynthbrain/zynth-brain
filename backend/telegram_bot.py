@@ -253,6 +253,8 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "<b>Databases (collect real data daily):</b>\n"
         "/prospects — Myanmar business prospects (potential clients, daily)\n"
         "/scout — Research a fresh batch now (/scout fintech)\n"
+        "/export — Prospects → CSV (open in Sheets/Excel)\n"
+        "/sync — Push prospects to Google Sheets / HubSpot\n"
         "/lead — Client leads &amp; BD pipeline (/lead add · list · stage)\n"
         "/vendor — Supplier database, all categories (/vendor add · search)\n"
         "/venue — Yangon venue DB (search · add · outreach)\n\n"
@@ -1574,6 +1576,51 @@ async def cmd_scout(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     )
 
 
+async def cmd_export(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Export the prospect database to a CSV (open in Google Sheets/Excel)."""
+    if not _security_check(update):
+        return
+    from utils.exporter import prospects_csv
+    try:
+        path, n = prospects_csv()
+    except Exception as exc:
+        await update.message.reply_html(f"❌ Export failed: {exc}")
+        return
+    with open(path, "rb") as f:
+        await update.message.reply_document(
+            document=f, filename=path.name,
+            caption=f"📇 {n} prospects — open in Google Sheets (File → Import) or Excel.",
+        )
+
+
+async def cmd_sync(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Push prospects to the configured external databases (Google Sheets / HubSpot).
+
+    /sync            → push to whatever is configured
+    /sync sheets     → Google Sheets only
+    /sync hubspot    → HubSpot only
+    """
+    if not _security_check(update):
+        return
+    from utils import sheets_sync, hubspot_sync
+    which = (context.args[0].lower() if context.args else "all")
+    lines = []
+    if which in ("all", "sheets"):
+        if sheets_sync.is_configured():
+            ok, msg = await asyncio.to_thread(sheets_sync.push_prospects)
+            lines.append(("✅" if ok else "⚠️") + f" Sheets: {msg}")
+        else:
+            lines.append("⚪ Sheets: not set up (add GOOGLE_SERVICE_ACCOUNT_JSON + PROSPECTS_SHEET_ID)")
+    if which in ("all", "hubspot"):
+        if hubspot_sync.is_configured():
+            ok, msg = await hubspot_sync.push_prospects()
+            lines.append(("✅" if ok else "⚠️") + f" HubSpot: {msg}")
+        else:
+            lines.append("⚪ HubSpot: not set up (add HUBSPOT_TOKEN)")
+    await update.message.reply_html("🔁 <b>Sync</b>\n" + "\n".join(lines) +
+                                    "\n\nTip: <code>/export</code> gives a CSV with no setup.")
+
+
 _LEAD_ADD_SCHEMA = {
     "type": "object",
     "required": ["company"],
@@ -2078,6 +2125,8 @@ def main() -> None:
     app.add_handler(CommandHandler("lead", cmd_lead))
     app.add_handler(CommandHandler("prospects", cmd_prospects))
     app.add_handler(CommandHandler("scout", cmd_scout))
+    app.add_handler(CommandHandler("export", cmd_export))
+    app.add_handler(CommandHandler("sync", cmd_sync))
     app.add_handler(CommandHandler("task", cmd_task))
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))

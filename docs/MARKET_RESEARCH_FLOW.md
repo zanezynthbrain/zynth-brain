@@ -75,6 +75,21 @@ and the record is `verified: false` — confirming a contact is human work.
 
 ---
 
+## 5a. Getting the data into Sheets / a CRM (view + work it)
+
+The JSON stays the **source of truth**; these mirror it outward.
+
+| Way | Setup | What it does |
+|---|---|---|
+| **`/export`** | none | Sends a CSV of all prospects — open in Google Sheets (File → Import) or Excel. Works today. |
+| **Google Sheets auto-sync** | `GOOGLE_SERVICE_ACCOUNT_JSON` + `PROSPECTS_SHEET_ID` in Railway | Rewrites a "Prospects" tab with the full DB after every research run (idempotent — no dupes). Best for browsing/filtering thousands + sharing. |
+| **HubSpot sync** | `HUBSPOT_TOKEN` (Private App) in Railway | Pushes new prospects as Companies (deduped, tracked so re-runs don't duplicate). Best for working the pipeline. |
+| **`/sync`** | — | Push now, on demand (`/sync sheets` · `/sync hubspot`). Reports status. |
+
+Setup steps live in `backend/.env.example` and in `utils/sheets_sync.py` /
+`utils/hubspot_sync.py` docstrings. Recommended order: **`/export` today →
+Google Sheets auto-sync → HubSpot when you start working deals.**
+
 ## 6. Honest note on "thousands"
 
 Thousands of **solid** prospects come from the DB **compounding daily** — not from

@@ -160,6 +160,19 @@ def seed_if_empty() -> int:
         return 0
 
 
+def mark_synced(ids: set[str], field: str = "hs_synced") -> None:
+    """Flag prospects as pushed to an external system (e.g. HubSpot) so a
+    re-run never duplicates them."""
+    rows = _load()
+    changed = False
+    for r in rows:
+        if r.get("id") in ids and not r.get(field):
+            r[field] = True
+            changed = True
+    if changed:
+        _save(rows)
+
+
 def set_status(company_or_id: str, status: str) -> dict | None:
     if status not in STATUSES:
         return None

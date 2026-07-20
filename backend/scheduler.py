@@ -280,8 +280,30 @@ async def run_market_research() -> None:
             + "\n".join(f"- {p.get('company')} ({p.get('fit_score')}/5): {p.get('why_fit', '')}" for p in r["top"])
         )
         await send_email(subject=f"ZYNTH Market Research — {r['sector']} (+{r['added']})", body=body)
+
+        # Best-effort mirror to external databases (no-op until configured).
+        await sync_prospects_out()
     except Exception as exc:
         logger.exception("Market research failed: %s", exc)
+
+
+async def sync_prospects_out() -> None:
+    """Push the prospect DB to Google Sheets + HubSpot if their credentials are
+    set. Fully best-effort — a missing/failed sync never affects research."""
+    try:
+        from utils import sheets_sync
+        if sheets_sync.is_configured():
+            ok, msg = await asyncio.to_thread(sheets_sync.push_prospects)
+            logger.info("Sheets sync: %s", msg)
+    except Exception as exc:
+        logger.info("Sheets sync skipped: %s", type(exc).__name__)
+    try:
+        from utils import hubspot_sync
+        if hubspot_sync.is_configured():
+            ok, msg = await hubspot_sync.push_prospects()
+            logger.info("HubSpot sync: %s", msg)
+    except Exception as exc:
+        logger.info("HubSpot sync skipped: %s", type(exc).__name__)
 
 
 async def run_monday_priorities() -> None:
