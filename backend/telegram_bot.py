@@ -236,6 +236,7 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/creative — Creative brief → Creative group\n"
         "/research — Market intel → Marketing group\n"
         "/event &lt;brief&gt; — Event Specialist Team → full proposal + approve/revise 🎪\n"
+        "/video &lt;brief&gt; — Video package: concept + EN/MM script + storyboard + MMK budget 🎬\n"
         "/ops — Vendor research + SOP\n\n"
         "<b>Campaign Workflows:</b>\n"
         "/run full_campaign\n"
@@ -1577,6 +1578,68 @@ async def cmd_scout(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     )
 
 
+async def cmd_video(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Full video production package: concept + bilingual script + storyboard +
+    MMK budget + post-production guide → Word doc.
+
+    /video <brief>            → commercial package
+    /video tiktok <brief>     → social / 9:16 package
+    """
+    if not _security_check(update):
+        return
+    from agents.video_team import run_video_pipeline, package_to_sections
+    from utils.docgen import build_proposal_docx
+    from utils.cost_tracker import get_cost_tracker
+
+    brief = " ".join(context.args or []).strip()
+    if not brief:
+        await update.message.reply_html(
+            "🎬 <b>Video Production Package</b>\n\n"
+            "Give me a brief:\n"
+            "<code>/video 30s launch film for WavePay Premium, aspirational, Yangon</code>\n"
+            "<code>/video tiktok 15s hook for a bubble-tea brand, Gen-Z</code>\n\n"
+            "You get: concept + EN/Myanmar script + storyboard + MMK budget + "
+            "post-production guide (Resolve/Premiere/AE/CapCut) as a Word doc.\n"
+            "For rendered storyboard frames + deep how-to, just ask me in chat."
+        )
+        return
+    low = brief.lower()
+    scale = ("tiktok" if any(k in low for k in ("tiktok", "reel", "short", "9:16", "social"))
+             else "brand film" if "brand film" in low else "commercial")
+    tracker = await get_cost_tracker()
+    before = (await tracker.today_summary()).get("sgd", 0.0)
+    memory = SharedMemory(client_brief={"agency": "ZYNTH", "mode": "video"})
+    try:
+        pkg = await _await_with_progress(
+            update, f"🎬 Building video production package ({scale}): {brief[:50]}",
+            run_video_pipeline(brief, memory, scale=scale),
+        )
+    except Exception as exc:
+        await update.message.reply_html(f"❌ Video pipeline failed: {exc}")
+        return
+    path = build_proposal_docx(
+        title=pkg.get("title", "ZYNTH Video Production Package"),
+        client=pkg.get("client", "Prospective Client"),
+        market=pkg.get("market", "Myanmar"),
+        sections=package_to_sections(pkg),
+        one_line_ask=pkg.get("one_line_ask", ""),
+        estimated_value=pkg.get("estimated_value", ""),
+    )
+    after = (await tracker.today_summary()).get("sgd", 0.0)
+    try:
+        from utils.tasks import log_activity
+        log_activity("Creative", f"Video package: {pkg.get('title', '')[:50]}", source="telegram")
+    except Exception:
+        pass
+    with open(path, "rb") as f:
+        await update.message.reply_document(
+            document=f, filename=path.name,
+            caption=(f"🎬 {pkg.get('title', 'Video Package')} · {scale}\n"
+                     f"Budget: {pkg.get('estimated_value', '—')} · cost ~S${after - before:.2f}\n"
+                     "Rendered storyboard frames + deep how-to: ask me in chat."),
+        )
+
+
 async def cmd_mirror(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Refresh the Obsidian vault notes (Home, Snapshot, Hot Prospects, What We Built)."""
     if not _security_check(update):
@@ -2147,6 +2210,7 @@ def main() -> None:
     app.add_handler(CommandHandler("export", cmd_export))
     app.add_handler(CommandHandler("sync", cmd_sync))
     app.add_handler(CommandHandler("mirror", cmd_mirror))
+    app.add_handler(CommandHandler("video", cmd_video))
     app.add_handler(CommandHandler("task", cmd_task))
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))

@@ -73,6 +73,26 @@ Myanmar/Singapore SME budget and infrastructure.
 
 ---
 
+## 6a. Myanmar production rates & vendors (indicative — always RFQ)
+
+**Crew day-rates (MMK/day):** Director 1.5M–5M+ · DP 800k–2.5M (excl. gear) ·
+Gaffer 300k–600k · Sound recordist 250k–500k · Production manager 400k–800k ·
+Editor 500k–1.5M · Colorist 800k–2M.
+
+**Equipment rental — Yangon (MMK/day):** Blackmagic URSA Mini 4.6K ~40k · URSA
+Mini Pro ~50k · Canon 5D IV ~50k · Sony A7S III ~60–80k · DJI Ronin RS3 ~70k ·
+RED Komodo body ~150–250k.
+
+**Rental / production houses (indicative — verify contacts, cross-check `/vendor`):**
+Shwe Sin Oo (mid-range gear) · Wyne Camera Rental (DSLR/mirrorless, social) ·
+Mandalay Productions (high-end cinema, fixing) · CMB Films Myanmar (lighting/grip).
+
+**Legal:** commercials & internet films technically need approval under the 2025
+Motion Picture Law amendments — build clearance lead-time in. Myanmar text in
+**Unicode (Pyidaungsu)**, never Zawgyi. Respect elders/monks/religious sites.
+
+Always take 3 quotes; tag any rate you quote a client "indicative — pending RFQ".
+
 ## 7. Fast answers you should always have ready
 - "What fps?" → 24 filmic / 25 MM-broadcast / 30 social.
 - "What loudness?" → −14 LUFS online, −23 broadcast, peaks < −1 dBTP.
