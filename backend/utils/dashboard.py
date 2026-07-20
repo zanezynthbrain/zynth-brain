@@ -67,7 +67,8 @@ def build_state() -> dict[str, Any]:
         knowledge = 0
     notes = len(list((_POOL / "vault").rglob("*.md"))) if (_POOL / "vault").is_dir() else 0
     try:
-        from utils.prospects import stats as _pstats
+        from utils.prospects import stats as _pstats, seed_if_empty as _pseed
+        _pseed()  # load the starter set on first view so it's never a false 0
         pstats = _pstats()
     except Exception:
         pstats = {"total": 0, "hot": 0, "added_week": 0}
