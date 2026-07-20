@@ -281,6 +281,14 @@ async def run_market_research() -> None:
         )
         await send_email(subject=f"ZYNTH Market Research — {r['sector']} (+{r['added']})", body=body)
 
+        # Mirror the narrative into the Obsidian vault (best-effort).
+        try:
+            from utils import obsidian
+            obsidian.research_log_entry(r["sector"], r["added"], r["total"], r["top"])
+            obsidian.full_sync()
+        except Exception as exc:
+            logger.info("Obsidian mirror skipped: %s", type(exc).__name__)
+
         # Best-effort mirror to external databases (no-op until configured).
         await sync_prospects_out()
     except Exception as exc:

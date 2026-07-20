@@ -1,0 +1,189 @@
+"""Obsidian mirror — writes the business's narrative updates into the vault as
+markdown notes, so your 'second brain' reflects what the AI is doing.
+
+Design: the STRUCTURED database stays in JSON (and Sheets/HubSpot). Obsidian
+gets the human, linkable NARRATIVE — a Home index, a live snapshot, hot
+prospects, and a dated research log. Notes use YAML front-matter + [[wikilinks]]
+so they graph nicely in Obsidian.
+
+Location: outputs/proposal_pool/vault/ — the folder that (a) the knowledge
+loader already reads, (b) the daily pool workflow commits to GitHub, so your
+Obsidian Git pulls it. `/note` captures land here too.
+"""
+
+from __future__ import annotations
+
+import re
+from datetime import datetime
+from pathlib import Path
+
+_VAULT = Path("outputs/proposal_pool/vault")
+
+
+def _slug(text: str) -> str:
+    text = re.sub(r"[^\w\s-]", "", text).strip()
+    return re.sub(r"\s+", "-", text)[:80] or "note"
+
+
+def write_note(folder: str, title: str, body: str, tags: list[str] | None = None) -> Path:
+    """Write/overwrite a markdown note with front-matter. Returns its path."""
+    d = _VAULT / folder if folder else _VAULT
+    d.mkdir(parents=True, exist_ok=True)
+    fm = (
+        "---\n"
+        f"title: {title}\n"
+        f"tags: [{', '.join(tags or ['zynth'])}]\n"
+        f"updated: {datetime.now():%Y-%m-%d %H:%M}\n"
+        "---\n\n"
+    )
+    path = d / f"{_slug(title)}.md"
+    path.write_text(fm + body.strip() + "\n", encoding="utf-8")
+    return path
+
+
+# ── snapshot notes ────────────────────────────────────────────────────────────
+
+def _counts() -> dict:
+    out = {"prospects": 0, "hot": 0, "leads": 0, "suppliers": 0, "venues": 0}
+    try:
+        from utils.prospects import stats, seed_if_empty
+        seed_if_empty()
+        s = stats(); out["prospects"] = s["total"]; out["hot"] = s["hot"]
+    except Exception:
+        pass
+    try:
+        from utils.leads import all_leads
+        out["leads"] = len(all_leads())
+    except Exception:
+        pass
+    try:
+        from utils.suppliers import all_suppliers
+        out["suppliers"] = len(all_suppliers())
+    except Exception:
+        pass
+    try:
+        from utils.venues import all_venues
+        out["venues"] = len(all_venues())
+    except Exception:
+        pass
+    return out
+
+
+def home_note() -> Path:
+    c = _counts()
+    body = (
+        "# 🧠 ZYNTH Brain — Home\n\n"
+        "The living index of ZYNTH's AI operating system. Structured data lives in "
+        "the databases (and Google Sheets / HubSpot); this vault holds the narrative.\n\n"
+        "## Live numbers\n"
+        f"- 🎯 Prospects: **{c['prospects']}** ({c['hot']} hot ★★★★+)\n"
+        f"- 📇 Leads (pipeline): **{c['leads']}**\n"
+        f"- 🧰 Suppliers: **{c['suppliers']}** · 🏛 Venues: **{c['venues']}**\n\n"
+        "## Sections\n"
+        "- [[What We Built]] — the whole system, in one page\n"
+        "- [[Business Snapshot]] — current numbers\n"
+        "- [[Hot Prospects]] — the best targets right now\n"
+        "- [[Research Log]] — what the market researcher finds, day by day\n\n"
+        "## How this stays updated\n"
+        "The bot writes these notes; the daily pool workflow commits them to GitHub; "
+        "your Obsidian Git pulls them. Quick-capture your own with `/note` in Telegram.\n"
+    )
+    return write_note("", "00 ZYNTH Home", body, tags=["zynth", "home", "moc"])
+
+
+def snapshot_note() -> Path:
+    c = _counts()
+    scorecard = ""
+    try:
+        from utils.business import scorecard_view
+        scorecard = scorecard_view()
+    except Exception:
+        pass
+    body = (
+        "# 📊 Business Snapshot\n\n"
+        f"_As of {datetime.now():%A %d %b %Y, %H:%M}_\n\n"
+        "| Metric | Count |\n|---|---|\n"
+        f"| Prospects | {c['prospects']} ({c['hot']} hot) |\n"
+        f"| Leads (pipeline) | {c['leads']} |\n"
+        f"| Suppliers | {c['suppliers']} |\n"
+        f"| Venues | {c['venues']} |\n\n"
+        + (f"## Scorecard\n{scorecard}\n\n" if scorecard else "")
+        + "Back to [[00 ZYNTH Home]]\n"
+    )
+    return write_note("", "Business Snapshot", body, tags=["zynth", "snapshot"])
+
+
+def hot_prospects_note(limit: int = 40) -> Path:
+    try:
+        from utils.prospects import all_prospects, seed_if_empty
+        seed_if_empty()
+        rows = sorted(all_prospects(), key=lambda r: -r.get("fit_score", 0))
+    except Exception:
+        rows = []
+    hot = [r for r in rows if r.get("fit_score", 0) >= 4][:limit]
+    lines = ["# 🔥 Hot Prospects", "", "Top-fit Myanmar businesses to pursue (★★★★+).", "",
+             "| Company | Sector | Fit | Why |", "|---|---|:--:|---|"]
+    for r in hot:
+        lines.append(
+            f"| {r.get('company','')} | {r.get('industry','')} | "
+            f"{'★'*r.get('fit_score',0)} | {r.get('why_fit','')} |"
+        )
+    lines += ["", f"_{len(hot)} shown · full DB via `/prospects` or Google Sheets._",
+              "", "Back to [[00 ZYNTH Home]]"]
+    return write_note("", "Hot Prospects", "\n".join(lines), tags=["zynth", "bd", "prospects"])
+
+
+def research_log_entry(sector: str, added: int, total: int, top: list[dict]) -> Path:
+    """Append a dated entry to the running research log note."""
+    d = _VAULT
+    d.mkdir(parents=True, exist_ok=True)
+    path = d / "Research Log.md"
+    stamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+    entry = [f"\n## {stamp} — {sector}",
+             f"+{added} new prospects · DB now {total}"]
+    for p in top[:5]:
+        entry.append(f"- **{p.get('company','')}** ({p.get('fit_score','')}★) — {p.get('why_fit','')}")
+    if not path.exists():
+        header = ("---\ntitle: Research Log\ntags: [zynth, research, log]\n"
+                  f"updated: {stamp}\n---\n\n# 🔎 Market Research Log\n\n"
+                  "Every daily/on-demand research run, newest at the bottom. "
+                  "Back to [[00 ZYNTH Home]]\n")
+        path.write_text(header + "\n".join(entry) + "\n", encoding="utf-8")
+    else:
+        with path.open("a", encoding="utf-8") as f:
+            f.write("\n".join(entry) + "\n")
+    return path
+
+
+def what_we_built_note() -> Path:
+    body = (
+        "# 🏗 What We Built\n\n"
+        "ZYNTH's 24/7 AI operating system — the one-page tour.\n\n"
+        "## The workforce\n"
+        "- **CEO daily cycle** — research → departments → synthesis → report\n"
+        "- **Proposal engine** — IGNITE-standard, market-FX, one-line ask, attribution\n"
+        "- **Event Specialist Team** — concept + design + ops → HITL approve\n"
+        "- **Market Researcher** — finds Myanmar business prospects daily\n"
+        "- **Creative Video Director** (skill) — concept, storyboard, Resolve/Premiere/CapCut\n\n"
+        "## The databases (JSON → Sheets/HubSpot)\n"
+        "- Prospects · Leads · Suppliers · Venues · Tasks · Activity · Scorecard\n\n"
+        "## Channels\n"
+        "- Telegram (commands + voice) · Email · live Dashboard · this Obsidian vault\n\n"
+        "## Automation (Yangon time)\n"
+        "- 06:30 market research · 07:00 FX · 08:00 brief · 18:00 EOD · 21:00 consolidation\n"
+        "- Weekly: MD learning brief, Monday cadence, Friday review\n\n"
+        "See the full report in the repo: `docs/PROJECT_REPORT.md`.\n\n"
+        "Back to [[00 ZYNTH Home]]\n"
+    )
+    return write_note("", "What We Built", body, tags=["zynth", "overview"])
+
+
+def full_sync() -> list[Path]:
+    """(Re)write all the standing mirror notes. Safe to run any time."""
+    paths = []
+    for fn in (home_note, what_we_built_note, snapshot_note, hot_prospects_note):
+        try:
+            paths.append(fn())
+        except Exception:
+            pass
+    return paths

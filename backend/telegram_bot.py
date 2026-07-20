@@ -263,6 +263,7 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/scorecard — 12-metric master scorecard (/scorecard set mrr 12000)\n\n"
         "<b>Knowledge Base:</b>\n"
         "/note — Quick-capture a note to the vault (agents use it instantly)\n"
+        "/mirror — Refresh the Obsidian vault (Home · Snapshot · Hot Prospects)\n"
         "/kb — Which business knowledge files the agents are using\n"
         "/fx — MMK market rates used in every proposal (/fx set usd 4290 4400)\n\n"
         "<b>Approvals:</b>\n"
@@ -1576,6 +1577,24 @@ async def cmd_scout(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     )
 
 
+async def cmd_mirror(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Refresh the Obsidian vault notes (Home, Snapshot, Hot Prospects, What We Built)."""
+    if not _security_check(update):
+        return
+    from utils import obsidian
+    try:
+        paths = await asyncio.to_thread(obsidian.full_sync)
+    except Exception as exc:
+        await update.message.reply_html(f"❌ Mirror failed: {exc}")
+        return
+    names = ", ".join(p.stem for p in paths) or "—"
+    await update.message.reply_html(
+        f"🧠 <b>Obsidian vault refreshed</b> ({len(paths)} notes: {names}).\n"
+        "It syncs to GitHub via the daily workflow — your Obsidian Git pulls it. "
+        "Capture your own with /note."
+    )
+
+
 async def cmd_export(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Export the prospect database to a CSV (open in Google Sheets/Excel)."""
     if not _security_check(update):
@@ -2127,6 +2146,7 @@ def main() -> None:
     app.add_handler(CommandHandler("scout", cmd_scout))
     app.add_handler(CommandHandler("export", cmd_export))
     app.add_handler(CommandHandler("sync", cmd_sync))
+    app.add_handler(CommandHandler("mirror", cmd_mirror))
     app.add_handler(CommandHandler("task", cmd_task))
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
