@@ -66,6 +66,11 @@ def build_state() -> dict[str, Any]:
     except Exception:
         knowledge = 0
     notes = len(list((_POOL / "vault").rglob("*.md"))) if (_POOL / "vault").is_dir() else 0
+    try:
+        from utils.prospects import stats as _pstats
+        pstats = _pstats()
+    except Exception:
+        pstats = {"total": 0, "hot": 0, "added_week": 0}
 
     # scorecard
     scorecard = []
@@ -91,7 +96,7 @@ def build_state() -> dict[str, Any]:
 
     # per-department data headline
     dept_data = {
-        "BD": f"{len(leads)} leads · S${int(open_value):,} open",
+        "BD": f"{pstats['total']} prospects · {len(leads)} leads · S${int(open_value):,} open",
         "Events": f"{len(venues)} venues · {len(suppliers)} suppliers",
         "Creative": "portfolio & concepts",
         "Marketing": f"{len(proposals)} proposals",
@@ -121,6 +126,7 @@ def build_state() -> dict[str, Any]:
         "sys": {"ai": bool(s.anthropic_api_key), "voice": bool(s.gemini_api_key), "email": bool(s.smtp_user and s.smtp_password)},
         "totals": {
             "leads": len(leads), "open_value": int(open_value), "proposals": len(proposals),
+            "prospects": pstats["total"], "prospects_hot": pstats["hot"], "prospects_week": pstats.get("added_week", 0),
             "suppliers": len(suppliers), "venues": len(venues), "notes": notes,
             "tasks_open": sum(1 for t in all_t if t.get("status") != "done"), "reds": reds,
         },
@@ -267,7 +273,8 @@ function render(){
     .map(([n,ok])=>`<span class="pill ${ok?'good':'warn'}">${ok?'●':'○'} ${n}</span>`).join('');
   $('#banner').innerHTML = STATE.audit_done? '' :
     '<div class="banner">🩺 <b>Week 0 Audit not done.</b> Send <b>/audit</b> in Telegram to set your starting line & activate the scorecard.</div>';
-  const kpi=[['Open leads',t.leads,''],['Pipeline','S$'+t.open_value.toLocaleString(),''],
+  const kpi=[['Prospects',(t.prospects||0)+(t.prospects_hot?' · '+t.prospects_hot+'★':''),''],
+    ['Open leads',t.leads,''],['Pipeline','S$'+t.open_value.toLocaleString(),''],
     ['Open tasks',t.tasks_open,''],['Proposals',t.proposals,''],
     ['Suppliers',t.suppliers,''],['Scorecard reds',t.reds,t.reds?'bad':'']];
   $('#kpis').innerHTML=kpi.map(([l,v,tone])=>`<div class="kpi"><b style="color:${tone==='bad'?'var(--bad)':'inherit'}">${v}</b><span>${l}</span></div>`).join('');

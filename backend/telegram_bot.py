@@ -251,6 +251,8 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/task — Tasks by department (/task add · list · done) — synced to dashboard\n"
         "/status — Activation checklist (what's live / needs a key)\n\n"
         "<b>Databases (collect real data daily):</b>\n"
+        "/prospects — Myanmar business prospects (potential clients, daily)\n"
+        "/scout — Research a fresh batch now (/scout fintech)\n"
         "/lead — Client leads &amp; BD pipeline (/lead add · list · stage)\n"
         "/vendor — Supplier database, all categories (/vendor add · search)\n"
         "/venue — Yangon venue DB (search · add · outreach)\n\n"
@@ -1497,6 +1499,81 @@ async def cmd_vendor(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     await _send_long(update, header + "\n\n".join(format_supplier(v) for v in results[:15]))
 
 
+async def cmd_prospects(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Myanmar business prospect database — potential clients, collected daily.
+
+    /prospects                 → stats + hottest prospects
+    /prospects bank            → search by keyword / sector
+    """
+    if not _security_check(update):
+        return
+    from utils.prospects import stats_text, search, format_prospect, seed_if_empty, all_prospects
+    seed_if_empty()
+    args = list(context.args or [])
+    if not args:
+        hot = sorted([p for p in all_prospects() if p.get("fit_score", 0) >= 4],
+                     key=lambda p: -p.get("fit_score", 0))[:8]
+        body = stats_text()
+        if hot:
+            body += "\n\n<b>Hottest prospects:</b>\n\n" + "\n\n".join(format_prospect(p) for p in hot)
+        await _send_long(
+            update,
+            "🎯 <b>Myanmar Business Prospects</b>\n\n" + body +
+            "\n\nSearch: <code>/prospects telecom</code> · New batch: <code>/scout</code>",
+        )
+        return
+    results = search(" ".join(args))
+    if not results:
+        await update.message.reply_html(
+            "No prospects matched. Try <code>/prospects banking</code> or run <code>/scout</code> to research more."
+        )
+        return
+    await _send_long(update, f"🎯 <b>Prospects ({len(results)})</b>\n\n"
+                     + "\n\n".join(format_prospect(p) for p in results[:20]))
+
+
+async def cmd_scout(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Run the Myanmar Market Researcher now — collect a fresh batch of prospects.
+
+    /scout                     → research today's rotating sector
+    /scout fintech             → research a specific sector on demand
+    """
+    if not _security_check(update):
+        return
+    from scheduler import collect_prospects
+    args = list(context.args or [])
+    sector = " ".join(args).strip() or None
+    label = sector or "today's rotating sector"
+    try:
+        r = await _await_with_progress(
+            update,
+            f"🔎 Researching Myanmar businesses: {label}",
+            collect_prospects(sector),
+        )
+    except Exception as exc:
+        await update.message.reply_html(f"❌ Research failed: {exc}")
+        return
+    if r.get("mocked"):
+        await update.message.reply_html(
+            f"🔎 Seeded {r.get('seeded', 0)} starter prospects (DB: {r['total']}). "
+            "Add Anthropic API credit and /scout will research live. See /prospects."
+        )
+        return
+    from utils.prospects import format_prospect
+    top = "\n\n".join(format_prospect(p) for p in r["top"]) or "—"
+    try:
+        from utils.tasks import log_activity
+        log_activity("BD", f"/scout +{r['added']} {r['sector']} prospects ({r['total']} total)", source="telegram")
+    except Exception:
+        pass
+    await _send_long(
+        update,
+        f"🎯 <b>{r['sector']}</b> — +{r['added']} new prospects "
+        f"({r['skipped']} dupes skipped). DB now <b>{r['total']}</b>.\n\n"
+        f"<b>Top new:</b>\n\n{top}\n\nView all: /prospects",
+    )
+
+
 _LEAD_ADD_SCHEMA = {
     "type": "object",
     "required": ["company"],
@@ -1999,6 +2076,8 @@ def main() -> None:
     app.add_handler(CommandHandler("testemail", cmd_testemail))
     app.add_handler(CommandHandler("vendor", cmd_vendor))
     app.add_handler(CommandHandler("lead", cmd_lead))
+    app.add_handler(CommandHandler("prospects", cmd_prospects))
+    app.add_handler(CommandHandler("scout", cmd_scout))
     app.add_handler(CommandHandler("task", cmd_task))
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))

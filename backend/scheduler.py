@@ -214,6 +214,76 @@ async def run_consolidation() -> None:
         logger.exception("Consolidation failed: %s", exc)
 
 
+async def collect_prospects(sector: str | None = None, count: int = 25) -> dict:
+    """Core market-research routine, shared by the daily job and the /research
+    command. Seeds the DB on first run, researches one sector, dedupe-appends,
+    and returns a summary. Never raises for a missing API key (returns mocked).
+    """
+    from datetime import datetime as _dt
+    from utils.prospects import seed_if_empty, add_batch, all_prospects, TARGET_SECTORS
+
+    seeded = seed_if_empty()
+    if not sector:
+        doy = int(_dt.now().strftime("%j"))
+        sector = TARGET_SECTORS[doy % len(TARGET_SECTORS)]
+
+    llm = LLMClient()
+    if llm.is_mocked:
+        return {"sector": sector, "seeded": seeded, "added": 0, "skipped": 0,
+                "total": len(all_prospects()), "top": [], "mocked": True}
+
+    from agents.market_researcher import MarketResearcherAgent
+    known = [p.get("company", "") for p in all_prospects()]
+    memory = SharedMemory(client_brief={"agency": "ZYNTH", "mode": "market_research"})
+    agent = MarketResearcherAgent(llm_client=llm)
+    rows = await agent.research_segment(sector, memory, known=known, count=count)
+    res = add_batch(rows, source=f"researcher:{sector}")
+    top = sorted(rows, key=lambda r: r.get("fit_score", 0), reverse=True)[:5]
+    return {"sector": sector, "seeded": seeded, "added": res["added"],
+            "skipped": res["skipped"], "total": res["total"], "top": top, "mocked": False}
+
+
+async def run_market_research() -> None:
+    """Daily autonomous Myanmar business researcher — grows the prospect DB and
+    reports the day's new potential clients to Telegram + email."""
+    logger.info("🔎 Market research starting")
+    try:
+        r = await collect_prospects()
+        if r.get("mocked"):
+            if r.get("seeded"):
+                await send_message(
+                    f"🔎 <b>Market Researcher</b> seeded {r['seeded']} starter prospects. "
+                    "Add Anthropic API credit and it will grow the list every day. See /prospects."
+                )
+            return
+        top = "\n".join(
+            f"• <b>{p.get('company')}</b> ({p.get('fit_score')}★) — {p.get('why_fit', '')}"
+            for p in r["top"]
+        ) or "—"
+        await send_message(
+            (
+                f"🔎 <b>Market Researcher — {r['sector']}</b>\n"
+                f"+{r['added']} new prospects today · {r['skipped']} dupes skipped · "
+                f"DB now <b>{r['total']}</b>\n\n<b>Top new:</b>\n{top}\n\n"
+                "All: /prospects · Dig a sector: /research &lt;sector&gt;"
+            )[:4000]
+        )
+        try:
+            from utils.tasks import log_activity
+            log_activity("BD", f"Market research +{r['added']} {r['sector']} prospects ({r['total']} total)", source="researcher")
+        except Exception:
+            pass
+        from utils.mailer import send_email
+        body = (
+            f"Sector: {r['sector']}\nAdded: {r['added']} (skipped {r['skipped']} dupes)\n"
+            f"Total prospects: {r['total']}\n\nTop new:\n"
+            + "\n".join(f"- {p.get('company')} ({p.get('fit_score')}/5): {p.get('why_fit', '')}" for p in r["top"])
+        )
+        await send_email(subject=f"ZYNTH Market Research — {r['sector']} (+{r['added']})", body=body)
+    except Exception as exc:
+        logger.exception("Market research failed: %s", exc)
+
+
 async def run_monday_priorities() -> None:
     """Monday: the playbook's weekly cadence kickoff + scorecard snapshot."""
     from utils.business import scorecard_view
@@ -294,6 +364,15 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
         CronTrigger(hour=7, minute=0, timezone=settings.scheduler_timezone),
         id="fx_refresh",
         name="Market FX Refresh",
+        replace_existing=True,
+    )
+
+    # Daily Myanmar market research (06:30 Yangon — new prospects before the day)
+    scheduler.add_job(
+        run_market_research,
+        CronTrigger(hour=6, minute=30, timezone=settings.scheduler_timezone),
+        id="market_research",
+        name="Daily Market Research",
         replace_existing=True,
     )
 
