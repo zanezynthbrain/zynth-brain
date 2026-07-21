@@ -314,6 +314,51 @@ async def sync_prospects_out() -> None:
         logger.info("HubSpot sync skipped: %s", type(exc).__name__)
 
 
+async def run_daily_proposals() -> None:
+    """Autonomous daily proposal production — the proposal department generates
+    new event/campaign proposals every day, on its own, no prompting. Grows the
+    library across industry × month × market, then mirrors to Obsidian."""
+    logger.info("🏭 Daily proposal production starting")
+    try:
+        from agents.proposal_factory import ProposalFactoryAgent
+        from utils.proposal_pool import ProposalPool
+
+        llm = LLMClient()
+        if llm.is_mocked:
+            logger.info("Daily proposals skipped — no API key")
+            return
+
+        memory = SharedMemory(client_brief={"agency": "ZYNTH", "mode": "daily_proposals"})
+        agent = ProposalFactoryAgent(llm)
+        pool = ProposalPool()
+        generated: list[str] = []
+        for market in ("MM", "SG"):
+            combo = agent.next_uncovered(market, pool)
+            if combo is None:
+                continue
+            ind, mo = combo
+            try:
+                props = await agent.generate_batch(ind, mo, market, memory, pool)
+                generated.append(f"{ind} × {mo} ({market}): {len(props)}")
+            except Exception as exc:
+                logger.warning("Proposal batch failed for %s × %s (%s): %s", ind, mo, market, exc)
+
+        if generated:
+            total = pool.get_stats().get("total", 0)
+            await send_message(
+                "🏭 <b>Proposal Factory — daily</b>\n"
+                + "\n".join(f"• {g}" for g in generated)
+                + f"\n\nLibrary now <b>{total}</b>. Browse: /proposals · Full doc: /proposal &lt;brief&gt;"
+            )
+            try:
+                from utils import obsidian
+                obsidian.full_sync()
+            except Exception:
+                pass
+    except Exception as exc:
+        logger.exception("Daily proposal production failed: %s", exc)
+
+
 async def run_monday_priorities() -> None:
     """Monday: the playbook's weekly cadence kickoff + scorecard snapshot."""
     from utils.business import scorecard_view
@@ -394,6 +439,15 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
         CronTrigger(hour=7, minute=0, timezone=settings.scheduler_timezone),
         id="fx_refresh",
         name="Market FX Refresh",
+        replace_existing=True,
+    )
+
+    # Autonomous daily proposal production (09:00 Yangon — grows the library)
+    scheduler.add_job(
+        run_daily_proposals,
+        CronTrigger(hour=9, minute=0, timezone=settings.scheduler_timezone),
+        id="daily_proposals",
+        name="Daily Proposal Production",
         replace_existing=True,
     )
 
