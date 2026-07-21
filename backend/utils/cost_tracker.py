@@ -20,6 +20,7 @@ import pytz
 # Anthropic pricing in USD per million tokens (Jul 2026)
 _INPUT_PRICE_PER_MTOK: dict[str, float] = {
     "claude-sonnet-4-6": 3.00,
+    "claude-sonnet-4-5": 3.00,
     "claude-sonnet-5": 3.00,
     "claude-fable-5": 3.00,
     "claude-haiku-4-5-20251001": 0.80,
@@ -28,6 +29,7 @@ _INPUT_PRICE_PER_MTOK: dict[str, float] = {
 }
 _OUTPUT_PRICE_PER_MTOK: dict[str, float] = {
     "claude-sonnet-4-6": 15.00,
+    "claude-sonnet-4-5": 15.00,
     "claude-sonnet-5": 15.00,
     "claude-fable-5": 15.00,
     "claude-haiku-4-5-20251001": 4.00,
