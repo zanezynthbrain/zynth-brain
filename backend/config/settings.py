@@ -24,7 +24,7 @@ class Settings(BaseSettings):
 
     # --- LLM provider ---------------------------------------------------
     anthropic_api_key: str = Field(default="", alias="ANTHROPIC_API_KEY")
-    model_name: str = Field(default="claude-sonnet-4-6", alias="ZYNTH_MODEL_NAME")
+    model_name: str = Field(default="claude-sonnet-5", alias="ZYNTH_MODEL_NAME")
     fallback_model_name: str = Field(default="claude-haiku-4-5-20251001", alias="ZYNTH_FALLBACK_MODEL_NAME")
 
     # --- Token / cost governance ----------------------------------------
