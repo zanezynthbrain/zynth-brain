@@ -210,6 +210,17 @@ async def run_consolidation() -> None:
         await send_message(digest[:4000])
         from utils.mailer import send_email
         await send_email(subject="ZYNTH — nightly consolidation digest", body=resp.text.strip())
+
+        # Refresh the Obsidian mirror, then push the whole day's output to GitHub
+        # (one push/day → your Obsidian pulls it, and the data survives redeploys).
+        try:
+            from utils import obsidian, gitsync
+            obsidian.full_sync()
+            if gitsync.is_configured():
+                ok, msg = await gitsync.sync("chore: nightly ZYNTH vault + data sync")
+                logger.info("Git sync: %s", msg)
+        except Exception as exc:
+            logger.info("Git sync skipped: %s", type(exc).__name__)
     except Exception as exc:
         logger.exception("Consolidation failed: %s", exc)
 

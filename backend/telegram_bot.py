@@ -265,6 +265,7 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "<b>Knowledge Base:</b>\n"
         "/note — Quick-capture a note to the vault (agents use it instantly)\n"
         "/mirror — Refresh the Obsidian vault (Home · Snapshot · Hot Prospects)\n"
+        "/push — Push vault + data to GitHub now (your Obsidian pulls it)\n"
         "/kb — Which business knowledge files the agents are using\n"
         "/fx — MMK market rates used in every proposal (/fx set usd 4290 4400)\n\n"
         "<b>Approvals:</b>\n"
@@ -1653,8 +1654,32 @@ async def cmd_mirror(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     names = ", ".join(p.stem for p in paths) or "—"
     await update.message.reply_html(
         f"🧠 <b>Obsidian vault refreshed</b> ({len(paths)} notes: {names}).\n"
-        "It syncs to GitHub via the daily workflow — your Obsidian Git pulls it. "
-        "Capture your own with /note."
+        "Run /push to send it to GitHub now (or it auto-pushes nightly)."
+    )
+
+
+async def cmd_push(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Push the vault + data to GitHub now → your Obsidian Git pulls it."""
+    if not _security_check(update):
+        return
+    from utils import obsidian, gitsync
+    if not gitsync.is_configured():
+        await update.message.reply_html(
+            "⚪ GitHub push not set up yet. Add <code>GIT_SYNC_TOKEN</code> in Railway "
+            "(a GitHub token with repo write) — the same token your Obsidian Git uses. "
+            "Then /push sends every output to GitHub → your Obsidian pulls it."
+        )
+        return
+    await update.message.reply_html("⏫ Refreshing vault and pushing to GitHub…")
+    try:
+        await asyncio.to_thread(obsidian.full_sync)
+        ok, msg = await gitsync.sync("chore: manual ZYNTH vault + data push")
+    except Exception as exc:
+        await update.message.reply_html(f"❌ Push failed: {exc}")
+        return
+    await update.message.reply_html(
+        ("✅ " if ok else "⚠️ ") + f"<b>GitHub:</b> {msg}\n\n"
+        "Your Obsidian Git will pull it on its next auto-pull."
     )
 
 
@@ -2210,6 +2235,7 @@ def main() -> None:
     app.add_handler(CommandHandler("export", cmd_export))
     app.add_handler(CommandHandler("sync", cmd_sync))
     app.add_handler(CommandHandler("mirror", cmd_mirror))
+    app.add_handler(CommandHandler("push", cmd_push))
     app.add_handler(CommandHandler("video", cmd_video))
     app.add_handler(CommandHandler("task", cmd_task))
     app.add_handler(CommandHandler("kb", cmd_kb))
