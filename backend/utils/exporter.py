@@ -12,10 +12,16 @@ from datetime import datetime
 from pathlib import Path
 
 # Column order shared by CSV, Google Sheets, and HubSpot mapping.
+# Includes the deep BD-intelligence fields the researcher now produces. Contact
+# fields stay blank unless genuinely verified — never fabricated.
 FIELDS = [
     "id", "company", "industry", "sub_sector", "location", "size",
-    "fit_score", "service_fit", "why_fit", "website", "facebook",
-    "phone", "email", "status", "source", "created_at",
+    "fit_score", "service_fit", "why_fit",
+    "company_analysis", "online_activities", "onground_activities",
+    "marketing_gap", "zynth_approach", "target_role",
+    "website", "facebook",
+    "contact_name", "contact_title", "email", "phone", "linkedin",
+    "status", "source", "created_at",
 ]
 
 _OUT = Path("outputs/exports")

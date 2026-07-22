@@ -65,3 +65,35 @@ async def send_email(subject: str, body: str, attachments: list[Path] | None = N
     except Exception as exc:
         logger.warning("Email send failed: %s", exc)
         return False
+
+
+def _send_to_sync(to: str, subject: str, body: str, reply_to: str) -> None:
+    s = get_settings()
+    msg = EmailMessage()
+    msg["From"] = s.email_from or s.smtp_user
+    msg["To"] = to
+    if reply_to:
+        msg["Reply-To"] = reply_to
+    msg["Subject"] = subject
+    msg.set_content(body)
+    with smtplib.SMTP(s.smtp_host, s.smtp_port, timeout=30) as server:
+        server.starttls()
+        server.login(s.smtp_user, s.smtp_password)
+        server.send_message(msg)
+
+
+async def send_to(to: str, subject: str, body: str, reply_to: str = "") -> bool:
+    """Send an email to an EXTERNAL recipient (BD outreach). Returns success.
+
+    Distinct from send_email (which goes to the MD's own inbox). Used by the
+    outreach queue to fire approved/auto-released prospect emails.
+    """
+    if not has_email() or not to:
+        return False
+    try:
+        await asyncio.to_thread(_send_to_sync, to, subject, body, reply_to)
+        logger.info("Outreach email sent to %s: %s", to, subject)
+        return True
+    except Exception as exc:
+        logger.warning("Outreach send failed to %s: %s", to, exc)
+        return False
