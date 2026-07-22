@@ -197,6 +197,22 @@ def set_status(company_or_id: str, status: str) -> dict | None:
     return None
 
 
+def update_fields(prospect_id: str, fields: dict) -> dict | None:
+    """Merge `fields` into a prospect by id, without blanking existing values.
+    Used to persist Apollo enrichment and autopilot flags."""
+    rows = _load()
+    pid = (prospect_id or "").lower().strip()
+    for r in rows:
+        if r.get("id", "").lower() == pid:
+            for k, v in fields.items():
+                # don't overwrite a real value with an empty one
+                if v not in (None, "") or k not in r:
+                    r[k] = v
+            _save(rows)
+            return r
+    return None
+
+
 # ── querying ──────────────────────────────────────────────────────────────────
 
 def search(query: str = "", industry: str = "", min_fit: int = 0) -> list[dict]:

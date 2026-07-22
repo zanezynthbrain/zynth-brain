@@ -325,6 +325,74 @@ async def sync_prospects_out() -> None:
         logger.info("HubSpot sync skipped: %s", type(exc).__name__)
 
 
+async def run_bd_autopilot() -> None:
+    """The closed-loop BD engine: research → enrich real contacts (Apollo) →
+    draft + queue personalised outreach → notify. Autonomous; you supervise.
+    No-op unless BD_AUTOPILOT_ENABLED=true. Never raises out."""
+    from utils import bd_autopilot
+    if not bd_autopilot.is_enabled():
+        return
+    if bd_autopilot.is_paused():
+        logger.info("BD autopilot paused — skipping")
+        return
+    logger.info("🤖 BD autopilot starting")
+    try:
+        from utils.prospects import recent
+        r = await collect_prospects()  # research today's sector
+        if r.get("mocked"):
+            await send_message(
+                "🤖 <b>BD Autopilot</b> is on but the brain is offline — add Anthropic "
+                "API credit and it will research, enrich and queue outreach every day."
+            )
+            return
+        # Enrich + queue the day's freshest, highest-fit prospects.
+        new_rows = sorted(recent(days=1), key=lambda p: p.get("fit_score", 0), reverse=True)
+        out = await bd_autopilot.enrich_and_queue(new_rows)
+        await sync_prospects_out()
+
+        apollo_note = "" if out["apollo"] else (
+            "\n⚠️ Apollo not connected yet — set <code>APOLLO_API_KEY</code> in Railway so "
+            "it can fill real contacts. Until then it drafts for prospects that already have an email."
+        )
+        await send_message(
+            (
+                f"🤖 <b>BD Autopilot — {r['sector']}</b>\n"
+                f"Researched +{r['added']} · enriched {out['enriched']} real contacts · "
+                f"drafted {out['queued']} outreach emails.\n\n"
+                f"Review before they send: /queue{apollo_note}"
+            )[:4000]
+        )
+        try:
+            from utils.tasks import log_activity
+            log_activity("BD", f"Autopilot enriched {out['enriched']}, queued {out['queued']} outreach", source="autopilot")
+        except Exception:
+            pass
+    except Exception as exc:
+        logger.exception("BD autopilot failed: %s", exc)
+
+
+async def run_outreach_sender() -> None:
+    """Send outreach that's due (released or auto-released), respecting the daily
+    cap. Runs hourly. Honours the pause switch. No-op if nothing is due."""
+    from utils import bd_autopilot, outreach
+    if not bd_autopilot.is_enabled():
+        return
+    try:
+        res = await outreach.send_due(paused=bd_autopilot.is_paused())
+        if res.get("sent"):
+            await send_message(
+                f"📤 <b>Outreach sent:</b> {res['sent']} email(s) went out. "
+                f"{res.get('skipped', 0)} still pending. /queue"
+            )
+            try:
+                from utils.tasks import log_activity
+                log_activity("BD", f"Autopilot sent {res['sent']} outreach emails", source="autopilot")
+            except Exception:
+                pass
+    except Exception as exc:
+        logger.info("Outreach sender error: %s", type(exc).__name__)
+
+
 async def run_daily_proposals() -> None:
     """Autonomous daily proposal production — the proposal department generates
     new event/campaign proposals every day, on its own, no prompting. Grows the
@@ -468,6 +536,23 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
         CronTrigger(hour=6, minute=30, timezone=settings.scheduler_timezone),
         id="market_research",
         name="Daily Market Research",
+        replace_existing=True,
+    )
+
+    # BD Autopilot (07:00 Yangon — after research: enrich contacts + draft outreach)
+    scheduler.add_job(
+        run_bd_autopilot,
+        CronTrigger(hour=7, minute=0, timezone=settings.scheduler_timezone),
+        id="bd_autopilot",
+        name="BD Autopilot",
+        replace_existing=True,
+    )
+    # Outreach sender (hourly 09:00–18:00 Yangon — sends released/auto-released, capped)
+    scheduler.add_job(
+        run_outreach_sender,
+        CronTrigger(hour="9-18", minute=15, timezone=settings.scheduler_timezone),
+        id="outreach_sender",
+        name="Outreach Sender",
         replace_existing=True,
     )
 

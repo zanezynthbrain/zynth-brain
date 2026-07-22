@@ -254,6 +254,8 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "<b>Databases (collect real data daily):</b>\n"
         "/prospects — Myanmar business prospects (potential clients, daily)\n"
         "/scout — Research a fresh batch now (/scout fintech)\n"
+        "/autopilot — BD autopilot: status · pause · resume · run\n"
+        "/queue — Review outreach drafts (/release · /reject &lt;id&gt;)\n"
         "/export — Prospects → CSV (open in Sheets/Excel)\n"
         "/sync — Push prospects to Google Sheets / HubSpot\n"
         "/lead — Client leads &amp; BD pipeline (/lead add · list · stage)\n"
@@ -1537,6 +1539,111 @@ async def cmd_prospects(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
                      + "\n\n".join(format_prospect(p) for p in results[:20]))
 
 
+async def cmd_autopilot(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """BD Autopilot control — the on-the-loop switchboard.
+    /autopilot (status) · /autopilot pause · /autopilot resume · /autopilot run"""
+    if not _security_check(update):
+        return
+    from utils import bd_autopilot, apollo_enrich, outreach
+    arg = " ".join(context.args).strip().lower() if context.args else ""
+
+    if arg in ("pause", "stop", "off"):
+        bd_autopilot.pause()
+        await update.message.reply_html("⏸ <b>BD Autopilot paused.</b> No outreach will send until /autopilot resume.")
+        return
+    if arg in ("resume", "start", "on", "go"):
+        bd_autopilot.resume()
+        await update.message.reply_html("▶️ <b>BD Autopilot resumed.</b> It will research, enrich and queue on the daily cycle.")
+        return
+    if arg in ("run", "now"):
+        await update.message.reply_html("🤖 Running the BD loop now… (research → enrich → draft). ~60s.")
+        try:
+            from scheduler import run_bd_autopilot
+            await run_bd_autopilot()
+        except Exception as exc:
+            await update.message.reply_html(f"❌ {exc}")
+        return
+
+    enabled = bd_autopilot.is_enabled()
+    paused = bd_autopilot.is_paused()
+    apollo = apollo_enrich.is_configured()
+    state = "🔴 OFF (set BD_AUTOPILOT_ENABLED=true)" if not enabled else (
+        "⏸ PAUSED" if paused else "🟢 RUNNING")
+    await update.message.reply_html(
+        f"🤖 <b>BD Autopilot — {state}</b>\n\n"
+        f"Contacts source (Apollo): {'✅ connected' if apollo else '⚠️ not set (APOLLO_API_KEY)'}\n"
+        f"Sending: 1-tap queue + auto-release\n\n"
+        f"{outreach.stats_text()}\n\n"
+        "Controls: /autopilot pause · /autopilot resume · /autopilot run\n"
+        "Outreach: /queue · /release &lt;id&gt; · /reject &lt;id&gt;"
+    )
+
+
+async def cmd_queue(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Review the outreach queue. /queue lists pending · /queue <id> shows the draft."""
+    if not _security_check(update):
+        return
+    from utils import outreach
+    arg = context.args[0] if context.args else ""
+    if arg:
+        it = outreach.get(arg)
+        if not it:
+            await update.message.reply_html(f"No queued item <code>{arg}</code>. /queue to list.")
+            return
+        await update.message.reply_html(
+            f"📧 <b>{it['company']}</b> → {it.get('contact_name') or it['to']}\n"
+            f"<b>To:</b> {it['to']}\n<b>Subject:</b> {it['subject']}\n"
+            f"<b>Status:</b> {it['status']} · auto-release: {it.get('release_at') or '—'}\n\n"
+            f"{it['body']}\n\n"
+            f"Send now: /release {it['id']} · Skip: /reject {it['id']}"
+        )
+        return
+    items = outreach.pending()
+    if not items:
+        await update.message.reply_html("📭 Outreach queue is empty. The autopilot fills it after each run.")
+        return
+    lines = "\n".join(
+        f"• <code>{it['id']}</code> — <b>{it['company']}</b> → {it.get('contact_name') or it['to']}"
+        for it in items[:25]
+    )
+    await update.message.reply_html(
+        f"📤 <b>Outreach awaiting you ({len(items)})</b>\n{lines}\n\n"
+        "Read a draft: /queue &lt;id&gt; · Send: /release &lt;id&gt; · Skip: /reject &lt;id&gt;"
+    )
+
+
+async def cmd_release(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Approve a queued outreach to send on the next sender tick."""
+    if not _security_check(update):
+        return
+    from utils import outreach
+    if not context.args:
+        await update.message.reply_html("Usage: /release &lt;id&gt; (see /queue)")
+        return
+    it = outreach.release(context.args[0])
+    if not it:
+        await update.message.reply_html(f"No queued item <code>{context.args[0]}</code>.")
+        return
+    await update.message.reply_html(
+        f"✅ Released — <b>{it['company']}</b> will send shortly (within the daily cap)."
+    )
+
+
+async def cmd_reject(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Drop a queued outreach so it never sends."""
+    if not _security_check(update):
+        return
+    from utils import outreach
+    if not context.args:
+        await update.message.reply_html("Usage: /reject &lt;id&gt; (see /queue)")
+        return
+    it = outreach.reject(context.args[0])
+    if not it:
+        await update.message.reply_html(f"No queued item <code>{context.args[0]}</code>.")
+        return
+    await update.message.reply_html(f"🚫 Rejected — <b>{it['company']}</b> will not be sent.")
+
+
 async def cmd_scout(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Run the Myanmar Market Researcher now — collect a fresh batch of prospects.
 
@@ -2232,6 +2339,10 @@ def main() -> None:
     app.add_handler(CommandHandler("lead", cmd_lead))
     app.add_handler(CommandHandler("prospects", cmd_prospects))
     app.add_handler(CommandHandler("scout", cmd_scout))
+    app.add_handler(CommandHandler("autopilot", cmd_autopilot))
+    app.add_handler(CommandHandler("queue", cmd_queue))
+    app.add_handler(CommandHandler("release", cmd_release))
+    app.add_handler(CommandHandler("reject", cmd_reject))
     app.add_handler(CommandHandler("export", cmd_export))
     app.add_handler(CommandHandler("sync", cmd_sync))
     app.add_handler(CommandHandler("mirror", cmd_mirror))
