@@ -348,5 +348,205 @@
     "month": "July",
     "created_at": "2026-07-14T23:47:26.379038",
     "file": "fandb_and_restaurant/july.json"
+  },
+  {
+    "proposal_id": "ac78c5ad",
+    "title": "Wellness Reset — Mid-Year Health Campaign",
+    "type": "Seasonal Campaign",
+    "industry": "Healthcare & Wellness",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-23T23:54:35.690182",
+    "file": "healthcare_and_wellness/july.json"
+  },
+  {
+    "proposal_id": "5c17a35a",
+    "title": "Health & Vitality Expo — July Wellness Festival",
+    "type": "Product Launch Event",
+    "industry": "Healthcare & Wellness",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-23T23:54:35.690182",
+    "file": "healthcare_and_wellness/july.json"
+  },
+  {
+    "proposal_id": "f70263e1",
+    "title": "School Holiday Fitness Bootcamp — Youth Activation",
+    "type": "Brand Activation",
+    "industry": "Healthcare & Wellness",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-23T23:54:35.690182",
+    "file": "healthcare_and_wellness/july.json"
+  },
+  {
+    "proposal_id": "ebfa473e",
+    "title": "Mental Wellness Month — Content + Community Campaign",
+    "type": "Digital Campaign",
+    "industry": "Healthcare & Wellness",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-23T23:54:35.690182",
+    "file": "healthcare_and_wellness/july.json"
+  },
+  {
+    "proposal_id": "69819baf",
+    "title": "Summer Wellness Challenge — Lead Generation & Retention Campaign",
+    "type": "Lead Generation Campaign",
+    "industry": "Healthcare & Wellness",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-23T23:54:35.690182",
+    "file": "healthcare_and_wellness/july.json"
+  },
+  {
+    "proposal_id": "c5a55cb7",
+    "title": "Summer Bootcamp Blitz — Youth Skills Training Campaign",
+    "type": "Seasonal Campaign",
+    "industry": "Education & Training",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-23T23:55:12.688904",
+    "file": "education_and_training/july.json"
+  },
+  {
+    "proposal_id": "35d4fa2b",
+    "title": "Schools Reimagined — Educational Institution Launch Event",
+    "type": "Product Launch Event",
+    "industry": "Education & Training",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-23T23:55:12.688904",
+    "file": "education_and_training/july.json"
+  },
+  {
+    "proposal_id": "dbac0211",
+    "title": "Code Camp Chronicles — Coding Bootcamp Brand Activation",
+    "type": "Brand Activation",
+    "industry": "Education & Training",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-23T23:55:12.688904",
+    "file": "education_and_training/july.json"
+  },
+  {
+    "proposal_id": "b62442aa",
+    "title": "Scholarship Stories — EdTech Lead Generation Digital Campaign",
+    "type": "Digital Campaign",
+    "industry": "Education & Training",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-23T23:55:12.688904",
+    "file": "education_and_training/july.json"
+  },
+  {
+    "proposal_id": "9d7f6e37",
+    "title": "Future-Ready: Education Rebranding Campaign",
+    "type": "Rebranding Campaign",
+    "industry": "Education & Training",
+    "market": "MM",
+    "month": "July",
+    "created_at": "2026-07-23T23:55:12.688904",
+    "file": "education_and_training/july.json"
+  },
+  {
+    "proposal_id": "d63fe785",
+    "title": "Summer Fit Rush — Activewear & Athleisure School Holiday Campaign",
+    "type": "Seasonal Campaign",
+    "industry": "Retail & E-commerce",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-23T23:55:55.346915",
+    "file": "retail_and_e-commerce/july.json"
+  },
+  {
+    "proposal_id": "5a69c60d",
+    "title": "The Summer Store — Pop-Up Retail Event & Brand Immersion",
+    "type": "Brand Activation",
+    "industry": "Retail & E-commerce",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-23T23:55:55.346915",
+    "file": "retail_and_e-commerce/july.json"
+  },
+  {
+    "proposal_id": "c2fe9212",
+    "title": "Flash Friday Frenzy — 6-Week Performance Digital Campaign",
+    "type": "Digital Campaign",
+    "industry": "Retail & E-commerce",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-23T23:55:55.346915",
+    "file": "retail_and_e-commerce/july.json"
+  },
+  {
+    "proposal_id": "9c7d9d17",
+    "title": "Back in Style — Fashion/Apparel Rebrand Launch Event + Social Sprint",
+    "type": "Rebranding Campaign",
+    "industry": "Retail & E-commerce",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-23T23:55:55.346915",
+    "file": "retail_and_e-commerce/july.json"
+  },
+  {
+    "proposal_id": "db2a4149",
+    "title": "Summer Sale Sprint — Time-Sensitive Lead Generation Campaign",
+    "type": "Lead Generation Campaign",
+    "industry": "Retail & E-commerce",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-23T23:55:55.346915",
+    "file": "retail_and_e-commerce/july.json"
+  },
+  {
+    "proposal_id": "06f145a7",
+    "title": "Wellness Warriors — School Holiday Health Campaign",
+    "type": "Seasonal Campaign",
+    "industry": "Healthcare & MedTech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-23T23:56:36.878162",
+    "file": "healthcare_and_medtech/july.json"
+  },
+  {
+    "proposal_id": "c8a16016",
+    "title": "Summer Health Check-In Lab — Pop-Up Wellness Activation",
+    "type": "Brand Activation",
+    "industry": "Healthcare & MedTech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-23T23:56:36.878162",
+    "file": "healthcare_and_medtech/july.json"
+  },
+  {
+    "proposal_id": "be026de4",
+    "title": "Mental Wellness @ Work — B2B Corporate Wellness Campaign",
+    "type": "Lead Generation Campaign",
+    "industry": "Healthcare & MedTech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-23T23:56:36.878162",
+    "file": "healthcare_and_medtech/july.json"
+  },
+  {
+    "proposal_id": "7b78a94d",
+    "title": "Telehealth Summer Sprint — Youth Digital Health Campaign",
+    "type": "Digital Campaign",
+    "industry": "Healthcare & MedTech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-23T23:56:36.878162",
+    "file": "healthcare_and_medtech/july.json"
+  },
+  {
+    "proposal_id": "4ac1ac63",
+    "title": "Healing Moments — Medical Clinic Rebranding + Launch Campaign",
+    "type": "Rebranding Campaign",
+    "industry": "Healthcare & MedTech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-23T23:56:36.878162",
+    "file": "healthcare_and_medtech/july.json"
   }
 ]
