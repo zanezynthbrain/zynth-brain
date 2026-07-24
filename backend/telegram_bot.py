@@ -1644,6 +1644,53 @@ async def cmd_reject(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     await update.message.reply_html(f"🚫 Rejected — <b>{it['company']}</b> will not be sent.")
 
 
+async def cmd_enrich(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/enrich <company> — build a full BD lead record: prospect intel + a REAL
+    Apollo contact (no fabrication), appended to the leads DB."""
+    if not _security_check(update):
+        return
+    if not context.args:
+        await update.message.reply_html("Usage: <code>/enrich &lt;company&gt;</code>")
+        return
+    company = " ".join(context.args)
+    await update.message.reply_html(f"🔎 Enriching <b>{company}</b>…")
+    try:
+        from utils.prospects import search as psearch
+        hits = psearch(company)
+        intel = hits[0] if hits else {"company": company}
+        contact = None
+        from utils import apollo_enrich
+        if apollo_enrich.is_configured():
+            contact = await apollo_enrich.find_contact(company, intel.get("target_role", ""))
+        from utils.leads import add_lead
+        lead = {
+            "company": company, "sector": intel.get("industry", ""),
+            "website": intel.get("website", ""), "facebook": intel.get("facebook", ""),
+            "source": "enrich", "stage": "new",
+            "next_action": "Verify contact + open outreach",
+            "notes": intel.get("zynth_approach", "") or intel.get("why_fit", ""),
+        }
+        if contact:
+            lead.update({
+                "contact_person": contact.get("contact_name", ""),
+                "contact_title": contact.get("contact_title", ""),
+                "email": contact.get("email", ""), "phone": contact.get("phone", ""),
+                "contact_linkedin": contact.get("linkedin", ""),
+            })
+        lid = add_lead(lead)
+        c = (f"👤 {lead['contact_person']} ({lead['contact_title']}) · {lead['email'] or 'email: verify'}"
+             if contact and lead.get("contact_person") else
+             "👤 No verified contact yet — set APOLLO_API_KEY or add manually.")
+        await update.message.reply_html(
+            f"✅ <b>Lead added [{lid}] — {company}</b>\n"
+            f"{lead['sector'] or 'sector: ?'}\n{c}\n"
+            f"Approach: {lead['notes'][:180] or '—'}\n\n"
+            f"Work it: <code>/lead stage {company} contacted</code> · /pipeline"
+        )
+    except Exception as exc:
+        await update.message.reply_html(f"❌ {exc}")
+
+
 async def cmd_scout(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Run the Myanmar Market Researcher now — collect a fresh batch of prospects.
 
@@ -2339,6 +2386,7 @@ def main() -> None:
     app.add_handler(CommandHandler("lead", cmd_lead))
     app.add_handler(CommandHandler("prospects", cmd_prospects))
     app.add_handler(CommandHandler("scout", cmd_scout))
+    app.add_handler(CommandHandler("enrich", cmd_enrich))
     app.add_handler(CommandHandler("autopilot", cmd_autopilot))
     app.add_handler(CommandHandler("queue", cmd_queue))
     app.add_handler(CommandHandler("release", cmd_release))

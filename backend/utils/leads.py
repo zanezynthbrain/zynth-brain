@@ -36,10 +36,21 @@ def _save(leads: list[dict]) -> None:
     _PATH.write_text(json.dumps(leads, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
+# Full BD-spine record schema. Missing fields default to "" so every lead has
+# the same shape (company, sector, channels, ads observed, contact, pipeline).
+LEAD_FIELDS = [
+    "company", "sector", "website", "facebook", "tiktok", "linkedin",
+    "ads_observed", "contact_person", "contact_title", "email", "phone",
+    "contact_linkedin", "source", "stage", "next_action", "value", "notes",
+]
+
+
 def add_lead(lead: dict[str, Any]) -> str:
     leads = _load()
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
-    lead.setdefault("stage", "new")
+    for f in LEAD_FIELDS:
+        lead.setdefault(f, "")
+    lead["stage"] = lead.get("stage") or "new"
     lead["created_at"] = now
     lead["updated_at"] = now
     lead["id"] = f"L{len(leads) + 1:03d}"

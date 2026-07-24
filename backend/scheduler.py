@@ -325,6 +325,49 @@ async def sync_prospects_out() -> None:
         logger.info("HubSpot sync skipped: %s", type(exc).__name__)
 
 
+async def run_weekly_bridge_export() -> None:
+    """Monday: export the master lead + prospect databases to bridge/ (CSV) and
+    refresh the build-state snapshot. Consumer: the MD's Drive/consultant."""
+    import csv as _csv
+    from pathlib import Path as _Path
+    logger.info("📦 Weekly bridge export")
+    try:
+        bridge = _Path("../bridge") if _Path("../bridge").exists() else _Path("bridge")
+        bridge.mkdir(parents=True, exist_ok=True)
+
+        # Leads CSV
+        try:
+            from utils.leads import all_leads, LEAD_FIELDS
+            rows = all_leads()
+            with open(bridge / "leads.csv", "w", newline="", encoding="utf-8-sig") as f:
+                w = _csv.DictWriter(f, fieldnames=["id"] + LEAD_FIELDS + ["created_at", "updated_at"], extrasaction="ignore")
+                w.writeheader()
+                for r in rows:
+                    w.writerow(r)
+        except Exception as exc:
+            logger.info("leads export skipped: %s", type(exc).__name__)
+
+        # Prospects CSV (reuse exporter)
+        try:
+            from utils.exporter import prospects_csv
+            path, n = prospects_csv()
+            import shutil as _sh
+            _sh.copy2(path, bridge / "prospects.csv")
+        except Exception as exc:
+            logger.info("prospects export skipped: %s", type(exc).__name__)
+
+        # Refresh HANDOFF/CONTEXT/knowledge snapshot
+        try:
+            import subprocess as _sp
+            _sp.run(["python", "tools/refresh_bridge.py"], cwd=".", timeout=30, check=False)
+        except Exception:
+            pass
+
+        await send_message("📦 <b>Weekly BD export → bridge/</b>\nleads.csv + prospects.csv refreshed for Drive / your consultant.")
+    except Exception as exc:
+        logger.exception("Weekly bridge export failed: %s", exc)
+
+
 async def run_bd_autopilot() -> None:
     """The closed-loop BD engine: research → enrich real contacts (Apollo) →
     draft + queue personalised outreach → notify. Autonomous; you supervise.
@@ -578,6 +621,14 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
         CronTrigger(day_of_week="fri", hour=15, minute=30, timezone=settings.scheduler_timezone),
         id="friday_review",
         name="Friday Weekly Review",
+        replace_existing=True,
+    )
+    # Weekly BD export to bridge/ (Monday 08:00 Yangon — master lead DB to Drive)
+    scheduler.add_job(
+        run_weekly_bridge_export,
+        CronTrigger(day_of_week="mon", hour=8, minute=0, timezone=settings.scheduler_timezone),
+        id="weekly_bridge_export",
+        name="Weekly BD Export → bridge/",
         replace_existing=True,
     )
 
