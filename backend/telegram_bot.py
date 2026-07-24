@@ -115,7 +115,7 @@ def _start_dashboard_server() -> None:
                 self.wfile.write(f"dashboard error: {exc}".encode())
 
         def do_POST(self):  # noqa: N802
-            if not self.path.startswith("/api/task"):
+            if not (self.path.startswith("/api/task") or self.path.startswith("/api/cmd")):
                 self._json({"ok": False}, 404); return
             # optional token guard (only enforced when ZYNTH_DASHBOARD_TOKEN set)
             if token and self.headers.get("X-Token") != token and token not in self.path:
@@ -123,6 +123,10 @@ def _start_dashboard_server() -> None:
             try:
                 n = int(self.headers.get("Content-Length", 0))
                 data = _json.loads(self.rfile.read(n) or b"{}")
+                if self.path.startswith("/api/cmd"):
+                    from utils.cmdqueue import enqueue
+                    ok = enqueue(data.get("cmd", ""))
+                    self._json({"ok": ok}); return
                 from utils.tasks import add_task, set_status, assign_task
                 act = data.get("action")
                 if act == "add":

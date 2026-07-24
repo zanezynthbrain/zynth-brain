@@ -122,9 +122,76 @@ def build_state() -> dict[str, Any]:
         })
 
     all_t = all_tasks()
+
+    # ── cost vitals ──
+    cap = float(getattr(s, "daily_budget_sgd", 5.0) or 5.0)
+    try:
+        from utils.costaudit import _spend_last_days
+        today_sgd, today_calls = _spend_last_days(1)
+        week_sgd, week_calls = _spend_last_days(7)
+    except Exception:
+        today_sgd = week_sgd = 0.0
+        today_calls = week_calls = 0
+    cost = {"today": round(today_sgd, 2), "cap": cap, "week": round(week_sgd, 2),
+            "calls_today": today_calls, "calls_week": week_calls,
+            "pct": min(100, round((today_sgd / cap * 100) if cap else 0))}
+
+    # ── pipeline by stage ──
+    STAGE_ORDER = ["new", "contacted", "meeting", "proposal", "won", "lost"]
+    pipeline = []
+    for st in STAGE_ORDER:
+        in_st = [l for l in leads if l.get("stage") == st]
+        pipeline.append({"stage": st, "count": len(in_st),
+                         "value": int(sum(float(l.get("value_sgd") or 0) for l in in_st))})
+
+    # ── deliverables index (proposals + queued outreach) ──
+    deliverables = []
+    for p in (proposals or [])[-30:]:
+        if isinstance(p, dict):
+            deliverables.append({
+                "title": p.get("title") or p.get("name") or p.get("concept") or "Proposal",
+                "meta": " · ".join(str(p.get(k, "")) for k in ("industry", "market") if p.get(k)),
+                "date": p.get("created_at") or p.get("date") or "",
+                "type": "proposal",
+            })
+    deliverables.reverse()
+
+    # ── today's directives (top 3, heuristic) ──
+    directives = []
+    if not audit_done:
+        directives.append("Run /audit — set your starting line")
+    if pstats.get("hot"):
+        directives.append(f"Work {pstats['hot']} hot prospects (/prospects)")
+    try:
+        from utils.outreach import pending as _oq
+        q = len(_oq())
+        if q:
+            directives.append(f"Review {q} outreach drafts (/queue)")
+    except Exception:
+        pass
+    if reds:
+        directives.append(f"Fix {reds} red KPI{'s' if reds > 1 else ''} (/scorecard)")
+    if not leads:
+        directives.append("Land the first real client — leverage on 0 clients is 0")
+    directives = directives[:3]
+
+    # ── sync + brain status ──
+    try:
+        from utils import gitsync
+        sync_on = gitsync.is_configured()
+    except Exception:
+        sync_on = False
+
     return {
         "generated": datetime.now().strftime("%a %d %b %Y, %H:%M"),
-        "sys": {"ai": bool(s.anthropic_api_key), "voice": bool(s.gemini_api_key), "email": bool(s.smtp_user and s.smtp_password)},
+        "model": getattr(s, "model_name", ""),
+        "cost": cost,
+        "pipeline": pipeline,
+        "deliverables": deliverables,
+        "directives": directives,
+        "sync_on": sync_on,
+        "sys": {"ai": bool(s.anthropic_api_key), "voice": bool(s.gemini_api_key),
+                "email": bool(s.smtp_user and s.smtp_password), "sync": sync_on},
         "totals": {
             "leads": len(leads), "open_value": int(open_value), "proposals": len(proposals),
             "prospects": pstats["total"], "prospects_hot": pstats["hot"], "prospects_week": pstats.get("added_week", 0),
@@ -145,7 +212,7 @@ def render_dashboard() -> str:
 
 def render_spa() -> str:
     state_json = json.dumps(build_state())
-    return _HTML.replace("__STATE__", state_json)
+    return _HUD.replace("__STATE__", state_json)
 
 
 _HTML = r"""<!doctype html><html lang="en"><head>
@@ -376,4 +443,206 @@ async function refresh(){const s=await api('/api/state');if(s&&s.departments){ST
 window.addEventListener('resize',layout);
 render();layout();requestAnimationFrame(draw);
 setInterval(refresh,15000);
+</script></body></html>"""
+
+
+_HUD = r"""<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ZYNTH Command</title>
+<style>
+:root{
+  --bg:#0A0E12; --panel:#0F141A; --panel2:#131B23; --border:#1E2A35;
+  --cyan:#1FB4D8; --teal:#0D7C99; --ink:#FFFFFF; --mut:#7C8B9A;
+  --good:#3FB27F; --warn:#E0A83D; --bad:#E5675F;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:
+  radial-gradient(1200px 600px at 80% -10%, rgba(31,180,216,.06), transparent),
+  var(--bg); color:var(--ink);
+  font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  -webkit-font-smoothing:antialiased; overscroll-behavior:none}
+a{color:var(--cyan);text-decoration:none}
+.top{position:sticky;top:0;z-index:10;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;
+  padding:12px 16px;background:rgba(10,14,18,.82);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:11px}
+.hex{width:30px;height:30px;filter:drop-shadow(0 0 6px rgba(31,180,216,.5))}
+.title{font-weight:700;letter-spacing:.16em;font-size:14px}
+.title small{display:block;color:var(--mut);font-size:9.5px;letter-spacing:.24em;font-weight:400}
+.clock{color:var(--cyan);font-size:12.5px;font-variant-numeric:tabular-nums}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.chip{font-size:10.5px;padding:3px 9px;border-radius:4px;border:1px solid var(--border);background:var(--panel);letter-spacing:.05em}
+.chip .d{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.on{background:var(--good)} .off{background:var(--bad)}
+.ticker{width:100%;font-size:11px;color:var(--mut);letter-spacing:.04em;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.ticker b{color:var(--cyan)}
+.grid{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:14px;padding:14px 16px 90px;max-width:1500px;margin:0 auto}
+@media(max-width:980px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px}
+.h{font-size:10.5px;letter-spacing:.18em;color:var(--cyan);text-transform:uppercase;margin:0 0 12px;
+  display:flex;align-items:center;gap:8px}
+.h::before{content:"";width:6px;height:6px;background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+.h2{margin-top:22px}
+.mut{color:var(--mut)}
+/* cost gauge */
+.gauge{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.gauge b{font-size:26px;font-variant-numeric:tabular-nums}
+.bar{height:8px;border-radius:6px;background:var(--panel2);overflow:hidden;border:1px solid var(--border)}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--cyan))}
+.sub{font-size:11px;color:var(--mut);margin-top:6px;display:flex;justify-content:space-between}
+/* pipeline */
+.pipe{margin:7px 0}
+.pipe .lab{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px}
+.pipe .lab span:last-child{color:var(--mut)}
+.pipe .track{height:6px;background:var(--panel2);border-radius:5px;overflow:hidden}
+.pipe .track>i{display:block;height:100%;background:var(--cyan);opacity:.85}
+/* scorecard */
+.score{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.sc{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:8px 9px;font-size:11px}
+.sc .t{display:flex;align-items:center;gap:6px;color:var(--mut)}
+.dot{width:7px;height:7px;border-radius:50%;flex:none}
+.sc b{font-size:14px;font-variant-numeric:tabular-nums;display:block;margin-top:3px}
+/* feed */
+.ev{display:flex;gap:9px;padding:9px 0;border-top:1px solid var(--border);font-size:12.5px;line-height:1.4}
+.ev:first-child{border-top:0}
+.ev .ed{width:8px;height:8px;border-radius:50%;margin-top:5px;flex:none}
+.ev small{color:var(--mut);font-size:10.5px}
+.deliv{display:flex;gap:9px;padding:9px 0;border-top:1px solid var(--border);font-size:12.5px}
+.deliv:first-child{border-top:0}
+.deliv .ic{color:var(--teal)}
+.deliv small{color:var(--mut);display:block;font-size:10.5px}
+.empty{color:var(--mut);font-size:12px;padding:8px 0}
+/* command deck */
+.deck{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cmd{background:var(--panel2);border:1px solid var(--border);color:var(--ink);border-radius:8px;
+  padding:12px 10px;font:inherit;font-size:12px;cursor:pointer;text-align:left;transition:.12s;letter-spacing:.03em}
+.cmd:hover{border-color:var(--cyan);color:var(--cyan)}
+.cmd .k{display:block;color:var(--mut);font-size:9.5px;letter-spacing:.14em;margin-bottom:3px}
+.add{display:flex;gap:7px;margin-top:10px}
+.add select,.add input{background:var(--panel2);border:1px solid var(--border);color:var(--ink);
+  border-radius:7px;padding:9px;font:inherit;font-size:12px;min-width:0}
+.add input{flex:1}
+.add button{background:var(--cyan);color:#04222b;border:0;border-radius:7px;padding:9px 13px;font:inherit;font-weight:700;cursor:pointer}
+.tk{display:flex;align-items:center;gap:8px;font-size:12px;padding:7px 0;border-top:1px solid var(--border)}
+.tk:first-child{border-top:0}
+.tk .s{font-size:9px;color:var(--mut);border:1px solid var(--border);border-radius:4px;padding:1px 5px;letter-spacing:.08em}
+.tk .c{color:var(--mut);flex:none}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);opacity:0;
+  background:var(--cyan);color:#04222b;padding:10px 16px;border-radius:8px;font-size:12.5px;font-weight:700;
+  transition:.25s;z-index:50;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.live{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--good);margin-right:5px;animation:bl 2s infinite}
+@keyframes bl{50%{opacity:.3}}
+</style></head><body>
+<div class="top">
+  <div class="brand">
+    <svg class="hex" viewBox="0 0 100 100"><polygon points="50,3 93,26 93,74 50,97 7,74 7,26" fill="none" stroke="#1FB4D8" stroke-width="5"/><text x="50" y="63" text-anchor="middle" font-size="42" fill="#1FB4D8" font-family="monospace" font-weight="700">Z</text></svg>
+    <div class="title">ZYNTH COMMAND<small>THE INTELLIGENCE OF CREATIVITY</small></div>
+  </div>
+  <div class="clock" id="clock">--:--:--</div>
+  <div class="chips" id="chips"></div>
+  <div class="ticker" id="ticker"></div>
+</div>
+<div class="grid">
+  <!-- LEFT: VITALS -->
+  <div>
+    <div class="panel">
+      <div class="h">System Vitals</div>
+      <div class="gauge"><b id="costToday">S$0.00</b><span class="mut" id="costCap">/ S$5 cap</span></div>
+      <div class="bar"><i id="costBar" style="width:0%"></i></div>
+      <div class="sub"><span id="costWeek">7-day: S$0</span><span id="model">—</span></div>
+    </div>
+    <div class="panel" style="margin-top:14px">
+      <div class="h">Pipeline</div>
+      <div id="pipeline"></div>
+    </div>
+    <div class="panel" style="margin-top:14px">
+      <div class="h">Scorecard · 12 KPIs</div>
+      <div class="score" id="score"></div>
+    </div>
+  </div>
+  <!-- CENTER: FEED + DELIVERABLES -->
+  <div>
+    <div class="panel">
+      <div class="h"><span class="live"></span>Activity Feed</div>
+      <div id="feed"></div>
+    </div>
+    <div class="panel" style="margin-top:14px">
+      <div class="h">Deliverables Index</div>
+      <div id="deliv"></div>
+    </div>
+  </div>
+  <!-- RIGHT: COMMAND DECK -->
+  <div>
+    <div class="panel">
+      <div class="h">Command Deck</div>
+      <div class="deck" id="deck"></div>
+      <div class="add">
+        <select id="dept"></select>
+        <input id="tin" placeholder="add task…" onkeydown="if(event.key==='Enter')addTask()">
+        <button onclick="addTask()">+</button>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:14px">
+      <div class="h">Open Work</div>
+      <div id="tasks"></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+let S = __STATE__;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const DC={BD:'#1FB4D8',Events:'#E0A83D',Creative:'#E5675F',Marketing:'#3FB27F',Operations:'#0D7C99',Finance:'#9B8CFF',Content:'#E08A3D'};
+const CMDS=[['brief','CEO','Daily Brief'],['research','BD','Scout Prospects'],['autopilot','BD','Run Autopilot'],['proposals','WORK','Gen Proposals'],['consolidation','OPS','Consolidate'],['costaudit','FIN','Cost Audit'],['push','SYNC','Push→Obsidian']];
+
+function clock(){const d=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Yangon'}));
+  $('#clock').textContent=d.toTimeString().slice(0,8)+' YGN';}
+setInterval(clock,1000);clock();
+
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2600);}
+
+function render(){
+  const sys=S.sys||{}, c=S.cost||{today:0,cap:5,week:0,pct:0};
+  // chips
+  $('#chips').innerHTML=[['BRAIN',sys.ai],['SYNC',sys.sync],['EMAIL',sys.email],['VOICE',sys.voice]]
+    .map(([n,ok])=>`<span class="chip"><span class="d ${ok?'on':'off'}"></span>${n}</span>`).join('');
+  // ticker (directives)
+  const dir=(S.directives||[]);
+  $('#ticker').innerHTML=dir.length?('▸ '+dir.map(esc).join('  ·  ')):'▸ <b>All clear.</b> Feed the machine a brief.';
+  // cost
+  $('#costToday').textContent='S$'+(c.today||0).toFixed(2);
+  $('#costCap').textContent='/ S$'+c.cap+' cap';
+  const bar=$('#costBar');bar.style.width=Math.min(100,c.pct||0)+'%';
+  bar.style.background=(c.pct>=100)?'var(--bad)':(c.pct>=80?'linear-gradient(90deg,var(--warn),var(--bad))':'linear-gradient(90deg,var(--teal),var(--cyan))');
+  $('#costWeek').textContent='7-day: S$'+(c.week||0).toFixed(2)+' · '+(c.calls_week||0)+' calls';
+  $('#model').textContent=S.model||'';
+  // pipeline
+  const pipe=S.pipeline||[];const mx=Math.max(1,...pipe.map(p=>p.count));
+  $('#pipeline').innerHTML=pipe.map(p=>`<div class="pipe"><div class="lab"><span>${esc(p.stage)}</span><span>${p.count}${p.value?(' · S$'+p.value.toLocaleString()):''}</span></div><div class="track"><i style="width:${Math.round(p.count/mx*100)}%"></i></div></div>`).join('')||'<div class="empty">No leads yet — /enrich a company.</div>';
+  // scorecard
+  const tone={good:'var(--good)',bad:'var(--bad)',muted:'var(--warn)',none:'var(--border)'};
+  $('#score').innerHTML=(S.scorecard||[]).map(x=>`<div class="sc"><div class="t"><span class="dot" style="background:${tone[x.status]||'var(--border)'}"></span>${esc(x.label)}</div><b>${x.value==null?'—':esc(x.value)}</b></div>`).join('')||'<div class="empty">Run /audit to activate.</div>';
+  // feed
+  const feed=(S.activity||[]);
+  $('#feed').innerHTML=feed.length?feed.slice(0,22).map(a=>`<div class="ev"><span class="ed" style="background:${DC[a.department]||'var(--mut)'}"></span><div>${esc(a.text)}<br><small>${esc(a.department||'')} · ${esc(a.at||'')}</small></div></div>`).join(''):'<div class="empty">No activity yet — it streams here as the agency works.</div>';
+  // deliverables
+  const dv=(S.deliverables||[]);
+  $('#deliv').innerHTML=dv.length?dv.slice(0,20).map(d=>`<div class="deliv"><span class="ic">▤</span><div>${esc(d.title)}<small>${esc(d.meta||'')}${d.date?(' · '+esc(d.date)):''}</small></div></div>`).join(''):'<div class="empty">No deliverables yet — /proposal or /event to create.</div>';
+  // deck
+  $('#deck').innerHTML=CMDS.map(([k,tag,label])=>`<button class="cmd" onclick="cmd('${k}')"><span class="k">${tag}</span>${label}</button>`).join('');
+  // dept select
+  const depts=(S.departments||[]).map(d=>d.name);
+  if($('#dept').options.length===0)$('#dept').innerHTML=depts.map(n=>`<option>${n}</option>`).join('');
+  // open work (todo+doing across depts)
+  let open=[];(S.departments||[]).forEach(d=>(d.tasks.items||[]).forEach(t=>{if(t.status!=='done')open.push({...t,dept:d.name});}));
+  $('#tasks').innerHTML=open.length?open.slice(0,14).map(t=>`<div class="tk"><span class="s">${esc(t.status)}</span><span style="flex:1">${esc(t.title)}</span><span class="c" style="color:${DC[t.dept]||'var(--mut)'}">${esc(t.dept)}</span></div>`).join(''):'<div class="empty">No open tasks.</div>';
+}
+async function api(path,body){try{const r=await fetch(path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined});return await r.json();}catch(e){return{ok:false}}}
+async function cmd(k){toast('Queued: '+k+' — watch Telegram');await api('/api/cmd',{cmd:k});}
+async function addTask(){const el=$('#tin');const v=(el.value||'').trim();if(!v)return;el.value='';await api('/api/task',{action:'add',title:v,department:$('#dept').value});toast('Task added');refresh();}
+async function refresh(){const s=await api('/api/state');if(s&&s.departments){S=s;render();}}
+render();setInterval(refresh,15000);
 </script></body></html>"""
