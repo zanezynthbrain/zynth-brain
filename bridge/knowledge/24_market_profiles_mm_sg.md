@@ -12,14 +12,16 @@
 ## MYANMAR
 - **Platforms:** Facebook dominant by a wide margin; **TikTok** rising fast (youth);
   **Viber** for messaging/broadcast; YouTube for long-form; Instagram niche/premium.
-- **Media rates:** `[UNVERIFIED — Manus, Jul 2026]` — Facebook/TikTok CPM low vs
-  region; influencer tiers (nano/micro/macro/celebrity) priced by follower + niche;
-  OOH billboards (Yangon high-traffic) and radio still relevant. Fill bands from Manus.
+- **Media / marketing rates (MMK) `[UNVERIFIED — Manus, Jul 2026]`:** social campaign
+  5–20M/month · press-release distribution 1–3M · KOL/influencer (mid-tier) 0.5–5M per
+  post/event; nano/micro/macro/celebrity priced by follower + niche. OOH billboards
+  (Yangon high-traffic) + radio still relevant. TikTok/Facebook CPM low vs region.
 - **Cultural calendar:** see `22_myanmar_event_landscape.md`.
 - **Regulations:** 2025 Motion Picture Law (video censorship), telecom content rules,
   caution on political/religious/military topics. Unicode (Pyidaungsu) fonts only.
-- **Competitor agencies (to confirm):** `[UNVERIFIED]` Mango Marketing, Today Ogilvy,
-  Bagan Innovation Technology, Hashtag, Total Business Solution — verify names/scope.
+- **Competitor agencies:** `[UNVERIFIED — Manus]` **Blink**, **MEMC** (named for
+  tech/flagship events — HIGH competition there). Verify the digital-agency field
+  (Mango, Today Ogilvy, Bagan Innovation, Hashtag) separately.
 - **ZYNTH edge:** cinematic/CGI craft + dual-market (SG+MM) polish + 48h speed —
   rare in the local SME agency field.
 

@@ -1,36 +1,41 @@
 # 23 — Myanmar Video Production Rates & Rules
 
-> All rates are `[UNVERIFIED — Manus, Jul 2026]` indicative bands for scoping only.
-> Confirm with a real RFQ before any client quote. Rates in MMK; convert at market
-> FX (see R1–R5), never the CBM official rate.
+> Source: Manus consultation (Jul 2026), MM video KB 2024–2025. Rates tagged
+> `[UNVERIFIED — Manus, Jul 2026]` — confirm with a real RFQ before a client quote.
+> MMK; convert at MARKET FX (R1–R5). ZYNTH is producer-led (owns concept/script/
+> direction; outsources crew at 1–3 camera scale).
 
 ## Verification checklist
 - [ ] Crew day rates confirmed with 2 real Yangon quotes
-- [ ] Equipment rental confirmed with named vendors below
+- [ ] Equipment rental confirmed with the named vendors below
 - [ ] 2025 Motion Picture Law censorship steps confirmed current
-- [ ] Manus video-rates .docx ingested → replace bands below
 
-## Crew day rates (Yangon, indicative MMK/day) `[UNVERIFIED — Manus, Jul 2026]`
-- Director / DOP: higher band · Camera operator · Gaffer/lighting · Sound recordist
-- Producer / line producer · Art/props · HMU · Editor · Colorist · Motion/VFX
-> Fill exact bands from Manus/RFQ. ZYNTH model is **producer-led**: ZYNTH owns
-> concept/script/direction; shoots run through outsourced crew (1–3 camera scale).
+## Crew day rates (MMK/day) `[UNVERIFIED — Manus, Jul 2026]`
+- Director (commercial) 1,500,000 – 5,000,000+ · DP/Cinematographer 800,000 – 2,500,000 (excl. gear)
+- Gaffer 300,000 – 600,000 · Sound recordist 250,000 – 500,000 · Production manager 400,000 – 800,000
+- Editor 500,000 – 1,500,000 (per project/day) · Colorist 800,000 – 2,000,000 (per project)
 
-## Equipment rental & production houses (Yangon) `[UNVERIFIED]`
-Named vendors to RFQ: **Shwe Sin Oo**, **Wyne**, **Mandalay Productions**, **CMB**.
-Categories: camera bodies + lenses, lighting kits, grip, audio, gimbal/drone,
-LED walls, generator. Always RFQ per project — rates move with fuel/import costs.
+## Equipment rental — Yangon (MMK/day · provider) `[UNVERIFIED — Manus]`
+- Blackmagic URSA Mini 4.6K 40,000 (Shwe Sin Oo) · URSA Mini Pro 50,000 (Shwe Sin Oo)
+- Canon 5D Mk IV 50,000 (Shwe Sin Oo / Wyne) · Sony A7S III 60,000–80,000 (Wyne / Mandalay)
+- DJI Ronin RS3 gimbal 70,000 (Shwe Sin Oo) · RED Komodo body 150,000–250,000 (CMB / Mandalay)
 
-## Platform delivery specs
-- TikTok / Reels / Shorts: 9:16, ≤ 60s hero + cutdowns, captions burned-in.
-- Facebook feed: 1:1 or 4:5; YouTube: 16:9. Loudness ≈ −14 LUFS online.
-- Always deliver a master + platform cutdowns + subtitle versions (MM + EN).
+## Production houses / partners
+- **Shwe Sin Oo** — mid-range equipment (primary). **Wyne Camera Rental** — DSLR/mirrorless, social gear.
+- **Mandalay Productions** — high-end cinema gear + international fixing. **CMB Films** — pro lighting & grip.
+
+## Platform delivery specs (2025)
+- TikTok/Reels: 9:16, 1080×1920, H.264/H.265, keep under ~50MB for best upload quality.
+- YouTube: 16:9, 4K (3840×2160), VP9/AV1, −14 LUFS. Facebook: 1:1 or 4:5 ads, 1080p, H.264.
+
+## Post-production craft (reference)
+- **DaVinci node tree:** Noise reduction → Primaries → CST (Log→Rec.709) → Look/Creative → Final polish.
+- **Fairlight:** target −14 LUFS social; multiband compressor for dialogue clarity.
+- **Premiere:** ProRes 422 Proxy @ 1/4 res for 4K/8K; Dynamic Link to After Effects for VFX.
+- **CapCut:** high-contrast auto-captions + rapid cuts in first 3s; speed-ramp curves to audio beats.
 
 ## Regulatory & language rules (MUST follow)
-- **2025 Motion Picture Law:** commercial/broadcast video may require censorship
-  board review; factor lead time for regulated placements. `[UNVERIFIED — confirm current]`
-- **Font rule:** Myanmar text must render in **Unicode (Pyidaungsu)**, not Zawgyi —
-  Zawgyi breaks on modern devices. Verify all on-screen Burmese before delivery.
-- Sensitive-topic caution (political/religious/military) in any public content.
-
-## <!-- MANUS SLOT --> Paste extracted Manus video-rates intelligence below
+- **2025 Motion Picture Law:** internet-based films/commercials technically require censorship-board
+  approval — factor lead time for regulated placements. `[UNVERIFIED — confirm current]`
+- **Font:** Myanmar text in **Unicode (Pyidaungsu)**, never Zawgyi. Verify all on-screen Burmese.
+- Respectful portrayal of elders and religious sites is mandatory. Mind drone regulations.
