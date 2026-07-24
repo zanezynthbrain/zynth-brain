@@ -356,6 +356,16 @@ async def run_weekly_bridge_export() -> None:
         except Exception as exc:
             logger.info("prospects export skipped: %s", type(exc).__name__)
 
+        # Weekly cost report (Phase 7 telemetry) → bridge/
+        try:
+            from utils.costaudit import audit_text
+            import re as _re
+            plain = _re.sub(r"<[^>]+>", "", audit_text())
+            (bridge / "cost_report.md").write_text(
+                f"# ZYNTH Weekly Cost Report\n\n{plain}\n", encoding="utf-8")
+        except Exception as exc:
+            logger.info("cost report skipped: %s", type(exc).__name__)
+
         # Refresh HANDOFF/CONTEXT/knowledge snapshot
         try:
             import subprocess as _sp

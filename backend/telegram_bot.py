@@ -256,6 +256,8 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/scout — Research a fresh batch now (/scout fintech)\n"
         "/autopilot — BD autopilot: status · pause · resume · run\n"
         "/queue — Review outreach drafts (/release · /reject &lt;id&gt;)\n"
+        "/enrich &lt;company&gt; — build a full lead record (intel + Apollo contact)\n"
+        "/costaudit — spend, cost-per-approved-artifact, job audit\n"
         "/export — Prospects → CSV (open in Sheets/Excel)\n"
         "/sync — Push prospects to Google Sheets / HubSpot\n"
         "/lead — Client leads &amp; BD pipeline (/lead add · list · stage)\n"
@@ -1644,6 +1646,15 @@ async def cmd_reject(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     await update.message.reply_html(f"🚫 Rejected — <b>{it['company']}</b> will not be sent.")
 
 
+async def cmd_costaudit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/costaudit — spend, cost-per-approved-artifact, and the named-consumer job audit."""
+    if not _security_check(update):
+        return
+    from utils.costaudit import audit_text
+    deep = bool(context.args and context.args[0].lower() == "deep")
+    await update.message.reply_html(audit_text(retro=deep))
+
+
 async def cmd_enrich(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """/enrich <company> — build a full BD lead record: prospect intel + a REAL
     Apollo contact (no fabrication), appended to the leads DB."""
@@ -2387,6 +2398,7 @@ def main() -> None:
     app.add_handler(CommandHandler("prospects", cmd_prospects))
     app.add_handler(CommandHandler("scout", cmd_scout))
     app.add_handler(CommandHandler("enrich", cmd_enrich))
+    app.add_handler(CommandHandler("costaudit", cmd_costaudit))
     app.add_handler(CommandHandler("autopilot", cmd_autopilot))
     app.add_handler(CommandHandler("queue", cmd_queue))
     app.add_handler(CommandHandler("release", cmd_release))
