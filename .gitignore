@@ -1,0 +1,35 @@
+# ── Secrets — NEVER commit (critical: this repo is public) ──────────────────
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*credentials*.json
+*service_account*.json
+*service-account*.json
+
+# ── Python ──────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ── OS / editor junk ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# ── Logs & transient cost cache (proposal_pool data stays committed on purpose)
+*.log
+backend/outputs/cost_tracker/
