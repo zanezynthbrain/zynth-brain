@@ -56,6 +56,9 @@ class BaseAgent(ABC):
     def build_system_prompt(self) -> str:
         """Compose the agent's persona: brand voice + role + knowledge + market FX."""
         prompt = f"{ZYNTH_BRAND.as_system_prompt_block()}\n\nYour specific role: {self.role_description}"
+        # Seven-block operating spec for this agent, if one exists.
+        from utils.specs import load_spec
+        prompt += load_spec(self.agent_key)
         knowledge = load_knowledge()
         if knowledge:
             prompt += knowledge
