@@ -1093,7 +1093,7 @@ async def _generate_proposal(update: Update, brief: str) -> None:
     try:
         data = await _await_with_progress(
             update,
-            f"Writing full IGNITE-standard proposal: {brief[:60]}",
+            f"Writing full ZYNTH Proposal Standard proposal: {brief[:60]}",
             agent.write_proposal(brief, memory),
         )
         path = build_proposal_docx(
@@ -1151,7 +1151,7 @@ def _wiz_buttons(options: list[tuple[str, str]], prefix: str) -> InlineKeyboardM
 
 
 async def cmd_proposal(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Full IGNITE-standard proposal as a Word doc — free text OR guided buttons."""
+    """Full ZYNTH Proposal Standard proposal as a Word doc — free text OR guided buttons."""
     if not _security_check(update):
         return
     if context.args:

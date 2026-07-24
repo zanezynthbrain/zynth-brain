@@ -161,7 +161,7 @@ def what_we_built_note() -> Path:
         "ZYNTH's 24/7 AI operating system — the one-page tour.\n\n"
         "## The workforce\n"
         "- **CEO daily cycle** — research → departments → synthesis → report\n"
-        "- **Proposal engine** — IGNITE-standard, market-FX, one-line ask, attribution\n"
+        "- **Proposal engine** — ZYNTH Proposal Standard, market-FX, one-line ask, attribution\n"
         "- **Event Specialist Team** — concept + design + ops → HITL approve\n"
         "- **Market Researcher** — finds Myanmar business prospects daily\n"
         "- **Creative Video Director** (skill) — concept, storyboard, Resolve/Premiere/CapCut\n\n"

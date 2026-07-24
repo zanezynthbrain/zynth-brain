@@ -172,7 +172,7 @@ class EventOpsVendorAgent(BaseAgent):
         )
 
 
-# Merge output uses the same IGNITE-standard 11-section, table-heavy schema
+# Merge output uses the same ZYNTH Proposal Standard 11-section, table-heavy schema
 # as MasterProposalAgent so both /proposal and /event hit the same bar.
 _MERGE_SCHEMA: dict[str, Any] = _PROPOSAL_SCHEMA
 

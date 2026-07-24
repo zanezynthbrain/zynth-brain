@@ -29,7 +29,7 @@ def load_exemplar() -> str:
             _exemplar_cache = ""
     return _exemplar_cache
 
-# IGNITE-standard structure: 11 sections, table-heavy, executable — not a
+# ZYNTH Proposal Standard structure: 11 sections, table-heavy, executable — not a
 # narrative pitch. Benchmarked against the ZYNTH IGNITE Master Proposal.
 SECTION_NAMES = [
     "Executive Overview & Strategic Rationale",
@@ -128,12 +128,10 @@ class MasterProposalAgent(BaseAgent):
     def _build_prompt(brief: str) -> str:
         from utils.venues import venues_block
         section_list = "\n".join(f"{i}. {name}" for i, name in enumerate(SECTION_NAMES, 1))
-        exemplar = load_exemplar()
-        exemplar_block = (
-            f"\n\n===== GOLD-STANDARD REFERENCE (match this bar) =====\n{exemplar}\n"
-            "===== END REFERENCE =====\n\n"
-            if exemplar else ""
-        )
+        # Rotating best-of pool (top-3 Critic-scored proposals); falls back to the
+        # seed exemplar until real approved proposals exist.
+        from utils.bestof import best_of_block
+        exemplar_block = best_of_block()
         return (
             f"Write a COMPLETE, EXECUTABLE client-ready proposal for this brief:\n\n"
             f"BRIEF: {brief}\n"
