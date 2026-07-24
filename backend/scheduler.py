@@ -446,6 +446,37 @@ async def run_outreach_sender() -> None:
         logger.info("Outreach sender error: %s", type(exc).__name__)
 
 
+async def run_command_queue() -> None:
+    """Drain commands the web Command Deck queued (every minute). Runs only the
+    whitelisted actions and reports to Telegram. Browser buttons → real work."""
+    try:
+        from utils.cmdqueue import take_pending
+        pending = take_pending()
+    except Exception:
+        return
+    for cmd in pending:
+        try:
+            if cmd == "brief":
+                await run_morning_brief()
+            elif cmd == "research":
+                await run_market_research()
+            elif cmd == "autopilot":
+                await run_bd_autopilot()
+            elif cmd == "consolidation":
+                await run_consolidation()
+            elif cmd == "proposals":
+                await run_daily_proposals()
+            elif cmd == "costaudit":
+                from utils.costaudit import audit_text
+                await send_message(audit_text())
+            elif cmd == "push":
+                from utils import gitsync
+                ok, msg = await gitsync.sync()
+                await send_message(f"📤 <b>Sync:</b> {msg}")
+        except Exception as exc:
+            logger.info("queued cmd %s failed: %s", cmd, type(exc).__name__)
+
+
 async def run_daily_proposals() -> None:
     """Autonomous daily proposal production — the proposal department generates
     new event/campaign proposals every day, on its own, no prompting. Grows the
@@ -639,6 +670,14 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
         CronTrigger(day_of_week="mon", hour=8, minute=0, timezone=settings.scheduler_timezone),
         id="weekly_bridge_export",
         name="Weekly BD Export → bridge/",
+        replace_existing=True,
+    )
+    # Command-deck drain (every minute — web dashboard buttons → real work)
+    scheduler.add_job(
+        run_command_queue,
+        CronTrigger(minute="*", timezone=settings.scheduler_timezone),
+        id="command_queue",
+        name="Command Deck Drain",
         replace_existing=True,
     )
 
