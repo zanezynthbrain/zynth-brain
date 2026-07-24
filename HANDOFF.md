@@ -27,10 +27,12 @@ Repo `zanezynthbrain/zynth-brain` — **PUBLIC** (MD's decision; keys protected 
 
 ## Consultant plan — phase status
 1. Bridge — ✅ this file + `bridge/`.
-2. Manus knowledge ingestion — ✅ real figures ingested from 5 Manus .docx (event
-   calendar, sector spend + decision-makers, Top-20 event budgets + 15–20% fee,
-   venue/AV/staffing/media rates, video crew/equipment, competitors Blink/MEMC).
-   Architecture recs (Haiku redesign, 5-agent video split) correctly NOT implemented.
+2. Manus knowledge ingestion — ✅ all 8 Manus .docx ingested (market intel only):
+   event calendar + sector spend/decision-makers + Top-20 event budgets (22),
+   video crew/equipment rates (23), MM/SG media rates + competitors (24), campaign
+   playbook + KPI/budget benchmarks (25), and the WavePay gold-standard proposal
+   seeded into the best-of pool. Architecture recs (Haiku redesign, 5-agent video
+   split, standalone campaign-planner) correctly NOT implemented.
 3. Seven-block agent specs — ✅ `backend/agents/specs/` (event trio, proposal, BD, CMO).
 4. Job file + Critic QC gate — ✅ `utils/jobfile.py` + `agents/critic.py`.
 5. Proposal quality engine — ✅ "ZYNTH Proposal Standard" rename + rotating best-of.
