@@ -1,0 +1,284 @@
+[
+  {
+    "title": "Back-to-School Digital Campaign: 'Ready for Term 3'",
+    "type": "Digital Campaign",
+    "objective": "Drive enrollment and trial sign-ups for an EdTech platform (e.g., online tutoring, learning app) during the peak back-to-school period in July, capturing parents actively searching for academic support.",
+    "target_audience": "Parents of primary & secondary students (age 25–50, household income SGD 80k+), students aged 7–18, education decision-makers in households across Singapore.",
+    "key_activities": [
+      "Performance-marketing campaign across Meta (Facebook/Instagram) and Google Search targeting 'tuition Singapore', 'online tutoring', 'exam prep July' keywords.",
+      "Content ecosystem: 8–10 organic social posts (carousel, Reels, stories) showcasing student success stories, term prep tips, parent testimonials.",
+      "Paid video ads (3 variants: rational 'structured curriculum', emotional 'student confidence', disruptive 'results in 4 weeks') running for 4 weeks.",
+      "Email nurture sequence (3–4 emails) for webinar sign-ups & free trial conversions.",
+      "Weekly performance dashboards tracking CAC, ROAS, conversion rate, and budget reallocation."
+    ],
+    "budget_range": {
+      "min": 12000,
+      "max": 28000,
+      "currency": "SGD"
+    },
+    "timeline_weeks": 6,
+    "kpis": [
+      "1,200 trial sign-ups (target CAC: SGD 15–18 per signup)",
+      "18% CTR on paid video ads",
+      "3.5:1 ROAS on ad spend (SGD 15k spend → SGD 52.5k attributed revenue)",
+      "850 organic social impressions per post (avg)",
+      "6% email open rate, 2.5% click-through rate"
+    ],
+    "zynth_services": [
+      "Paid Ads (Meta & Google performance marketing)",
+      "Content Creation (video ads, carousel assets, Reels)",
+      "Social Media Management (organic posting cadence)",
+      "Email Marketing (nurture sequence setup & execution)",
+      "Analytics & Reporting (weekly performance dashboard)"
+    ],
+    "why_now": "July marks the end of school holidays and panic-driven enrollment searches. Parents are actively researching tuition and learning platforms to prepare students for term 3 or September exams. Search volume for 'tuition near me' and 'online tutoring' peaks in this window. Influencer season aligns (student accounts sharing summer learning prep content).",
+    "deliverables": [
+      "3 paid video ad variants (15–30s), fully produced and optimized",
+      "8 organic social posts (carousel, Reels, static) with captions",
+      "Google Search & Meta Ads campaigns (setup, targeting, bidding strategy)",
+      "3–4 email templates with copy & design",
+      "4 weekly performance reports with optimization recommendations",
+      "1 brand messaging document ('Ready for Term 3' positioning)"
+    ],
+    "estimated_value_sgd": 18000,
+    "proposal_id": "d92786a2",
+    "industry": "Education & EdTech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-25T00:00:43.563282"
+  },
+  {
+    "title": "EdTech Summit 2026: 'The Future of Learning in Southeast Asia'",
+    "type": "Corporate Conference",
+    "objective": "Position a leading EdTech company (or education ministry/non-profit) as a thought leader by hosting a 1-day summit for 300+ educators, school leaders, EdTech founders, and ed-policy influencers. Generate 40+ qualified B2B leads and secure 8–10 sponsor partnerships.",
+    "target_audience": "School principals & senior educators (age 35–60), EdTech founders & CTOs (age 25–45), education policymakers, investors in ed-tech, parents (VIP segment), international education consultants.",
+    "key_activities": [
+      "Venue & logistics: secure a premium 300-pax conference room (e.g., Conrad Centennial, Mandarin Orchard) for full-day use (08:30–18:00) with breakout spaces.",
+      "Speaker curation & management: 8–10 keynote/panel speakers (3 international, 5–7 regional); manage speaker fees, prep, rehearsal.",
+      "Sponsor activation: 8 sponsor booths (vendors, platforms, investors) with bespoke booth design, lead-capture systems, and speaking slots.",
+      "Content production: pre-recorded 3–5 min brand film on 'Future of Education'; live streaming setup (YouTube/LinkedIn) for virtual attendees.",
+      "Event marketing: 6-week digital campaign (LinkedIn, Facebook, email) targeting 5,000+ education professionals; target 400 registrations (75% attendance).",
+      "On-site execution: registration desk, AV production (live captions, slide management), photography/video recap, post-event networking app."
+    ],
+    "budget_range": {
+      "min": 38000,
+      "max": 72000,
+      "currency": "SGD"
+    },
+    "timeline_weeks": 12,
+    "kpis": [
+      "300 registered attendees, 225 attendance (75% show rate)",
+      "40 qualified B2B leads (educator/school inquiry forms)",
+      "8 sponsor partnerships at SGD 3,500–8,000 each",
+      "2,500+ YouTube live-stream views",
+      "4.2 avg speaker rating (post-event survey)",
+      "15 media mentions (online edu publications, LinkedIn shares)"
+    ],
+    "zynth_services": [
+      "Event Management (venue, speaker management, on-site production)",
+      "Content Creation (brand film, speaker positioning videos)",
+      "Digital Marketing (LinkedIn, Facebook, email campaigns for promotion)",
+      "PR & Media (press release, influencer outreach, sponsor coordination)",
+      "Photography & Video (event recap, live coverage, social cuts)",
+      "Email Marketing (registration & reminder sequence)"
+    ],
+    "why_now": "July is a natural inflection point in the education calendar. Schools are in recess, educators have bandwidth to travel and learn; term 3 planning is underway. Mid-year is ideal for announcing new EdTech initiatives & policies. International speakers are more available post-summer conferences. Sponsorship pipeline for H2 2026 is open.",
+    "deliverables": [
+      "1 full-day conference run-of-show (agenda, timing, speaker notes, AV cues)",
+      "Venue contract & catering setup (300 pax, breaks, lunch, evening reception)",
+      "8 sponsor booth designs & lead-capture systems",
+      "6-week pre-event marketing campaign (LinkedIn ads, email sequence, graphics)",
+      "1 brand film (3–5 min, 4K, professional edit)",
+      "Live-stream production & YouTube upload",
+      "300-page conference materials (agenda, speaker bios, sponsor directory)",
+      "Event photography (300+ curated shots) + 5–10 min recap video",
+      "Post-event report: attendance, lead quality, sponsor feedback, media lift"
+    ],
+    "estimated_value_sgd": 52000,
+    "proposal_id": "db06e920",
+    "industry": "Education & EdTech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-25T00:00:43.563282"
+  },
+  {
+    "title": "School Holiday Camp Activation: 'Code Summer 2026'",
+    "type": "Brand Activation",
+    "objective": "Launch a 4-week pop-up coding bootcamp for primary students (ages 8–12) across 3 locations (East, Central, West Singapore), driving awareness for a coding EdTech startup, converting 200+ students into paying annual members, and generating 300 parental referrals.",
+    "target_audience": "Primary students aged 8–12 (STEM-curious), parents aged 30–50 seeking enrichment activities, school principals for potential partnerships, tech-savvy millennials interested in STEM education.",
+    "key_activities": [
+      "Venue partnerships: secure 3 community centers or school halls (East/Central/West) for 4-week pop-up camps (2–3 sessions per week, 15–20 students per session).",
+      "Camp curriculum design & instructor onboarding: 5–6 trained instructors, 4-week curriculum (Scratch, Python intro, robotics basics), daily lesson plans.",
+      "In-venue activation: branded backdrop, check-in system, parent observation area, merchandise (t-shirts, stickers), photo booth.",
+      "Social & influencer amplification: partner with 4–6 parenting/education micro-influencers (10–50K followers) to post camp behind-the-scenes content & testimonials.",
+      "Digital marketing: TikTok, Instagram Reels showing student demos & parent testimonials; paid ads targeting parents searching 'coding camp Singapore' and 'school holidays activities'.",
+      "Post-camp conversion: email nurture sequence & webinar (sample lesson) driving sign-ups for paid annual membership (SGD 299/year per student)."
+    ],
+    "budget_range": {
+      "min": 18000,
+      "max": 35000,
+      "currency": "SGD"
+    },
+    "timeline_weeks": 8,
+    "kpis": [
+      "600 total attendance across 3 venues (200 per venue, avg 15/session)",
+      "180 paid annual memberships (SGD 53,820 attributed revenue; CAC SGD 97 per member)",
+      "300 parent referrals (tracked via referral code)",
+      "8 influencer posts with 45K+ combined reach, 8% engagement rate",
+      "120 organic social posts (TikTok Reels & Instagram Stories by ZYNTH + UGC)",
+      "1,200 emails sent, 6.5% click-through rate to membership page"
+    ],
+    "zynth_services": [
+      "Event Management (venue booking, daily run-of-show, staff coordination)",
+      "Content Creation (behind-the-scenes video clips, photo assets, Reels)",
+      "Influencer Marketing (4–6 micro-influencers, content amplification)",
+      "Social Media Management (daily organic posts, community engagement)",
+      "Paid Ads (TikTok, Instagram targeting parents, 'coding camp Singapore' keywords)",
+      "Email Marketing (camp promotion, post-camp nurture, membership conversion)",
+      "Branding (camp visual identity, merchandise design, backdrop)"
+    ],
+    "why_now": "July school holidays are the peak period for parents seeking enrichment activities. Kids have 4+ weeks off; parental demand for structured, educational content is highest. Summer camps are culturally expected in Singapore during this window. Influencer engagement on back-to-school/summer content is strong. Sign-ups for H2 term 3 tuition & memberships peak mid-July.",
+    "deliverables": [
+      "3 venue contracts & setup plans (layout, AV, check-in system)",
+      "1 complete 4-week coding curriculum (5 lesson plans per week, 20 lessons total)",
+      "5–6 instructor onboarding packs & daily runsheets",
+      "Branded camp collateral: backdrop, posters (A3), flyers (5,000 units), merchandise (200 t-shirts, stickers)",
+      "12 influencer brief & content approvals (4–6 creators, 2–3 posts each)",
+      "40 TikTok Reels & Instagram Stories (behind-the-scenes, student testimonials, parent reactions)",
+      "2 paid social campaigns (TikTok & Instagram, 4-week duration)",
+      "1 post-camp webinar (sample lesson, 30 min, with email promotion)",
+      "300+ event photographs & 3–5 min recap video",
+      "Post-activation report: attendance, conversion, referral tracking, cost per membership"
+    ],
+    "estimated_value_sgd": 26000,
+    "proposal_id": "6c3ace3c",
+    "industry": "Education & EdTech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-25T00:00:43.563282"
+  },
+  {
+    "title": "Teacher Recognition Campaign: 'Celebrate Educators'",
+    "type": "Seasonal Campaign",
+    "objective": "Launch a month-long teacher appreciation initiative for an education NGO or school network, building brand affinity with educators and schools, generating 50+ qualified school leads, and driving 2,000+ community interactions across social.",
+    "target_audience": "Primary & secondary teachers (age 25–60), school principals & admin staff, parents seeking schools, education policymakers, education community (online).",
+    "key_activities": [
+      "User-generated content campaign: ask educators to share 1 photo + 60-word story ('Why I teach') using branded hashtag #CelebrateEducators2026; ZYNTH curates & reposts top 20 stories.",
+      "Influencer takeovers: 3 education micro-influencers (teachers with 20–80K followers each) takeover ZYNTH's social channels for 1 day each, sharing classroom stories & student impact.",
+      "Paid amplification: Facebook/Instagram carousel ads featuring teacher testimonials, targeting educators & parents; LinkedIn campaign targeting school leaders.",
+      "Email outreach: 2-email sequence to schools (principals) offering free professional development webinar; 40 school registrations expected.",
+      "1 brand film (2–3 min): documentary-style, interviewing 3 award-winning educators on 'Why Education Matters'; published across YouTube, TikTok, LinkedIn.",
+      "Press coverage: 1 press release + pitch to education journalists, targeting 3–5 online edu publications (Singapore Education News, The Straits Times Education).",
+      "Giveaway / contest: schools submit 'best teacher' nomination; 5 winners receive SGD 200 gift hamper + social feature; drives participation & lead capture."
+    ],
+    "budget_range": {
+      "min": 9000,
+      "max": 18000,
+      "currency": "SGD"
+    },
+    "timeline_weeks": 5,
+    "kpis": [
+      "2,000 social media interactions (likes, comments, shares, UGC submissions)",
+      "85 UGC submissions (teacher stories with hashtag)",
+      "25 curated teacher stories published across ZYNTH channels",
+      "3 influencer takeovers, 60K+ combined reach, 12% engagement rate",
+      "50 qualified school leads (form submissions for webinar)",
+      "1 brand film with 8,000+ views (YouTube + social)",
+      "5 media mentions (news articles, edu publications)",
+      "1,200 emails sent to school admin, 8.5% open rate, 4.2% click rate"
+    ],
+    "zynth_services": [
+      "Social Media Management (UGC curation, daily posting, community engagement)",
+      "Content Creation (teacher testimonial videos, brand film, carousel graphics)",
+      "Influencer Marketing (3 micro-influencer takeovers)",
+      "Paid Ads (Facebook, Instagram, LinkedIn campaigns)",
+      "Email Marketing (school outreach, webinar promotion, nurture sequence)",
+      "PR & Media (press release, journalist outreach, media tracking)",
+      "Video Production (2–3 min documentary-style brand film)"
+    ],
+    "why_now": "July sits between end-of-year exam stress (June) and mid-term planning (August). Teachers are reflecting on the first half of the year; morale-boosting campaigns resonate. The teacher shortage in Singapore is a trending topic; celebrating educators builds goodwill and brand differentiation. School leaders are evaluating partnerships for H2 term 3 initiatives. International teacher recognition trends (e.g., online educator spotlights) are trending on TikTok/Instagram.",
+    "deliverables": [
+      "Campaign hashtag strategy & community guidelines",
+      "20 curated UGC teacher stories (with permission, edited captions)",
+      "1 brand film (2–3 min, 4K, professional edit with interviews)",
+      "3 influencer brief sheets & content approval templates",
+      "24 organic social posts (carousel, Reels, static stories, testimonials)",
+      "2 paid campaigns (Facebook/Instagram carousel ads, LinkedIn lead gen ads)",
+      "1 press release & 5-journalist outreach list",
+      "2-email sequence template (school outreach, webinar promotion)",
+      "1 contest mechanic document & winner tracking spreadsheet",
+      "300+ event/user-generated photographs & media assets",
+      "Post-campaign report: reach, engagement, lead quality, media ROI"
+    ],
+    "estimated_value_sgd": 13500,
+    "proposal_id": "07db4c8c",
+    "industry": "Education & EdTech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-25T00:00:43.563282"
+  },
+  {
+    "title": "EdTech Rebranding Campaign: Product Launch & Positioning Overhaul",
+    "type": "Rebranding Campaign",
+    "objective": "Rebrand a mid-market EdTech platform (e.g., shifting from 'tutoring app' to 'AI-powered personalized learning') with a new visual identity, messaging framework, and integrated launch campaign. Target 500 new student sign-ups, 50 school administrator partnerships, and 35% lift in brand awareness among target audience.",
+    "target_audience": "Students aged 10–18, parents aged 30–55, school administrators & IT decision-makers, education investors, tech-savvy educators, students' social circles (peer-to-peer discovery).",
+    "key_activities": [
+      "Brand strategy & positioning workshop: Define new brand purpose, visual identity (logo, color palette, typography), brand voice, and messaging pillars ('Personalized', 'AI-Powered', 'Proven Results').",
+      "Creative asset production: New website (responsive design, CMS integration), 20+ brand guidelines (style guide, logo usage, imagery direction), product photography (app screenshots, UI mockups).",
+      "Video content suite: 1 brand launch film (60s, cinematic), 3 product demo videos (30s each), 5 student testimonial videos (15–20s each).",
+      "Integrated launch campaign: coordinated social (Instagram, TikTok, Facebook), paid ads (Meta, Google), email (announce to existing users + nurture new leads), PR (press release, education journalist pitches), influencer seeding (5–7 education micro-influencers sharing product reviews).",
+      "Website & onboarding redesign: new sign-up flow (3-step simplified process), in-app onboarding tutorial (3 min), SEO optimization (targeting 'personalized learning app Singapore', 'AI tutor').",
+      "Launch event (optional): 1 virtual webinar (90 min, hosted by founder + education expert) showcasing the rebrand, live Q&A, early-bird sign-up offer; target 200 registrations."
+    ],
+    "budget_range": {
+      "min": 32000,
+      "max": 58000,
+      "currency": "SGD"
+    },
+    "timeline_weeks": 10,
+    "kpis": [
+      "500 new student sign-ups in first 4 weeks post-launch",
+      "50 school administrator partnerships (tracked via sales pipeline)",
+      "35% lift in unaided brand awareness (survey-based, pre/post launch)",
+      "12,000 website visits in first month (50% increase YoY)",
+      "3,500 social media reach (organic posts avg 1,200–2,000 reach per post)",
+      "28% CTR on launch video ads",
+      "2.8:1 ROAS on paid campaign spend (SGD 12k spend → SGD 33.6k attributed new revenue)",
+      "200 webinar registrations, 150 attendance (75% show rate)",
+      "8 media mentions (education tech publications, startup blogs)"
+    ],
+    "zynth_services": [
+      "Branding (brand strategy, visual identity, messaging framework)",
+      "Content Creation (video production, product photography, website copy)",
+      "Website & Tech (website redesign, SEO optimization, CMS setup)",
+      "Social Media Management (organic campaign execution, community engagement)",
+      "Paid Ads (Meta, Google, retargeting)",
+      "Influencer Marketing (5–7 micro-influencer seeding & reviews)",
+      "Email Marketing (existing user announcement, new lead nurture)",
+      "PR & Media (press release, journalist outreach, media kit)",
+      "Event Management (optional virtual launch webinar)"
+    ],
+    "why_now": "July is ideal for a mid-year rebrand refresh. The back-to-school cycle (Aug–Sep) is the next major enrollment window; repositioning now builds momentum for that peak. Students have bandwidth during holidays to explore new apps & sign up. School decision-makers are evaluating tools for term 3; early July positioning captures pre-planning phase. Competitive landscape (other EdTech launches) is quieter in July vs. August-September rush.",
+    "deliverables": [
+      "1 brand strategy document (4–6 pages: positioning, messaging pillars, tone, visual direction)",
+      "1 comprehensive brand guidelines document (20+ pages: logo, colors, typography, imagery, voice)",
+      "1 new responsive website (8–12 pages: home, product demo, pricing, sign-up, blog section)",
+      "1 brand launch film (60s, 4K, professional edit with motion graphics)",
+      "3 product demo videos (30s each, app walkthrough, feature highlight)",
+      "5 student testimonial videos (15–20s each, authentic, user-generated style)",
+      "30+ brand-aligned social media assets (carousel ads, Reels templates, Stories)",
+      "4-week paid campaign setup (Meta & Google, targeting, bidding strategy, creative specs)",
+      "1 press release & media kit; 10+ journalist outreach",
+      "2 email sequences (existing users, new sign-up nurture)",
+      "1 virtual launch webinar (90 min run-of-show, speaker notes, Q&A prep)",
+      "4-week performance dashboard with CAC, ROAS, brand lift tracking",
+      "Post-launch report: sign-ups, partnerships, brand awareness lift, media ROI"
+    ],
+    "estimated_value_sgd": 45000,
+    "proposal_id": "de5b5772",
+    "industry": "Education & EdTech",
+    "market": "SG",
+    "month": "July",
+    "created_at": "2026-07-25T00:00:43.563282"
+  }
+]
