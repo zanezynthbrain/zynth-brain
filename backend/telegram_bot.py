@@ -1388,15 +1388,32 @@ async def _run_audit_capture(update: Update, text: str) -> None:
     from utils.business import save_audit
     from utils.llm_client import LLMClient
     llm = LLMClient()
-    try:
-        data, _ = await llm.complete_json(
-            system="Structure the founder's honest business audit into the schema. Keep their real numbers. Be direct in the starting_line_summary — name the most urgent issue.",
-            user_prompt=f"Audit answers: {text}",
-            schema=_AUDIT_SCHEMA,
-            model=get_settings().fallback_model_name,
+    _sys = ("Structure the founder's honest business audit into the schema. Keep their "
+            "real numbers. Be direct in the starting_line_summary — name the most urgent issue.")
+    s = get_settings()
+    data = None
+    last_exc: Exception | None = None
+    # Try the primary model first, then the fallback — a 400 on one model
+    # (access/limits) shouldn't lose the founder's answers.
+    for model in (s.model_name, s.fallback_model_name):
+        try:
+            data, _ = await llm.complete_json(
+                system=_sys, user_prompt=f"Audit answers: {text}",
+                schema=_AUDIT_SCHEMA, model=model,
+            )
+            break
+        except Exception as exc:  # noqa: BLE001 — degrade gracefully
+            last_exc = exc
+            continue
+    if data is None:
+        # Never drop the answers: save the raw text so the audit is not lost.
+        save_audit({"raw_answers": text, "top_3_priorities": [],
+                    "starting_line_summary": "(saved raw — AI structuring unavailable)"})
+        await update.message.reply_html(
+            "⚠️ I saved your audit answers, but couldn't auto-structure them right now "
+            f"(<code>{last_exc}</code>). Your answers are stored — I'll structure them on "
+            "the next run. Nothing lost."
         )
-    except Exception as exc:
-        await update.message.reply_html(f"❌ Couldn't process the audit: {exc}")
         return
     save_audit(data)
     prios = "\n".join(f"{i}. {p}" for i, p in enumerate(data.get("top_3_priorities", []), 1))
