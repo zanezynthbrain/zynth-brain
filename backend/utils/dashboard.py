@@ -1,10 +1,12 @@
 """ZYNTH Command Center — interactive, responsive productivity dashboard.
 
-- build_state(): full JSON state (departments, tasks, activity, data, scorecard)
-  served at /api/state and embedded in the page for first paint.
-- render_spa(): a self-contained single-page app — a neural-network graph of
-  the agency's departments (clickable), per-department tasks & activity, add/
-  assign tasks, live polling so anything that hits Telegram shows up here.
+- build_state(): full JSON state (departments, works, actions, tasks, activity,
+  data, scorecard) served at /api/state and embedded in the page for first paint.
+- render_spa(): a self-contained single-page app — a LIVING neural brain (Canvas)
+  whose nodes are the agency's real works (prospects, proposals, venues, notes,
+  tasks…). Light pulses run core→department→work, and fire brightly along a
+  department's path whenever its data actually changes. Every department is
+  workable from a slide-in drawer: run its actions, add/move/assign tasks.
 
 No external requests: Canvas graph, vanilla JS, inline CSS. Works on phone,
 tablet and desktop.
@@ -20,13 +22,13 @@ from typing import Any
 _POOL = Path("outputs/proposal_pool")
 
 DEPT_META = {
-    "BD":         {"color": "#6d6df0", "label": "BD & Sales",   "icon": "🎯"},
-    "Events":     {"color": "#f59e0b", "label": "Events",       "icon": "🎪"},
-    "Creative":   {"color": "#ec4899", "label": "Creative",     "icon": "🎨"},
-    "Marketing":  {"color": "#34d399", "label": "Marketing",    "icon": "📣"},
-    "Operations": {"color": "#38bdf8", "label": "Operations",   "icon": "⚙️"},
-    "Finance":    {"color": "#a78bfa", "label": "Finance",      "icon": "💰"},
-    "Content":    {"color": "#fb923c", "label": "Content",      "icon": "🗂️"},
+    "BD":         {"color": "#1FB4D8", "label": "BD & Sales",   "icon": "🎯"},
+    "Events":     {"color": "#E0A83D", "label": "Events",       "icon": "🎪"},
+    "Creative":   {"color": "#E5675F", "label": "Creative",     "icon": "🎨"},
+    "Marketing":  {"color": "#3FB27F", "label": "Marketing",    "icon": "📣"},
+    "Operations": {"color": "#59C1F0", "label": "Operations",   "icon": "⚙️"},
+    "Finance":    {"color": "#9B8CFF", "label": "Finance",      "icon": "💰"},
+    "Content":    {"color": "#E0883D", "label": "Content",      "icon": "🗂️"},
 }
 
 
@@ -94,6 +96,7 @@ def build_state() -> dict[str, Any]:
         audit_done = False
 
     tbd = tasks_by_department()
+    sc_filled = sum(1 for x in scorecard if x["value"] is not None)
 
     # per-department data headline
     dept_data = {
@@ -102,8 +105,40 @@ def build_state() -> dict[str, Any]:
         "Creative": "portfolio & concepts",
         "Marketing": f"{len(proposals)} proposals",
         "Operations": "rhythm · consolidation",
-        "Finance": f"scorecard {sum(1 for x in scorecard if x['value'] is not None)}/12" + (f" · {reds} red" if reds else ""),
+        "Finance": f"scorecard {sc_filled}/12" + (f" · {reds} red" if reds else ""),
         "Content": f"{notes} notes · {knowledge} knowledge",
+    }
+
+    # per-department "works" — the real things you have, the neural-brain leaf nodes.
+    # Each work node lights up when its count grows between refreshes.
+    dept_works = {
+        "BD": [{"label": "prospects", "value": pstats["total"]},
+               {"label": "hot", "value": pstats["hot"]},
+               {"label": "leads", "value": len(leads)}],
+        "Events": [{"label": "venues", "value": len(venues)},
+                   {"label": "suppliers", "value": len(suppliers)}],
+        "Creative": [{"label": "concepts", "value": len(recent_activity(40, department="Creative"))}],
+        "Marketing": [{"label": "proposals", "value": len(proposals)}],
+        "Operations": [{"label": "actions", "value": len(recent_activity(40, department="Operations"))}],
+        "Finance": [{"label": "KPIs", "value": sc_filled},
+                    {"label": "reds", "value": reds}],
+        "Content": [{"label": "notes", "value": notes},
+                    {"label": "knowledge", "value": knowledge}],
+    }
+
+    # per-department runnable actions (whitelisted commands the dashboard can queue)
+    dept_actions = {
+        "BD": [{"cmd": "research", "label": "Scout Prospects"},
+               {"cmd": "autopilot", "label": "Run BD Autopilot"}],
+        "Marketing": [{"cmd": "proposals", "label": "Generate Proposals"},
+                      {"cmd": "research", "label": "Market Intel"}],
+        "Operations": [{"cmd": "brief", "label": "Daily CEO Brief"},
+                       {"cmd": "consolidation", "label": "Consolidate"},
+                       {"cmd": "push", "label": "Sync → Obsidian"}],
+        "Finance": [{"cmd": "costaudit", "label": "Cost Audit"}],
+        "Content": [{"cmd": "push", "label": "Sync → Obsidian"}],
+        "Events": [],
+        "Creative": [],
     }
 
     departments = []
@@ -116,8 +151,10 @@ def build_state() -> dict[str, Any]:
             "color": DEPT_META[d]["color"],
             "icon": DEPT_META[d]["icon"],
             "data": dept_data.get(d, ""),
+            "works": dept_works.get(d, []),
+            "actions": dept_actions.get(d, []),
             "tasks": {"counts": counts, "items": items[-25:]},
-            "activity": recent_activity(6, department=d),
+            "activity": recent_activity(8, department=d),
             "load": counts["todo"] + counts["doing"] + len(recent_activity(20, department=d)),
         })
 
@@ -215,237 +252,6 @@ def render_spa() -> str:
     return _HUD.replace("__STATE__", state_json)
 
 
-_HTML = r"""<!doctype html><html lang="en"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ZYNTH Command Center</title>
-<style>
-:root{
-  --bg:#0b0c11; --surface:#14161f; --surface2:#1b1e29; --border:#262a37;
-  --text:#e9eaf1; --muted:#8a8ea3; --accent:#6d6df0;
-  --good:#34d399; --warn:#fbbf24; --bad:#f87171;
-}
-@media (prefers-color-scheme: light){
-  :root{ --bg:#f5f6fb; --surface:#fff; --surface2:#eef0f7; --border:#e2e4ee;
-    --text:#181a22; --muted:#666a7d; --accent:#5a5ae6; --good:#059669; --warn:#b45309; --bad:#dc2626; }
-}
-*{box-sizing:border-box}
-html,body{margin:0;height:100%}
-body{background:var(--bg);color:var(--text);
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  -webkit-font-smoothing:antialiased;overscroll-behavior:none}
-.wrap{max-width:1240px;margin:0 auto;padding:16px 14px calc(80px + env(safe-area-inset-bottom))}
-header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
-.brand{display:flex;align-items:center;gap:10px}
-.logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--accent),#a78bfa);
-  display:grid;place-items:center;font-weight:800;color:#fff}
-h1{font-size:17px;margin:0;letter-spacing:-.02em}
-.sub{color:var(--muted);font-size:11.5px}
-.pills{display:flex;gap:6px;flex-wrap:wrap}
-.pill{font-size:11px;padding:3px 9px;border-radius:20px;background:var(--surface2);border:1px solid var(--border);font-weight:600}
-.pill.good{color:var(--good)} .pill.warn{color:var(--warn)}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:14px 0}
-.kpi{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:12px 13px}
-.kpi b{font-size:22px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
-.kpi span{display:block;font-size:11px;color:var(--muted);margin-top:1px}
-.graphwrap{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:16px;
-  overflow:hidden;margin-bottom:14px}
-#graph{display:block;width:100%;height:340px;touch-action:manipulation}
-.hint{position:absolute;left:12px;bottom:10px;font-size:11px;color:var(--muted);pointer-events:none}
-.banner{background:color-mix(in srgb,var(--accent) 14%,transparent);border:1px solid var(--accent);
-  border-radius:12px;padding:11px 13px;margin-bottom:14px;font-size:12.5px}
-.section-title{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);
-  font-weight:700;margin:18px 4px 10px}
-.deptgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.dept{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;cursor:pointer;
-  transition:transform .12s,border-color .12s}
-.dept:hover{transform:translateY(-2px)}
-.dept-top{display:flex;align-items:center;gap:9px}
-.dept-dot{width:11px;height:11px;border-radius:50%}
-.dept h3{font-size:14px;margin:0;flex:1}
-.dept .data{font-size:11.5px;color:var(--muted);margin:8px 0 10px}
-.tbar{display:flex;gap:5px}
-.tcount{flex:1;text-align:center;background:var(--surface2);border-radius:8px;padding:6px 2px}
-.tcount b{display:block;font-size:15px;font-variant-numeric:tabular-nums}
-.tcount span{font-size:9.5px;color:var(--muted);text-transform:uppercase}
-.feed{margin-top:6px}
-.feed .ev{display:flex;gap:8px;padding:7px 0;border-top:1px solid var(--border);font-size:12.5px}
-.feed .ev:first-child{border-top:0}
-.feed .evd{width:9px;height:9px;border-radius:50%;margin-top:4px;flex:none}
-.feed small{color:var(--muted)}
-/* drawer */
-.scrim{position:fixed;inset:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:.2s;z-index:40}
-.scrim.on{opacity:1;pointer-events:auto}
-.drawer{position:fixed;z-index:50;background:var(--surface);border:1px solid var(--border);
-  transition:transform .24s cubic-bezier(.4,0,.2,1)}
-@media (max-width:640px){
-  .drawer{left:0;right:0;bottom:0;border-radius:18px 18px 0 0;max-height:86vh;transform:translateY(102%)}
-  .drawer.on{transform:translateY(0)}
-}
-@media (min-width:641px){
-  .drawer{top:0;bottom:0;right:0;width:min(440px,92vw);border-radius:16px 0 0 16px;transform:translateX(103%)}
-  .drawer.on{transform:translateX(0)}
-}
-.drawer-in{padding:18px 18px calc(20px + env(safe-area-inset-bottom));overflow:auto;height:100%}
-.drawer h2{font-size:18px;margin:0 0 2px;display:flex;align-items:center;gap:9px}
-.close{position:absolute;top:14px;right:16px;background:var(--surface2);border:1px solid var(--border);
-  color:var(--text);width:32px;height:32px;border-radius:9px;font-size:16px;cursor:pointer}
-.task{background:var(--surface2);border-radius:10px;padding:10px 11px;margin-top:8px;font-size:13px}
-.task .row{display:flex;align-items:center;gap:8px}
-.task .ttl{flex:1}
-.task.done .ttl{text-decoration:line-through;color:var(--muted)}
-.chipbtn{border:1px solid var(--border);background:var(--bg);color:var(--muted);border-radius:7px;
-  font-size:11px;padding:3px 8px;cursor:pointer}
-.chipbtn.active{color:#fff;border-color:transparent}
-.addbox{display:flex;gap:8px;margin-top:14px}
-.addbox input{flex:1;background:var(--surface2);border:1px solid var(--border);color:var(--text);
-  border-radius:10px;padding:11px 12px;font-size:14px;min-width:0}
-.addbox button,.mini{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:11px 15px;
-  font-weight:700;cursor:pointer;font-size:14px}
-.assignrow{display:flex;gap:6px;margin-top:8px;align-items:center;font-size:12px;color:var(--muted)}
-.assignrow input{flex:1;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:6px 9px;font-size:12.5px;min-width:0}
-footer{margin-top:22px;color:var(--muted);font-size:11.5px;text-align:center}
-.live{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--good);margin-right:5px;animation:blink 2s infinite}
-@keyframes blink{50%{opacity:.35}}
-</style></head><body>
-<div class="wrap">
-  <header>
-    <div class="brand"><div class="logo">Z</div>
-      <div><h1>ZYNTH Command Center</h1><div class="sub" id="gen"><span class="live"></span>live</div></div>
-    </div>
-    <div class="pills" id="pills"></div>
-  </header>
-  <div id="banner"></div>
-  <div class="kpis" id="kpis"></div>
-  <div class="graphwrap"><canvas id="graph"></canvas><div class="hint">tap a department node to open it</div></div>
-  <div class="section-title">Departments</div>
-  <div class="deptgrid" id="depts"></div>
-  <div class="section-title">Recent activity</div>
-  <div class="feed" id="activity"></div>
-  <footer>ZYNTH · The Intelligence of Creativity · auto-refreshing</footer>
-</div>
-<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
-<div class="drawer" id="drawer"><button class="close" onclick="closeDrawer()">✕</button><div class="drawer-in" id="drawerIn"></div></div>
-
-<script>
-let STATE = __STATE__;
-let CURRENT = null;
-const $=s=>document.querySelector(s);
-const esc=s=>String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-const toneVar={good:'var(--good)',bad:'var(--bad)',warn:'var(--warn)',muted:'var(--muted)'};
-
-function render(){
-  const t=STATE.totals, sys=STATE.sys;
-  $('#gen').innerHTML='<span class="live"></span>'+esc(STATE.generated);
-  $('#pills').innerHTML=[['AI brain',sys.ai],['Voice',sys.voice],['Email',sys.email]]
-    .map(([n,ok])=>`<span class="pill ${ok?'good':'warn'}">${ok?'●':'○'} ${n}</span>`).join('');
-  $('#banner').innerHTML = STATE.audit_done? '' :
-    '<div class="banner">🩺 <b>Week 0 Audit not done.</b> Send <b>/audit</b> in Telegram to set your starting line & activate the scorecard.</div>';
-  const kpi=[['Prospects',(t.prospects||0)+(t.prospects_hot?' · '+t.prospects_hot+'★':''),''],
-    ['Open leads',t.leads,''],['Pipeline','S$'+t.open_value.toLocaleString(),''],
-    ['Open tasks',t.tasks_open,''],['Proposals',t.proposals,''],
-    ['Suppliers',t.suppliers,''],['Scorecard reds',t.reds,t.reds?'bad':'']];
-  $('#kpis').innerHTML=kpi.map(([l,v,tone])=>`<div class="kpi"><b style="color:${tone==='bad'?'var(--bad)':'inherit'}">${v}</b><span>${l}</span></div>`).join('');
-  $('#depts').innerHTML=STATE.departments.map(d=>{
-    const c=d.tasks.counts;
-    return `<div class="dept" style="border-left:3px solid ${d.color}" onclick="openDept('${d.name}')">
-      <div class="dept-top"><span class="dept-dot" style="background:${d.color}"></span><h3>${d.icon} ${esc(d.label)}</h3></div>
-      <div class="data">${esc(d.data)}</div>
-      <div class="tbar">
-        <div class="tcount"><b>${c.todo}</b><span>todo</span></div>
-        <div class="tcount"><b>${c.doing}</b><span>doing</span></div>
-        <div class="tcount"><b>${c.done}</b><span>done</span></div>
-      </div></div>`;
-  }).join('');
-  $('#activity').innerHTML = (STATE.activity.length?STATE.activity:[{text:'No activity yet — it appears as you use the bot',department:'Operations',at:''}])
-    .slice(0,20).map(a=>{const col=(STATE.departments.find(d=>d.name===a.department)||{}).color||'var(--muted)';
-      return `<div class="ev"><span class="evd" style="background:${col}"></span><div>${esc(a.text)}<br><small>${esc(a.department)} · ${esc(a.at)}</small></div></div>`;}).join('');
-}
-
-/* ---- neural graph ---- */
-const cv=$('#graph'), cx=cv.getContext('2d');
-let nodes=[], t0=performance.now(), DPR=Math.min(2,window.devicePixelRatio||1);
-function layout(){
-  const w=cv.clientWidth,h=cv.clientHeight;cv.width=w*DPR;cv.height=h*DPR;cx.setTransform(DPR,0,0,DPR,0,0);
-  const cxp=w/2,cyp=h/2,R=Math.min(w,h)*0.36;
-  nodes=STATE.departments.map((d,i)=>{
-    const a=-Math.PI/2 + i*2*Math.PI/STATE.departments.length;
-    return {...d, x:cxp+Math.cos(a)*R, y:cyp+Math.sin(a)*R, r:12+Math.min(10,d.load*1.4), a};
-  });
-  nodes.center={x:cxp,y:cyp};
-}
-function draw(t){
-  const w=cv.clientWidth,h=cv.clientHeight;cx.clearRect(0,0,w,h);
-  const C=nodes.center; const pulse=(Math.sin(t/700)+1)/2;
-  // links
-  nodes.forEach(n=>{
-    const grad=cx.createLinearGradient(C.x,C.y,n.x,n.y);
-    grad.addColorStop(0,'rgba(120,120,160,0.05)');grad.addColorStop(1,n.color+'55');
-    cx.strokeStyle=grad;cx.lineWidth=1+ n.load*0.12;cx.beginPath();cx.moveTo(C.x,C.y);cx.lineTo(n.x,n.y);cx.stroke();
-    // travelling pulse
-    const p=((t/2200)+(n.a))%1; const px=C.x+(n.x-C.x)*p, py=C.y+(n.y-C.y)*p;
-    cx.fillStyle=n.color;cx.globalAlpha=.7;cx.beginPath();cx.arc(px,py,2,0,7);cx.fill();cx.globalAlpha=1;
-  });
-  // center
-  cx.fillStyle='rgba(140,140,180,'+(0.10+pulse*0.06)+')';cx.beginPath();cx.arc(C.x,C.y,26+pulse*4,0,7);cx.fill();
-  cx.fillStyle=getComputedStyle(document.body).getPropertyValue('--accent');
-  cx.beginPath();cx.arc(C.x,C.y,13,0,7);cx.fill();
-  cx.fillStyle='#fff';cx.font='700 12px system-ui';cx.textAlign='center';cx.textBaseline='middle';cx.fillText('Z',C.x,C.y);
-  // dept nodes
-  nodes.forEach(n=>{
-    cx.fillStyle=n.color+'22';cx.beginPath();cx.arc(n.x,n.y,n.r+6,0,7);cx.fill();
-    cx.fillStyle=n.color;cx.beginPath();cx.arc(n.x,n.y,n.r,0,7);cx.fill();
-    cx.fillStyle='#fff';cx.font='600 12px system-ui';cx.fillText(n.icon,n.x,n.y);
-    cx.fillStyle=getComputedStyle(document.body).getPropertyValue('--muted');
-    cx.font='600 10px system-ui';cx.fillText(n.label,n.x,n.y+n.r+12);
-    const open=n.tasks.counts.todo+n.tasks.counts.doing;
-    if(open){cx.fillStyle=n.color;cx.beginPath();cx.arc(n.x+n.r*0.8,n.y-n.r*0.8,7,0,7);cx.fill();
-      cx.fillStyle='#fff';cx.font='700 9px system-ui';cx.fillText(open,n.x+n.r*0.8,n.y-n.r*0.8);}
-  });
-  requestAnimationFrame(draw);
-}
-cv.addEventListener('click',e=>{
-  const rect=cv.getBoundingClientRect();const mx=e.clientX-rect.left,my=e.clientY-rect.top;
-  for(const n of nodes){if(Math.hypot(mx-n.x,my-n.y)<n.r+8){openDept(n.name);return;}}
-});
-
-/* ---- drawer ---- */
-function openDept(name){
-  CURRENT=name;const d=STATE.departments.find(x=>x.name===name);if(!d)return;
-  const items=d.tasks.items.slice().reverse();
-  const taskHtml=items.length?items.map(tk=>`
-    <div class="task ${tk.status}">
-      <div class="row"><span class="ttl">${esc(tk.title)} <small>[${tk.id}]</small></span></div>
-      <div class="row" style="margin-top:7px">
-        ${['todo','doing','done'].map(s=>`<button class="chipbtn ${tk.status===s?'active':''}" style="${tk.status===s?'background:'+d.color:''}" onclick="move('${tk.id}','${s}')">${s}</button>`).join('')}
-      </div>
-      <div class="assignrow"><span>👤</span><input id="as_${tk.id}" placeholder="assignee" value="${esc(tk.assignee||'')}"><button class="chipbtn" onclick="assign('${tk.id}')">save</button></div>
-    </div>`).join(''):'<p style="color:var(--muted);font-size:13px">No tasks yet. Add the first below.</p>';
-  const actHtml=(d.activity||[]).map(a=>`<div class="ev"><span class="evd" style="background:${d.color}"></span><div>${esc(a.text)}<br><small>${esc(a.at)}</small></div></div>`).join('')||'<small style="color:var(--muted)">No recent activity</small>';
-  $('#drawerIn').innerHTML=`
-    <h2><span class="dept-dot" style="background:${d.color}"></span>${d.icon} ${esc(d.label)}</h2>
-    <div class="sub" style="margin-bottom:10px">${esc(d.data)}</div>
-    <div class="addbox"><input id="newtask" placeholder="Add a task for ${esc(d.label)}…" onkeydown="if(event.key==='Enter')addTask()"><button onclick="addTask()">Add</button></div>
-    <div class="section-title" style="margin:16px 4px 6px">Tasks</div>${taskHtml}
-    <div class="section-title" style="margin:18px 4px 6px">Activity</div><div class="feed">${actHtml}</div>`;
-  $('#scrim').classList.add('on');$('#drawer').classList.add('on');
-}
-function closeDrawer(){$('#scrim').classList.remove('on');$('#drawer').classList.remove('on');}
-async function api(path,body){
-  try{const r=await fetch(path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined});return await r.json();}
-  catch(e){return {ok:false,error:String(e)};}
-}
-async function addTask(){const el=$('#newtask');const v=(el.value||'').trim();if(!v)return;el.value='';
-  await api('/api/task',{action:'add',title:v,department:CURRENT});await refresh();openDept(CURRENT);}
-async function move(id,s){await api('/api/task',{action:'status',id,status:s});await refresh();openDept(CURRENT);}
-async function assign(id){const v=($('#as_'+id).value||'').trim();await api('/api/task',{action:'assign',id,assignee:v});await refresh();openDept(CURRENT);}
-async function refresh(){const s=await api('/api/state');if(s&&s.departments){STATE=s;render();layout();}}
-window.addEventListener('resize',layout);
-render();layout();requestAnimationFrame(draw);
-setInterval(refresh,15000);
-</script></body></html>"""
-
-
 _HUD = r"""<!doctype html><html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -459,12 +265,13 @@ _HUD = r"""<!doctype html><html lang="en"><head>
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
 body{background:
-  radial-gradient(1200px 600px at 80% -10%, rgba(31,180,216,.06), transparent),
+  radial-gradient(1200px 600px at 82% -12%, rgba(31,180,216,.07), transparent),
+  radial-gradient(900px 500px at 8% 108%, rgba(155,140,255,.05), transparent),
   var(--bg); color:var(--ink);
   font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
   -webkit-font-smoothing:antialiased; overscroll-behavior:none}
 a{color:var(--cyan);text-decoration:none}
-.top{position:sticky;top:0;z-index:10;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;
+.top{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;
   padding:12px 16px;background:rgba(10,14,18,.82);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
 .brand{display:flex;align-items:center;gap:11px}
 .hex{width:30px;height:30px;filter:drop-shadow(0 0 6px rgba(31,180,216,.5))}
@@ -477,33 +284,41 @@ a{color:var(--cyan);text-decoration:none}
 .on{background:var(--good)} .off{background:var(--bad)}
 .ticker{width:100%;font-size:11px;color:var(--mut);letter-spacing:.04em;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .ticker b{color:var(--cyan)}
-.grid{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:14px;padding:14px 16px 90px;max-width:1500px;margin:0 auto}
-@media(max-width:980px){.grid{grid-template-columns:1fr}}
-.panel{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px}
+/* neural brain hero */
+.brainwrap{position:relative;margin:14px 16px 0;max-width:1500px;margin-left:auto;margin-right:auto;
+  background:radial-gradient(700px 380px at 50% 42%, rgba(31,180,216,.05), transparent), var(--panel);
+  border:1px solid var(--border);border-radius:14px;overflow:hidden}
+#brain{display:block;width:100%;height:46vh;min-height:340px;max-height:560px;touch-action:manipulation;cursor:pointer}
+.brainhead{position:absolute;top:12px;left:14px;pointer-events:none}
+.brainhead .h{margin:0}
+.brainhead .fx{font-size:11px;color:var(--mut);margin-top:3px;min-height:14px}
+.brainhead .fx b{color:var(--cyan)}
+.legend{position:absolute;top:12px;right:14px;display:flex;flex-wrap:wrap;gap:5px 8px;justify-content:flex-end;max-width:55%;pointer-events:none}
+.legend span{font-size:10px;color:var(--mut);display:flex;align-items:center;gap:4px}
+.legend i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.brainhint{position:absolute;bottom:10px;left:14px;font-size:10.5px;color:var(--mut);pointer-events:none}
 .h{font-size:10.5px;letter-spacing:.18em;color:var(--cyan);text-transform:uppercase;margin:0 0 12px;
   display:flex;align-items:center;gap:8px}
 .h::before{content:"";width:6px;height:6px;background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
-.h2{margin-top:22px}
+.grid{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:14px;padding:14px 16px 96px;max-width:1500px;margin:0 auto}
+@media(max-width:980px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px}
 .mut{color:var(--mut)}
-/* cost gauge */
 .gauge{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
 .gauge b{font-size:26px;font-variant-numeric:tabular-nums}
 .bar{height:8px;border-radius:6px;background:var(--panel2);overflow:hidden;border:1px solid var(--border)}
 .bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--cyan))}
 .sub{font-size:11px;color:var(--mut);margin-top:6px;display:flex;justify-content:space-between}
-/* pipeline */
 .pipe{margin:7px 0}
 .pipe .lab{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px}
 .pipe .lab span:last-child{color:var(--mut)}
 .pipe .track{height:6px;background:var(--panel2);border-radius:5px;overflow:hidden}
 .pipe .track>i{display:block;height:100%;background:var(--cyan);opacity:.85}
-/* scorecard */
 .score{display:grid;grid-template-columns:1fr 1fr;gap:7px}
 .sc{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:8px 9px;font-size:11px}
 .sc .t{display:flex;align-items:center;gap:6px;color:var(--mut)}
 .dot{width:7px;height:7px;border-radius:50%;flex:none}
 .sc b{font-size:14px;font-variant-numeric:tabular-nums;display:block;margin-top:3px}
-/* feed */
 .ev{display:flex;gap:9px;padding:9px 0;border-top:1px solid var(--border);font-size:12.5px;line-height:1.4}
 .ev:first-child{border-top:0}
 .ev .ed{width:8px;height:8px;border-radius:50%;margin-top:5px;flex:none}
@@ -513,7 +328,15 @@ a{color:var(--cyan);text-decoration:none}
 .deliv .ic{color:var(--teal)}
 .deliv small{color:var(--mut);display:block;font-size:10.5px}
 .empty{color:var(--mut);font-size:12px;padding:8px 0}
-/* command deck */
+/* department rail */
+.rail{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px}
+.dcard{background:var(--panel2);border:1px solid var(--border);border-radius:9px;padding:11px;cursor:pointer;
+  transition:.12s;border-left:3px solid var(--cyan)}
+.dcard:hover{transform:translateY(-2px);border-color:var(--cyan)}
+.dcard .n{font-size:12.5px;display:flex;align-items:center;gap:7px}
+.dcard .m{font-size:10px;color:var(--mut);margin-top:5px}
+.dcard .b{display:flex;gap:5px;margin-top:8px}
+.dcard .b span{font-size:9px;color:var(--mut);background:var(--panel);border:1px solid var(--border);border-radius:5px;padding:1px 6px}
 .deck{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .cmd{background:var(--panel2);border:1px solid var(--border);color:var(--ink);border-radius:8px;
   padding:12px 10px;font:inherit;font-size:12px;cursor:pointer;text-align:left;transition:.12s;letter-spacing:.03em}
@@ -528,9 +351,36 @@ a{color:var(--cyan);text-decoration:none}
 .tk:first-child{border-top:0}
 .tk .s{font-size:9px;color:var(--mut);border:1px solid var(--border);border-radius:4px;padding:1px 5px;letter-spacing:.08em}
 .tk .c{color:var(--mut);flex:none}
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:.2s;z-index:40}
+.scrim.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;z-index:50;background:var(--panel);border:1px solid var(--border);
+  transition:transform .24s cubic-bezier(.4,0,.2,1)}
+@media(max-width:640px){.drawer{left:0;right:0;bottom:0;border-radius:16px 16px 0 0;max-height:88vh;transform:translateY(103%)}.drawer.open{transform:translateY(0)}}
+@media(min-width:641px){.drawer{top:0;bottom:0;right:0;width:min(460px,94vw);border-radius:14px 0 0 14px;transform:translateX(103%)}.drawer.open{transform:translateX(0)}}
+.din{padding:18px 18px calc(22px + env(safe-area-inset-bottom));overflow:auto;height:100%}
+.din h2{font-size:16px;margin:0 0 3px;display:flex;align-items:center;gap:9px;letter-spacing:.02em}
+.close{position:absolute;top:13px;right:15px;background:var(--panel2);border:1px solid var(--border);
+  color:var(--ink);width:32px;height:32px;border-radius:8px;font-size:15px;cursor:pointer}
+.wchip{display:inline-flex;gap:6px;align-items:baseline;font-size:11px;background:var(--panel2);
+  border:1px solid var(--border);border-radius:6px;padding:5px 9px;margin:0 6px 6px 0}
+.wchip b{font-size:14px;font-variant-numeric:tabular-nums}
+.act{display:block;width:100%;text-align:left;background:var(--panel2);border:1px solid var(--border);
+  color:var(--ink);border-radius:8px;padding:11px 12px;font:inherit;font-size:12.5px;cursor:pointer;margin-top:7px;transition:.12s}
+.act:hover{border-color:var(--cyan);color:var(--cyan)}
+.act .k{color:var(--mut);font-size:9.5px;letter-spacing:.14em;margin-right:8px}
+.task{background:var(--panel2);border:1px solid var(--border);border-radius:9px;padding:10px 11px;margin-top:8px;font-size:12.5px}
+.task.done .ttl{text-decoration:line-through;color:var(--mut)}
+.task .row{display:flex;align-items:center;gap:8px}
+.task .ttl{flex:1}
+.cb{border:1px solid var(--border);background:var(--panel);color:var(--mut);border-radius:6px;font:inherit;font-size:10.5px;padding:3px 8px;cursor:pointer}
+.cb.on{color:#04222b;border-color:transparent}
+.asg{display:flex;gap:6px;margin-top:8px;align-items:center}
+.asg input{flex:1;background:var(--panel);border:1px solid var(--border);color:var(--ink);border-radius:6px;padding:6px 9px;font:inherit;font-size:11.5px;min-width:0}
+.sect{font-size:10px;letter-spacing:.16em;color:var(--mut);text-transform:uppercase;margin:18px 2px 4px}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);opacity:0;
   background:var(--cyan);color:#04222b;padding:10px 16px;border-radius:8px;font-size:12.5px;font-weight:700;
-  transition:.25s;z-index:50;pointer-events:none}
+  transition:.25s;z-index:60;pointer-events:none}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 .live{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--good);margin-right:5px;animation:bl 2s infinite}
 @keyframes bl{50%{opacity:.3}}
@@ -544,8 +394,18 @@ a{color:var(--cyan);text-decoration:none}
   <div class="chips" id="chips"></div>
   <div class="ticker" id="ticker"></div>
 </div>
+
+<div class="brainwrap">
+  <canvas id="brain"></canvas>
+  <div class="brainhead">
+    <div class="h">Agency Brain</div>
+    <div class="fx" id="brainfx">initialising neural map…</div>
+  </div>
+  <div class="legend" id="legend"></div>
+  <div class="brainhint">tap a node to open its department · light fires when something updates</div>
+</div>
+
 <div class="grid">
-  <!-- LEFT: VITALS -->
   <div>
     <div class="panel">
       <div class="h">System Vitals</div>
@@ -562,9 +422,12 @@ a{color:var(--cyan);text-decoration:none}
       <div class="score" id="score"></div>
     </div>
   </div>
-  <!-- CENTER: FEED + DELIVERABLES -->
   <div>
     <div class="panel">
+      <div class="h">Departments · tap to work</div>
+      <div class="rail" id="rail"></div>
+    </div>
+    <div class="panel" style="margin-top:14px">
       <div class="h"><span class="live"></span>Activity Feed</div>
       <div id="feed"></div>
     </div>
@@ -573,7 +436,6 @@ a{color:var(--cyan);text-decoration:none}
       <div id="deliv"></div>
     </div>
   </div>
-  <!-- RIGHT: COMMAND DECK -->
   <div>
     <div class="panel">
       <div class="h">Command Deck</div>
@@ -590,59 +452,239 @@ a{color:var(--cyan);text-decoration:none}
     </div>
   </div>
 </div>
+
+<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer"><button class="close" onclick="closeDrawer()">✕</button><div class="din" id="din"></div></div>
 <div class="toast" id="toast"></div>
+
 <script>
 let S = __STATE__;
+let CURRENT = null;
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-const DC={BD:'#1FB4D8',Events:'#E0A83D',Creative:'#E5675F',Marketing:'#3FB27F',Operations:'#0D7C99',Finance:'#9B8CFF',Content:'#E08A3D'};
+const DC={BD:'#1FB4D8',Events:'#E0A83D',Creative:'#E5675F',Marketing:'#3FB27F',Operations:'#59C1F0',Finance:'#9B8CFF',Content:'#E0883D'};
 const CMDS=[['brief','CEO','Daily Brief'],['research','BD','Scout Prospects'],['autopilot','BD','Run Autopilot'],['proposals','WORK','Gen Proposals'],['consolidation','OPS','Consolidate'],['costaudit','FIN','Cost Audit'],['push','SYNC','Push→Obsidian']];
 
-function clock(){const d=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Yangon'}));
-  $('#clock').textContent=d.toTimeString().slice(0,8)+' YGN';}
+function clock(){const d=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Yangon'}));$('#clock').textContent=d.toTimeString().slice(0,8)+' YGN';}
 setInterval(clock,1000);clock();
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2400);}
 
-function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2600);}
-
+/* ============ panels ============ */
 function render(){
   const sys=S.sys||{}, c=S.cost||{today:0,cap:5,week:0,pct:0};
-  // chips
   $('#chips').innerHTML=[['BRAIN',sys.ai],['SYNC',sys.sync],['EMAIL',sys.email],['VOICE',sys.voice]]
     .map(([n,ok])=>`<span class="chip"><span class="d ${ok?'on':'off'}"></span>${n}</span>`).join('');
-  // ticker (directives)
   const dir=(S.directives||[]);
   $('#ticker').innerHTML=dir.length?('▸ '+dir.map(esc).join('  ·  ')):'▸ <b>All clear.</b> Feed the machine a brief.';
-  // cost
   $('#costToday').textContent='S$'+(c.today||0).toFixed(2);
   $('#costCap').textContent='/ S$'+c.cap+' cap';
   const bar=$('#costBar');bar.style.width=Math.min(100,c.pct||0)+'%';
   bar.style.background=(c.pct>=100)?'var(--bad)':(c.pct>=80?'linear-gradient(90deg,var(--warn),var(--bad))':'linear-gradient(90deg,var(--teal),var(--cyan))');
   $('#costWeek').textContent='7-day: S$'+(c.week||0).toFixed(2)+' · '+(c.calls_week||0)+' calls';
   $('#model').textContent=S.model||'';
-  // pipeline
   const pipe=S.pipeline||[];const mx=Math.max(1,...pipe.map(p=>p.count));
   $('#pipeline').innerHTML=pipe.map(p=>`<div class="pipe"><div class="lab"><span>${esc(p.stage)}</span><span>${p.count}${p.value?(' · S$'+p.value.toLocaleString()):''}</span></div><div class="track"><i style="width:${Math.round(p.count/mx*100)}%"></i></div></div>`).join('')||'<div class="empty">No leads yet — /enrich a company.</div>';
-  // scorecard
   const tone={good:'var(--good)',bad:'var(--bad)',muted:'var(--warn)',none:'var(--border)'};
   $('#score').innerHTML=(S.scorecard||[]).map(x=>`<div class="sc"><div class="t"><span class="dot" style="background:${tone[x.status]||'var(--border)'}"></span>${esc(x.label)}</div><b>${x.value==null?'—':esc(x.value)}</b></div>`).join('')||'<div class="empty">Run /audit to activate.</div>';
-  // feed
+  // department rail
+  $('#rail').innerHTML=(S.departments||[]).map(d=>{const c2=d.tasks.counts;
+    return `<div class="dcard" style="border-left-color:${d.color}" onclick="openDept('${d.name}')">
+      <div class="n"><span>${d.icon}</span>${esc(d.label)}</div>
+      <div class="m">${esc(d.data)}</div>
+      <div class="b"><span>${c2.todo} todo</span><span>${c2.doing} doing</span></div></div>`;}).join('');
   const feed=(S.activity||[]);
-  $('#feed').innerHTML=feed.length?feed.slice(0,22).map(a=>`<div class="ev"><span class="ed" style="background:${DC[a.department]||'var(--mut)'}"></span><div>${esc(a.text)}<br><small>${esc(a.department||'')} · ${esc(a.at||'')}</small></div></div>`).join(''):'<div class="empty">No activity yet — it streams here as the agency works.</div>';
-  // deliverables
+  $('#feed').innerHTML=feed.length?feed.slice(0,20).map(a=>`<div class="ev"><span class="ed" style="background:${DC[a.department]||'var(--mut)'}"></span><div>${esc(a.text)}<br><small>${esc(a.department||'')} · ${esc(a.at||'')}</small></div></div>`).join(''):'<div class="empty">No activity yet — it streams here as the agency works.</div>';
   const dv=(S.deliverables||[]);
-  $('#deliv').innerHTML=dv.length?dv.slice(0,20).map(d=>`<div class="deliv"><span class="ic">▤</span><div>${esc(d.title)}<small>${esc(d.meta||'')}${d.date?(' · '+esc(d.date)):''}</small></div></div>`).join(''):'<div class="empty">No deliverables yet — /proposal or /event to create.</div>';
-  // deck
+  $('#deliv').innerHTML=dv.length?dv.slice(0,18).map(d=>`<div class="deliv"><span class="ic">▤</span><div>${esc(d.title)}<small>${esc(d.meta||'')}${d.date?(' · '+esc(d.date)):''}</small></div></div>`).join(''):'<div class="empty">No deliverables yet — /proposal or /event to create.</div>';
   $('#deck').innerHTML=CMDS.map(([k,tag,label])=>`<button class="cmd" onclick="cmd('${k}')"><span class="k">${tag}</span>${label}</button>`).join('');
-  // dept select
   const depts=(S.departments||[]).map(d=>d.name);
   if($('#dept').options.length===0)$('#dept').innerHTML=depts.map(n=>`<option>${n}</option>`).join('');
-  // open work (todo+doing across depts)
   let open=[];(S.departments||[]).forEach(d=>(d.tasks.items||[]).forEach(t=>{if(t.status!=='done')open.push({...t,dept:d.name});}));
   $('#tasks').innerHTML=open.length?open.slice(0,14).map(t=>`<div class="tk"><span class="s">${esc(t.status)}</span><span style="flex:1">${esc(t.title)}</span><span class="c" style="color:${DC[t.dept]||'var(--mut)'}">${esc(t.dept)}</span></div>`).join(''):'<div class="empty">No open tasks.</div>';
+  // legend
+  $('#legend').innerHTML=(S.departments||[]).map(d=>`<span><i style="background:${d.color}"></i>${esc(d.label)}</span>`).join('');
 }
+
+/* ============ neural brain ============ */
+const cv=$('#brain'), cx=cv.getContext('2d');
+let DPR=Math.min(2,window.devicePixelRatio||1), W=0, H=0;
+let B={core:null, depts:[]};        // laid-out nodes
+let SIG=[];                          // active signal pulses
+let PREV=null, LASTACT='';          // change detection
+let HOVER=null;
+
+function sizeCanvas(){W=cv.clientWidth;H=cv.clientHeight;cv.width=W*DPR;cv.height=H*DPR;cx.setTransform(DPR,0,0,DPR,0,0);}
+function layoutBrain(){
+  sizeCanvas();
+  const cxp=W/2, cyp=H/2, R1=Math.min(W,H)*0.30, R2=R1+Math.min(W,H)*0.20;
+  B.core={x:cxp,y:cyp};
+  const ds=(S.departments||[]);
+  B.depts=ds.map((d,i)=>{
+    const a=-Math.PI/2 + i*2*Math.PI/Math.max(1,ds.length);
+    const works=(d.works||[]).filter(w=>w.value>0);
+    const node={name:d.name,label:d.label,color:d.color,icon:d.icon,load:d.load||0,a,
+      x:cxp+Math.cos(a)*R1, y:cyp+Math.sin(a)*R1, ph:Math.random()*6.28, flash:0, works:[]};
+    const spread=0.42;
+    works.forEach((w,j)=>{
+      const wa=a + (works.length>1? (j/(works.length-1)-0.5)*spread : 0);
+      node.works.push({label:w.label,value:w.value,color:d.color,dept:d.name,
+        x:cxp+Math.cos(wa)*R2, y:cyp+Math.sin(wa)*R2, ph:Math.random()*6.28, flash:0});
+    });
+    return node;
+  });
+}
+function worksMap(){const m={};(S.departments||[]).forEach(d=>(d.works||[]).forEach(w=>m[d.name+'|'+w.label]=w.value));return m;}
+function findDept(n){return B.depts.find(d=>d.name===n);}
+function fire(deptName, workLabel, kind){
+  const d=findDept(deptName); if(!d) return;
+  const path=[B.core,{x:d.x,y:d.y,node:d}];
+  if(workLabel){const w=(d.works||[]).find(x=>x.label===workLabel); if(w) path.push({x:w.x,y:w.y,node:w});}
+  SIG.push({path, color:d.color, t0:performance.now(), dur:kind==='idle'?1500:1050, kind:kind||'event'});
+  if(SIG.length>26) SIG.shift();
+  d.flash=performance.now()+900;
+}
+function ptAlong(path,u){
+  if(path.length<2) return path[0];
+  const seg=1/(path.length-1); let i=Math.min(path.length-2,Math.floor(u/seg)); let f=(u-i*seg)/seg;
+  const a=path[i], b=path[i+1]; return {x:a.x+(b.x-a.x)*f, y:a.y+(b.y-a.y)*f};
+}
+function drawLink(a,b,col,w,al){cx.strokeStyle=col;cx.globalAlpha=al;cx.lineWidth=w;cx.beginPath();cx.moveTo(a.x,a.y);cx.lineTo(b.x,b.y);cx.stroke();cx.globalAlpha=1;}
+function nodeAt(mx,my){
+  for(const d of B.depts){ for(const w of d.works){ if(Math.hypot(mx-w.x,my-w.y)<15) return {dept:d.name}; }
+    if(Math.hypot(mx-d.x,my-d.y)< (16+Math.min(10,d.load)) +6) return {dept:d.name}; }
+  return null;
+}
+function draw(t){
+  cx.clearRect(0,0,W,H);
+  const C=B.core; if(!C){requestAnimationFrame(draw);return;}
+  // gentle float
+  B.depts.forEach(d=>{d.dx=Math.sin(t/1400+d.ph)*3;d.dy=Math.cos(t/1600+d.ph)*3;
+    d.works.forEach(w=>{w.dx=Math.sin(t/1300+w.ph)*2.4;w.dy=Math.cos(t/1500+w.ph)*2.4;});});
+  const P=n=>({x:n.x+(n.dx||0),y:n.y+(n.dy||0)});
+  // links + ambient pulses
+  B.depts.forEach((d,i)=>{
+    const dp=P(d);
+    drawLink(C,dp,d.color,1+Math.min(3,d.load*0.25),0.16);
+    let u=((t/2600)+(i*0.13))%1; let ap=ptAlong([C,dp],u);
+    cx.fillStyle=d.color;cx.globalAlpha=0.35;cx.beginPath();cx.arc(ap.x,ap.y,1.7,0,7);cx.fill();cx.globalAlpha=1;
+    d.works.forEach((w,j)=>{const wp=P(w);
+      drawLink(dp,wp,d.color,1,0.12);
+      let u2=((t/2200)+(j*0.2)+(i*0.05))%1; let bp=ptAlong([dp,wp],u2);
+      cx.fillStyle=d.color;cx.globalAlpha=0.25;cx.beginPath();cx.arc(bp.x,bp.y,1.4,0,7);cx.fill();cx.globalAlpha=1;
+    });
+  });
+  // signal pulses (the meaningful ones)
+  SIG=SIG.filter(s=>t-s.t0 < s.dur);
+  SIG.forEach(s=>{
+    const u=Math.min(1,(t-s.t0)/s.dur); const p=ptAlong(s.path,u);
+    const bright=s.kind==='idle'?0.5:1;
+    // trail
+    for(let k=1;k<=6;k++){const uk=Math.max(0,u-k*0.035);const pk=ptAlong(s.path,uk);
+      cx.fillStyle=s.color;cx.globalAlpha=bright*(0.16-k*0.02);cx.beginPath();cx.arc(pk.x,pk.y,3.2,0,7);cx.fill();}
+    cx.globalAlpha=1;
+    const g=cx.createRadialGradient(p.x,p.y,0,p.x,p.y,9);g.addColorStop(0,s.color);g.addColorStop(1,'transparent');
+    cx.fillStyle=g;cx.globalAlpha=bright;cx.beginPath();cx.arc(p.x,p.y,9,0,7);cx.fill();
+    cx.fillStyle='#fff';cx.globalAlpha=bright;cx.beginPath();cx.arc(p.x,p.y,2.2,0,7);cx.fill();cx.globalAlpha=1;
+  });
+  // core
+  const puls=(Math.sin(t/650)+1)/2;
+  for(let k=3;k>=1;k--){cx.fillStyle='rgba(31,180,216,'+(0.05*k)+')';cx.beginPath();cx.arc(C.x,C.y,20+k*7+puls*4,0,7);cx.fill();}
+  cx.fillStyle='#1FB4D8';cx.beginPath();cx.arc(C.x,C.y,15,0,7);cx.fill();
+  cx.fillStyle='#04222b';cx.font='700 14px ui-monospace,monospace';cx.textAlign='center';cx.textBaseline='middle';cx.fillText('Z',C.x,C.y);
+  // department + work nodes
+  B.depts.forEach(d=>{
+    const dp=P(d); const r=16+Math.min(10,d.load); const hot=HOVER&&HOVER.dept===d.name;
+    d.works.forEach(w=>{const wp=P(w); const wr=6+Math.min(9,Math.log2(w.value+1)*2.6);
+      cx.fillStyle=w.color;cx.globalAlpha=0.13;cx.beginPath();cx.arc(wp.x,wp.y,wr+6,0,7);cx.fill();cx.globalAlpha=1;
+      cx.fillStyle=w.color;cx.globalAlpha=0.85;cx.beginPath();cx.arc(wp.x,wp.y,wr,0,7);cx.fill();cx.globalAlpha=1;
+      cx.fillStyle='#04121a';cx.font='700 9px ui-monospace,monospace';cx.fillText(String(w.value),wp.x,wp.y);
+      cx.fillStyle='var(--mut)';cx.fillStyle='#7C8B9A';cx.font='9px ui-monospace,monospace';cx.fillText(w.label,wp.x,wp.y+wr+9);
+    });
+    // glow + flash
+    if(d.flash>t){const fu=(d.flash-t)/900;cx.strokeStyle=d.color;cx.globalAlpha=fu*0.9;cx.lineWidth=2;cx.beginPath();cx.arc(dp.x,dp.y,r+8+(1-fu)*10,0,7);cx.stroke();cx.globalAlpha=1;}
+    cx.fillStyle=d.color;cx.globalAlpha=hot?0.28:0.16;cx.beginPath();cx.arc(dp.x,dp.y,r+7,0,7);cx.fill();cx.globalAlpha=1;
+    cx.fillStyle=d.color;cx.beginPath();cx.arc(dp.x,dp.y,r,0,7);cx.fill();
+    cx.font='700 13px ui-monospace,monospace';cx.fillText(d.icon,dp.x,dp.y);
+    cx.fillStyle=hot?'#fff':'#9fb0bf';cx.font='700 10px ui-monospace,monospace';cx.fillText(d.label,dp.x,dp.y+r+13);
+    const open=(S.departments.find(x=>x.name===d.name)||{tasks:{counts:{}}}).tasks.counts;
+    const badge=(open.todo||0)+(open.doing||0);
+    if(badge){cx.fillStyle='#04222b';cx.beginPath();cx.arc(dp.x+r*0.72,dp.y-r*0.72,7,0,7);cx.fill();
+      cx.fillStyle=d.color;cx.beginPath();cx.arc(dp.x+r*0.72,dp.y-r*0.72,7,0,7);cx.fill();
+      cx.fillStyle='#04222b';cx.font='700 9px ui-monospace,monospace';cx.fillText(String(badge),dp.x+r*0.72,dp.y-r*0.72);}
+  });
+  requestAnimationFrame(draw);
+}
+// pointer
+cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();HOVER=nodeAt(e.clientX-r.left,e.clientY-r.top);
+  const fx=$('#brainfx');
+  if(HOVER){const d=S.departments.find(x=>x.name===HOVER.dept);fx.innerHTML='▸ <b>'+esc(d.label)+'</b> — '+esc(d.data)+' · tap to open';cv.style.cursor='pointer';}
+  else{cv.style.cursor='default';fx.innerHTML=idleFx();}});
+cv.addEventListener('click',e=>{const r=cv.getBoundingClientRect();const n=nodeAt(e.clientX-r.left,e.clientY-r.top);if(n)openDept(n.dept);});
+function idleFx(){const a=(S.activity||[])[0];return a?('▸ last: <b>'+esc(a.text).slice(0,54)+'</b>'):'▸ <b>'+(S.departments||[]).length+'</b> departments online · brain nominal';}
+
+/* boot + change detection */
+function bootSweep(){let i=0;const ds=(S.departments||[]);(function step(){if(i>=ds.length)return;fire(ds[i].name,null,'idle');i++;setTimeout(step,120);})();}
+function detectChanges(){
+  const now=worksMap();
+  if(PREV){for(const k in now){if(now[k]>(PREV[k]??now[k])){const[dep,lab]=k.split('|');fire(dep,lab,'event');}}}
+  PREV=now;
+  const a=(S.activity||[])[0]; const sig=a?(a.text+'|'+a.at):'';
+  if(sig && LASTACT && sig!==LASTACT && a.department){fire(a.department,null,'event');}
+  LASTACT=sig;
+}
+// ambient "thought" so it always feels alive
+setInterval(()=>{const ds=(S.departments||[]).filter(d=>(d.works||[]).some(w=>w.value>0));if(!ds.length)return;
+  const d=ds[Math.floor(Math.random()*ds.length)];fire(d.name,null,'idle');},3800);
+
+/* ============ actions ============ */
 async function api(path,body){try{const r=await fetch(path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined});return await r.json();}catch(e){return{ok:false}}}
-async function cmd(k){toast('Queued: '+k+' — watch Telegram');await api('/api/cmd',{cmd:k});}
-async function addTask(){const el=$('#tin');const v=(el.value||'').trim();if(!v)return;el.value='';await api('/api/task',{action:'add',title:v,department:$('#dept').value});toast('Task added');refresh();}
-async function refresh(){const s=await api('/api/state');if(s&&s.departments){S=s;render();}}
-render();setInterval(refresh,15000);
+async function cmd(k,dept){toast('Queued: '+k+' — watch Telegram');if(dept)fire(dept,null,'event');await api('/api/cmd',{cmd:k});}
+async function addTask(){const el=$('#tin');const v=(el.value||'').trim();if(!v)return;const dp=$('#dept').value;el.value='';fire(dp,null,'event');await api('/api/task',{action:'add',title:v,department:dp});toast('Task added → '+dp);refresh();}
+async function refresh(){const s=await api('/api/state');if(s&&s.departments){const nOld=(S.departments||[]).length;S=s;render();detectChanges();if((S.departments||[]).length!==nOld||!B.core)layoutBrain();else syncLayout();if(CURRENT)fillDrawer(CURRENT);}}
+function syncLayout(){ // keep positions, refresh values/works
+  (S.departments||[]).forEach(d=>{const n=findDept(d.name);if(!n)return;n.load=d.load||0;
+    const works=(d.works||[]).filter(w=>w.value>0);
+    // update existing, add new near dept angle
+    const cxp=W/2,cyp=H/2,R2=Math.min(W,H)*0.30+Math.min(W,H)*0.20,spread=0.42;
+    n.works=works.map((w,j)=>{const ex=(findDept(d.name).works||[]).find(o=>o.label===w.label);
+      const wa=n.a+(works.length>1?(j/(works.length-1)-0.5)*spread:0);
+      return ex?{...ex,value:w.value}:{label:w.label,value:w.value,color:d.color,dept:d.name,x:cxp+Math.cos(wa)*R2,y:cyp+Math.sin(wa)*R2,ph:Math.random()*6.28,flash:0};});});
+}
+
+/* ============ department drawer ============ */
+function openDept(name){CURRENT=name;fillDrawer(name);$('#scrim').classList.add('open');$('#drawer').classList.add('open');}
+function closeDrawer(){CURRENT=null;$('#scrim').classList.remove('open');$('#drawer').classList.remove('open');}
+function fillDrawer(name){
+  const d=(S.departments||[]).find(x=>x.name===name);if(!d)return;
+  const works=(d.works||[]).map(w=>`<span class="wchip"><b style="color:${d.color}">${w.value}</b>${esc(w.label)}</span>`).join('')||'<span class="mut" style="font-size:11px">no works yet</span>';
+  const acts=(d.actions||[]).map(a=>`<button class="act" onclick="cmd('${a.cmd}','${name}')"><span class="k">RUN</span>${esc(a.label)}</button>`).join('')
+    || `<div class="empty">No one-tap command here yet. Plan ${esc(d.label).toLowerCase()} via Telegram (/event, /video) or add a task below.</div>`;
+  const items=(d.tasks.items||[]).slice().reverse();
+  const tasks=items.length?items.map(tk=>`
+    <div class="task ${tk.status}"><div class="row"><span class="ttl">${esc(tk.title)} <small class="mut">[${esc(tk.id)}]</small></span></div>
+      <div class="row" style="margin-top:7px">${['todo','doing','done'].map(st=>`<button class="cb ${tk.status===st?'on':''}" style="${tk.status===st?'background:'+d.color:''}" onclick="move('${esc(tk.id)}','${st}')">${st}</button>`).join('')}</div>
+      <div class="asg"><span class="mut">👤</span><input id="as_${esc(tk.id)}" placeholder="assignee" value="${esc(tk.assignee||'')}"><button class="cb" onclick="assign('${esc(tk.id)}')">save</button></div>
+    </div>`).join(''):'<div class="empty">No tasks yet — add the first below.</div>';
+  const act=(d.activity||[]).map(a=>`<div class="ev"><span class="ed" style="background:${d.color}"></span><div>${esc(a.text)}<br><small>${esc(a.at||'')}</small></div></div>`).join('')||'<div class="empty">No recent activity.</div>';
+  $('#din').innerHTML=`
+    <h2><span class="dot" style="background:${d.color};width:11px;height:11px"></span>${d.icon} ${esc(d.label)}</h2>
+    <div class="mut" style="font-size:11.5px;margin-bottom:12px">${esc(d.data)}</div>
+    <div>${works}</div>
+    <div class="sect">Run</div>${acts}
+    <div class="sect">Add task</div>
+    <div class="add"><input id="dtin" placeholder="task for ${esc(d.label)}…" onkeydown="if(event.key==='Enter')addDeptTask('${name}')"><button onclick="addDeptTask('${name}')">+</button></div>
+    <div class="sect">Tasks</div>${tasks}
+    <div class="sect">Activity</div><div>${act}</div>`;
+}
+async function addDeptTask(name){const el=$('#dtin');const v=(el.value||'').trim();if(!v)return;el.value='';fire(name,null,'event');await api('/api/task',{action:'add',title:v,department:name});toast('Task added');await refresh();}
+async function move(id,st){await api('/api/task',{action:'status',id,status:st});await refresh();}
+async function assign(id){const v=($('#as_'+id).value||'').trim();await api('/api/task',{action:'assign',id,assignee:v});await refresh();toast('Assigned');}
+
+/* ============ boot ============ */
+window.addEventListener('resize',()=>{layoutBrain();});
+render();layoutBrain();PREV=worksMap();LASTACT=((S.activity||[])[0]||{}).text||'';
+$('#brainfx').innerHTML=idleFx();
+requestAnimationFrame(draw);
+setTimeout(bootSweep,300);
+setInterval(refresh,12000);
 </script></body></html>"""
