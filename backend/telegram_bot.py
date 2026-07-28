@@ -179,6 +179,11 @@ async def _post_init(application: Application) -> None:
     application.bot_data["scheduler"] = scheduler
     _start_dashboard_server()  # live web dashboard on $PORT
     try:
+        from utils import lessons
+        lessons.sync_from_pool()  # regenerate learned-lessons knowledge from the pool
+    except Exception:
+        pass
+    try:
         await refresh_rates()  # best-effort live FX at startup
     except Exception:
         pass
@@ -1406,6 +1411,11 @@ async def _run_audit_capture(update: Update, text: str) -> None:
             last_exc = exc
             continue
     if data is None:
+        try:
+            from utils import mistakes
+            mistakes.record("audit", "audit structuring failed on all models", str(last_exc), "error")
+        except Exception:
+            pass
         # Never drop the answers: save the raw text so the audit is not lost.
         save_audit({"raw_answers": text, "top_3_priorities": [],
                     "starting_line_summary": "(saved raw — AI structuring unavailable)"})
@@ -1674,6 +1684,35 @@ async def cmd_costaudit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     from utils.costaudit import audit_text
     deep = bool(context.args and context.args[0].lower() == "deep")
     await update.message.reply_html(audit_text(retro=deep))
+
+
+async def cmd_improve(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/improve — run the self-improvement loop now: review our own work, learn, get better.
+    /improve lessons — just show the lessons already learned."""
+    if not _security_check(update):
+        return
+    if context.args and context.args[0].lower() in ("lessons", "list"):
+        from utils.lessons import all_lessons
+        rows = all_lessons()
+        if not rows:
+            await update.message.reply_html("📚 No lessons yet. Run /improve to learn the first ones.")
+            return
+        by: dict[str, list[str]] = {}
+        for r in rows:
+            by.setdefault(r.get("area", "general"), []).append(r.get("lesson", ""))
+        out = ["📚 <b>Learned Lessons</b> (injected into every agent)\n"]
+        for area in sorted(by):
+            out.append(f"<b>{area}</b>")
+            out += [f"• {l}" for l in by[area]]
+            out.append("")
+        await update.message.reply_html("\n".join(out).strip())
+        return
+    await update.message.reply_html("🧠 Running self-improvement review — reading our own work, learning… (results in a moment)")
+    from scheduler import run_self_improve
+    try:
+        await run_self_improve()
+    except Exception as exc:
+        await update.message.reply_html(f"❌ Self-review failed: {exc}")
 
 
 async def cmd_enrich(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -2420,6 +2459,7 @@ def main() -> None:
     app.add_handler(CommandHandler("scout", cmd_scout))
     app.add_handler(CommandHandler("enrich", cmd_enrich))
     app.add_handler(CommandHandler("costaudit", cmd_costaudit))
+    app.add_handler(CommandHandler("improve", cmd_improve))
     app.add_handler(CommandHandler("autopilot", cmd_autopilot))
     app.add_handler(CommandHandler("queue", cmd_queue))
     app.add_handler(CommandHandler("release", cmd_release))

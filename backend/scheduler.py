@@ -20,6 +20,7 @@ Or run via Docker / systemd service so it survives reboots.
 from __future__ import annotations
 
 import asyncio
+import html
 import sys
 from datetime import datetime
 
@@ -473,8 +474,58 @@ async def run_command_queue() -> None:
                 from utils import gitsync
                 ok, msg = await gitsync.sync()
                 await send_message(f"📤 <b>Sync:</b> {msg}")
+            elif cmd == "improve":
+                await run_self_improve()
         except Exception as exc:
             logger.info("queued cmd %s failed: %s", cmd, type(exc).__name__)
+            try:
+                from utils import mistakes
+                mistakes.record("command", f"queued '{cmd}' failed", type(exc).__name__, "error")
+            except Exception:
+                pass
+
+
+async def run_self_improve() -> None:
+    """The self-improvement loop: ZYNTH reviews its own work, learns, and gets better.
+
+    Reads the mistake log + metrics + activity, distils durable lessons, writes them
+    into the injected knowledge file (so every agent improves), and reports the MD a
+    short summary. Runs weekly + on demand (/improve, Command Deck)."""
+    logger.info("🧠 Self-improvement review starting")
+    try:
+        from agents.improver import ImproverAgent, caption
+        from utils import lessons
+        llm = LLMClient()
+        if llm.is_mocked:
+            logger.info("Self-improve skipped — no API key")
+            return
+        review = await ImproverAgent(llm).review()
+        added = lessons.add_many(review.get("lessons", []), source="weekly")
+        try:
+            from utils.tasks import log_activity
+            log_activity("Operations", f"Self-review {review.get('health_score','?')}/10 · +{added} lessons", source="improve")
+        except Exception:
+            pass
+        rec = review.get("recurring_mistakes", []) or []
+        imp = review.get("improvements", []) or []
+        msg = [
+            f"🧠 <b>Self-Improvement Review</b> — health {review.get('health_score','?')}/10",
+            f"<i>{review.get('self_assessment','')}</i>",
+        ]
+        if rec:
+            msg.append("\n<b>Recurring mistakes:</b>\n" + "\n".join(f"• {html.escape(str(m))}" for m in rec[:3]))
+        if imp:
+            msg.append("\n<b>Improvements queued:</b>\n" + "\n".join(
+                f"• {html.escape(str(i.get('action','')))}" for i in imp[:3] if isinstance(i, dict)))
+        msg.append(f"\n📚 <b>+{added} new lesson(s)</b> written into every agent · {lessons.summary_line()}")
+        await send_message("\n".join(msg))
+    except Exception as exc:
+        logger.exception("Self-improvement review failed: %s", exc)
+        try:
+            from utils import mistakes
+            mistakes.record("self_improve", "review failed", type(exc).__name__, "error")
+        except Exception:
+            pass
 
 
 async def run_daily_proposals() -> None:
@@ -678,6 +729,14 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
         CronTrigger(minute="*", timezone=settings.scheduler_timezone),
         id="command_queue",
         name="Command Deck Drain",
+        replace_existing=True,
+    )
+    # Self-improvement loop (Sunday 20:00 Yangon — review the week, learn, get better)
+    scheduler.add_job(
+        run_self_improve,
+        CronTrigger(day_of_week="sun", hour=20, minute=0, timezone=settings.scheduler_timezone),
+        id="self_improve",
+        name="Self-Improvement Review",
         replace_existing=True,
     )
 

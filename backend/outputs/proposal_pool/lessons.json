@@ -1,0 +1,32 @@
+[
+  {
+    "at": "2026-07-28",
+    "area": "agents",
+    "lesson": "You are the worker, not a manager: produce the actual deliverable, never a task assigned to a team that does not exist. The MD only decides.",
+    "source": "seed"
+  },
+  {
+    "at": "2026-07-28",
+    "area": "comms",
+    "lesson": "Lead every MD message with the answer or the single decision needed; keep detail in the filed document. Escalate only owner-decisions (money out, client-facing sends, legal, real forks).",
+    "source": "seed"
+  },
+  {
+    "at": "2026-07-28",
+    "area": "reliability",
+    "lesson": "Any LLM call that can 400 on one model must fall back to another model and never lose the user's input; degrade gracefully, save raw.",
+    "source": "seed"
+  },
+  {
+    "at": "2026-07-28",
+    "area": "finance",
+    "lesson": "Never let a quote drop below the 35% gross-margin floor silently; if it cannot clear the floor, re-scope or flag it, do not discount quietly.",
+    "source": "seed"
+  },
+  {
+    "at": "2026-07-28",
+    "area": "data-integrity",
+    "lesson": "Never fabricate contact details (name/email/phone/LinkedIn) or vendor rates; mark unknowns 'to source' and unverified numbers '[INDICATIVE]'.",
+    "source": "seed"
+  }
+]

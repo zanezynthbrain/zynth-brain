@@ -134,6 +134,7 @@ def build_state() -> dict[str, Any]:
                       {"cmd": "research", "label": "Market Intel"}],
         "Operations": [{"cmd": "brief", "label": "Daily CEO Brief"},
                        {"cmd": "consolidation", "label": "Consolidate"},
+                       {"cmd": "improve", "label": "Self-Improve"},
                        {"cmd": "push", "label": "Sync → Obsidian"}],
         "Finance": [{"cmd": "costaudit", "label": "Cost Audit"}],
         "Content": [{"cmd": "push", "label": "Sync → Obsidian"}],
@@ -463,7 +464,7 @@ let CURRENT = null;
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 const DC={BD:'#1FB4D8',Events:'#E0A83D',Creative:'#E5675F',Marketing:'#3FB27F',Operations:'#59C1F0',Finance:'#9B8CFF',Content:'#E0883D'};
-const CMDS=[['brief','CEO','Daily Brief'],['research','BD','Scout Prospects'],['autopilot','BD','Run Autopilot'],['proposals','WORK','Gen Proposals'],['consolidation','OPS','Consolidate'],['costaudit','FIN','Cost Audit'],['push','SYNC','Push→Obsidian']];
+const CMDS=[['brief','CEO','Daily Brief'],['research','BD','Scout Prospects'],['autopilot','BD','Run Autopilot'],['proposals','WORK','Gen Proposals'],['improve','SELF','Self-Improve'],['consolidation','OPS','Consolidate'],['costaudit','FIN','Cost Audit'],['push','SYNC','Push→Obsidian']];
 
 function clock(){const d=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Yangon'}));$('#clock').textContent=d.toTimeString().slice(0,8)+' YGN';}
 setInterval(clock,1000);clock();

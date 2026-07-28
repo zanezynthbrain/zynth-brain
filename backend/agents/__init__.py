@@ -19,6 +19,9 @@ from .event_manager import EventManagerAgent
 from .operations import OperationsAgent
 from .portfolio import PortfolioAgent
 
+# Meta / self-improvement
+from .improver import ImproverAgent
+
 __all__ = [
     # Base
     "AgentError", "AgentResult", "BaseAgent",
@@ -31,6 +34,8 @@ __all__ = [
     "CEOAgent", "CMOAgent", "COOAgent", "CFOAgent", "HRAgent",
     # Department specialists
     "EventManagerAgent", "OperationsAgent", "PortfolioAgent",
+    # Meta
+    "ImproverAgent",
     # Factory functions
     "build_default_agents", "build_full_agency",
 ]
