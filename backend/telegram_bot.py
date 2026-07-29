@@ -2035,6 +2035,105 @@ async def cmd_lead(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     )
 
 
+async def cmd_em(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Event management — run an event through its full delivery lifecycle.
+
+    /em                                   → the event pipeline
+    /em add Client | type | date | guests | budget   → register an event
+    /em show <id|client>                  → the event + its stage gate & checklist
+    /em stage <id|client> <stage>         → advance (enquiry→…→closed / lost)
+    /em deposit <id|client> [paid|no]     → record the 50% deposit (unlocks confirm)
+    /em next                              → upcoming events + what's due now
+    """
+    if not _security_check(update):
+        return
+    from utils import events as EV
+    from utils.tasks import log_activity
+    args = list(context.args or [])
+    sub = args[0].lower() if args else ""
+
+    if sub == "add":
+        raw = " ".join(args[1:]).strip()
+        parts = [p.strip() for p in raw.split("|")]
+        if not raw or not parts[0]:
+            await update.message.reply_html(
+                "Register an event (pipe-separated):\n"
+                "<code>/em add KBZ Bank | product launch | 2026-11-14 | 300 | 120M MMK</code>\n"
+                "Order: client | type | date | guests | budget")
+            return
+        ev = {"client": parts[0]}
+        for key, i in (("event_type", 1), ("event_date", 2), ("guests", 3), ("budget", 4)):
+            if len(parts) > i:
+                ev[key] = parts[i]
+        eid = EV.add_event(ev)
+        log_activity("Events", f"Event registered: {ev['client']} ({ev.get('event_type','')})", source="telegram")
+        await update.message.reply_html(
+            f"🎪 Registered <i>[{eid}]</i>:\n\n{EV.format_event(EV.find(eid))}\n\n"
+            "Advance with <code>/em stage " + eid + " qualified</code> · plan it with "
+            "<code>/event " + ev['client'] + " " + ev.get('event_type', '') + "</code>")
+        return
+
+    if sub == "show" and len(args) >= 2:
+        ev = EV.find(" ".join(args[1:]))
+        if not ev:
+            await update.message.reply_html("No event matched.")
+            return
+        todo = EV.next_todo(ev)
+        todo_txt = "\n".join(f"  ☐ {t}" for t in todo)
+        await update.message.reply_html(EV.format_event(ev) + (f"\n\n<b>Checklist ({ev['stage']}):</b>\n{todo_txt}" if todo else ""))
+        return
+
+    if sub == "stage" and len(args) >= 3:
+        target, stage = " ".join(args[1:-1]), args[-1].lower()
+        ev, warn = EV.update_stage(target, stage)
+        if not ev:
+            await update.message.reply_html(f"{warn}\nStages: {', '.join(EV.STAGES)}")
+            return
+        log_activity("Events", f"{ev['client']} → {stage}", source="telegram")
+        msg = f"🎪 <b>{ev['client']}</b> → <b>{stage}</b>"
+        if warn:
+            msg += f"\n{warn}"
+        todo = EV.next_todo(ev)
+        if todo:
+            msg += "\n\n<b>Now do:</b>\n" + "\n".join(f"  ☐ {t}" for t in todo)
+        await update.message.reply_html(msg)
+        return
+
+    if sub == "deposit" and len(args) >= 2:
+        rest = args[1:]
+        flag = rest[-1].lower() if rest and rest[-1].lower() in ("paid", "no", "yes", "true", "false", "y", "n") else "paid"
+        target = " ".join(rest[:-1]) if rest[-1].lower() in ("paid", "no", "yes", "true", "false", "y", "n") else " ".join(rest)
+        ev = EV.set_field(target, "deposit_paid", flag)
+        if not ev:
+            await update.message.reply_html("No event matched.")
+            return
+        state = "✓ received" if ev.get("deposit_paid") else "✗ not received"
+        await update.message.reply_html(f"💰 {ev['client']} deposit {state}. "
+                                        + ("You can now <code>/em stage " + ev['id'] + " confirmed</code>." if ev.get("deposit_paid") else ""))
+        return
+
+    if sub == "next":
+        up = EV.upcoming(10)
+        if not up:
+            await update.message.reply_html("No upcoming events. Register one: <code>/em add ...</code>")
+            return
+        await _send_long(update, "🗓 <b>Upcoming events</b>\n\n" + "\n\n".join(EV.format_event(e) for e in up))
+        return
+
+    if sub in ("list", "all"):
+        rows = EV.all_events()
+        if not rows:
+            await update.message.reply_html("No events yet. <code>/em add ...</code>")
+            return
+        await _send_long(update, f"🎪 <b>Events ({len(rows)})</b>\n\n" + "\n\n".join(EV.format_event(e) for e in rows[:20]))
+        return
+
+    await update.message.reply_html(
+        EV.pipeline_stats() +
+        "\n\n<code>/em add ...</code> · <code>/em stage E001 confirmed</code> · "
+        "<code>/em deposit E001 paid</code> · <code>/em next</code> · <code>/em show E001</code>")
+
+
 _TASK_ADD_SCHEMA = {
     "type": "object",
     "required": ["title", "department"],
@@ -2455,6 +2554,7 @@ def main() -> None:
     app.add_handler(CommandHandler("testemail", cmd_testemail))
     app.add_handler(CommandHandler("vendor", cmd_vendor))
     app.add_handler(CommandHandler("lead", cmd_lead))
+    app.add_handler(CommandHandler("em", cmd_em))
     app.add_handler(CommandHandler("prospects", cmd_prospects))
     app.add_handler(CommandHandler("scout", cmd_scout))
     app.add_handler(CommandHandler("enrich", cmd_enrich))

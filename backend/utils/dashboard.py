@@ -63,6 +63,13 @@ def build_state() -> dict[str, Any]:
     except Exception:
         venues = []
     try:
+        from utils.events import all_events as _all_events, stage_counts as _ev_counts
+        events = _all_events()
+        ev_counts = _ev_counts()
+        ev_active = sum(v for k, v in ev_counts.items() if k not in ("closed", "lost"))
+    except Exception:
+        events, ev_counts, ev_active = [], {}, 0
+    try:
         from utils.knowledge import list_knowledge_files
         knowledge = sum(1 for _, _, a in list_knowledge_files() if a)
     except Exception:
@@ -101,7 +108,7 @@ def build_state() -> dict[str, Any]:
     # per-department data headline
     dept_data = {
         "BD": f"{pstats['total']} prospects · {len(leads)} leads · S${int(open_value):,} open",
-        "Events": f"{len(venues)} venues · {len(suppliers)} suppliers",
+        "Events": f"{ev_active} live events · {len(venues)} venues · {len(suppliers)} suppliers",
         "Creative": "portfolio & concepts",
         "Marketing": f"{len(proposals)} proposals",
         "Operations": "rhythm · consolidation",
@@ -115,7 +122,9 @@ def build_state() -> dict[str, Any]:
         "BD": [{"label": "prospects", "value": pstats["total"]},
                {"label": "hot", "value": pstats["hot"]},
                {"label": "leads", "value": len(leads)}],
-        "Events": [{"label": "venues", "value": len(venues)},
+        "Events": [{"label": "events", "value": ev_active},
+                   {"label": "confirmed", "value": ev_counts.get("confirmed", 0) + ev_counts.get("preproduction", 0)},
+                   {"label": "venues", "value": len(venues)},
                    {"label": "suppliers", "value": len(suppliers)}],
         "Creative": [{"label": "concepts", "value": len(recent_activity(40, department="Creative"))}],
         "Marketing": [{"label": "proposals", "value": len(proposals)}],
