@@ -21,6 +21,7 @@ from .portfolio import PortfolioAgent
 
 # Meta / self-improvement
 from .improver import ImproverAgent
+from .roundtable import run_roundtable
 
 __all__ = [
     # Base
@@ -35,7 +36,7 @@ __all__ = [
     # Department specialists
     "EventManagerAgent", "OperationsAgent", "PortfolioAgent",
     # Meta
-    "ImproverAgent",
+    "ImproverAgent", "run_roundtable",
     # Factory functions
     "build_default_agents", "build_full_agency",
 ]

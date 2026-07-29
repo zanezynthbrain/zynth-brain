@@ -20,6 +20,7 @@ Commands:
 from __future__ import annotations
 
 import asyncio
+import html as _html
 import sys
 import time
 from datetime import datetime
@@ -1715,6 +1716,50 @@ async def cmd_improve(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         await update.message.reply_html(f"❌ Self-review failed: {exc}")
 
 
+async def cmd_roundtable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/roundtable <text> — put a draft through the agent discussion: the voices
+    critique it, a reviser sharpens it, the Critic scores it, and you get the
+    improved version + the discussion. This is how the agents 'discuss each other'."""
+    if not _security_check(update):
+        return
+    raw = " ".join(context.args or []).strip()
+    if not raw:
+        await update.message.reply_html(
+            "Paste a draft to sharpen (proposal, idea, message):\n"
+            "<code>/roundtable Our proposal for KBZ: a fintech launch campaign …</code>")
+        return
+    llm = LLMClient()
+    if llm.is_mocked:
+        await update.message.reply_html("⚠️ Roundtable needs the AI brain online (set ANTHROPIC_API_KEY).")
+        return
+    await update.message.reply_html("🗣️ Roundtable in session — Strategist, Creative, Commercial & Client Skeptic reviewing…")
+    from agents.roundtable import run_roundtable, summary
+    try:
+        res = await run_roundtable(raw, kind="draft", rounds=2, llm=llm)
+    except Exception as exc:
+        await update.message.reply_html(f"❌ Roundtable failed: {exc}")
+        return
+    await update.message.reply_html(summary(res))
+    await _send_long(update, "✨ <b>Sharpened version:</b>\n\n" + res["final"][:3500])
+
+
+async def cmd_deliverables(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/deliverables — list results saved to GitHub + Drive (dual storage)."""
+    if not _security_check(update):
+        return
+    from utils.dual_store import list_deliverables, status_line
+    rows = list_deliverables(20)
+    head = f"🗄 <b>Deliverables</b> — {status_line()}"
+    if not rows:
+        await update.message.reply_html(head + "\n\nNothing saved yet.")
+        return
+    body = "\n".join(
+        f"• <b>{_html.escape(r['title'])}</b> ({r['department']}) — {r['at']} · "
+        f"GitHub ✓ · Drive {'✓' if r['drive'].startswith('http') else '⏳'}"
+        for r in rows)
+    await _send_long(update, head + "\n\n" + body)
+
+
 async def cmd_enrich(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """/enrich <company> — build a full BD lead record: prospect intel + a REAL
     Apollo contact (no fabrication), appended to the leads DB."""
@@ -2560,6 +2605,8 @@ def main() -> None:
     app.add_handler(CommandHandler("enrich", cmd_enrich))
     app.add_handler(CommandHandler("costaudit", cmd_costaudit))
     app.add_handler(CommandHandler("improve", cmd_improve))
+    app.add_handler(CommandHandler("roundtable", cmd_roundtable))
+    app.add_handler(CommandHandler("deliverables", cmd_deliverables))
     app.add_handler(CommandHandler("autopilot", cmd_autopilot))
     app.add_handler(CommandHandler("queue", cmd_queue))
     app.add_handler(CommandHandler("release", cmd_release))
