@@ -1,0 +1,314 @@
+<style>
+:root{
+  --gold:#D4AF37; --gold-soft:#B9993F; --label:#9A8850;
+  --bg:#0A0A0A; --panel:#131110; --panel2:#181512; --line:rgba(212,175,55,.22);
+  --ink:#ECE4D2; --muted:#A79F8C;
+}
+*{box-sizing:border-box}
+.doc{background:var(--bg);color:var(--ink);
+  font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:16px;line-height:1.66;-webkit-font-smoothing:antialiased;padding:0 0 90px;overflow-x:hidden}
+.wrap{max-width:840px;margin:0 auto;padding:0 26px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--label)}
+a{color:var(--gold)}
+.cover{padding:76px 0 40px;border-bottom:1px solid var(--line)}
+.mark{display:flex;align-items:center;gap:12px;margin-bottom:54px}
+.mark .hex{width:26px;height:26px}
+.mark .nm{font-family:ui-monospace,monospace;letter-spacing:.28em;font-size:12px;color:var(--gold)}
+.cover h1{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;font-weight:600;
+  font-size:clamp(40px,8vw,72px);line-height:1.02;margin:0 0 14px;color:var(--ink);letter-spacing:-.01em;text-wrap:balance}
+.cover h1 em{color:var(--gold);font-style:italic}
+.cover .lede{font-size:clamp(17px,2.4vw,21px);color:var(--muted);max-width:60ch;margin:0 0 34px}
+.metabar{display:flex;flex-wrap:wrap;gap:6px 26px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;margin-bottom:22px}
+.metabar div{font-family:ui-monospace,monospace;font-size:11px;letter-spacing:.06em;color:var(--muted)}
+.metabar b{color:var(--gold);font-weight:400}
+.assume{font-size:12.5px;color:#8F8874;font-style:italic;border-left:2px solid var(--line);padding:4px 0 4px 14px;margin:6px 0 28px}
+.bigidea{background:linear-gradient(180deg,var(--panel2),transparent);border:1px solid var(--line);border-radius:4px;padding:22px 24px;margin-top:8px}
+.bigidea p{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-size:clamp(22px,3.4vw,30px);line-height:1.2;color:var(--ink);margin:8px 0 0}
+.bigidea p b{color:var(--gold);font-weight:600}
+section{padding:52px 0 8px;border-bottom:1px solid var(--line)}
+.snum{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-size:15px;color:var(--gold);display:inline-block;margin-bottom:10px}
+.snum::before{content:"—— ";color:var(--gold-soft)}
+h2{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;font-weight:600;font-size:clamp(26px,4.4vw,38px);line-height:1.1;margin:6px 0 18px;color:var(--ink);letter-spacing:-.01em;text-wrap:balance}
+h3{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-weight:600;font-size:20px;color:var(--gold);margin:26px 0 8px}
+p{margin:0 0 14px}
+.muted{color:var(--muted)}
+strong{color:#F4ECD8}
+ul{margin:0 0 16px;padding-left:20px}
+li{margin:0 0 8px}
+li::marker{color:var(--gold)}
+.pill{display:inline-block;font-family:ui-monospace,monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border:1px solid var(--line);border-radius:20px;padding:3px 11px;margin:0 6px 8px 0}
+.tw{overflow-x:auto;margin:16px 0 20px;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:520px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:ui-monospace,monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--label);font-weight:400}
+td b{color:var(--gold);font-weight:400}
+tr:last-child td{border-bottom:0}
+.num{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0 8px}
+@media(max-width:720px){.tiers{grid-template-columns:1fr}}
+.tier{border:1px solid var(--line);border-radius:5px;padding:20px 18px;background:var(--panel)}
+.tier.rec{border-color:var(--gold);background:linear-gradient(180deg,rgba(212,175,55,.06),var(--panel))}
+.tier .t{font-family:ui-monospace,monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--label)}
+.tier.rec .t{color:var(--gold)}
+.tier .amt{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-size:27px;color:var(--ink);margin:8px 0 2px}
+.tier .usd{font-family:ui-monospace,monospace;font-size:11px;color:var(--muted);margin-bottom:12px}
+.tier .recflag{display:inline-block;font-family:ui-monospace,monospace;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:#0A0A0A;background:var(--gold);border-radius:3px;padding:2px 8px;margin-bottom:10px}
+.tier ul{padding-left:16px;font-size:12.5px;margin:0}
+.tier li{margin-bottom:6px;color:var(--muted)}
+.tier li b{color:var(--ink);font-weight:400}
+.callout{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:16px 18px;margin:16px 0}
+.foot{padding:56px 0 0;text-align:center}
+.foot .hex{width:30px;height:30px;margin-bottom:14px}
+.foot .tag{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-style:italic;font-size:20px;color:var(--gold)}
+.foot .sub{font-family:ui-monospace,monospace;font-size:10.5px;letter-spacing:.2em;color:var(--muted);margin-top:8px;text-transform:uppercase}
+@media print{.doc{background:#fff;color:#111}section{break-inside:avoid}}
+</style>
+
+<div class="doc"><div class="wrap">
+
+  <div class="cover">
+    <div class="mark">
+      <svg class="hex" viewBox="0 0 100 100"><polygon points="50,4 92,27 92,73 50,96 8,73 8,27" fill="none" stroke="#D4AF37" stroke-width="5"/><text x="50" y="64" text-anchor="middle" font-size="44" fill="#D4AF37" font-family="Georgia,serif" font-weight="700">Z</text></svg>
+      <span class="nm">ZYNTH · PROPOSAL</span>
+    </div>
+    <div class="eyebrow">Brand Launch · F&amp;B · Myanmar</div>
+    <h1>Hear the <em>Crunch</em></h1>
+    <p class="lede">A launch campaign &amp; opening event to make <strong>Dry Fry</strong> the crispiest name in town — dry-fried, boldly spiced, never greasy.</p>
+    <div class="metabar">
+      <div>CLIENT&nbsp; <b>Dry Fry</b></div>
+      <div>SECTOR&nbsp; <b>F&amp;B / QSR</b></div>
+      <div>MARKET&nbsp; <b>Myanmar (Yangon)</b></div>
+      <div>PREPARED BY&nbsp; <b>ZYNTH</b></div>
+      <div>DATE&nbsp; <b>Jul 2026</b></div>
+      <div>VERSION&nbsp; <b>v1.0</b></div>
+    </div>
+    <p class="assume">Assumption (stated per ZYNTH standard): Dry Fry is treated as a new dry-fried, extra-crispy chicken brand opening in Yangon. Menu, outlet and market details to be confirmed with the client; figures are indicative [confirm by RFQ]. Currency MMK, market FX ≈ 4,400 / USD.</p>
+    <div class="bigidea">
+      <div class="eyebrow">The Idea, in one line</div>
+      <p>In a market of soft, greasy, same-tasting fried chicken, <b>Dry Fry owns the one thing you can actually hear</b> — the crunch. Make the crunch famous. <b>Hear the Crunch.</b></p>
+    </div>
+  </div>
+
+  <section>
+    <div class="snum">01</div>
+    <div class="eyebrow">Executive Summary &amp; Strategic Rationale</div>
+    <h2>Own the crunch, own the category.</h2>
+    <p>Yangon's fried-chicken market is busy and undifferentiated — international chains, local players and delivery brands all competing on price, combos and the same soft, oily bite. Dry Fry has a real product truth to win with: the <strong>dry-fry technique</strong> makes it shatteringly crispy, boldly spiced and not greasy. That is a sensory territory no competitor has claimed.</p>
+    <p><strong>The ask:</strong> engage ZYNTH to launch Dry Fry with an integrated campaign and an opening event built entirely around <strong>the crunch</strong> — a sound-led social movement, food-creator amplification, and a first-week trial-and-footfall drive that turns a new outlet into the city's most talked-about bite.</p>
+    <div class="callout"><div class="eyebrow">The headline outcome</div>
+      <p style="margin:0"><strong>A packed opening week (2,500–4,000 covers)</strong>, a #HearTheCrunch movement of <strong>8,000–15,000 UGC posts</strong>, and a delivery + repeat-visit engine that keeps the seats full after the hype.</p></div>
+  </section>
+
+  <section>
+    <div class="snum">02</div>
+    <div class="eyebrow">Market &amp; Audience Intelligence</div>
+    <h2>A crowded plate, one empty seat: the crunch.</h2>
+    <p>Fried chicken is one of Myanmar's most competitive F&amp;B categories — chains (KFC, Lotteria), fast-growing local brands, and a booming delivery layer (foodpanda). Discovery is Facebook- and increasingly TikTok-led; young diners chase what looks and sounds crave-worthy, and delivery has made trial frictionless.</p>
+    <div class="eyebrow" style="margin-bottom:6px">The competitive set</div>
+    <div class="tw"><table>
+      <tr><th>Player</th><th>Strength</th><th>The gap it leaves</th></tr>
+      <tr><td><b>KFC</b></td><td>Global brand, consistency, scale</td><td>Premium price, familiar — not “new” or local-hero</td></tr>
+      <tr><td><b>Lotteria</b></td><td>Value combos, footprint</td><td>Mass, un-distinctive; no sensory story</td></tr>
+      <tr><td><b>Local fried-chicken brands</b></td><td>Price, delivery, spice</td><td>Soft/greasy perception; compete on discount, not craft</td></tr>
+    </table></div>
+    <p><strong>The tension:</strong> everyone's fried chicken looks the same in a photo and goes soft on the ride home. Nobody owns <em>crispy you can hear.</em> Dry Fry's technique makes that ownable — and sound is the most scroll-stopping thing on TikTok.</p>
+    <h3>Three audiences, three truths</h3>
+    <div class="tw"><table>
+      <tr><th>Segment</th><th>Who</th><th>The insight we build on</th></tr>
+      <tr><td><b>Crave Chasers</b></td><td>18–28 · TikTok/FB foodies</td><td>“If it doesn't look and sound insane, I'm not posting it.”</td></tr>
+      <tr><td><b>The Table</b></td><td>Friends &amp; families, weekend groups</td><td>“Give us something crispy worth sharing — and worth coming for.”</td></tr>
+      <tr><td><b>Desk &amp; Late-night</b></td><td>Office + delivery-first</td><td>“I want the crunch to survive the delivery ride.”</td></tr>
+    </table></div>
+  </section>
+
+  <section>
+    <div class="snum">03</div>
+    <div class="eyebrow">Strategic Positioning &amp; The Idea</div>
+    <h2>Dry Fry — Hear the Crunch.</h2>
+    <p><strong>Positioning:</strong> Dry Fry is Yangon's crispiest, boldest fried chicken — dry-fried, never greasy.</p>
+    <p><strong>Single-minded proposition:</strong> <em>The crunch you can hear.</em></p>
+    <p><strong>Campaign line:</strong> <strong style="color:var(--gold)">Dry Fry — Hear the Crunch.</strong></p>
+    <h3>Why this beats the obvious idea</h3>
+    <p>The obvious launch is combos and opening discounts — a race to the bottom against players with more outlets and deeper pockets. “Hear the Crunch” competes on a <strong>product truth and a sensory territory</strong> Dry Fry can own outright. It is built for sound-first platforms (TikTok/Reels), it makes the food itself the ad, and it turns every crispy bite a customer films into free reach. One idea — from the menu to the opening night to the KPI.</p>
+  </section>
+
+  <section>
+    <div class="snum">04</div>
+    <div class="eyebrow">Concept &amp; Creative System</div>
+    <h2>Sound-first. Spice-bold. Never greasy.</h2>
+    <p>The signature asset isn't a logo — it's <strong>the sound of the crunch</strong>. A high-contrast world of matte black and hot-spice tones, extreme close-up “crunch” macro shots, and audio designed to stop a scroll. Confident, hungry, a little loud.</p>
+    <h3>Four content pillars</h3>
+    <ul>
+      <li><strong>The Crunch</strong> — ASMR / sound-led hero content; the bite as the star.</li>
+      <li><strong>Bold &amp; Dry</strong> — the craft: why dry-fry is crispier and not greasy; the spice.</li>
+      <li><strong>The Table</strong> — shareable group moments, the reasons to come in.</li>
+      <li><strong>Crunch Cravings</strong> — delivery + late-night; “crunch that survives the ride.”</li>
+    </ul>
+    <p><span class="pill">Hero “Crunch” film (sound-first)</span><span class="pill">#HearTheCrunch challenge</span><span class="pill">Food-KOL ASMR reels</span><span class="pill">Opening “First Crunch”</span><span class="pill">Delivery crunch-box</span></p>
+  </section>
+
+  <section>
+    <div class="snum">05</div>
+    <div class="eyebrow">Architecture — Channels &amp; Experience</div>
+    <h2>A launch you can hear across the city.</h2>
+    <div class="tw"><table>
+      <tr><th>Channel</th><th>Role in the plan</th></tr>
+      <tr><td><b>TikTok</b></td><td>The engine — sound-led crunch content + the #HearTheCrunch challenge</td></tr>
+      <tr><td><b>Facebook</b></td><td>Reach, menu &amp; offer, event RSVPs, the MM backbone</td></tr>
+      <tr><td><b>Instagram</b></td><td>Craving-grade food photography; the brand world</td></tr>
+      <tr><td><b>Food KOLs</b></td><td>Credibility + first-week trial ignition (ASMR reviews)</td></tr>
+      <tr><td><b>Delivery (foodpanda)</b></td><td>Launch listing + opening promo + “crunch-box” packaging</td></tr>
+      <tr><td><b>On-ground / OOH</b></td><td>Outlet signage + local buzz around the opening</td></tr>
+    </table></div>
+    <h3>The signature moment — “First Crunch” opening</h3>
+    <p>An opening-day event where the first bite is the show: a <strong>giant crunch wall</strong>, food KOLs live, a <strong>#HearTheCrunch challenge</strong> (record your loudest crunch → win a month of Dry Fry), sampling, and same-day recap content. Optional street/mall activation to pull footfall.</p>
+  </section>
+
+  <section>
+    <div class="snum">06</div>
+    <div class="eyebrow">Execution Plan</div>
+    <h2>The content engine &amp; opening run of show.</h2>
+    <p><strong>Content engine:</strong> <em>Pre</em> — crunch teasers + KOL seeding + delivery listing live. <em>Live</em> — hero film drop, First Crunch opening, challenge opens, paid scales. <em>Post</em> — UGC amplification, menu-item features, delivery promo, repeat-visit offers. One content day yields the hero film + a bank of crunch reels + KOL kits.</p>
+    <h3>Opening day — run of show (abridged)</h3>
+    <div class="tw"><table>
+      <tr><th>Time</th><th>Moment</th><th>Owner</th></tr>
+      <tr><td class="num">08:00</td><td>Crew call, kitchen readiness, crunch-wall + AV build</td><td>Production Mgr</td></tr>
+      <tr><td class="num">10:30</td><td>KOLs arrive; first-batch ASMR content shot</td><td>Content Lead</td></tr>
+      <tr><td class="num">11:00</td><td>Doors open · “First Crunch” moment + ribbon bite</td><td>Event Dir / MC</td></tr>
+      <tr><td class="num">12:00</td><td>#HearTheCrunch challenge live at the crunch wall</td><td>Activation Lead</td></tr>
+      <tr><td class="num">13:00</td><td>Lunch rush; sampling + queue management</td><td>Ops / Hospitality</td></tr>
+      <tr><td class="num">18:00</td><td>Dinner peak; KOL live reactions; capture</td><td>Content Lead</td></tr>
+      <tr><td class="num">21:00</td><td>Wrap; same-night recap edit posted by 22:30</td><td>Production Mgr</td></tr>
+    </table></div>
+    <p class="muted" style="font-size:13px">Manpower: event lead, MC, activation + sampling crew, queue/hospitality, content unit (photo + video), plus outlet operations. Full ROS, supplier &amp; food-safety plan in the delivery pack.</p>
+  </section>
+
+  <section>
+    <div class="snum">07</div>
+    <div class="eyebrow">Timeline &amp; Phasing</div>
+    <h2>Eight weeks, four phases.</h2>
+    <div class="tw"><table>
+      <tr><th>Phase</th><th>Weeks</th><th>Milestones</th><th>Owner</th></tr>
+      <tr><td><b>1 · Foundation</b></td><td class="num">1–2</td><td>Brand + menu shots, creative system, content shoot, KOL &amp; delivery setup</td><td>Strategy + Creative</td></tr>
+      <tr><td><b>2 · Tease</b></td><td class="num">3–4</td><td>Crunch teasers, KOL seeding, delivery listing live, event build</td><td>Social + Event</td></tr>
+      <tr><td><b>3 · Launch</b></td><td class="num">5–6</td><td>Hero film, <strong>First Crunch opening</strong>, #HearTheCrunch opens, paid scales</td><td>Event + Media</td></tr>
+      <tr><td><b>4 · Sustain</b></td><td class="num">7–8</td><td>UGC amplification, menu features, delivery + repeat-visit offers, report</td><td>Media + Analytics</td></tr>
+    </table></div>
+  </section>
+
+  <section>
+    <div class="snum">08</div>
+    <div class="eyebrow">Investment &amp; Commercials</div>
+    <h2>Three ways in. One recommended.</h2>
+    <div class="tiers">
+      <div class="tier">
+        <div class="t">Essential</div>
+        <div class="amt num">24,000,000 <span style="font-size:15px;color:var(--muted)">MMK</span></div>
+        <div class="usd">≈ USD 5,450</div>
+        <ul>
+          <li><b>Launch content + light opening</b></li>
+          <li>Creative system + menu/crunch shoot</li>
+          <li>Hero reel + 8 crunch reels</li>
+          <li>4-week paid (TikTok + FB)</li>
+          <li>3 food KOLs</li>
+          <li>Delivery launch setup</li>
+        </ul>
+      </div>
+      <div class="tier rec">
+        <div class="recflag">Recommended</div>
+        <div class="t">Signature</div>
+        <div class="amt num">46,000,000 <span style="font-size:15px;color:var(--muted)">MMK</span></div>
+        <div class="usd">≈ USD 10,450</div>
+        <ul>
+          <li><b>Everything in Essential, plus:</b></li>
+          <li><b>“First Crunch” opening event</b> + crunch wall</li>
+          <li>#HearTheCrunch UGC challenge</li>
+          <li>6 food KOLs incl. 1 top-tier</li>
+          <li>Delivery “crunch-box” + promo</li>
+          <li>6-week paid + full reporting</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <div class="t">Flagship</div>
+        <div class="amt num">82,000,000 <span style="font-size:15px;color:var(--muted)">MMK</span></div>
+        <div class="usd">≈ USD 18,600</div>
+        <ul>
+          <li><b>Everything in Signature, plus:</b></li>
+          <li>Street/mall activation roadshow</li>
+          <li>Music/creator partnership at opening</li>
+          <li>KOL squad ×10</li>
+          <li>10-week always-on + community mgmt</li>
+          <li>Repeat-visit loyalty mechanic</li>
+        </ul>
+      </div>
+    </div>
+    <div class="eyebrow" style="margin-top:22px;margin-bottom:6px">Signature tier — itemised</div>
+    <div class="tw"><table>
+      <tr><th>Line</th><th>Detail</th><th>MMK</th></tr>
+      <tr><td>Strategy &amp; creative</td><td>Idea, creative system, campaign design</td><td class="num">6,500,000</td></tr>
+      <tr><td>Content production</td><td>Crunch/menu shoot: hero + reel bank</td><td class="num">8,000,000</td></tr>
+      <tr><td>“First Crunch” opening</td><td>Crunch wall, AV, activation, sampling, crew</td><td class="num">11,000,000</td></tr>
+      <tr><td>Food KOLs</td><td>6 creators incl. 1 top-tier + kits</td><td class="num">6,500,000</td></tr>
+      <tr><td>Paid media</td><td>6-week TikTok + FB (working budget)</td><td class="num">8,000,000</td></tr>
+      <tr><td>Delivery + on-ground</td><td>Listing/promo, crunch-box, outlet signage</td><td class="num">3,000,000</td></tr>
+      <tr><td>Contingency</td><td>10% on production &amp; event</td><td class="num">2,000,000</td></tr>
+      <tr><td>ZYNTH management</td><td>Delivery, optimisation &amp; reporting</td><td class="num">1,000,000</td></tr>
+      <tr><td><b>Total investment</b></td><td>Signature tier</td><td class="num"><b>46,000,000</b></td></tr>
+    </table></div>
+    <p class="muted" style="font-size:12.5px">Terms: 50% deposit to commence · balance 30% pre-opening / 20% on completion · valid 30 days · market FX ≈ 4,400 MMK/USD.</p>
+  </section>
+
+  <section>
+    <div class="snum">09</div>
+    <div class="eyebrow">Projected Outcomes &amp; KPI Framework</div>
+    <h2>Seats filled, not just likes.</h2>
+    <div class="tw"><table>
+      <tr><th>Metric</th><th>Target (Signature)</th><th>How measured</th></tr>
+      <tr><td>Opening-week covers</td><td><b>2,500–4,000</b></td><td>POS</td></tr>
+      <tr><td>Delivery orders (first month)</td><td><b>3,000–5,000</b></td><td>foodpanda dashboard</td></tr>
+      <tr><td>#HearTheCrunch entries</td><td>8,000–15,000 UGC</td><td>Hashtag tracking</td></tr>
+      <tr><td>Social reach</td><td>4–7M</td><td>TikTok + Meta</td></tr>
+      <tr><td>Opening event</td><td>KOLs live · 3–5M earned reach · queue-out-the-door</td><td>Event + social</td></tr>
+      <tr><td>Repeat-visit rate (month 2)</td><td>25–35%</td><td>POS / loyalty</td></tr>
+      <tr><td>Cost per trial (blended)</td><td>≤ MMK 1,200</td><td>Spend ÷ new covers+orders</td></tr>
+    </table></div>
+    <p class="muted" style="font-size:13px">Measurement: POS + delivery dashboard + TikTok/Meta + hashtag tracking. Weekly optimisation to cost-per-trial; end-of-launch readout with the commercial number — trial and repeat at cost.</p>
+  </section>
+
+  <section>
+    <div class="snum">10</div>
+    <div class="eyebrow">Risk, Contingency &amp; Requirements</div>
+    <h2>Named risks, ready answers.</h2>
+    <div class="tw"><table>
+      <tr><th>Risk</th><th>Likelihood</th><th>Impact</th><th>Mitigation</th></tr>
+      <tr><td>Kitchen can't keep up on opening rush</td><td>Med</td><td>High</td><td>Capacity plan + queue mgmt + timed offers to smooth peaks</td></tr>
+      <tr><td>Product inconsistency (the crunch must deliver)</td><td>Med</td><td>High</td><td>Menu/QC locked pre-launch; the promise must be true every time</td></tr>
+      <tr><td>Delivery crunch goes soft in transit</td><td>Med</td><td>Med</td><td>Vented “crunch-box” packaging tested before launch</td></tr>
+      <tr><td>Weather affecting opening footfall</td><td>Low</td><td>Med</td><td>Covered/indoor activation + strong delivery push</td></tr>
+      <tr><td>KOL / content underperforms</td><td>Low</td><td>Med</td><td>Vetting + brief control + a paid amplification buffer</td></tr>
+    </table></div>
+    <div class="eyebrow" style="margin-bottom:6px">What ZYNTH needs from the client (and by when)</div>
+    <ul class="muted" style="font-size:14px">
+      <li>Final menu, pricing &amp; the signature crunch product locked — <strong>end of Phase 1</strong></li>
+      <li>Outlet ready + opening date confirmed — <strong>before Phase 3</strong></li>
+      <li>Brand assets + delivery-platform account — <strong>Phase 1</strong></li>
+      <li>Budget approval + 50% deposit — <strong>to commence</strong></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="snum">11</div>
+    <div class="eyebrow">Next Steps, Credits &amp; The ZYNTH Standard</div>
+    <h2>Say yes, and we start the countdown.</h2>
+    <p><strong>Approval path:</strong> (1) select a tier &amp; confirm the opening date → (2) sign + 50% deposit → (3) ZYNTH creative &amp; content kickoff within 3 working days → (4) 8-week countdown to First Crunch begins.</p>
+    <p class="muted" style="font-size:13.5px"><strong>Built by the ZYNTH Agency OS:</strong> Market Intelligence · Brand Strategy · Creative Direction · Event Production · Media &amp; Performance · Finance &amp; Commercials — one intelligence, one idea, carried through.</p>
+  </section>
+
+  <div class="foot">
+    <svg class="hex" viewBox="0 0 100 100"><polygon points="50,4 92,27 92,73 50,96 8,73 8,27" fill="none" stroke="#D4AF37" stroke-width="5"/><text x="50" y="64" text-anchor="middle" font-size="44" fill="#D4AF37" font-family="Georgia,serif" font-weight="700">Z</text></svg>
+    <div class="tag">The Intelligence of Creativity</div>
+    <div class="sub">ZYNTH · Proposal Engine v1.0 · Yangon · Singapore</div>
+  </div>
+
+</div></div>
