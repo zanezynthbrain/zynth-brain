@@ -236,6 +236,12 @@ def build_state() -> dict[str, Any]:
     except Exception:
         switch_list, md_only = [], False
 
+    try:
+        from utils import constellation as _con
+        proposals_made = _con.proposals()
+    except Exception:
+        proposals_made = []
+
     return {
         "generated": datetime.now().strftime("%a %d %b %Y, %H:%M"),
         "model": getattr(s, "model_name", ""),
@@ -246,6 +252,7 @@ def build_state() -> dict[str, Any]:
         "sync_on": sync_on,
         "switches": switch_list,
         "md_only": md_only,
+        "proposals": proposals_made,
         "sys": {"ai": bool(s.anthropic_api_key), "voice": bool(s.gemini_api_key),
                 "email": bool(s.smtp_user and s.smtp_password), "sync": sync_on},
         "totals": {
@@ -432,6 +439,15 @@ a{color:var(--cyan);text-decoration:none}
   <div class="brainhint">tap a node to open its department · light fires when something updates</div>
 </div>
 
+<div class="brainwrap" style="margin-top:14px">
+  <div class="brainhead" style="z-index:2">
+    <div class="h">Proposal Constellation</div>
+    <div class="fx" id="constfx">every proposal we make, a star — the sphere fills as we build</div>
+  </div>
+  <iframe src="/constellation" title="ZYNTH Proposal Constellation" loading="lazy"
+    style="display:block;width:100%;height:46vh;min-height:340px;max-height:560px;border:0;background:#060505"></iframe>
+</div>
+
 <div class="grid">
   <div>
     <div class="panel">
@@ -541,6 +557,8 @@ function render(){
   if(mb){mb.innerHTML=`<button class="modebtn" style="border-color:${autoOn?'var(--good)':'var(--warn)'};color:${autoOn?'var(--good)':'var(--warn)'}" onclick="toggleSwitch('autonomy',${autoOn?1:0})">${autoOn?'🟢 AUTONOMOUS ON — tap for MD-ONLY (save cost)':'🌙 MD-ONLY — tap to WAKE autonomous work'}</button>`;}
   const sws=$('#switches');
   if(sws){sws.innerHTML=(S.switches||[]).filter(s=>!s.master).map(s=>`<div class="sw"><span>${esc(s.name)}</span><button class="tgl ${s.effective?'on':''}" onclick="toggleSwitch('${s.name}',${s.on?1:0})">${s.on?'ON':'OFF'}</button></div>`).join('');}
+  const cf=$('#constfx');
+  if(cf){const n=(S.proposals||[]).length;cf.innerHTML=`<b style="color:var(--cyan)">${n}</b> proposal${n===1?'':'s'} live — drag to rotate, tap a star to open`;}
 }
 async function toggleSwitch(name,cur){await api('/api/switch',{name,on:!cur});toast(name+' → '+(!cur?'ON':'OFF'));refresh();}
 

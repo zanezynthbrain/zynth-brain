@@ -28,5 +28,11 @@
     "area": "data-integrity",
     "lesson": "Never fabricate contact details (name/email/phone/LinkedIn) or vendor rates; mark unknowns 'to source' and unverified numbers '[INDICATIVE]'.",
     "source": "seed"
+  },
+  {
+    "at": "2026-07-30",
+    "area": "proposals",
+    "lesson": "In a client proposal never print a thin 'ZYNTH management fee' line that exposes or undercuts margin. Show investment by value/workstream (each price includes ZYNTH's margin), hold the 35% floor silently, and state 'investment inclusive of strategy, creative, management & delivery'.",
+    "source": "self-review"
   }
 ]

@@ -32,6 +32,11 @@ Skip step 1 and everything after it feels like selling. Nail step 4 or the rest 
 - Burying the result; making the client do the ROI math themselves.
 - A weak close ("let us know your thoughts") instead of a clear next step.
 - Adjectives doing a fact's job ("world-class, innovative, cutting-edge").
+- **Printing a thin "management fee" line** that exposes/undercuts ZYNTH's margin. Show
+  the itemised budget as **client investment by value/workstream** (each line's price
+  already includes ZYNTH's margin); hold the 35% floor **silently** (never printed); add
+  "investment inclusive of ZYNTH strategy, creative, management & delivery." Do NOT list a
+  small "ZYNTH management" line that makes it look like that is all ZYNTH earns.
 
 ## Win-themes by sector (what tips the yes)
 Pull audience/decision-makers/budgets from the sector packs; lead with the theme:
