@@ -42,6 +42,8 @@ SCHEDULED_JOBS = [
      "consumer": "MD (Telegram)", "keep": True},
     {"id": "friday_review", "cadence": "Fri 15:30", "purpose": "weekly review",
      "consumer": "MD (Telegram)", "keep": True},
+    {"id": "self_improve", "cadence": "Sun 20:00", "purpose": "learn from own mistakes → lessons",
+     "consumer": "every agent (knowledge inject) + MD", "keep": True},
 ]
 
 

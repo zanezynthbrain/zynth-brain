@@ -20,6 +20,7 @@ Commands:
 from __future__ import annotations
 
 import asyncio
+import html as _html
 import sys
 import time
 from datetime import datetime
@@ -102,6 +103,19 @@ def _start_dashboard_server() -> None:
                 except Exception as exc:
                     self._json({"error": str(exc)}, 500)
                 return
+            if self.path.startswith("/constellation"):
+                try:
+                    from utils.constellation import render as _render_const
+                    html = _render_const().encode("utf-8")
+                    self.send_response(200)
+                    self.send_header("Content-Type", "text/html; charset=utf-8")
+                    self.send_header("Cache-Control", "no-store")
+                    self.end_headers()
+                    self.wfile.write(html)
+                except Exception as exc:
+                    self.send_response(500); self.end_headers()
+                    self.wfile.write(f"constellation error: {exc}".encode())
+                return
             try:
                 from utils.dashboard import render_spa
                 html = render_spa().encode("utf-8")
@@ -115,7 +129,8 @@ def _start_dashboard_server() -> None:
                 self.wfile.write(f"dashboard error: {exc}".encode())
 
         def do_POST(self):  # noqa: N802
-            if not (self.path.startswith("/api/task") or self.path.startswith("/api/cmd")):
+            if not (self.path.startswith("/api/task") or self.path.startswith("/api/cmd")
+                    or self.path.startswith("/api/switch")):
                 self._json({"ok": False}, 404); return
             # optional token guard (only enforced when ZYNTH_DASHBOARD_TOKEN set)
             if token and self.headers.get("X-Token") != token and token not in self.path:
@@ -123,6 +138,11 @@ def _start_dashboard_server() -> None:
             try:
                 n = int(self.headers.get("Content-Length", 0))
                 data = _json.loads(self.rfile.read(n) or b"{}")
+                if self.path.startswith("/api/switch"):
+                    from utils import switches
+                    ok = switches.set_switch(data.get("name", ""), bool(data.get("on")))
+                    self._json({"ok": ok, "switches": switches.all_switches(), "md_only": switches.md_only()})
+                    return
                 if self.path.startswith("/api/cmd"):
                     from utils.cmdqueue import enqueue
                     ok = enqueue(data.get("cmd", ""))
@@ -178,6 +198,11 @@ async def _post_init(application: Application) -> None:
     scheduler.start()
     application.bot_data["scheduler"] = scheduler
     _start_dashboard_server()  # live web dashboard on $PORT
+    try:
+        from utils import lessons
+        lessons.sync_from_pool()  # regenerate learned-lessons knowledge from the pool
+    except Exception:
+        pass
     try:
         await refresh_rates()  # best-effort live FX at startup
     except Exception:
@@ -1388,15 +1413,37 @@ async def _run_audit_capture(update: Update, text: str) -> None:
     from utils.business import save_audit
     from utils.llm_client import LLMClient
     llm = LLMClient()
-    try:
-        data, _ = await llm.complete_json(
-            system="Structure the founder's honest business audit into the schema. Keep their real numbers. Be direct in the starting_line_summary — name the most urgent issue.",
-            user_prompt=f"Audit answers: {text}",
-            schema=_AUDIT_SCHEMA,
-            model=get_settings().fallback_model_name,
+    _sys = ("Structure the founder's honest business audit into the schema. Keep their "
+            "real numbers. Be direct in the starting_line_summary — name the most urgent issue.")
+    s = get_settings()
+    data = None
+    last_exc: Exception | None = None
+    # Try the primary model first, then the fallback — a 400 on one model
+    # (access/limits) shouldn't lose the founder's answers.
+    for model in (s.model_name, s.fallback_model_name):
+        try:
+            data, _ = await llm.complete_json(
+                system=_sys, user_prompt=f"Audit answers: {text}",
+                schema=_AUDIT_SCHEMA, model=model,
+            )
+            break
+        except Exception as exc:  # noqa: BLE001 — degrade gracefully
+            last_exc = exc
+            continue
+    if data is None:
+        try:
+            from utils import mistakes
+            mistakes.record("audit", "audit structuring failed on all models", str(last_exc), "error")
+        except Exception:
+            pass
+        # Never drop the answers: save the raw text so the audit is not lost.
+        save_audit({"raw_answers": text, "top_3_priorities": [],
+                    "starting_line_summary": "(saved raw — AI structuring unavailable)"})
+        await update.message.reply_html(
+            "⚠️ I saved your audit answers, but couldn't auto-structure them right now "
+            f"(<code>{last_exc}</code>). Your answers are stored — I'll structure them on "
+            "the next run. Nothing lost."
         )
-    except Exception as exc:
-        await update.message.reply_html(f"❌ Couldn't process the audit: {exc}")
         return
     save_audit(data)
     prios = "\n".join(f"{i}. {p}" for i, p in enumerate(data.get("top_3_priorities", []), 1))
@@ -1657,6 +1704,121 @@ async def cmd_costaudit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     from utils.costaudit import audit_text
     deep = bool(context.args and context.args[0].lower() == "deep")
     await update.message.reply_html(audit_text(retro=deep))
+
+
+async def cmd_improve(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/improve — run the self-improvement loop now: review our own work, learn, get better.
+    /improve lessons — just show the lessons already learned."""
+    if not _security_check(update):
+        return
+    if context.args and context.args[0].lower() in ("lessons", "list"):
+        from utils.lessons import all_lessons
+        rows = all_lessons()
+        if not rows:
+            await update.message.reply_html("📚 No lessons yet. Run /improve to learn the first ones.")
+            return
+        by: dict[str, list[str]] = {}
+        for r in rows:
+            by.setdefault(r.get("area", "general"), []).append(r.get("lesson", ""))
+        out = ["📚 <b>Learned Lessons</b> (injected into every agent)\n"]
+        for area in sorted(by):
+            out.append(f"<b>{area}</b>")
+            out += [f"• {l}" for l in by[area]]
+            out.append("")
+        await update.message.reply_html("\n".join(out).strip())
+        return
+    await update.message.reply_html("🧠 Running self-improvement review — reading our own work, learning… (results in a moment)")
+    from scheduler import run_self_improve
+    try:
+        await run_self_improve()
+    except Exception as exc:
+        await update.message.reply_html(f"❌ Self-review failed: {exc}")
+
+
+async def cmd_roundtable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/roundtable <text> — put a draft through the agent discussion: the voices
+    critique it, a reviser sharpens it, the Critic scores it, and you get the
+    improved version + the discussion. This is how the agents 'discuss each other'."""
+    if not _security_check(update):
+        return
+    raw = " ".join(context.args or []).strip()
+    if not raw:
+        await update.message.reply_html(
+            "Paste a draft to sharpen (proposal, idea, message):\n"
+            "<code>/roundtable Our proposal for KBZ: a fintech launch campaign …</code>")
+        return
+    llm = LLMClient()
+    if llm.is_mocked:
+        await update.message.reply_html("⚠️ Roundtable needs the AI brain online (set ANTHROPIC_API_KEY).")
+        return
+    await update.message.reply_html("🗣️ Roundtable in session — Strategist, Creative, Commercial & Client Skeptic reviewing…")
+    from agents.roundtable import run_roundtable, summary
+    try:
+        res = await run_roundtable(raw, kind="draft", rounds=2, llm=llm)
+    except Exception as exc:
+        await update.message.reply_html(f"❌ Roundtable failed: {exc}")
+        return
+    await update.message.reply_html(summary(res))
+    await _send_long(update, "✨ <b>Sharpened version:</b>\n\n" + res["final"][:3500])
+
+
+async def cmd_deliverables(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/deliverables — list results saved to GitHub + Drive (dual storage)."""
+    if not _security_check(update):
+        return
+    from utils.dual_store import list_deliverables, status_line
+    rows = list_deliverables(20)
+    head = f"🗄 <b>Deliverables</b> — {status_line()}"
+    if not rows:
+        await update.message.reply_html(head + "\n\nNothing saved yet.")
+        return
+    body = "\n".join(
+        f"• <b>{_html.escape(r['title'])}</b> ({r['department']}) — {r['at']} · "
+        f"GitHub ✓ · Drive {'✓' if r['drive'].startswith('http') else '⏳'}"
+        for r in rows)
+    await _send_long(update, head + "\n\n" + body)
+
+
+async def cmd_switch(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/switch — see all on/off switches. /switch <name> on|off — toggle one."""
+    if not _security_check(update):
+        return
+    from utils import switches
+    args = list(context.args or [])
+    if len(args) >= 2 and args[1].lower() in ("on", "off", "true", "false", "yes", "no"):
+        name = args[0]
+        val = args[1].lower() in ("on", "true", "yes")
+        if switches.set_switch(name, val):
+            await update.message.reply_html(f"🔀 <code>{name}</code> → <b>{'ON' if val else 'OFF'}</b>\n\n" + switches.status_text())
+        else:
+            valid = ", ".join(s["name"] for s in switches.all_switches())
+            await update.message.reply_html(f"Unknown switch '{name}'. Valid: {valid}")
+        return
+    await update.message.reply_html(switches.status_text())
+
+
+async def cmd_quiet(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/quiet — MD-only mode: silence ALL autonomous work (stop the API spend)."""
+    if not _security_check(update):
+        return
+    from utils import switches
+    switches.set_quiet()
+    await update.message.reply_html(
+        "🌙 <b>MD-only mode ON.</b> All autonomous jobs are paused — no more background "
+        "API spend. I (the MD chatbot) still answer everything you send.\n\n"
+        "Wake the machine back up anytime with <code>/active</code>.")
+
+
+async def cmd_active(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/active — wake autonomous work back up (individual switches still apply)."""
+    if not _security_check(update):
+        return
+    from utils import switches
+    switches.set_active()
+    await update.message.reply_html(
+        "🟢 <b>Autonomous work ON</b> (master). Individual jobs still follow their own "
+        "switches — turn the ones you want on with <code>/switch &lt;name&gt; on</code>.\n\n"
+        + switches.status_text())
 
 
 async def cmd_enrich(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -1977,6 +2139,105 @@ async def cmd_lead(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "\n\n<code>/lead add ...</code> · <code>/lead list</code> · "
         "<code>/lead stage KBZ proposal</code>"
     )
+
+
+async def cmd_em(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Event management — run an event through its full delivery lifecycle.
+
+    /em                                   → the event pipeline
+    /em add Client | type | date | guests | budget   → register an event
+    /em show <id|client>                  → the event + its stage gate & checklist
+    /em stage <id|client> <stage>         → advance (enquiry→…→closed / lost)
+    /em deposit <id|client> [paid|no]     → record the 50% deposit (unlocks confirm)
+    /em next                              → upcoming events + what's due now
+    """
+    if not _security_check(update):
+        return
+    from utils import events as EV
+    from utils.tasks import log_activity
+    args = list(context.args or [])
+    sub = args[0].lower() if args else ""
+
+    if sub == "add":
+        raw = " ".join(args[1:]).strip()
+        parts = [p.strip() for p in raw.split("|")]
+        if not raw or not parts[0]:
+            await update.message.reply_html(
+                "Register an event (pipe-separated):\n"
+                "<code>/em add KBZ Bank | product launch | 2026-11-14 | 300 | 120M MMK</code>\n"
+                "Order: client | type | date | guests | budget")
+            return
+        ev = {"client": parts[0]}
+        for key, i in (("event_type", 1), ("event_date", 2), ("guests", 3), ("budget", 4)):
+            if len(parts) > i:
+                ev[key] = parts[i]
+        eid = EV.add_event(ev)
+        log_activity("Events", f"Event registered: {ev['client']} ({ev.get('event_type','')})", source="telegram")
+        await update.message.reply_html(
+            f"🎪 Registered <i>[{eid}]</i>:\n\n{EV.format_event(EV.find(eid))}\n\n"
+            "Advance with <code>/em stage " + eid + " qualified</code> · plan it with "
+            "<code>/event " + ev['client'] + " " + ev.get('event_type', '') + "</code>")
+        return
+
+    if sub == "show" and len(args) >= 2:
+        ev = EV.find(" ".join(args[1:]))
+        if not ev:
+            await update.message.reply_html("No event matched.")
+            return
+        todo = EV.next_todo(ev)
+        todo_txt = "\n".join(f"  ☐ {t}" for t in todo)
+        await update.message.reply_html(EV.format_event(ev) + (f"\n\n<b>Checklist ({ev['stage']}):</b>\n{todo_txt}" if todo else ""))
+        return
+
+    if sub == "stage" and len(args) >= 3:
+        target, stage = " ".join(args[1:-1]), args[-1].lower()
+        ev, warn = EV.update_stage(target, stage)
+        if not ev:
+            await update.message.reply_html(f"{warn}\nStages: {', '.join(EV.STAGES)}")
+            return
+        log_activity("Events", f"{ev['client']} → {stage}", source="telegram")
+        msg = f"🎪 <b>{ev['client']}</b> → <b>{stage}</b>"
+        if warn:
+            msg += f"\n{warn}"
+        todo = EV.next_todo(ev)
+        if todo:
+            msg += "\n\n<b>Now do:</b>\n" + "\n".join(f"  ☐ {t}" for t in todo)
+        await update.message.reply_html(msg)
+        return
+
+    if sub == "deposit" and len(args) >= 2:
+        rest = args[1:]
+        flag = rest[-1].lower() if rest and rest[-1].lower() in ("paid", "no", "yes", "true", "false", "y", "n") else "paid"
+        target = " ".join(rest[:-1]) if rest[-1].lower() in ("paid", "no", "yes", "true", "false", "y", "n") else " ".join(rest)
+        ev = EV.set_field(target, "deposit_paid", flag)
+        if not ev:
+            await update.message.reply_html("No event matched.")
+            return
+        state = "✓ received" if ev.get("deposit_paid") else "✗ not received"
+        await update.message.reply_html(f"💰 {ev['client']} deposit {state}. "
+                                        + ("You can now <code>/em stage " + ev['id'] + " confirmed</code>." if ev.get("deposit_paid") else ""))
+        return
+
+    if sub == "next":
+        up = EV.upcoming(10)
+        if not up:
+            await update.message.reply_html("No upcoming events. Register one: <code>/em add ...</code>")
+            return
+        await _send_long(update, "🗓 <b>Upcoming events</b>\n\n" + "\n\n".join(EV.format_event(e) for e in up))
+        return
+
+    if sub in ("list", "all"):
+        rows = EV.all_events()
+        if not rows:
+            await update.message.reply_html("No events yet. <code>/em add ...</code>")
+            return
+        await _send_long(update, f"🎪 <b>Events ({len(rows)})</b>\n\n" + "\n\n".join(EV.format_event(e) for e in rows[:20]))
+        return
+
+    await update.message.reply_html(
+        EV.pipeline_stats() +
+        "\n\n<code>/em add ...</code> · <code>/em stage E001 confirmed</code> · "
+        "<code>/em deposit E001 paid</code> · <code>/em next</code> · <code>/em show E001</code>")
 
 
 _TASK_ADD_SCHEMA = {
@@ -2399,10 +2660,17 @@ def main() -> None:
     app.add_handler(CommandHandler("testemail", cmd_testemail))
     app.add_handler(CommandHandler("vendor", cmd_vendor))
     app.add_handler(CommandHandler("lead", cmd_lead))
+    app.add_handler(CommandHandler("em", cmd_em))
     app.add_handler(CommandHandler("prospects", cmd_prospects))
     app.add_handler(CommandHandler("scout", cmd_scout))
     app.add_handler(CommandHandler("enrich", cmd_enrich))
     app.add_handler(CommandHandler("costaudit", cmd_costaudit))
+    app.add_handler(CommandHandler("improve", cmd_improve))
+    app.add_handler(CommandHandler("roundtable", cmd_roundtable))
+    app.add_handler(CommandHandler("deliverables", cmd_deliverables))
+    app.add_handler(CommandHandler("switch", cmd_switch))
+    app.add_handler(CommandHandler("quiet", cmd_quiet))
+    app.add_handler(CommandHandler("active", cmd_active))
     app.add_handler(CommandHandler("autopilot", cmd_autopilot))
     app.add_handler(CommandHandler("queue", cmd_queue))
     app.add_handler(CommandHandler("release", cmd_release))

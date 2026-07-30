@@ -23,6 +23,7 @@ ALLOWED = {
     "costaudit": "Cost Audit",
     "proposals": "Generate Proposals",
     "push": "Sync to GitHub/Obsidian",
+    "improve": "Self-Improvement Review",
 }
 
 

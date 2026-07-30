@@ -1,0 +1,131 @@
+<style>
+:root{--gold:#D4AF37;--gold2:#F0D67A;--bg:#060505;--ink:#ECE4D2;--mut:#8A8271;--line:rgba(212,175,55,.22)}
+*{box-sizing:border-box}
+.stage{position:relative;width:100%;min-height:100vh;background:
+  radial-gradient(1000px 700px at 50% 42%, rgba(212,175,55,.05), transparent), var(--bg);
+  color:var(--ink);font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;overflow:hidden}
+#sky{display:block;width:100%;height:100vh;touch-action:none;cursor:grab}
+#sky:active{cursor:grabbing}
+.hud{position:absolute;top:20px;left:22px;pointer-events:none;max-width:74%}
+.hud .brand{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.hud .brand svg{width:26px;height:26px;filter:drop-shadow(0 0 6px rgba(212,175,55,.5))}
+.hud .brand span{letter-spacing:.28em;font-size:12px;color:var(--gold)}
+.hud h1{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-weight:600;font-size:clamp(22px,3.4vw,34px);
+  margin:0 0 4px;color:var(--ink);letter-spacing:-.01em}
+.hud .sub{font-size:11px;letter-spacing:.14em;color:var(--mut);text-transform:uppercase}
+.count{position:absolute;top:22px;right:24px;text-align:right;pointer-events:none}
+.count b{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-size:44px;color:var(--gold);display:block;line-height:1}
+.count span{font-size:10px;letter-spacing:.2em;color:var(--mut);text-transform:uppercase}
+.legend{position:absolute;left:22px;bottom:20px;font-size:10.5px;color:var(--mut);pointer-events:none;line-height:1.9}
+.legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.hint{position:absolute;right:24px;bottom:20px;font-size:10px;color:var(--mut);pointer-events:none;letter-spacing:.1em}
+.tip{position:absolute;pointer-events:none;background:rgba(10,9,7,.92);border:1px solid var(--line);
+  border-radius:6px;padding:9px 12px;font-size:11px;color:var(--ink);opacity:0;transition:opacity .15s;max-width:240px;transform:translate(-50%,-130%)}
+.tip.on{opacity:1}
+.tip b{color:var(--gold);font-family:"Iowan Old Style",Palatino,Georgia,serif;font-size:13px}
+.tip .m{color:var(--mut);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+.tip .go{color:var(--gold2);font-size:9.5px;margin-top:5px}
+</style>
+
+<div class="stage">
+  <canvas id="sky"></canvas>
+  <div class="hud">
+    <div class="brand"><svg viewBox="0 0 100 100"><polygon points="50,4 92,27 92,73 50,96 8,73 8,27" fill="none" stroke="#D4AF37" stroke-width="5"/><text x="50" y="64" text-anchor="middle" font-size="44" fill="#D4AF37" font-family="Georgia,serif" font-weight="700">Z</text></svg><span>ZYNTH · PROPOSAL CONSTELLATION</span></div>
+    <h1>Every proposal, a star.</h1>
+    <div class="sub">The sphere fills as we build — one by one</div>
+  </div>
+  <div class="count"><b id="cnt">0</b><span>Proposals live</span></div>
+  <div class="legend"><i style="background:#D4AF37;box-shadow:0 0 8px #D4AF37"></i>A proposal we've made &nbsp;·&nbsp; <i style="background:#3a352a"></i>Open space to fill</div>
+  <div class="hint">drag to rotate · tap a gold star to open it</div>
+  <div class="tip" id="tip"></div>
+</div>
+
+<script>
+// ── REAL DATA: injected from the proposal manifest (grows one by one) ──
+const PROPOSALS = __PROPOSALS__;
+const CAPACITY = 120; // the open sphere — room to grow into
+
+const cv=document.getElementById('sky'), cx=cv.getContext('2d'), tip=document.getElementById('tip');
+let W,H,DPR=Math.min(2,devicePixelRatio||1);
+function size(){W=cv.clientWidth;H=cv.clientHeight;cv.width=W*DPR;cv.height=H*DPR;cx.setTransform(DPR,0,0,DPR,0,0);}
+size();addEventListener('resize',size);
+document.getElementById('cnt').textContent=PROPOSALS.length;
+
+// Fibonacci sphere — even points on a sphere
+function fib(n){const p=[],g=Math.PI*(3-Math.sqrt(5));for(let i=0;i<n;i++){const y=1-(i/(n-1))*2,r=Math.sqrt(1-y*y),t=g*i;p.push([Math.cos(t)*r,y,Math.sin(t)*r]);}return p;}
+const pts=fib(CAPACITY);
+// spread the real proposals evenly across the sphere (not clustered)
+const realIdx=PROPOSALS.map((_,k)=>Math.floor(k*CAPACITY/Math.max(PROPOSALS.length,1)));
+const nodes=pts.map((v,i)=>{const r=realIdx.indexOf(i);return{v,real:r>=0,data:r>=0?PROPOSALS[r]:null,ph:Math.random()*6.28};});
+const realNodes=nodes.filter(n=>n.real);
+
+let yaw=.3,pitch=-.2,vy=0.0016,drag=false,px,py,idle=0,hover=null;
+cv.addEventListener('pointerdown',e=>{drag=true;px=e.clientX;py=e.clientY;idle=0;});
+addEventListener('pointerup',()=>drag=false);
+addEventListener('pointermove',e=>{
+  const r=cv.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+  if(drag){yaw+=(e.clientX-px)*.006;pitch+=(e.clientY-py)*.006;pitch=Math.max(-1.4,Math.min(1.4,pitch));px=e.clientX;py=e.clientY;idle=0;}
+  // hover test against projected real nodes
+  hover=null;let best=22;
+  for(const n of realNodes){if(n.sx==null||n.behind)continue;const d=Math.hypot(mx-n.sx,my-n.sy);if(d<best){best=d;hover=n;}}
+  if(hover){tip.classList.add('on');tip.style.left=hover.sx+'px';tip.style.top=hover.sy+'px';
+    tip.innerHTML=`<b>${hover.data.name}</b> — ${hover.data.line}<div class="m">${hover.data.sector} · ${hover.data.market}</div><div class="go">▸ tap to open</div>`;
+    cv.style.cursor='pointer';}
+  else{tip.classList.remove('on');cv.style.cursor=drag?'grabbing':'grab';}
+});
+cv.addEventListener('click',()=>{if(hover&&hover.data.url)window.open(hover.data.url,'_blank');});
+
+function rot(v){ // yaw around Y, then pitch around X
+  let [x,y,z]=v;
+  let x1=x*Math.cos(yaw)-z*Math.sin(yaw), z1=x*Math.sin(yaw)+z*Math.cos(yaw);
+  let y2=y*Math.cos(pitch)-z1*Math.sin(pitch), z2=y*Math.sin(pitch)+z1*Math.cos(pitch);
+  return [x1,y2,z2];
+}
+function draw(t){
+  cx.clearRect(0,0,W,H);
+  const cxp=W/2,cyp=H/2,R=Math.min(W,H)*0.34,d=3.2,fov=R*d;
+  if(!drag){idle++; if(idle>40) yaw+=vy;}
+  // project all
+  for(const n of nodes){const [x,y,z]=rot(n.v);const s=fov/(d-z);
+    n.sx=cxp+x*s; n.sy=cyp - y*s; n.z=z; n.s=s; n.behind=z< -0.15 && !n.real; }
+  // faint lattice links between nearby ghost points (the sphere shell)
+  cx.lineWidth=1;
+  for(let i=0;i<nodes.length;i+=1){const a=nodes[i];if(a.z<-0.2)continue;
+    for(let j=i+1;j<i+3&&j<nodes.length;j++){const b=nodes[j];if(b.z<-0.2)continue;
+      const dd=Math.hypot(a.sx-b.sx,a.sy-b.sy); if(dd>R*0.5)continue;
+      cx.strokeStyle='rgba(212,175,55,'+(0.05*Math.min(a.z+1,b.z+1))+')';
+      cx.beginPath();cx.moveTo(a.sx,a.sy);cx.lineTo(b.sx,b.sy);cx.stroke();}}
+  // constellation lines between REAL proposals + travelling light
+  for(let i=0;i<realNodes.length;i++){for(let j=i+1;j<realNodes.length;j++){
+    const a=realNodes[i],b=realNodes[j];const depth=(a.z+b.z)/2;
+    cx.strokeStyle='rgba(212,175,55,'+(0.10+0.14*Math.max(0,depth+.3))+')';cx.lineWidth=1;
+    cx.beginPath();cx.moveTo(a.sx,a.sy);cx.lineTo(b.sx,b.sy);cx.stroke();
+    // light running from one to the other
+    const u=((t/2600)+(i*0.2)+(j*0.13))%1;const lx=a.sx+(b.sx-a.sx)*u,ly=a.sy+(b.sy-a.sy)*u;
+    cx.fillStyle='#F0D67A';cx.globalAlpha=0.8;cx.beginPath();cx.arc(lx,ly,1.8,0,7);cx.fill();cx.globalAlpha=1;
+  }}
+  // draw ghost points (depth-sorted-ish: back first)
+  const order=[...nodes].sort((a,b)=>a.z-b.z);
+  for(const n of order){
+    if(n.real)continue;
+    const dep=(n.z+1)/2; // 0..1
+    cx.fillStyle='rgba(150,140,110,'+(0.10+dep*0.28)+')';
+    cx.beginPath();cx.arc(n.sx,n.sy,0.8+dep*1.4,0,7);cx.fill();
+  }
+  // draw real proposal stars on top, glowing
+  for(const n of realNodes){
+    const dep=(n.z+1)/2, puls=(Math.sin(t/600+n.ph)+1)/2, rr=3.4+dep*3.2+puls*1.2;
+    const g=cx.createRadialGradient(n.sx,n.sy,0,n.sx,n.sy,rr*4);
+    g.addColorStop(0,'rgba(240,214,122,'+(0.5+dep*0.4)+')');g.addColorStop(1,'transparent');
+    cx.fillStyle=g;cx.beginPath();cx.arc(n.sx,n.sy,rr*4,0,7);cx.fill();
+    cx.fillStyle='#F4E7B0';cx.beginPath();cx.arc(n.sx,n.sy,rr,0,7);cx.fill();
+    // label
+    if(dep>0.32){cx.fillStyle='rgba(236,228,210,'+(dep)+')';cx.font='600 11px ui-monospace,monospace';
+      cx.textAlign='center';cx.fillText(n.data.name.toUpperCase(),n.sx,n.sy-rr-8);
+      cx.fillStyle='rgba(212,175,55,'+(dep*0.8)+')';cx.font='9px ui-monospace,monospace';
+      cx.fillText(n.data.sector,n.sx,n.sy+rr+13);}
+  }
+  requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+</script>

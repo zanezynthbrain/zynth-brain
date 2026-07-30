@@ -1,0 +1,15 @@
+{
+  "autonomy": false,
+  "morning_brief": false,
+  "eod_report": false,
+  "daily_proposals": false,
+  "market_research": false,
+  "bd_autopilot": false,
+  "outreach_sender": false,
+  "nightly_consolidation": false,
+  "self_improve": false,
+  "learning_brief": false,
+  "weekly_reviews": false,
+  "fx_refresh": false,
+  "_updated": "seed — MD-only quiet mode"
+}

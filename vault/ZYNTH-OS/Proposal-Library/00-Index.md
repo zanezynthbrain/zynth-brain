@@ -19,3 +19,10 @@ Ready-to-pull event & campaign concepts across sectors. Pick one, run `/proposal
 | 8 | [[Your-Future-Enrolled-Education-Funnel\|Your Future, Enrolled — Education Funnel]] | Education & EdTech | Campaign |
 | 9 | [[The-Drive-Luxury-Auto-Experience\|The Drive — Luxury Auto Experience]] | Automotive & Distribution | Event |
 | 10 | [[Stay-a-While-Hospitality-Lifestyle-Campaign\|Stay a While — Hospitality Lifestyle Campaign]] | Hospitality, Hotels & Travel | Campaign |
+
+## ★ Full client-ready proposals (gold-standard, produced one by one)
+
+| # | Concept | Sector | Type |
+|--|--|--|--|
+| 11 | [[Shwe-Pay-The-New-Gold-Standard-Fintech-Launch\|Shwe Pay — The New Gold Standard]] | Banking & Fintech | Integrated |
+| 12 | [[Dry-Fry-Hear-The-Crunch-F-B-Launch\|Dry Fry — Hear the Crunch]] | F&B / QSR | Launch |
