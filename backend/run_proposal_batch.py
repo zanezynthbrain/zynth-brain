@@ -32,6 +32,17 @@ async def main(market: str, batches: int, industry: str | None, month: str | Non
     settings = get_settings()
     configure_logging(settings.log_level)
 
+    # Respect the master switch: proposal production is OFF unless the MD turns it on.
+    # Stops the daily CI/scheduler from producing proposals (and burning API budget).
+    try:
+        from utils import switches
+        if not switches.enabled("daily_proposals"):
+            logger.info("Proposal production is switched OFF (MD-only mode). Skipping.")
+            print("Proposal production OFF — skipped (turn on with /switch daily_proposals on).")
+            return 0
+    except Exception:
+        pass
+
     llm = LLMClient()
     memory = SharedMemory(client_brief={"agency": "ZYNTH", "mode": "ci_proposal_batch"})
     agent = ProposalFactoryAgent(llm)

@@ -229,6 +229,13 @@ def build_state() -> dict[str, Any]:
     except Exception:
         sync_on = False
 
+    try:
+        from utils import switches as _sw
+        switch_list = _sw.all_switches()
+        md_only = _sw.md_only()
+    except Exception:
+        switch_list, md_only = [], False
+
     return {
         "generated": datetime.now().strftime("%a %d %b %Y, %H:%M"),
         "model": getattr(s, "model_name", ""),
@@ -237,6 +244,8 @@ def build_state() -> dict[str, Any]:
         "deliverables": deliverables,
         "directives": directives,
         "sync_on": sync_on,
+        "switches": switch_list,
+        "md_only": md_only,
         "sys": {"ai": bool(s.anthropic_api_key), "voice": bool(s.gemini_api_key),
                 "email": bool(s.smtp_user and s.smtp_password), "sync": sync_on},
         "totals": {
@@ -394,6 +403,14 @@ a{color:var(--cyan);text-decoration:none}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 .live{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--good);margin-right:5px;animation:bl 2s infinite}
 @keyframes bl{50%{opacity:.3}}
+.modebtn{width:100%;text-align:center;border:1px solid var(--border);border-radius:8px;padding:11px;font:inherit;
+  font-size:12px;cursor:pointer;background:var(--panel2);color:var(--ink);margin-bottom:10px;letter-spacing:.03em}
+.sw{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;padding:6px 0;border-top:1px solid var(--border)}
+.sw:first-child{border-top:0}
+.sw span{color:var(--mut)}
+.tgl{border:1px solid var(--border);background:var(--panel);color:var(--mut);border-radius:6px;font:inherit;
+  font-size:9.5px;padding:3px 11px;cursor:pointer;letter-spacing:.1em;flex:none}
+.tgl.on{background:var(--good);color:#04222b;border-color:transparent}
 </style></head><body>
 <div class="top">
   <div class="brand">
@@ -457,6 +474,11 @@ a{color:var(--cyan);text-decoration:none}
       </div>
     </div>
     <div class="panel" style="margin-top:14px">
+      <div class="h">Mode &amp; Switches</div>
+      <div id="mode"></div>
+      <div id="switches"></div>
+    </div>
+    <div class="panel" style="margin-top:14px">
       <div class="h">Open Work</div>
       <div id="tasks"></div>
     </div>
@@ -513,7 +535,14 @@ function render(){
   $('#tasks').innerHTML=open.length?open.slice(0,14).map(t=>`<div class="tk"><span class="s">${esc(t.status)}</span><span style="flex:1">${esc(t.title)}</span><span class="c" style="color:${DC[t.dept]||'var(--mut)'}">${esc(t.dept)}</span></div>`).join(''):'<div class="empty">No open tasks.</div>';
   // legend
   $('#legend').innerHTML=(S.departments||[]).map(d=>`<span><i style="background:${d.color}"></i>${esc(d.label)}</span>`).join('');
+  // mode + switches
+  const autoOn=!S.md_only;
+  const mb=$('#mode');
+  if(mb){mb.innerHTML=`<button class="modebtn" style="border-color:${autoOn?'var(--good)':'var(--warn)'};color:${autoOn?'var(--good)':'var(--warn)'}" onclick="toggleSwitch('autonomy',${autoOn?1:0})">${autoOn?'🟢 AUTONOMOUS ON — tap for MD-ONLY (save cost)':'🌙 MD-ONLY — tap to WAKE autonomous work'}</button>`;}
+  const sws=$('#switches');
+  if(sws){sws.innerHTML=(S.switches||[]).filter(s=>!s.master).map(s=>`<div class="sw"><span>${esc(s.name)}</span><button class="tgl ${s.effective?'on':''}" onclick="toggleSwitch('${s.name}',${s.on?1:0})">${s.on?'ON':'OFF'}</button></div>`).join('');}
 }
+async function toggleSwitch(name,cur){await api('/api/switch',{name,on:!cur});toast(name+' → '+(!cur?'ON':'OFF'));refresh();}
 
 /* ============ neural brain ============ */
 const cv=$('#brain'), cx=cv.getContext('2d');

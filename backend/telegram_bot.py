@@ -116,7 +116,8 @@ def _start_dashboard_server() -> None:
                 self.wfile.write(f"dashboard error: {exc}".encode())
 
         def do_POST(self):  # noqa: N802
-            if not (self.path.startswith("/api/task") or self.path.startswith("/api/cmd")):
+            if not (self.path.startswith("/api/task") or self.path.startswith("/api/cmd")
+                    or self.path.startswith("/api/switch")):
                 self._json({"ok": False}, 404); return
             # optional token guard (only enforced when ZYNTH_DASHBOARD_TOKEN set)
             if token and self.headers.get("X-Token") != token and token not in self.path:
@@ -124,6 +125,11 @@ def _start_dashboard_server() -> None:
             try:
                 n = int(self.headers.get("Content-Length", 0))
                 data = _json.loads(self.rfile.read(n) or b"{}")
+                if self.path.startswith("/api/switch"):
+                    from utils import switches
+                    ok = switches.set_switch(data.get("name", ""), bool(data.get("on")))
+                    self._json({"ok": ok, "switches": switches.all_switches(), "md_only": switches.md_only()})
+                    return
                 if self.path.startswith("/api/cmd"):
                     from utils.cmdqueue import enqueue
                     ok = enqueue(data.get("cmd", ""))
@@ -1760,6 +1766,48 @@ async def cmd_deliverables(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     await _send_long(update, head + "\n\n" + body)
 
 
+async def cmd_switch(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/switch — see all on/off switches. /switch <name> on|off — toggle one."""
+    if not _security_check(update):
+        return
+    from utils import switches
+    args = list(context.args or [])
+    if len(args) >= 2 and args[1].lower() in ("on", "off", "true", "false", "yes", "no"):
+        name = args[0]
+        val = args[1].lower() in ("on", "true", "yes")
+        if switches.set_switch(name, val):
+            await update.message.reply_html(f"🔀 <code>{name}</code> → <b>{'ON' if val else 'OFF'}</b>\n\n" + switches.status_text())
+        else:
+            valid = ", ".join(s["name"] for s in switches.all_switches())
+            await update.message.reply_html(f"Unknown switch '{name}'. Valid: {valid}")
+        return
+    await update.message.reply_html(switches.status_text())
+
+
+async def cmd_quiet(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/quiet — MD-only mode: silence ALL autonomous work (stop the API spend)."""
+    if not _security_check(update):
+        return
+    from utils import switches
+    switches.set_quiet()
+    await update.message.reply_html(
+        "🌙 <b>MD-only mode ON.</b> All autonomous jobs are paused — no more background "
+        "API spend. I (the MD chatbot) still answer everything you send.\n\n"
+        "Wake the machine back up anytime with <code>/active</code>.")
+
+
+async def cmd_active(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/active — wake autonomous work back up (individual switches still apply)."""
+    if not _security_check(update):
+        return
+    from utils import switches
+    switches.set_active()
+    await update.message.reply_html(
+        "🟢 <b>Autonomous work ON</b> (master). Individual jobs still follow their own "
+        "switches — turn the ones you want on with <code>/switch &lt;name&gt; on</code>.\n\n"
+        + switches.status_text())
+
+
 async def cmd_enrich(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """/enrich <company> — build a full BD lead record: prospect intel + a REAL
     Apollo contact (no fabrication), appended to the leads DB."""
@@ -2607,6 +2655,9 @@ def main() -> None:
     app.add_handler(CommandHandler("improve", cmd_improve))
     app.add_handler(CommandHandler("roundtable", cmd_roundtable))
     app.add_handler(CommandHandler("deliverables", cmd_deliverables))
+    app.add_handler(CommandHandler("switch", cmd_switch))
+    app.add_handler(CommandHandler("quiet", cmd_quiet))
+    app.add_handler(CommandHandler("active", cmd_active))
     app.add_handler(CommandHandler("autopilot", cmd_autopilot))
     app.add_handler(CommandHandler("queue", cmd_queue))
     app.add_handler(CommandHandler("release", cmd_release))

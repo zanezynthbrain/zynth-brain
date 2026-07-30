@@ -599,13 +599,27 @@ async def run_friday_review() -> None:
     )
 
 
+def _gated(job_key: str, fn):
+    """Wrap a scheduled job so it only runs when its switch (and the master) is on.
+    Manual runs (command queue / typed commands) call the underlying fn directly and
+    are never gated — this only silences the AUTONOMOUS cron trigger to save API cost."""
+    async def _wrapper():
+        from utils import switches
+        if not switches.enabled(job_key):
+            logger.info("⏸  %s skipped (MD-only / switch off)", job_key)
+            return
+        await fn()
+    _wrapper.__name__ = f"gated_{job_key}"
+    return _wrapper
+
+
 def build_scheduler(settings=None) -> AsyncIOScheduler:
     settings = settings or get_settings()
     scheduler = AsyncIOScheduler(timezone=settings.scheduler_timezone)
 
     # Morning CEO brief
     scheduler.add_job(
-        run_morning_brief,
+        _gated("morning_brief", run_morning_brief),
         CronTrigger(
             hour=settings.daily_brief_hour,
             minute=settings.daily_brief_minute,
@@ -618,7 +632,7 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
 
     # End-of-day report
     scheduler.add_job(
-        run_eod_report,
+        _gated("eod_report", run_eod_report),
         CronTrigger(
             hour=settings.eod_report_hour,
             minute=0,
@@ -631,7 +645,7 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
 
     # Weekly portfolio review (Monday 9am Yangon time)
     scheduler.add_job(
-        run_weekly_portfolio_review,
+        _gated("weekly_reviews", run_weekly_portfolio_review),
         CronTrigger(day_of_week="mon", hour=9, minute=0, timezone=settings.scheduler_timezone),
         id="weekly_portfolio_review",
         name="Weekly Portfolio Review",
@@ -640,7 +654,7 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
 
     # MD Learning Brief (Monday 08:30 Yangon = 10:00 SGT)
     scheduler.add_job(
-        run_learning_brief,
+        _gated("learning_brief", run_learning_brief),
         CronTrigger(day_of_week="mon", hour=8, minute=30, timezone=settings.scheduler_timezone),
         id="md_learning_brief",
         name="MD Learning Brief",
@@ -649,7 +663,7 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
 
     # Daily market FX refresh (07:00 Yangon, before the day's proposals)
     scheduler.add_job(
-        run_fx_refresh,
+        _gated("fx_refresh", run_fx_refresh),
         CronTrigger(hour=7, minute=0, timezone=settings.scheduler_timezone),
         id="fx_refresh",
         name="Market FX Refresh",
@@ -658,7 +672,7 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
 
     # Autonomous daily proposal production (09:00 Yangon — grows the library)
     scheduler.add_job(
-        run_daily_proposals,
+        _gated("daily_proposals", run_daily_proposals),
         CronTrigger(hour=9, minute=0, timezone=settings.scheduler_timezone),
         id="daily_proposals",
         name="Daily Proposal Production",
@@ -667,7 +681,7 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
 
     # Daily Myanmar market research (06:30 Yangon — new prospects before the day)
     scheduler.add_job(
-        run_market_research,
+        _gated("market_research", run_market_research),
         CronTrigger(hour=6, minute=30, timezone=settings.scheduler_timezone),
         id="market_research",
         name="Daily Market Research",
@@ -676,7 +690,7 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
 
     # BD Autopilot (07:00 Yangon — after research: enrich contacts + draft outreach)
     scheduler.add_job(
-        run_bd_autopilot,
+        _gated("bd_autopilot", run_bd_autopilot),
         CronTrigger(hour=7, minute=0, timezone=settings.scheduler_timezone),
         id="bd_autopilot",
         name="BD Autopilot",
@@ -684,7 +698,7 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
     )
     # Outreach sender (hourly 09:00–18:00 Yangon — sends released/auto-released, capped)
     scheduler.add_job(
-        run_outreach_sender,
+        _gated("outreach_sender", run_outreach_sender),
         CronTrigger(hour="9-18", minute=15, timezone=settings.scheduler_timezone),
         id="outreach_sender",
         name="Outreach Sender",
@@ -693,7 +707,7 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
 
     # Autonomous nightly consolidation (21:00 Yangon — while the MD is away)
     scheduler.add_job(
-        run_consolidation,
+        _gated("nightly_consolidation", run_consolidation),
         CronTrigger(hour=21, minute=0, timezone=settings.scheduler_timezone),
         id="nightly_consolidation",
         name="Nightly Consolidation",
@@ -702,14 +716,14 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
 
     # Weekly operating rhythm — Monday priorities + scorecard, Friday review
     scheduler.add_job(
-        run_monday_priorities,
+        _gated("weekly_reviews", run_monday_priorities),
         CronTrigger(day_of_week="mon", hour=8, minute=45, timezone=settings.scheduler_timezone),
         id="monday_priorities",
         name="Monday Weekly Cadence",
         replace_existing=True,
     )
     scheduler.add_job(
-        run_friday_review,
+        _gated("weekly_reviews", run_friday_review),
         CronTrigger(day_of_week="fri", hour=15, minute=30, timezone=settings.scheduler_timezone),
         id="friday_review",
         name="Friday Weekly Review",
@@ -717,7 +731,7 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
     )
     # Weekly BD export to bridge/ (Monday 08:00 Yangon — master lead DB to Drive)
     scheduler.add_job(
-        run_weekly_bridge_export,
+        _gated("weekly_reviews", run_weekly_bridge_export),
         CronTrigger(day_of_week="mon", hour=8, minute=0, timezone=settings.scheduler_timezone),
         id="weekly_bridge_export",
         name="Weekly BD Export → bridge/",
@@ -733,7 +747,7 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
     )
     # Self-improvement loop (Sunday 20:00 Yangon — review the week, learn, get better)
     scheduler.add_job(
-        run_self_improve,
+        _gated("self_improve", run_self_improve),
         CronTrigger(day_of_week="sun", hour=20, minute=0, timezone=settings.scheduler_timezone),
         id="self_improve",
         name="Self-Improvement Review",
