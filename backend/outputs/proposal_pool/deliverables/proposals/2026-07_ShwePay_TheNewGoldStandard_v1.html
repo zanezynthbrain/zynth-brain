@@ -1,0 +1,343 @@
+<style>
+:root{
+  --gold:#D4AF37; --gold-soft:#B9993F; --label:#9A8850;
+  --bg:#0A0A0A; --panel:#131110; --panel2:#181512; --line:rgba(212,175,55,.22);
+  --ink:#ECE4D2; --mut:#9C948440; --muted:#A79F8C;
+}
+*{box-sizing:border-box}
+.doc{background:var(--bg);color:var(--ink);
+  font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:16px;line-height:1.66;-webkit-font-smoothing:antialiased;
+  padding:0 0 90px;overflow-x:hidden}
+.serif{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.wrap{max-width:840px;margin:0 auto;padding:0 26px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;letter-spacing:.34em;
+  text-transform:uppercase;color:var(--label)}
+a{color:var(--gold)}
+/* cover */
+.cover{padding:76px 0 40px;border-bottom:1px solid var(--line);text-align:left}
+.mark{display:flex;align-items:center;gap:12px;margin-bottom:54px}
+.mark .hex{width:26px;height:26px}
+.mark .nm{font-family:ui-monospace,monospace;letter-spacing:.28em;font-size:12px;color:var(--gold)}
+.cover h1{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  font-weight:600;font-size:clamp(40px,8vw,72px);line-height:1.02;margin:0 0 14px;
+  color:var(--ink);letter-spacing:-.01em;text-wrap:balance}
+.cover h1 em{color:var(--gold);font-style:italic}
+.cover .lede{font-size:clamp(17px,2.4vw,21px);color:var(--muted);max-width:60ch;margin:0 0 34px}
+.metabar{display:flex;flex-wrap:wrap;gap:6px 26px;border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);padding:16px 0;margin-bottom:22px}
+.metabar div{font-family:ui-monospace,monospace;font-size:11px;letter-spacing:.06em;color:var(--muted)}
+.metabar b{color:var(--gold);font-weight:400}
+.assume{font-size:12.5px;color:#8F8874;font-style:italic;
+  border-left:2px solid var(--line);padding:4px 0 4px 14px;margin:6px 0 28px}
+.bigidea{background:linear-gradient(180deg,var(--panel2),transparent);
+  border:1px solid var(--line);border-radius:4px;padding:22px 24px;margin-top:8px}
+.bigidea .eyebrow{color:var(--label)}
+.bigidea p{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-size:clamp(22px,3.4vw,30px);
+  line-height:1.2;color:var(--ink);margin:8px 0 0}
+.bigidea p b{color:var(--gold);font-weight:600}
+/* sections */
+section{padding:52px 0 8px;border-bottom:1px solid var(--line)}
+.snum{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-size:15px;color:var(--gold);
+  letter-spacing:.02em;display:inline-block;margin-bottom:10px}
+.snum::before{content:"—— ";color:var(--gold-soft)}
+h2{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;font-weight:600;
+  font-size:clamp(26px,4.4vw,38px);line-height:1.1;margin:6px 0 18px;color:var(--ink);letter-spacing:-.01em;text-wrap:balance}
+h3{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-weight:600;font-size:20px;color:var(--gold);margin:26px 0 8px}
+p{margin:0 0 14px;color:var(--ink)}
+.muted{color:var(--muted)}
+strong{color:#F4ECD8}
+ul{margin:0 0 16px;padding-left:20px}
+li{margin:0 0 8px}
+li::marker{color:var(--gold)}
+.pill{display:inline-block;font-family:ui-monospace,monospace;font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gold);border:1px solid var(--line);border-radius:20px;padding:3px 11px;margin:0 6px 8px 0}
+/* tables */
+.tw{overflow-x:auto;margin:16px 0 20px;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:520px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:ui-monospace,monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--label);font-weight:400}
+td b{color:var(--gold);font-weight:400}
+tr:last-child td{border-bottom:0}
+.num{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+/* pricing */
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0 8px}
+@media(max-width:720px){.tiers{grid-template-columns:1fr}}
+.tier{border:1px solid var(--line);border-radius:5px;padding:20px 18px;background:var(--panel)}
+.tier.rec{border-color:var(--gold);background:linear-gradient(180deg,rgba(212,175,55,.06),var(--panel))}
+.tier .t{font-family:ui-monospace,monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--label)}
+.tier.rec .t{color:var(--gold)}
+.tier .amt{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-size:27px;color:var(--ink);margin:8px 0 2px}
+.tier .usd{font-family:ui-monospace,monospace;font-size:11px;color:var(--muted);margin-bottom:12px}
+.tier .recflag{display:inline-block;font-family:ui-monospace,monospace;font-size:9.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:#0A0A0A;background:var(--gold);border-radius:3px;padding:2px 8px;margin-bottom:10px}
+.tier ul{padding-left:16px;font-size:12.5px;margin:0}
+.tier li{margin-bottom:6px;color:var(--muted)}
+.tier li b{color:var(--ink);font-weight:400}
+/* callout */
+.callout{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:16px 18px;margin:16px 0}
+.callout .eyebrow{margin-bottom:6px}
+/* footer */
+.foot{padding:56px 0 0;text-align:center}
+.foot .hex{width:30px;height:30px;margin-bottom:14px}
+.foot .tag{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-style:italic;font-size:20px;color:var(--gold)}
+.foot .sub{font-family:ui-monospace,monospace;font-size:10.5px;letter-spacing:.2em;color:var(--muted);margin-top:8px;text-transform:uppercase}
+@media print{.doc{background:#fff;color:#111}section{break-inside:avoid}}
+</style>
+
+<div class="doc"><div class="wrap">
+
+  <div class="cover">
+    <div class="mark">
+      <svg class="hex" viewBox="0 0 100 100"><polygon points="50,4 92,27 92,73 50,96 8,73 8,27" fill="none" stroke="#D4AF37" stroke-width="5"/><text x="50" y="64" text-anchor="middle" font-size="44" fill="#D4AF37" font-family="Georgia,serif" font-weight="700">Z</text></svg>
+      <span class="nm">ZYNTH · PROPOSAL</span>
+    </div>
+    <div class="eyebrow">Integrated Launch · Fintech · Myanmar</div>
+    <h1>The New Gold <em>Standard</em></h1>
+    <p class="lede">An integrated launch campaign &amp; flagship event to make <strong>Shwe Pay</strong> the wallet the next generation of Myanmar chooses as their own.</p>
+    <div class="metabar">
+      <div>CLIENT&nbsp; <b>Shwe Pay</b></div>
+      <div>SECTOR&nbsp; <b>Fintech / Digital Wallet</b></div>
+      <div>MARKET&nbsp; <b>Myanmar</b></div>
+      <div>PREPARED BY&nbsp; <b>ZYNTH</b></div>
+      <div>DATE&nbsp; <b>Jul 2026</b></div>
+      <div>VERSION&nbsp; <b>v1.0</b></div>
+    </div>
+    <p class="assume">Assumption (stated per ZYNTH standard): “Shwe Pay” is an illustrative brand used to demonstrate the ZYNTH Proposal Standard for the Myanmar fintech sector. All market figures are indicative [confirmed by data/RFQ before a live pitch]. Currency: MMK, market FX ≈ 4,400 MMK / USD.</p>
+    <div class="bigidea">
+      <div class="eyebrow">The Idea, in one line</div>
+      <p>In a market of wallets that belong to the banks, <b>Shwe Pay becomes the one that belongs to you</b> — money that moves as fast as your ambition. <b>The New Gold Standard.</b></p>
+    </div>
+  </div>
+
+  <section>
+    <div class="snum serif">01</div>
+    <div class="eyebrow">Executive Summary &amp; Strategic Rationale</div>
+    <h2>The wallet war is won on meaning, not features.</h2>
+    <p>Myanmar's payment market is not empty — it is <strong>crowded and utilitarian</strong>. KBZPay and Wave have won scale, and the rest are fighting a cashback-and-feature war that a challenger cannot out-spend. Shwe Pay does not need a bigger feature list. It needs to mean something.</p>
+    <p>The opportunity: a generation of urban Myanmar under 30 is building its own future — earning early, selling online, sending money home, refusing to wait for the old institutions. They have wallets, but none of them <em>feels like theirs</em>. Shwe (gold) is Myanmar's oldest symbol of stored value, trust and status. Shwe Pay can own the double meaning: <strong>the new gold standard</strong> — the standard for money, and the standard this generation sets for itself.</p>
+    <p><strong>The ask:</strong> engage ZYNTH to design and deliver an integrated launch — a brand campaign, a signature cultural moment (Launch Night), and a performance engine — that turns Shwe Pay from “another wallet” into a movement, and converts that movement into <strong>installs, activated users and merchants</strong>.</p>
+    <div class="callout"><div class="eyebrow">The headline outcome</div>
+      <p style="margin:0"><strong>120,000–180,000 installs</strong> and <strong>60,000–95,000 activated (first-transaction) users</strong> in a 12-week window, at a blended cost per activated user at or below <strong>MMK 650</strong> — plus a cultural launch moment that competitors cannot buy with media weight.</p></div>
+  </section>
+
+  <section>
+    <div class="snum serif">02</div>
+    <div class="eyebrow">Market &amp; Audience Intelligence</div>
+    <h2>A category winning on utility, wide open on identity.</h2>
+    <p>Digital payment adoption among urban Myanmar youth has accelerated sharply, led by Facebook-first discovery and a fast-rising TikTok culture. Cash still dominates day-to-day, but the young, smartphone-first cohort is the tipping point — and it is up for grabs.</p>
+    <div class="eyebrow" style="margin-bottom:6px">The competitive set</div>
+    <div class="tw"><table>
+      <tr><th>Player</th><th>Strength</th><th>The gap it leaves</th></tr>
+      <tr><td><b>KBZPay</b></td><td>Ubiquity, bank trust, scale</td><td>Feels institutional, utility — a bank's app, not the user's brand</td></tr>
+      <tr><td><b>Wave Pay</b></td><td>Agent network, mass + rural reach</td><td>Mass-market perception; little youth-culture pull</td></tr>
+      <tr><td><b>AYA Pay / CB Pay</b></td><td>Bank-backed, growing</td><td>Follower positioning; no distinct meaning</td></tr>
+      <tr><td><b>OnePay / others</b></td><td>Niche features, cashback</td><td>Feature war, no identity — invisible to culture</td></tr>
+    </table></div>
+    <p><strong>The tension:</strong> young users have wallets, but every one of them feels like it belongs to a bank, a parent's generation, an institution. Nobody owns <em>“the wallet for the ones building what's next.”</em> That is the open territory — and it is a meaning play, which scale cannot buy.</p>
+    <h3>Three audiences, three truths</h3>
+    <div class="tw"><table>
+      <tr><th>Segment</th><th>Who</th><th>The insight we build on</th></tr>
+      <tr><td><b>The Strivers</b></td><td>18–24 · students &amp; first-jobbers · FB/TikTok natives</td><td>“My money should move as fast as my hustle.”</td></tr>
+      <tr><td><b>Young Professionals</b></td><td>25–30 · urban earners, sending money home</td><td>“I've outgrown my parents' bank. I want a brand that reflects my rise.”</td></tr>
+      <tr><td><b>Micro-merchants</b></td><td>Young shop &amp; online sellers</td><td>“Getting paid shouldn't slow my business down.”</td></tr>
+    </table></div>
+  </section>
+
+  <section>
+    <div class="snum serif">03</div>
+    <div class="eyebrow">Strategic Positioning &amp; The Idea</div>
+    <h2>The New Gold Standard.</h2>
+    <p><strong>Positioning:</strong> Shwe Pay is the digital wallet for the generation building Myanmar's future — money that moves as fast as their ambition.</p>
+    <p><strong>Single-minded proposition:</strong> <em>Your ambition deserves the new gold standard.</em></p>
+    <p><strong>Campaign line:</strong> <strong style="color:var(--gold)">Shwe Pay — The New Gold Standard.</strong></p>
+    <h3>Why this beats the obvious idea</h3>
+    <p>The obvious move is a cashback/feature launch. Against KBZPay's scale, that is a war Shwe Pay loses — it competes on the incumbent's terms and rents users who leave for the next promo. “The New Gold Standard” competes on <strong>meaning and identity</strong>, which the incumbents are too big and too institutional to claim. It reframes a wallet as a statement about who you are — and turns users into a movement that spreads itself. One idea, carried from positioning to the launch stage to the KPI line.</p>
+  </section>
+
+  <section>
+    <div class="snum serif">04</div>
+    <div class="eyebrow">Concept &amp; Creative System</div>
+    <h2>Matte black. Liquid gold. Kinetic pride.</h2>
+    <p>Not old-temple gold — <strong>self-made gold</strong>: sharp, digital, in motion. A visual world of deep black and liquid-gold light, kinetic Burmese + English typography, and a recurring <em>“gold thread”</em> motif that links people, payments and ambition. Confident and warm — proud, never arrogant.</p>
+    <h3>Four content pillars</h3>
+    <ul>
+      <li><strong>The Standard</strong> — aspirational brand films featuring real young Myanmar makers, sellers and creators. The emotional core.</li>
+      <li><strong>Gold Moves</strong> — fast, satisfying product content: how quick, how easy, how it feels to pay and get paid.</li>
+      <li><strong>The Circle</strong> — UGC + creators answering one question: <em>“What's your gold standard?”</em> The movement engine.</li>
+      <li><strong>Merchant Rise</strong> — young sellers growing because getting paid got easier.</li>
+    </ul>
+    <div class="eyebrow" style="margin-top:8px">Signature executions</div>
+    <p><span class="pill">Hero film “The New Gold Standard”</span><span class="pill">#MyGoldStandard challenge</span><span class="pill">Gold Moves reels</span><span class="pill">Yangon OOH</span><span class="pill">In-app “welcome to the standard”</span></p>
+  </section>
+
+  <section>
+    <div class="snum serif">05</div>
+    <div class="eyebrow">Architecture — Channels &amp; Experience</div>
+    <h2>A campaign that becomes a culture, and a night that becomes content.</h2>
+    <div class="tw"><table>
+      <tr><th>Channel</th><th>Role in the plan</th></tr>
+      <tr><td><b>Facebook</b></td><td>Mass reach + brand film + install-driving video and lead ads (the MM backbone)</td></tr>
+      <tr><td><b>TikTok</b></td><td>Youth culture + the #MyGoldStandard challenge + creator “Gold Moves”</td></tr>
+      <tr><td><b>Instagram</b></td><td>Aspirational brand world; young professional segment</td></tr>
+      <tr><td><b>Creators / KOLs</b></td><td>Credibility + reach into each segment; the challenge's ignition</td></tr>
+      <tr><td><b>OOH (Yangon)</b></td><td>Fame + legitimacy; “the standard” made unmissable in the city</td></tr>
+      <tr><td><b>In-app + referral</b></td><td>Onboarding as a brand moment; referral engine turns users into recruiters</td></tr>
+      <tr><td><b>PR</b></td><td>Launch Night pickups + founder/brand story = earned legitimacy</td></tr>
+    </table></div>
+    <h3>The signature moment — “The New Gold Standard: Launch Night”</h3>
+    <p>A flagship youth-culture launch in Yangon — music, creators, and a live liquid-gold activation — engineered as both a cultural statement <em>and</em> a content factory that feeds weeks of campaign. Paired with a <strong>Gold Moves campus &amp; mall roadshow</strong> for hands-on trial and micro-merchant sign-up.</p>
+  </section>
+
+  <section>
+    <div class="snum serif">06</div>
+    <div class="eyebrow">Execution Plan</div>
+    <h2>The content engine &amp; the run of show.</h2>
+    <p><strong>Content engine:</strong> <em>Pre</em> — mystery “gold” teasers + creator seeding. <em>Live</em> — brand film drop, Launch Night, challenge opens, paid scales. <em>Post</em> — UGC amplification, merchant drive, optimise to CPA. One shoot produces the hero film + a bank of Gold Moves reels + creator kits.</p>
+    <h3>Launch Night — run of show (abridged)</h3>
+    <div class="tw"><table>
+      <tr><th>Time</th><th>Moment</th><th>Owner</th></tr>
+      <tr><td class="num">17:00</td><td>Crew call, tech &amp; soundcheck, gold-activation build check</td><td>Production Mgr</td></tr>
+      <tr><td class="num">18:30</td><td>Doors + registration; creators' gold-carpet content wall</td><td>Hospitality Lead</td></tr>
+      <tr><td class="num">19:15</td><td>Welcome + brand film world-premiere on LED</td><td>Stage Mgr / MC</td></tr>
+      <tr><td class="num">19:40</td><td>“The New Gold Standard” reveal + liquid-gold live activation</td><td>Creative Dir</td></tr>
+      <tr><td class="num">20:10</td><td>Music set + #MyGoldStandard challenge launch</td><td>Event Dir</td></tr>
+      <tr><td class="num">21:15</td><td>Creator moments, community mingling, capture</td><td>Content Lead</td></tr>
+      <tr><td class="num">22:00</td><td>Close + load-out; same-night recap edit live by 23:30</td><td>Production Mgr</td></tr>
+    </table></div>
+    <p class="muted" style="font-size:13px">Manpower: event director, stage manager, production manager, registration + hospitality team, technical crew, security, content unit (2 photo / 2 video). Full minute-by-minute ROS + supplier plan in the delivery pack.</p>
+  </section>
+
+  <section>
+    <div class="snum serif">07</div>
+    <div class="eyebrow">Timeline &amp; Phasing</div>
+    <h2>Twelve weeks, four phases.</h2>
+    <div class="tw"><table>
+      <tr><th>Phase</th><th>Weeks</th><th>Milestones</th><th>Owner</th></tr>
+      <tr><td><b>1 · Foundation</b></td><td class="num">1–3</td><td>Strategy lock, creative system, production &amp; event pre-pro, KOL &amp; venue booking</td><td>Strategy + Creative</td></tr>
+      <tr><td><b>2 · Tease</b></td><td class="num">4–6</td><td>Mystery gold teasers, creator seeding, OOH live, challenge mechanics built</td><td>Social + Media</td></tr>
+      <tr><td><b>3 · Launch</b></td><td class="num">7–9</td><td>Brand film drop, <strong>Launch Night</strong>, #MyGoldStandard opens, paid scales, roadshow</td><td>Event + Media</td></tr>
+      <tr><td><b>4 · Sustain</b></td><td class="num">10–12</td><td>UGC amplification, merchant drive, optimise to CPA, report + tracking</td><td>Media + Analytics</td></tr>
+    </table></div>
+  </section>
+
+  <section>
+    <div class="snum serif">08</div>
+    <div class="eyebrow">Investment &amp; Commercials</div>
+    <h2>Three ways in. One recommended.</h2>
+    <div class="tiers">
+      <div class="tier">
+        <div class="t">Essential</div>
+        <div class="amt num">48,000,000 <span style="font-size:15px;color:var(--muted)">MMK</span></div>
+        <div class="usd">≈ USD 10,900</div>
+        <ul>
+          <li><b>Campaign only</b> — no live event</li>
+          <li>Strategy + creative system</li>
+          <li>Hero brand film ×1</li>
+          <li>Gold Moves reels ×8</li>
+          <li>4-week paid (FB + TikTok)</li>
+          <li>3 mid-tier KOLs</li>
+          <li>Full reporting</li>
+        </ul>
+      </div>
+      <div class="tier rec">
+        <div class="recflag">Recommended</div>
+        <div class="t">Signature</div>
+        <div class="amt num">98,000,000 <span style="font-size:15px;color:var(--muted)">MMK</span></div>
+        <div class="usd">≈ USD 22,300</div>
+        <ul>
+          <li><b>Everything in Essential, plus:</b></li>
+          <li><b>Launch Night</b> flagship event (150–200 + creators)</li>
+          <li>#MyGoldStandard UGC challenge</li>
+          <li>6 KOLs incl. 1 top-tier</li>
+          <li>OOH ×2 Yangon sites</li>
+          <li>University + mall roadshow ×2</li>
+          <li>Merchant activation</li>
+          <li>8-week paid + full-funnel reporting</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <div class="t">Flagship</div>
+        <div class="amt num">168,000,000 <span style="font-size:15px;color:var(--muted)">MMK</span></div>
+        <div class="usd">≈ USD 38,200</div>
+        <ul>
+          <li><b>Everything in Signature, plus:</b></li>
+          <li>2-city (Yangon + Mandalay)</li>
+          <li>Music-artist partnership</li>
+          <li>KOL squad ×12</li>
+          <li>12-week always-on + community mgmt</li>
+          <li>Optimise to a guaranteed CPA</li>
+          <li>Post-launch brand-tracking study</li>
+        </ul>
+      </div>
+    </div>
+    <div class="eyebrow" style="margin-top:22px;margin-bottom:6px">Signature tier — itemised</div>
+    <div class="tw"><table>
+      <tr><th>Line</th><th>Detail</th><th>MMK</th></tr>
+      <tr><td>Strategy &amp; creative</td><td>Positioning, idea, creative system, campaign design</td><td class="num">12,000,000</td></tr>
+      <tr><td>Production</td><td>Hero film + Gold Moves reel bank (1 shoot)</td><td class="num">16,000,000</td></tr>
+      <tr><td>Launch Night event</td><td>Venue, AV/staging, activation build, talent, F&amp;B, crew</td><td class="num">26,000,000</td></tr>
+      <tr><td>Creators / KOL</td><td>6 creators incl. 1 top-tier + kits</td><td class="num">11,000,000</td></tr>
+      <tr><td>Paid media</td><td>8-week FB + TikTok (working budget)</td><td class="num">14,000,000</td></tr>
+      <tr><td>OOH + roadshow</td><td>2 Yangon sites + 2-campus/mall activation</td><td class="num">8,500,000</td></tr>
+      <tr><td>Contingency</td><td>10% on production &amp; event</td><td class="num">4,200,000</td></tr>
+      <tr><td>ZYNTH management</td><td>Delivery, optimisation &amp; reporting</td><td class="num">6,300,000</td></tr>
+      <tr><td><b>Total investment</b></td><td>Signature tier</td><td class="num"><b>98,000,000</b></td></tr>
+    </table></div>
+    <p class="muted" style="font-size:12.5px">Terms: 50% deposit to commence · balance 30% pre-event / 20% on completion · valid 30 days · market FX ≈ 4,400 MMK/USD.</p>
+  </section>
+
+  <section>
+    <div class="snum serif">09</div>
+    <div class="eyebrow">Projected Outcomes &amp; KPI Framework</div>
+    <h2>Commercial outcomes, not vanity.</h2>
+    <div class="tw"><table>
+      <tr><th>Metric</th><th>Target (Signature)</th><th>How measured</th></tr>
+      <tr><td>Installs</td><td><b>120,000–180,000</b></td><td>App store + attribution</td></tr>
+      <tr><td>First-transaction activation</td><td><b>45–55%</b> of installs</td><td>In-app analytics</td></tr>
+      <tr><td>Cost per activated user (CPA)</td><td><b>≤ MMK 650</b> blended</td><td>Spend ÷ activated users</td></tr>
+      <tr><td>Digital reach</td><td>8–12M</td><td>Meta + TikTok</td></tr>
+      <tr><td>#MyGoldStandard entries</td><td>15,000–30,000 UGC</td><td>Hashtag tracking</td></tr>
+      <tr><td>Launch Night</td><td>180 guests + 40 creators · 6–10M earned reach · 25+ pickups</td><td>Event + social + PR</td></tr>
+      <tr><td>Merchant sign-ups</td><td>2,000–3,500</td><td>Merchant onboarding</td></tr>
+    </table></div>
+    <p class="muted" style="font-size:13px">Measurement model: app analytics + Meta/TikTok reporting + UTM tracking + a pre/post brand-lift check. Weekly optimisation against CPA; end-of-campaign readout with the single commercial number — activated users at cost.</p>
+  </section>
+
+  <section>
+    <div class="snum serif">10</div>
+    <div class="eyebrow">Risk, Contingency &amp; Requirements</div>
+    <h2>Named risks, ready answers.</h2>
+    <div class="tw"><table>
+      <tr><th>Risk</th><th>Likelihood</th><th>Impact</th><th>Mitigation</th></tr>
+      <tr><td>Finance-ad policy rejections (Meta/TikTok)</td><td>Med</td><td>High</td><td>Pre-clear creative, compliant claims, buffer in flighting</td></tr>
+      <tr><td>Regulatory / marketing-claims rules</td><td>Med</td><td>High</td><td>Client legal sign-off on all claims before live</td></tr>
+      <tr><td>Installs but low activation</td><td>Med</td><td>High</td><td>First-transaction incentive + referral + onboarding UX</td></tr>
+      <tr><td>Event permits / weather</td><td>Low</td><td>Med</td><td>Indoor venue, permits secured early, wet-weather plan</td></tr>
+      <tr><td>KOL misalignment</td><td>Low</td><td>Med</td><td>Vetting + tight brief + approval on all posts</td></tr>
+    </table></div>
+    <div class="eyebrow" style="margin-bottom:6px">What ZYNTH needs from the client (and by when)</div>
+    <ul class="muted" style="font-size:14px">
+      <li>Brand assets + app build / onboarding flow ready — <strong>by end of Phase 1</strong></li>
+      <li>Finance/legal sign-off on claims — <strong>before Phase 3 go-live</strong></li>
+      <li>Budget approval + 50% deposit — <strong>to commence</strong></li>
+      <li>Exec/spokesperson for PR + merchant onboarding capacity — <strong>Phase 2</strong></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="snum serif">11</div>
+    <div class="eyebrow">Next Steps, Credits &amp; The ZYNTH Standard</div>
+    <h2>Say yes, and we start Monday.</h2>
+    <p><strong>Approval path:</strong> (1) select a tier &amp; confirm timeline → (2) sign + 50% deposit → (3) ZYNTH strategy &amp; creative kickoff within 3 working days → (4) 12-week countdown to Launch Night begins.</p>
+    <p class="muted" style="font-size:13.5px"><strong>Built by the ZYNTH Agency OS:</strong> Market Intelligence · Brand Strategy · Creative Direction · Event Production · Media &amp; Performance · Finance &amp; Commercials — one intelligence, one idea, carried through.</p>
+  </section>
+
+  <div class="foot">
+    <svg class="hex" viewBox="0 0 100 100"><polygon points="50,4 92,27 92,73 50,96 8,73 8,27" fill="none" stroke="#D4AF37" stroke-width="5"/><text x="50" y="64" text-anchor="middle" font-size="44" fill="#D4AF37" font-family="Georgia,serif" font-weight="700">Z</text></svg>
+    <div class="tag">The Intelligence of Creativity</div>
+    <div class="sub">ZYNTH · Proposal Engine v1.0 · Yangon · Singapore</div>
+  </div>
+
+</div></div>
