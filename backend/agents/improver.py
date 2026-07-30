@@ -127,6 +127,15 @@ class ImproverAgent(BaseAgent):
         except Exception:
             pass
         try:
+            from utils.constellation import proposals as _props
+            rows = _props()
+            if rows:
+                parts.append("PROPOSALS WE'VE MADE (learn from these — what won, what to sharpen):\n"
+                             + "\n".join(f"- {p.get('name')}: \"{p.get('line')}\" ({p.get('sector')}, {p.get('market')})"
+                                         for p in rows[-20:]))
+        except Exception:
+            pass
+        try:
             from utils.lessons import summary_line
             parts.append("LESSONS ALREADY KNOWN: " + summary_line())
         except Exception:

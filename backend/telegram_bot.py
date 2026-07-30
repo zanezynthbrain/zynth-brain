@@ -103,6 +103,19 @@ def _start_dashboard_server() -> None:
                 except Exception as exc:
                     self._json({"error": str(exc)}, 500)
                 return
+            if self.path.startswith("/constellation"):
+                try:
+                    from utils.constellation import render as _render_const
+                    html = _render_const().encode("utf-8")
+                    self.send_response(200)
+                    self.send_header("Content-Type", "text/html; charset=utf-8")
+                    self.send_header("Cache-Control", "no-store")
+                    self.end_headers()
+                    self.wfile.write(html)
+                except Exception as exc:
+                    self.send_response(500); self.end_headers()
+                    self.wfile.write(f"constellation error: {exc}".encode())
+                return
             try:
                 from utils.dashboard import render_spa
                 html = render_spa().encode("utf-8")
