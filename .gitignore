@@ -34,3 +34,6 @@ Thumbs.db
 *.log
 backend/outputs/cost_tracker/
 graphify-out/
+scratch_out/
+zynth_3d_out/
+scratch_*.py
