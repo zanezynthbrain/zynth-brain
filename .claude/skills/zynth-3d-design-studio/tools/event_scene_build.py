@@ -1,272 +1,442 @@
-"""ZYNTH 3D Studio — headless Blender event-scene builder (AURUM v2).
+"""ZYNTH 3D Studio — detailed corporate-event ballroom builder (AURUM v3).
 
-Blender as a Python module (`pip install bpy`) — no GUI, no GPU. Builds a full
-corporate-event ballroom matched to the AURUM reference art direction:
-navy carpet + warm wood walls + gold LED cornice, raised gloss stage with a CURVED
-LED video wall and gold-framed side panels, truss + alternating blue/gold movers,
-hedge line, white runway, ~24 round tables with chairs and gold candle centerpieces,
-10 illuminated exhibition booths (5 per wall), gold WELCOME arch with real 3D text,
-photo booth + reception + cocktail poseurs (left), lounge + catering bar (right),
-figures for scale, and a full lighting rig. Two cameras are saved in the file:
-CAM_ISO (isometric layout) and CAM_STAGE (stage hero).
+Built on zynth3d.py. Every detail lever is applied: beveled edges, real instanced
+banquet chairs and full table settings, lattice truss with real moving heads,
+procedural carpet/wood/marble/brushed-gold, a generated LED content loop with a
+pixel grid, volumetric haze so the beams read, AgX tonemapping, DOF cameras.
 
-Exports GLB + FBX + .blend. ~682 objects.
+DESIGN DIRECTIONS — the variety system. Same architecture, different art direction:
+    aurum      gold + navy, warm wood, black-tie gala          (ZYNTH house)
+    obsidian   monochrome + white light, minimal, tech keynote
+    emerald    emerald + brass, botanical, luxury hospitality
+    ember      copper + oxblood, moody, awards night
+    lumen      white + ice blue, clean, pharma / medical congress
 
-Run:      python3 event_scene_build.py            # -> ./zynth_3d_out/ (or $ZYNTH_3D_OUT)
-Preview:  python3 render_preview.py               # Cycles CPU still (EEVEE needs a GPU)
-Re-skin:  change the GOLD / LEDBLU / NAVY materials and retune the box()/cyl() calls.
+Run:
+    python3 event_scene_build.py                    # aurum, build + export only
+    ZYNTH_DIRECTION=obsidian python3 event_scene_build.py
+    ZYNTH_RENDER=iso,stage,plan,booth python3 event_scene_build.py
+    ZYNTH_SAMPLES=96 ZYNTH_RES=2048x1152 python3 event_scene_build.py
+
+Env:
+    ZYNTH_3D_OUT    output dir (default ./zynth_3d_out)
+    ZYNTH_DIRECTION design direction key (default aurum)
+    ZYNTH_RENDER    comma list of cameras to render (default none — build only)
+    ZYNTH_SAMPLES   cycles samples (default 64)
+    ZYNTH_RES       WxH (default 1600x900)
+
+Venue basis: Novotel Yangon ballroom proportions — 32 m x 42 m x 10 m clear.
+Confirm real dimensions with the venue before quoting build costs.
 """
-import bpy, math, addon_utils, os, random, mathutils
-random.seed(7)
+import bpy, math, os, sys, random
 
-def aim(cam, target):
-    d = mathutils.Vector(target) - cam.location
-    cam.rotation_euler = d.to_track_quat('-Z','Y').to_euler()
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import zynth3d as z
 
-for a in ("io_scene_gltf2", "io_scene_fbx"):
-    try: addon_utils.enable(a)
-    except Exception: pass
+# ---------------------------------------------------------------------------
+# design directions
+# ---------------------------------------------------------------------------
+DIRECTIONS = {
+    "aurum": dict(
+        carpet=(0.030, 0.045, 0.130), wall_dark=(0.115, 0.070, 0.032),
+        wall_light=(0.290, 0.185, 0.090), accent=(0.83, 0.65, 0.22),
+        accent_glow=(1.00, 0.76, 0.30), led_deep=(0.02, 0.09, 0.34),
+        led_mid=(0.06, 0.26, 0.72), beam_a=(1.00, 0.78, 0.38),
+        beam_b=(0.35, 0.55, 1.00), cloth=(0.93, 0.91, 0.86),
+        marble=(0.045, 0.050, 0.075), marble_vein=(0.50, 0.47, 0.42),
+    ),
+    "obsidian": dict(
+        carpet=(0.022, 0.022, 0.026), wall_dark=(0.030, 0.030, 0.034),
+        wall_light=(0.105, 0.105, 0.115), accent=(0.78, 0.79, 0.82),
+        accent_glow=(0.92, 0.95, 1.00), led_deep=(0.02, 0.02, 0.03),
+        led_mid=(0.30, 0.34, 0.40), beam_a=(0.95, 0.97, 1.00),
+        beam_b=(0.72, 0.78, 0.92), cloth=(0.10, 0.10, 0.11),
+        marble=(0.030, 0.030, 0.034), marble_vein=(0.55, 0.56, 0.58),
+    ),
+    "emerald": dict(
+        carpet=(0.020, 0.055, 0.040), wall_dark=(0.055, 0.075, 0.055),
+        wall_light=(0.150, 0.190, 0.150), accent=(0.72, 0.55, 0.24),
+        accent_glow=(0.95, 0.74, 0.34), led_deep=(0.01, 0.10, 0.07),
+        led_mid=(0.06, 0.34, 0.24), beam_a=(0.95, 0.80, 0.42),
+        beam_b=(0.35, 0.90, 0.65), cloth=(0.94, 0.93, 0.88),
+        marble=(0.040, 0.055, 0.048), marble_vein=(0.52, 0.55, 0.48),
+    ),
+    "ember": dict(
+        carpet=(0.075, 0.020, 0.022), wall_dark=(0.080, 0.045, 0.030),
+        wall_light=(0.190, 0.115, 0.070), accent=(0.72, 0.42, 0.20),
+        accent_glow=(1.00, 0.55, 0.22), led_deep=(0.14, 0.03, 0.02),
+        led_mid=(0.52, 0.16, 0.06), beam_a=(1.00, 0.58, 0.26),
+        beam_b=(0.90, 0.30, 0.20), cloth=(0.90, 0.86, 0.80),
+        marble=(0.060, 0.038, 0.032), marble_vein=(0.48, 0.40, 0.34),
+    ),
+    "lumen": dict(
+        carpet=(0.140, 0.155, 0.180), wall_dark=(0.300, 0.320, 0.350),
+        wall_light=(0.640, 0.665, 0.700), accent=(0.62, 0.76, 0.92),
+        accent_glow=(0.78, 0.90, 1.00), led_deep=(0.05, 0.14, 0.26),
+        led_mid=(0.30, 0.62, 0.90), beam_a=(0.92, 0.96, 1.00),
+        beam_b=(0.55, 0.78, 1.00), cloth=(0.96, 0.96, 0.97),
+        marble=(0.500, 0.520, 0.545), marble_vein=(0.82, 0.84, 0.86),
+    ),
+}
+KEY = os.environ.get("ZYNTH_DIRECTION", "aurum").lower()
+D = DIRECTIONS.get(KEY, DIRECTIONS["aurum"])
 
-bpy.ops.wm.read_factory_settings(use_empty=True)
-scn = bpy.context.scene
+SAMPLES = int(os.environ.get("ZYNTH_SAMPLES", "64"))
+_res = os.environ.get("ZYNTH_RES", "1600x900").lower().split("x")
+RES = (int(_res[0]), int(_res[1]))
+SHOTS = [s.strip() for s in os.environ.get("ZYNTH_RENDER", "").split(",") if s.strip()]
 
-# ---------- materials ----------
-def mk(name, color, metallic=0.0, rough=0.6, emis=None, emis_str=0.0):
-    m = bpy.data.materials.new(name); m.use_nodes = True
-    b = m.node_tree.nodes.get("Principled BSDF")
-    def setin(keys, val):
-        for k in keys:
-            if k in b.inputs: b.inputs[k].default_value = val; return
-    setin(["Base Color"], (*color, 1)); setin(["Metallic"], metallic); setin(["Roughness"], rough)
-    if emis:
-        setin(["Emission Color", "Emission"], (*emis, 1)); setin(["Emission Strength"], emis_str)
-    return m
+# venue envelope (metres)
+W, L, H = 32.0, 42.0, 10.0
+STAGE_Y, STAGE_D, STAGE_W, STAGE_H = 17.5, 7.0, 19.0, 1.0
 
-NAVY   = mk("NavyCarpet",(0.03,0.045,0.13), rough=0.92)
-WOOD   = mk("WarmWood",  (0.16,0.11,0.06),  rough=0.55)
-GOLD   = mk("Gold",      (0.83,0.65,0.22),  metallic=1.0, rough=0.28)
-GOLDEM = mk("GoldGlow",  (0.5,0.36,0.12),   emis=(0.95,0.72,0.26), emis_str=2.4)
-WHITE  = mk("White",     (0.90,0.90,0.92),  rough=0.6)
-WHITEE = mk("WhiteGlow", (0.85,0.86,0.9),   emis=(0.9,0.92,1.0), emis_str=2.6)
-GLOSS  = mk("StageGloss",(0.02,0.02,0.035), metallic=0.4, rough=0.08)
-LEDBLU = mk("LED_Blue",  (0.06,0.12,0.4),   emis=(0.14,0.3,0.85), emis_str=1.5)
-LEDCYN = mk("LED_Cyan",  (0.1,0.2,0.35),    emis=(0.3,0.6,1.0), emis_str=2.0)
-BLACK  = mk("Black",     (0.02,0.02,0.025), rough=0.7)
-GREEN  = mk("Plant",     (0.04,0.18,0.06),  rough=0.7)
-CANDLE = mk("Candle",    (1.0,0.7,0.35),    emis=(1.0,0.62,0.25), emis_str=6.0)
-LINEN  = mk("Linen",     (0.92,0.9,0.86),   rough=0.65)
-SOFA   = mk("Sofa",      (0.52,0.5,0.46),   rough=0.75)
-SKIN   = mk("Skin",      (0.6,0.42,0.32),   rough=0.6)
-SUIT   = mk("Suit",      (0.06,0.07,0.1),   rough=0.6)
-REDG   = mk("RedBottle", (0.5,0.05,0.08),   rough=0.3)
-AMBER  = mk("Amber",     (0.6,0.35,0.05),   rough=0.3)
+# ---------------------------------------------------------------------------
+z.new_scene()
+z.set_render(samples=SAMPLES, res=RES, exposure=0.35)
+rng = random.Random(9)
 
-# ---------- primitives ----------
-def box(name, dims, loc, mat, rot=(0,0,0)):
-    bpy.ops.mesh.primitive_cube_add(size=1, location=loc, rotation=rot)
-    o = bpy.context.active_object; o.name = name; o.scale = dims
-    o.data.materials.append(mat); return o
+# ---------------------------------------------------------------------------
+# materials
+# ---------------------------------------------------------------------------
+CARPET = z.m_carpet("Carpet", D["carpet"])
+WOOD = z.m_wood("WallWood", dark=D["wall_dark"], light=D["wall_light"])
+GOLD = z.m_metal_brushed("Accent", D["accent"], rough=0.26)
+GOLD_HI = z.m_metal_brushed("AccentPolish", D["accent"], rough=0.14)
+GLOW = z.m_emissive("AccentGlow", D["accent_glow"], 1.8)
+MARBLE = z.m_marble("Marble", base=D["marble"], vein=D["marble_vein"], rough=0.07)
+CLOTH = z.m_fabric("TableCloth", D["cloth"], sheen=0.5, rough=0.80)
+DRAPE = z.m_fabric("Drape", [c * 0.35 for c in D["wall_dark"]], scale=90.0, sheen=0.7)
+CHINA = z.m_plain("China", (0.94, 0.94, 0.95), rough=0.18)
+GLASSM = z.m_glass("Glassware")
+BLACK = z.m_plain("Matte", (0.020, 0.020, 0.024), rough=0.70)
+STEEL = z.m_metal_brushed("Steel", (0.34, 0.35, 0.38), rough=0.38)
+PANEL = z.m_plain("PanelWhite", (0.78, 0.79, 0.82), rough=0.30)
+LEAF = z.m_plain("Leaf", (0.045, 0.150, 0.060), rough=0.62)
+FLORAL = z.m_plain("Floral", (0.90, 0.87, 0.80), rough=0.55, sheen=0.4)
+CANDLE = z.m_emissive("Candle", (1.00, 0.62, 0.26), 9.0)
+SOFA = z.m_fabric("Sofa", (0.42, 0.40, 0.37), scale=120.0, sheen=0.35)
+SKIN = z.m_plain("Fig_skin", (0.52, 0.38, 0.30), rough=0.62)
+SUIT = z.m_plain("Fig_suit", (0.055, 0.060, 0.075), rough=0.68)
+LENS_A = z.m_emissive("LensWarm", D["beam_a"], 24.0)
+LENS_B = z.m_emissive("LensCool", D["beam_b"], 24.0)
 
-def cyl(name, r, d, loc, mat, verts=24, rot=(0,0,0)):
-    bpy.ops.mesh.primitive_cylinder_add(radius=r, depth=d, location=loc, vertices=verts, rotation=rot)
-    o = bpy.context.active_object; o.name = name; o.data.materials.append(mat); return o
+LED_IMG = z.make_led_content("LED_Loop", 1536, 768,
+                             deep=D["led_deep"], mid=D["led_mid"],
+                             gold=D["accent_glow"], swooshes=3, emblem=True)
+LEDMAT = z.m_led_screen("LED_Wall", LED_IMG, strength=1.9, px=(300, 76), pixel_depth=0.45)
+LED_SIDE = z.m_led_screen("LED_Side", LED_IMG, strength=1.4, px=(40, 92), pixel_depth=0.40)
+SCREEN = z.m_emissive("BoothScreen", D["led_mid"], 1.1)
 
-def sph(name, r, loc, mat):
-    bpy.ops.mesh.primitive_uv_sphere_add(radius=r, location=loc, segments=12, ring_count=8)
-    o = bpy.context.active_object; o.name = name; o.data.materials.append(mat); return o
+# ---------------------------------------------------------------------------
+# prefabs (built once, instanced everywhere)
+# ---------------------------------------------------------------------------
+PF_CHAIR = z.prefab_banquet_chair(GOLD, CLOTH)
+PF_TABLE = z.prefab_round_table(CLOTH)
+PF_SET = z.prefab_table_setting(CHINA, GLASSM, GOLD_HI, FLORAL, CANDLE)
+PF_MOVER_A = z.prefab_moving_light(BLACK, LENS_A, "PF_MoverA")
+PF_MOVER_B = z.prefab_moving_light(BLACK, LENS_B, "PF_MoverB")
+PF_PERSON = z.prefab_person(SUIT, SKIN)
+PF_PLANT = z.prefab_planter(PANEL, LEAF)
+PF_TRUSS_MAIN = z.prefab_truss(STAGE_W + 2.0, STEEL, "PF_TrussMain")
+PF_TRUSS_SIDE = z.prefab_truss(STAGE_D + 3.0, STEEL, "PF_TrussSide")
 
-# ---------- room ----------
-box("Floor",   (32,42,0.05), (0,0,0),   NAVY)
-box("BackWall",(32,0.3,10),  (0,20.9,5),WOOD)
-box("WallL",   (0.3,42,10),  (-15.9,0,5),WOOD)
-box("WallR",   (0.3,42,10),  (15.9,0,5), WOOD)
-# gold LED cornice strip near top of each wall
-box("Cornice_B",(31,0.15,0.25),(0,20.7,8.2),GOLDEM)
-box("Cornice_L",(0.15,41,0.25),(-15.7,0,8.2),GOLDEM)
-box("Cornice_R",(0.15,41,0.25),( 15.7,0,8.2),GOLDEM)
-# wood pilasters down the side walls
-for yy in range(-18,20,5):
-    box(f"Pil_L_{yy}",(0.35,1.2,7.5),(-15.6,yy,4.5),WOOD)
-    box(f"Pil_R_{yy}",(0.35,1.2,7.5),( 15.6,yy,4.5),WOOD)
+# ---------------------------------------------------------------------------
+# room shell
+# ---------------------------------------------------------------------------
+z.box("Floor", (W, L, 0.06), (0, 0, -0.03), CARPET)
+# polished apron (reflections are what sell an event render)
+z.box("Apron", (W - 3.0, 4.2, 0.02), (0, 12.2, 0.012), MARBLE)
+z.box("Ceiling", (W, L, 0.20), (0, 0, H), z.m_plain("Ceiling", (0.055, 0.055, 0.062), rough=0.85))
+for nm, dims, loc in (("WallBack", (W, 0.35, H), (0, L / 2 - 0.2, H / 2)),
+                      ("WallFront", (W, 0.35, H), (0, -L / 2 + 0.2, H / 2)),
+                      ("WallL", (0.35, L, H), (-W / 2 + 0.2, 0, H / 2)),
+                      ("WallR", (0.35, L, H), (W / 2 - 0.2, 0, H / 2))):
+    z.bevel(z.box(nm, dims, loc, WOOD), 0.02)
+# fluted wood pilasters + accent cove
+for i, yy in enumerate(range(-19, 20, 4)):
+    for sx in (-1, 1):
+        z.bevel(z.box(f"Pil_{sx}_{i}", (0.30, 1.30, H - 1.6),
+                      (sx * (W / 2 - 0.45), yy, (H - 1.6) / 2), WOOD), 0.02)
+z.box("Cove_B", (W - 1.2, 0.12, 0.22), (0, L / 2 - 0.45, H - 1.35), GLOW)
+for sx in (-1, 1):
+    z.box(f"Cove_{sx}", (0.12, L - 1.2, 0.22), (sx * (W / 2 - 0.45), 0, H - 1.35), GLOW)
 
-# ---------- main stage ----------
-box("Stage",     (19,7,1.0), (0,17.5,0.5), BLACK)
-box("Stage_top", (19,7,0.06),(0,17.5,1.03),GLOSS)      # glossy dark deck
-box("Stage_trim",(19.2,7.2,0.12),(0,17.5,0.98),GOLDEM) # gold edge glow
-# curved LED video wall (arc of segments), concave toward audience
-Cx,Cy,R = 0.0, 33.0, 13.0
-segs = 11
-for i in range(segs):
-    phi = math.radians(-38 + i*(76/(segs-1)))
-    x = Cx + R*math.sin(phi); y = Cy - R*math.cos(phi)
-    box(f"LEDwall_{i}", (2.55,0.2,5.6), (x,y,3.9), LEDBLU, rot=(0,0,phi))
-# gold side panels flanking the wall (with medallion emblem)
-for s,sx in ((0,-8.6),(1,8.6)):
-    box(f"SidePanel_{s}", (2.6,0.25,5.6),(sx,20.0,3.9), WHITEE)
-    box(f"SideFrame_{s}", (2.9,0.35,6.0),(sx,20.2,3.9), GOLDEM)
-    cyl(f"Emblem_{s}", 0.7,0.15,(sx,19.7,4.0), GOLD, rot=(math.radians(90),0,0))
-# speaker stacks at stage corners
-for s,sx in ((0,-9.3),(1,9.3)):
-    box(f"Spk_{s}a",(0.9,0.9,1.3),(sx,15.0,1.75),BLACK)
-    box(f"Spk_{s}b",(0.9,0.9,1.0),(sx,15.0,2.9),BLACK)
-# centre steps down front of stage
+# ---------------------------------------------------------------------------
+# stage
+# ---------------------------------------------------------------------------
+z.bevel(z.box("Stage_riser", (STAGE_W, STAGE_D, STAGE_H), (0, STAGE_Y, STAGE_H / 2), BLACK), 0.03)
+z.box("Stage_deck", (STAGE_W, STAGE_D, 0.04), (0, STAGE_Y, STAGE_H + 0.01), MARBLE)
+z.box("Stage_edge", (STAGE_W + 0.12, STAGE_D + 0.12, 0.06), (0, STAGE_Y, STAGE_H - 0.06), GLOW)
+# thrust
+z.bevel(z.box("Thrust", (4.6, 3.2, STAGE_H), (0, STAGE_Y - STAGE_D / 2 - 1.4, STAGE_H / 2), BLACK), 0.03)
+z.box("Thrust_deck", (4.6, 3.2, 0.04), (0, STAGE_Y - STAGE_D / 2 - 1.4, STAGE_H + 0.01), MARBLE)
 for k in range(3):
-    box(f"Step_{k}",(4.0,0.5,0.34),(0,14.0-k*0.5,0.17+ (2-k)*0.34),WHITE)
-# hedge planters + greenery along stage front
-for j,xx in enumerate(range(-8,9,2)):
-    box(f"Hedge_{j}",(1.6,0.7,0.8),(xx,13.9,0.4),GREEN)
-# lectern (stage left)
-box("Lectern_b",(0.9,0.7,1.15),(-5.5,16.2,0.575+1.0),WHITE)
-box("Lectern_s",(0.75,0.08,0.7),(-5.5,15.86,1.85),LEDBLU)
+    z.bevel(z.box(f"Step_{k}", (5.0, 0.42, 0.34),
+                  (0, STAGE_Y - STAGE_D / 2 - 3.1 + k * 0.42, 0.17 + (2 - k) * 0.33), MARBLE), 0.012)
 
-# ---------- truss + moving lights over stage ----------
-for j,yy in enumerate((14.4,20.4)):
-    box(f"Truss_{j}",(19,0.35,0.35),(0,yy,8.4),BLACK)
-for k,(xx,yy) in enumerate([(-9,14.4),(9,14.4),(-9,20.4),(9,20.4)]):
-    box(f"TrussLeg_{k}",(0.35,0.35,8.4),(xx,yy,4.2),BLACK)
-for m_i in range(11):
-    xx = -9 + m_i*1.8
-    box(f"Mover_{m_i}",(0.32,0.32,0.5),(xx,14.4,7.9),(GOLDEM if m_i%2 else LEDCYN))
+# curved LED video wall — arc of panels, concave to the audience
+ARC_APEX, ARC_R, ARC_SPAN = 20.30, 22.0, 56.0     # apex y, curve radius, arc span
+z.curved_screen("LED_Wall_surface", ARC_APEX, ARC_R, ARC_SPAN, 6.20, 0.95, LEDMAT, nu=110, nv=22)
+z.curved_screen("LED_Wall_case", ARC_APEX + 0.22, ARC_R, ARC_SPAN + 3.0, 6.60, 0.78, BLACK,
+                nu=64, nv=6)
+# panel seam battens — keeps the modular-LED read without breaking the UV map
+_ccy = ARC_APEX - ARC_R
+for i in range(13):
+    phi = math.radians(-ARC_SPAN / 2 + i * (ARC_SPAN / 12))
+    z.box(f"LEDseam_{i:02d}", (0.04, 0.05, 6.20),
+          (ARC_R * math.sin(phi), _ccy + ARC_R * math.cos(phi) - 0.13, 4.05),
+          BLACK, rot=(0, 0, -phi))
+# gold-framed side panels with emblem
+for s, sx in ((0, -1), (1, 1)):
+    px = sx * 11.4
+    z.bevel(z.box(f"SideFrame_{s}", (2.95, 0.42, 6.5), (px, STAGE_Y + 3.05, 4.0), GOLD), 0.03)
+    z.box(f"SidePanel_{s}", (2.55, 0.20, 6.0), (px, STAGE_Y + 2.90, 4.0), LED_SIDE)
+    z.smooth(z.torus(f"Emblem_{s}", 0.62, 0.07, (px, STAGE_Y + 2.74, 4.6), GOLD_HI,
+                     rot=(math.radians(90), 0, 0)))
+# stage drape returns
+for s, sx in ((0, -1), (1, 1)):
+    z.box(f"Drape_{s}", (0.30, 5.0, 7.6), (sx * 13.6, STAGE_Y + 1.2, 3.8), DRAPE)
+# line-array speaker hangs
+for s, sx in ((0, -1), (1, 1)):
+    for k in range(4):
+        z.bevel(z.box(f"Array_{s}_{k}", (0.62, 0.85, 0.34),
+                      (sx * 10.6, STAGE_Y - 1.4, 7.2 - k * 0.36), BLACK), 0.02)
+# lectern
+z.bevel(z.box("Lectern", (1.00, 0.68, 1.20), (-6.2, STAGE_Y - 1.6, STAGE_H + 0.60), PANEL), 0.03)
+z.box("Lectern_face", (0.80, 0.06, 0.62), (-6.2, STAGE_Y - 1.95, STAGE_H + 0.78), SCREEN)
+z.smooth(z.cyl("Mic", 0.012, 0.42, (-6.2, STAGE_Y - 1.75, STAGE_H + 1.42), BLACK, 8,
+               rot=(math.radians(22), 0, 0)))
+# planted hedge line at stage front
+for j, xx in enumerate(range(-9, 10, 2)):
+    z.place(PF_PLANT, (xx, STAGE_Y - STAGE_D / 2 - 0.55, 0), rot_z=rng.random() * 3.14,
+            scale=(0.85, 0.85, 0.70), name=f"Hedge_{j}")
 
-# ---------- runway ----------
-box("Runway",     (2.8,14,0.42),(0,7,0.21), WHITE)
-box("Runway_top", (2.8,14,0.04),(0,7,0.44), WHITE)
-box("Runway_strip",(0.25,14,0.02),(0,7,0.47),WHITEE)
+# ---------------------------------------------------------------------------
+# rig — lattice truss + moving heads
+# ---------------------------------------------------------------------------
+TRUSS_Z = 8.1
+z.place(PF_TRUSS_MAIN, (0, STAGE_Y - STAGE_D / 2 - 0.6, TRUSS_Z), name="Truss_front")
+z.place(PF_TRUSS_MAIN, (0, STAGE_Y + STAGE_D / 2 + 0.4, TRUSS_Z), name="Truss_back")
+for s, sx in ((0, -1), (1, 1)):
+    z.place(PF_TRUSS_SIDE, (sx * (STAGE_W / 2 + 0.9), STAGE_Y, TRUSS_Z),
+            rot=(0, 0, math.radians(90)), name=f"Truss_side_{s}")
+    for k in range(2):
+        z.bevel(z.box(f"TrussLeg_{s}_{k}", (0.34, 0.34, TRUSS_Z),
+                      (sx * (STAGE_W / 2 + 0.9), STAGE_Y + (-3.4 if k else 3.4),
+                       TRUSS_Z / 2), STEEL), 0.02)
+MOVERS = []
+for i in range(13):
+    xx = -9.6 + i * 1.6
+    z.place(PF_MOVER_A if i % 2 else PF_MOVER_B,
+            (xx, STAGE_Y - STAGE_D / 2 - 0.6, TRUSS_Z - 0.30), name=f"Mover_F{i}")
+    MOVERS.append((xx, i % 2))
+for i in range(9):
+    xx = -8.0 + i * 2.0
+    z.place(PF_MOVER_A if i % 2 == 0 else PF_MOVER_B,
+            (xx, STAGE_Y + STAGE_D / 2 + 0.4, TRUSS_Z - 0.30), name=f"Mover_B{i}")
 
-# ---------- round tables + chairs + centerpieces ----------
-def table(tag, x, y):
-    cyl(f"Tbl_{tag}", 0.95,0.78,(x,y,0.39), LINEN)
-    cyl(f"Ctr_{tag}", 0.14,0.5,(x,y,1.05), GOLD)
-    sph(f"Cndl_{tag}",0.12,(x,y,1.4), CANDLE)
-    for c in range(8):
-        a = math.radians(c*45)
-        cx,cy = x+1.35*math.cos(a), y+1.35*math.sin(a)
-        box(f"Seat_{tag}_{c}",(0.42,0.42,0.08),(cx,cy,0.5),SUIT)
-        bx,by = x+1.6*math.cos(a), y+1.6*math.sin(a)
-        box(f"Back_{tag}_{c}",(0.42,0.42,0.5),(bx,by,0.72),SUIT,rot=(0,0,a))
-tt=0
-for side in (-1,1):
-    for ci,cx in enumerate((2.9,5.7,8.5)):
-        for ri,ry in enumerate((2.0,5.3,8.6,11.6)):
-            table(f"{tt}", side*cx, ry); tt+=1
+# ---------------------------------------------------------------------------
+# runway + seating
+# ---------------------------------------------------------------------------
+z.box("Runway", (3.0, 13.0, 0.10), (0, 6.6, 0.05), MARBLE)
+z.box("Runway_edge", (3.16, 13.0, 0.03), (0, 6.6, 0.085), GLOW)
 
-# ---------- exhibition booths both walls (illuminated white frames) ----------
+TABLE_X = (3.4, 6.6, 9.8)
+TABLE_Y = (1.4, 4.9, 8.4, 11.6)
+n_t = 0
+for sx in (-1, 1):
+    for cx in TABLE_X:
+        for ry in TABLE_Y:
+            x, y = sx * cx, ry
+            z.place(PF_TABLE, (x, y, 0), name=f"Table_{n_t}")
+            z.place(PF_SET, (x, y, 0), rot_z=rng.random() * 0.8, name=f"Setting_{n_t}")
+            for c in range(8):
+                a = 2 * math.pi * c / 8 + rng.random() * 0.10
+                z.place(PF_CHAIR, (x + 1.42 * math.cos(a), y + 1.42 * math.sin(a), 0),
+                        rot_z=a + math.pi / 2, name=f"Chair_{n_t}_{c}")
+            n_t += 1
+
+# ---------------------------------------------------------------------------
+# exhibition booths — illuminated portals down both walls
+# ---------------------------------------------------------------------------
 def booth(tag, x, y, inward):
-    # inward = +1 faces +x (left wall), -1 faces -x (right wall)
-    box(f"Bth_frame_{tag}",(0.25,3.4,3.6),(x,y,1.8),WHITEE)     # tall glowing frame
-    box(f"Bth_head_{tag}", (0.3,3.4,0.35),(x,y,3.55),GOLDEM)    # gold header
-    box(f"Bth_back_{tag}", (0.15,3.2,3.0),(x+0.25*inward,y,1.6),WHITE)
-    box(f"Bth_screen_{tag}",(0.08,1.6,1.4),(x+0.5*inward,y,2.1),LEDBLU)
-    box(f"Bth_counter_{tag}",(0.9,2.4,1.0),(x+1.1*inward,y,0.5),WHITE)
-    box(f"Bth_plinth_{tag}",(0.5,0.5,1.1),(x+1.0*inward,y-0.9,0.55),GOLD)
-    box(f"Bth_glow_{tag}",  (0.9,2.4,0.06),(x+1.1*inward,y,1.03),WHITEE)
-for i,yy in enumerate((-4.0,0.2,4.4,8.6,12.4)):
-    booth(f"L{i}", -13.8, yy, +1)
-    booth(f"R{i}",  13.8, yy, -1)
+    z.bevel(z.box(f"Bth_pL_{tag}", (0.32, 0.34, 4.10), (x, y - 1.85, 2.05), PANEL), 0.02)
+    z.bevel(z.box(f"Bth_pR_{tag}", (0.32, 0.34, 4.10), (x, y + 1.85, 2.05), PANEL), 0.02)
+    z.box(f"Bth_head_{tag}", (0.34, 4.04, 0.40), (x, y, 4.05), GOLD)
+    z.box(f"Bth_hglow_{tag}", (0.20, 3.90, 0.10), (x + 0.16 * inward, y, 3.86), GLOW)
+    z.box(f"Bth_back_{tag}", (0.14, 3.40, 3.60), (x + 0.22 * inward, y, 1.80), PANEL)
+    z.box(f"Bth_screen_{tag}", (0.07, 1.80, 1.60), (x + 0.42 * inward, y + 0.55, 2.30), SCREEN)
+    z.bevel(z.box(f"Bth_ctr_{tag}", (1.10, 2.60, 1.05),
+                  (x + 1.25 * inward, y - 0.30, 0.525), PANEL), 0.02)
+    z.box(f"Bth_ctrglow_{tag}", (1.06, 2.50, 0.03), (x + 1.25 * inward, y - 0.30, 1.06), GLOW)
+    z.bevel(z.box(f"Bth_pl_{tag}", (0.55, 0.55, 1.15),
+                  (x + 1.10 * inward, y + 1.30, 0.575), GOLD), 0.02)
+    z.smooth(z.cyl(f"Bth_obj_{tag}", 0.20, 0.34, (x + 1.10 * inward, y + 1.30, 1.32), GOLD_HI, 24))
+    z.box(f"Bth_floor_{tag}", (2.60, 4.00, 0.04), (x + 1.0 * inward, y, 0.02), MARBLE)
 
-# ---------- gold WELCOME entrance arch over runway (front) ----------
-ay=-12.0
-box("Arch_postL",(0.8,0.9,3.4),(-2.9,ay,1.7),GOLD)
-box("Arch_postR",(0.8,0.9,3.4),( 2.9,ay,1.7),GOLD)
-box("Arch_top",  (7.4,0.9,0.9),(0,ay,3.6),GOLD)
-box("Arch_inner",(6.2,0.4,0.5),(0,ay,3.3),GOLDEM)
-cyl("Arch_medL",0.4,0.12,(-2.4,ay-0.5,1.6),GOLD,rot=(math.radians(90),0,0))
-cyl("Arch_medR",0.4,0.12,( 2.4,ay-0.5,1.6),GOLD,rot=(math.radians(90),0,0))
-# 3D WELCOME text
-bpy.ops.object.text_add(location=(0,ay-0.55,3.55))
-tx=bpy.context.active_object; tx.name="WelcomeText"
-tx.data.body="WELCOME"; tx.data.size=0.62; tx.data.extrude=0.04; tx.data.align_x='CENTER'
-tx.rotation_euler=(math.radians(90),0,0); tx.data.materials.append(GOLDEM)
-bpy.ops.object.convert(target='MESH')
-box("Carpet_run",(2.8,7,0.03),(0,-8.5,0.03),WHITE)
+for i, yy in enumerate((-6.6, -2.2, 2.2, 6.6, 11.0)):
+    booth(f"L{i}", -(W / 2 - 1.4), yy, +1)
+    booth(f"R{i}", (W / 2 - 1.4), yy, -1)
 
-# ---------- LEFT foreground: photo booth + reception + cocktail ----------
-# photo booth (black drape + gold arch + ring lights)
-box("Photo_drape",(4,0.3,3.4),(-12,-15,1.7),BLACK)
-box("Photo_archL",(0.35,0.35,3.0),(-13.6,-14.2,1.5),GOLD)
-box("Photo_archR",(0.35,0.35,3.0),(-10.4,-14.2,1.5),GOLD)
-box("Photo_archT",(3.6,0.35,0.35),(-12,-14.2,3.0),GOLD)
-cyl("Ring1",0.5,0.08,(-13.6,-13.4,2.4),WHITEE,rot=(math.radians(90),0,0))
-cyl("Ring2",0.5,0.08,(-10.4,-13.4,2.4),WHITEE,rot=(math.radians(90),0,0))
-# reception / registration curved desk
-box("Recept_a",(3.2,1.0,1.1),(-9,-11,0.55),WHITE)
-box("Recept_glow",(3.2,0.1,0.9),(-9,-10.45,0.85),LEDBLU)
-box("Recept_screen",(0.9,0.1,1.4),(-11,-11,1.8),LEDBLU,rot=(0,0,math.radians(20)))
-# cocktail poseur tables + stools
-for i,(px,py) in enumerate([(-6,-16),(-4.4,-14.8),(-6.2,-13.6),(-4.2,-16.4)]):
-    cyl(f"Poseur_stem_{i}",0.12,1.1,(px,py,0.55),WHITE)
-    cyl(f"Poseur_top_{i}",0.45,0.06,(px,py,1.12),WHITE)
+# ---------------------------------------------------------------------------
+# entrance: gold WELCOME arch + runner
+# ---------------------------------------------------------------------------
+AY = -13.0
+for s, sx in ((0, -1), (1, 1)):
+    z.bevel(z.box(f"Arch_post_{s}", (0.90, 1.00, 3.70), (sx * 3.1, AY, 1.85), GOLD), 0.04)
+    z.smooth(z.torus(f"Arch_med_{s}", 0.42, 0.06, (sx * 2.55, AY - 0.52, 1.70), GOLD_HI,
+                     rot=(math.radians(90), 0, 0)))
+z.bevel(z.box("Arch_lintel", (7.9, 1.00, 1.00), (0, AY, 4.05), GOLD), 0.04)
+z.box("Arch_inner", (6.4, 0.44, 0.42), (0, AY, 3.66), GLOW)
+bpy.ops.object.text_add(location=(0, AY - 0.56, 3.98))
+_t = bpy.context.active_object
+_t.name = "WelcomeText"
+_t.data.body = "WELCOME"
+_t.data.size = 0.60
+_t.data.extrude = 0.05
+_t.data.bevel_depth = 0.006
+_t.data.align_x = "CENTER"
+_t.rotation_euler = (math.radians(90), 0, 0)
+_t.data.materials.append(GLOW)
+bpy.ops.object.convert(target="MESH")
+z.box("Runner", (3.0, 8.0, 0.02), (0, -8.6, 0.012), MARBLE)
 
-# ---------- RIGHT foreground: lounge + catering bar ----------
-box("Lounge_rug",(5.5,4.5,0.02),(10,-14,0.02),BLACK)
-box("Sofa_1",(3.0,1.0,0.85),(10,-15.6,0.45),SOFA)
-box("Sofa_2",(3.0,1.0,0.85),(10,-12.4,0.45),SOFA,rot=(0,0,math.radians(180)))
-box("Sofa_1b",(3.0,0.4,0.5),(10,-16.0,0.9),SOFA)
-box("Sofa_2b",(3.0,0.4,0.5),(10,-12.0,0.9),SOFA)
-box("Coffee",(1.6,1.0,0.4),(10,-14,0.2),WOOD)
-for i,(px,py) in enumerate([(7.6,-16.4),(12.4,-16.4),(7.6,-11.6)]):
-    cyl(f"Plant_pot_{i}",0.35,0.6,(px,py,0.3),WHITE)
-    sph(f"Plant_top_{i}",0.7,(px,py,1.1),GREEN)
-# catering / buffet bar
-box("Bar_counter",(6.0,1.2,1.05),(13,-8,0.525),WOOD)
-box("Bar_glow",(6.0,0.08,0.9),(13,-8.62,0.75),GOLDEM)
-box("Bar_shelf",(6.0,0.4,2.2),(14.6,-8,1.6),BLACK,rot=(0,math.radians(0),0))
-for i in range(10):
-    bx = 10.6+i*0.55
-    cyl(f"Bottle_{i}",0.09,0.5,(bx if bx<15 else 14.9,-8.1,1.2+ (0.9 if i%2 else 0.0)),(REDG if i%3 else AMBER))
+# ---------------------------------------------------------------------------
+# left zone — photo booth + registration + cocktail
+# ---------------------------------------------------------------------------
+RING = z.m_emissive("RingLight", (1.0, 0.94, 0.86), 7.0)
+z.box("Photo_drape", (4.6, 0.34, 3.40), (-11.6, -17.0, 1.70), DRAPE)
+for s, sx in ((0, -1), (1, 1)):
+    z.bevel(z.box(f"Photo_post_{s}", (0.34, 0.34, 3.10), (-11.6 + sx * 1.85, -16.2, 1.55), GOLD), 0.02)
+    z.smooth(z.cyl(f"Photo_ring_{s}", 0.46, 0.09, (-11.6 + sx * 2.60, -15.4, 2.30), RING, 28,
+                   rot=(math.radians(90), 0, 0)))
+z.bevel(z.box("Photo_head", (4.20, 0.34, 0.40), (-11.6, -16.2, 3.28), GOLD), 0.02)
+z.box("Photo_bench", (2.20, 0.60, 0.46), (-11.6, -15.6, 0.23), GOLD)
+# registration desk (segmented curve)
+for k in range(5):
+    a = math.radians(-32 + k * 16)
+    z.bevel(z.box(f"Reg_{k}", (1.30, 0.80, 1.10),
+                  (-9.2 + k * 1.32, -11.4 + 0.34 * math.sin(a), 0.55),
+                  PANEL, rot=(0, 0, a * 0.35)), 0.02)
+z.box("Reg_glow", (6.40, 0.10, 0.06), (-6.6, -11.05, 1.08), GLOW)
+z.bevel(z.box("Reg_kiosk", (0.90, 0.14, 1.50), (-10.8, -11.4, 1.60), SCREEN), 0.02)
+for i, (px, py) in enumerate([(-6.4, -17.2), (-4.6, -15.6), (-6.8, -14.4), (-4.2, -17.8)]):
+    z.smooth(z.cyl(f"Poseur_st_{i}", 0.10, 1.05, (px, py, 0.525), STEEL, 16))
+    z.smooth(z.cyl(f"Poseur_bs_{i}", 0.34, 0.05, (px, py, 0.03), STEEL, 24))
+    z.smooth(z.cyl(f"Poseur_tp_{i}", 0.46, 0.06, (px, py, 1.08), CLOTH, 32))
+
+# ---------------------------------------------------------------------------
+# right zone — lounge + catering bar
+# ---------------------------------------------------------------------------
+z.box("Lounge_rug", (6.4, 5.2, 0.02), (10.0, -15.5, 0.012),
+      z.m_fabric("Rug", [min(1.0, c * 1.5) for c in D["carpet"]], scale=150.0))
+for s, sy in ((0, -1), (1, 1)):
+    yy = -15.5 + sy * 1.9
+    z.bevel(z.box(f"Sofa_seat_{s}", (3.10, 0.95, 0.42), (10.0, yy, 0.34), SOFA), 0.05)
+    z.bevel(z.box(f"Sofa_back_{s}", (3.10, 0.32, 0.62), (10.0, yy + sy * 0.46, 0.72), SOFA), 0.05)
+    for k in (-1, 1):
+        z.bevel(z.box(f"Sofa_arm_{s}_{k}", (0.28, 0.95, 0.30),
+                      (10.0 + k * 1.55, yy, 0.62), SOFA), 0.05)
+z.bevel(z.box("Coffee_top", (1.70, 1.05, 0.08), (10.0, -15.5, 0.44), GOLD_HI), 0.012)
+z.smooth(z.cyl("Coffee_base", 0.26, 0.42, (10.0, -15.5, 0.21), GOLD, 20))
+for i, (px, py) in enumerate([(7.0, -18.0), (13.0, -18.0), (7.0, -12.9), (13.4, -12.9)]):
+    z.place(PF_PLANT, (px, py, 0), rot_z=rng.random() * 3.14, name=f"LoungePlant_{i}")
+# bar
+z.bevel(z.box("Bar_body", (6.60, 1.30, 1.10), (12.4, -8.6, 0.55), WOOD), 0.03)
+z.bevel(z.box("Bar_top", (6.80, 1.46, 0.09), (12.4, -8.6, 1.14), MARBLE), 0.012)
+z.box("Bar_glow", (6.40, 0.08, 0.07), (12.4, -9.28, 0.74), GLOW)
+z.bevel(z.box("Bar_backbar", (5.60, 0.44, 2.40), (13.2, -7.5, 1.20), BLACK), 0.02)
+for k in range(3):
+    z.box(f"Bar_shelf_{k}", (5.40, 0.36, 0.05), (13.2, -7.62, 0.75 + k * 0.62), GOLD)
+for i in range(21):
+    sh, col = i % 3, i // 3
+    mat = GLASSM if i % 2 else z.m_plain(f"Btl{i}", (0.30 + rng.random() * 0.35, 0.08, 0.06), rough=0.25)
+    z.smooth(z.cyl(f"Bottle_{i}", 0.055 + rng.random() * 0.02, 0.30 + rng.random() * 0.12,
+                   (10.9 + col * 0.72, -7.62, 0.95 + sh * 0.62), mat, 12))
 for i in range(6):
-    cyl(f"Tray_{i}",0.35,0.12,(10.7+i*0.7,-7.6,1.12),WHITE)
-cyl("Chafing",0.4,0.35,(13.6,-7.6,1.28),GOLD)
+    z.smooth(z.cyl(f"Chafe_{i}", 0.34, 0.22, (10.0 + i * 0.86, -8.35, 1.26), GOLD_HI, 24))
+for i in range(4):
+    z.smooth(z.cyl(f"Stool_{i}", 0.20, 0.72, (10.4 + i * 1.15, -9.75, 0.36), STEEL, 16))
+    z.smooth(z.cyl(f"StoolTop_{i}", 0.24, 0.07, (10.4 + i * 1.15, -9.75, 0.75), SOFA, 20))
 
-# ---------- a few people (simple figures, for scale) ----------
-def person(tag,x,y,rot=0.0):
-    cyl(f"Body_{tag}",0.2,1.15,(x,y,0.62),SUIT,verts=10)
-    sph(f"Head_{tag}",0.14,(x,y,1.35),SKIN)
-for i,(px,py) in enumerate([(-3,-9),(-9.2,-12),(3.5,-10),(13,-9.2),(9.5,-13.5),(-6,-15.2),(1,-3),(-2,4)]):
-    person(i,px,py)
+# ---------------------------------------------------------------------------
+# figures for scale (abstract massing — never presented as real people)
+# ---------------------------------------------------------------------------
+for i, (px, py) in enumerate([(-2.6, -9.2), (-8.6, -12.4), (3.4, -10.6), (12.6, -10.4),
+                              (9.2, -13.2), (-5.6, -16.0), (1.6, -4.0), (-1.9, 0.6),
+                              (13.2, 3.0), (-13.0, 5.4), (5.5, -6.5), (-3.2, 13.6)]):
+    z.place(PF_PERSON, (px, py, 0), rot_z=rng.random() * 6.28, name=f"Figure_{i}")
 
-# ---------- chandeliers (front bays) ----------
-for i,(px,py) in enumerate([(-9,-4),(9,-4)]):
-    cyl(f"Chand_{i}",1.1,0.25,(px,py,7.6),GOLDEM)
+# ---------------------------------------------------------------------------
+# lighting + atmosphere
+# ---------------------------------------------------------------------------
+z.gradient_world(top=(0.008, 0.010, 0.022), bottom=(0.002, 0.002, 0.004), strength=1.0)
 
-# ---------- lighting (so .blend/render open ready) ----------
-bpy.ops.object.light_add(type='SUN', location=(10,-24,26)); bpy.context.active_object.data.energy=1.6
-def area(name,loc,size,energy,color):
-    bpy.ops.object.light_add(type='AREA',location=loc); L=bpy.context.active_object
-    L.name=name; L.data.size=size; L.data.energy=energy; L.data.color=color
-area("Key_warm",(0,4,9),22,900,(1.0,0.8,0.55))
-area("Fill_blue",(0,17,8),14,700,(0.4,0.6,1.0))
-area("Front_fill",(0,-10,8),16,500,(1.0,0.85,0.7))
-def spot(name,loc,tgt,energy,color):
-    bpy.ops.object.light_add(type='SPOT',location=loc); L=bpy.context.active_object
-    L.name=name; L.data.energy=energy; L.data.spot_size=math.radians(45); L.data.color=color
-    dx,dy,dz=tgt[0]-loc[0],tgt[1]-loc[1],tgt[2]-loc[2]
-    L.rotation_euler=(math.atan2(math.hypot(dx,dy),-dz)+math.pi, 0, math.atan2(dy,dx)-math.pi/2)
-for i,xx in enumerate((-6,-2,2,6)):
-    spot(f"Spot_{i}",(xx,14.4,7.7),(xx*0.5,18,1.2),1500,((0.95,0.75,0.3) if i%2 else (0.4,0.6,1.0)))
+# ambience is deliberately LOW — an event room is dark with pools of light
+z.area("Amb_room", (0, 2.0, H - 1.2), 14.0, 55, (1.00, 0.84, 0.64),
+       size_y=20.0, shape="RECTANGLE", specular=0.4)
+z.area("Amb_front", (0, -14.0, H - 1.2), 12.0, 55, (1.00, 0.86, 0.70),
+       size_y=10.0, shape="RECTANGLE", specular=0.4)
+z.area("Stage_key", (0, STAGE_Y - 5.5, 7.6), 7.0, 1500, D["beam_a"])
+z.area("Stage_fill", (0, STAGE_Y + 2.0, 6.0), 10.0, 380, D["beam_b"])
+# table pools — one soft downlight per table cluster, the banquet look
+for _px in (-6.6, 0.0, 6.6):
+    for _py in (2.6, 9.0):
+        z.area(f"Pool_{_px}_{_py}", (_px, _py, H - 2.2), 5.0, 90, (1.00, 0.80, 0.58),
+               specular=0.3)
+# beams from the front truss — these are what read in the haze
+for i, (xx, warm) in enumerate(MOVERS):
+    if i % 2:
+        continue
+    z.spot(f"Beam_{i}", (xx, STAGE_Y - STAGE_D / 2 - 0.6, TRUSS_Z - 0.5),
+           (xx * 0.42, STAGE_Y + 0.6, STAGE_H),
+           14000, D["beam_a"] if warm else D["beam_b"], angle=7.5, blend=0.14, radius=0.015)
+# two wide sweeps out over the audience — beams reading into the room
+for _i, _x in enumerate((-6.4, 6.4)):
+    z.spot(f"Sweep_{_i}", (_x, STAGE_Y - STAGE_D / 2 - 0.6, TRUSS_Z - 0.5),
+           (_x * 2.4, -6.0, 1.2), 18000, D["beam_b"] if _i else D["beam_a"],
+           angle=6.5, blend=0.12, radius=0.015)
+for s, sx in ((0, -1), (1, 1)):
+    z.area(f"Booth_wash_{s}", (sx * (W / 2 - 3.0), 2.0, 3.2), 3.0, 90, D["accent_glow"],
+           rot=(0, math.radians(-70 * sx), 0), size_y=18.0, shape="RECTANGLE")
+z.area("Arch_wash", (0, AY + 1.4, 4.6), 4.0, 110, D["accent_glow"])
 
-# world
-scn.world = bpy.data.worlds.new("W"); scn.world.use_nodes=True
-bg=scn.world.node_tree.nodes.get("Background")
-if bg: bg.inputs[0].default_value=(0.006,0.008,0.02,1); bg.inputs[1].default_value=0.25
+# haze — thin through the room, denser slab over the stage where beams live
+z.haze("Haze_room", (W - 1.0, L - 1.0, H - 0.6), (0, 0, (H - 0.6) / 2),
+       density=0.0026, color=(0.86, 0.90, 1.00))
+z.haze("Haze_stage", (STAGE_W + 4.0, STAGE_D + 8.0, 8.0), (0, STAGE_Y - 2.0, 4.0),
+       density=0.0230, color=(0.90, 0.93, 1.00))
 
-# ---------- cameras (two framings to match the references) ----------
-bpy.ops.object.camera_add(location=(0,-30,21), rotation=(math.radians(62),0,0))
-cam_iso=bpy.context.active_object; cam_iso.name="CAM_ISO"; cam_iso.data.lens=20
-bpy.ops.object.camera_add(location=(-8.8,6.2,1.7))
-cam_stage=bpy.context.active_object; cam_stage.name="CAM_STAGE"; cam_stage.data.lens=20
-aim(cam_stage,(1.5,19.6,3.1))
-scn.camera=cam_iso
+# ---------------------------------------------------------------------------
+# cameras
+# ---------------------------------------------------------------------------
+CAMS = {
+    "iso": z.camera("CAM_ISO", (0, -34.0, 23.0), (0, 6.0, 2.2), lens=24, make_active=True),
+    "stage": z.camera("CAM_STAGE", (-10.6, -1.8, 2.35), (0.6, STAGE_Y + 1.2, 3.6),
+                      lens=30, fstop=4.0, focus_target=(0, STAGE_Y, 3.2), make_active=False),
+    "plan": z.camera("CAM_PLAN", (0, 1.0, 40.0), (0, 1.0, 0.0), lens=32, make_active=False),
+    "booth": z.camera("CAM_BOOTH", (-8.4, -6.4, 2.0), (-13.4, 1.0, 2.0),
+                      lens=35, fstop=2.8, make_active=False),
+    "arch": z.camera("CAM_ARCH", (0.0, -20.5, 2.4), (0, 0.0, 3.0),
+                     lens=30, fstop=3.5, focus_target=(0, AY, 3.4), make_active=False),
+}
+bpy.context.scene.camera = CAMS["iso"]
 
-# ---------- export ----------
-out = os.environ.get("ZYNTH_3D_OUT", os.path.join(os.getcwd(), "zynth_3d_out"))
-os.makedirs(out, exist_ok=True)
-n_obj=len([o for o in bpy.data.objects if o.type=='MESH'])
-base=f"{out}/AURUM_Novotel_Event_v2"
-try: bpy.ops.export_scene.gltf(filepath=base+".glb", export_format='GLB'); print("GLB ok")
-except Exception as e: print("GLB fail", e)
-try: bpy.ops.export_scene.fbx(filepath=base+".fbx"); print("FBX ok")
-except Exception as e: print("FBX fail", e)
-try: bpy.ops.wm.save_as_mainfile(filepath=base+".blend"); print("BLEND ok")
-except Exception as e: print("BLEND fail", e)
-print("MESH_OBJECTS", n_obj)
+# ---------------------------------------------------------------------------
+# export + optional renders
+# ---------------------------------------------------------------------------
+OUT = z.out_dir()
+BASE = os.path.join(OUT, f"AURUM_{KEY}_v3")
+print("STATS", z.stats(), flush=True)
+print("EXPORT", z.export(BASE), flush=True)
+
+for shot in SHOTS:
+    cam = CAMS.get(shot)
+    if not cam:
+        print("no such camera:", shot, flush=True)
+        continue
+    path = os.path.join(OUT, f"AURUM_{KEY}_v3_{shot}.png")
+    print("RENDERING", shot, flush=True)
+    z.render_shot(cam, path)
+    print("RENDERED", shot, path, flush=True)
+print("DONE", KEY, flush=True)

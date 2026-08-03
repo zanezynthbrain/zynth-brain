@@ -42,3 +42,36 @@ plane on `LEDwall_*` / `Arch_top`.
 Scope: this is **blocking/massing** quality (clean primitives) for locking layout,
 sightlines and flow — the photoreal look comes from the AI render side of the skill.
 Outputs (`zynth_3d_out/`, `scratch_out/`) are gitignored — deliver them, don't commit them.
+
+
+---
+
+## zynth3d.py — the core library
+
+`event_scene_build.py` is one *scene*; `zynth3d.py` is the *toolkit* every scene uses.
+
+| Group | Functions |
+|---|---|
+| Scene | `new_scene()`, `set_render()` (Cycles CPU + AgX), `out_dir()`, `export()`, `render_shot()`, `stats()` |
+| Materials | `m_carpet` `m_wood` `m_metal_brushed` `m_marble` `m_fabric` `m_emissive` `m_glass` `m_led_screen` `m_plain` `m_textured` |
+| Screen content | `make_led_content()` — paints a brand LED loop with numpy (no network, no PIL) |
+| Geometry | `box` `cyl` `sph` `torus` `curved_screen` (UV-mapped) `bevel` `smooth` `join` `place` (linked instance) |
+| Prefabs | `prefab_banquet_chair` `prefab_round_table` `prefab_table_setting` `prefab_truss` `prefab_moving_light` `prefab_person` `prefab_planter` |
+| Light | `gradient_world` `area` `spot` `haze` (Principled Volume) |
+| Camera | `camera(loc, target, lens, fstop, focus_target)` |
+
+Two rules that carry most of the quality:
+1. **Bevel everything.** `z.bevel(obj, 0.012)` — sharp edges are the loudest sketch tell.
+2. **Instance anything repeated.** Build a prefab once, `z.place()` it 200 times.
+
+Full method, calibration numbers and defect log: `../references/3d-quality-method.md`.
+Reference intake: `../references/reference-pipeline.md`.
+
+## Design directions (variety without rebuilding)
+
+`aurum` (gold/navy gala) · `obsidian` (mono tech keynote) · `emerald` (botanical
+hospitality) · `ember` (moody awards) · `lumen` (clean pharma/congress)
+
+```bash
+ZYNTH_DIRECTION=ember ZYNTH_RENDER=iso,stage ZYNTH_SAMPLES=110 python3 event_scene_build.py
+```

@@ -40,6 +40,30 @@ Photoreal · 3D/CGI render · flat/vector · kinetic/graphic · luxury (gold-on-
 house) · minimalist · maximalist · retro/vintage · hand-crafted/organic · isometric ·
 packaging/mockup · UI/key-art. State the style up front so a set stays coherent.
 
+## Real 3D in Blender — headless, offline, no GUI needed
+
+`bpy` (Blender as a Python module) is installable with `pip install bpy`. That gives a
+full Blender in-session: build a scene in code, render it, export GLB/FBX/.blend. This
+is how ZYNTH produces **editable 3D files**, not just AI pictures.
+
+- `tools/zynth3d.py` — the core library: procedural PBR materials, beveling, prefab
+  furniture (banquet chair, dressed table, lattice truss, moving head), UV-mapped curved
+  LED screens, generated screen content, volumetric haze, DOF cameras, exporters.
+- `tools/event_scene_build.py` — a full corporate-event ballroom, five art directions.
+- `tools/render_preview.py` — Cycles CPU stills (EEVEE needs a GPU; unavailable headless).
+
+**Before building or judging any 3D output, read `references/3d-quality-method.md`.**
+It defines the quality ladder (L1 massing → L5 photoreal), the five levers in priority
+order, the lighting rig, the variety system, and a defect log of real bugs. Do not
+hand-tune blindly — work the levers in order.
+
+**To turn references into a direction, follow `references/reference-pipeline.md`.**
+Claude cannot browse Pinterest/Behance; the human collects images, Claude extracts a
+Design DNA card, the card becomes build parameters.
+
+State the target level up front (ZYNTH's pitch default is **L4 vision-proof**), and never
+present an L4 concept render as a photograph or as a past ZYNTH event.
+
 ## Running real generation (only in a live session)
 These tools work when this skill runs in a Claude Code session, NOT for the 24/7 bot.
 For local reference images use `media_upload_widget`. Generation costs credits — confirm
