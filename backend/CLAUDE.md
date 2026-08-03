@@ -27,10 +27,14 @@ backend/
     copywriter.py      Content & Creative Copywriter Agent
     lead_gen.py        Lead Generation & Outreach Agent
     paid_ads.py         Paid Ads & Analytics Agent
+    content_studio.py  Content & Design Studio: BrandStrategist + ContentCreator
+                       + DesignDirector + Designer → a full month per brand
   utils/
     state.py          SharedMemory: async-safe centralized state/memory
     llm_client.py      Claude API wrapper: retries, token budget, JSON repair, mock mode
     knowledge.py       Loads knowledge/*.md into every agent's system prompt
+    brands.py          Brand profiles + target audiences the studio writes for
+    imagegen.py        OpenAI image rendering for design specs (MD-triggered, capped)
     proposal_pool.py   JSON data pool at outputs/proposal_pool/ (committed to git)
     cost_tracker.py    Daily S$ budget cap, Telegram alerts at 80%/100%
     telegram.py        Notification senders (per-department group routing)
@@ -39,6 +43,8 @@ backend/
   config/
     settings.py        Env-driven settings (pydantic-settings)
     brand.py            ZYNTH brand voice/persona constants
+    content_packages.py Monthly retainer tiers (8/10/16/30 posts) — volume,
+                        content-type mix, content:design ratio, price bands
     flagship.py         IGNITE Myanmar Business Summit context
   knowledge/            Business knowledge base (Markdown; see below)
   tests/                pytest suite (runs fully offline via mock mode)
@@ -176,6 +182,61 @@ in `tests/test_agents.py` rather than relying on the orchestrator tests to
 catch regressions — the mock-mode synthesis will happily produce *some*
 JSON for almost any schema, so schema-shape bugs need an explicit assertion
 to be caught.
+
+## Content & Design Studio
+
+`agents/content_studio.py` produces a full month of content and design for one
+brand. Four specialists, one pipeline (`run_content_studio`):
+
+1. **BrandStrategistAgent** — brand platform, audience insight, content pillars
+   with weightings, channel roles, the 90-day owned-growth arc, KPIs. Runs
+   first on the **primary** model; everything downstream inherits it.
+2. **ContentCreatorAgent** — the calendar: every post with hook, caption in
+   English *and* Myanmar (transcreated), hashtags, CTA, and a design handoff
+   note. Runs on the **fallback** model with a hard structure.
+3. **DesignDirectorAgent** — the visual system: art direction, palette with
+   hex, type (incl. Pyidaungsu-safe Myanmar), templates with dimensions,
+   layout rules, accessibility. Runs in **parallel** with the content creator.
+4. **DesignerAgent** — a buildable spec per designed asset, keyed to the post
+   ref, including an image-generation `render_prompt`.
+
+**The package is the contract.** `config/content_packages.py` defines the
+tiers (8/10/16/30 posts per month) with their content-type mix, their
+**content:design ratio** (e.g. 11:16 on Growth), video/story counts, boost
+count and price band. `_reconcile()` forces the model's output back onto those
+numbers — trimming extras, holding the ratio, capping boosts — and records
+every adjustment in `package_adjustments` so nothing changes silently.
+`ratio_report()` is the month's actual arithmetic (by type, platform, pillar).
+
+**Brand facts are never invented.** `utils/brands.py` holds brand profiles and
+target audiences (seed `data/brands.json`, runtime adds pool-persisted). If a
+brand isn't on file, the prompt says so and the agents list what they need
+under `open_questions` instead of guessing.
+
+**Collaboration** happens through `SharedMemory`, as everywhere else: the
+studio reads `cmo` (campaign plan), `research_seo`, `paid_ads` and
+`event_concept` when they exist, and writes its own namespaces for the
+campaign planner and paid-ads agents to pick up. Workflows:
+`content_studio` (studio alone) and `brand_content_month` (research → campaign
+planner → studio → paid ads), both gated by the QA judge.
+
+**Cost shape:** one primary-model call (strategy) + three fallback-model calls
+(calendar, visual system, design specs). The routing lives on the agents
+themselves (`use_fallback_model`, `max_output_tokens` on `BaseAgent`), so the
+orchestrator path (`/run content_studio`) costs the same as the direct pipeline
+(`/content`) — the difference is the QA gate and its bounded retries. Raising
+`max_output_tokens` matters: a 30-post bilingual calendar truncates mid-JSON on
+the default 4k per-call budget.
+
+**Artwork rendering** (`utils/imagegen.py`, OpenAI `gpt-image-1`) is optional
+and never automatic: the bot shows a *Render key visuals* button, the batch is
+capped by `ZYNTH_MAX_IMAGES_PER_RUN`, and generators are only asked for
+backgrounds/scenes — type, logo and CTA are laid over by hand so brand
+fidelity survives. Without `OPENAI_API_KEY` the studio still ships every spec
+and prompt, and says why rendering is off.
+
+Bot surface: `/content <brand> <8|10|16|30>` (→ .docx + Approve/Revise/Render,
+max 3 cycles) and `/brandkit add|list|<name>`.
 
 ## Extending the framework
 

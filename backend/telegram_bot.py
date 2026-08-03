@@ -266,12 +266,16 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/research — Market intel → Marketing group\n"
         "/event &lt;brief&gt; — Event Specialist Team → full proposal + approve/revise 🎪\n"
         "/video &lt;brief&gt; — Video package: concept + EN/MM script + storyboard + MMK budget 🎬\n"
+        "/content &lt;brand&gt; &lt;8|10|16|30&gt; — A full month: brand strategy + calendar "
+        "(EN/MM captions) + visual system + design specs 🎨\n"
+        "/brandkit — Brand profiles + target audiences the studio writes for\n"
         "/ops — Vendor research + SOP\n\n"
         "<b>Campaign Workflows:</b>\n"
         "/run full_campaign\n"
         "/run research_only\n"
         "/run ads_only\n"
-        "/run leads_only\n\n"
+        "/run leads_only\n"
+        "/run content_studio · /run brand_content_month\n\n"
         "<b>Proposal Factory:</b>\n"
         "/generate — Quick idea drafts (cheap model, fills the pool)\n"
         "/proposal &lt;brief&gt; — FULL client-ready proposal as a Word doc 📄\n"
@@ -1972,6 +1976,316 @@ async def cmd_video(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         )
 
 
+_BRANDKIT_ADD_SCHEMA = {
+    "type": "object",
+    "required": ["brand"],
+    "properties": {
+        "brand": {"type": "string"},
+        "industry": {"type": ["string", "null"]},
+        "market": {"type": ["string", "null"], "description": "Myanmar / Singapore / both"},
+        "positioning": {"type": ["string", "null"], "description": "what it stands for, one line"},
+        "products": {"type": ["string", "null"]},
+        "target_audience": {"type": ["string", "null"], "description": "keep the founder's own words"},
+        "audience_segments": {"type": ["array", "null"], "items": {"type": "string"}},
+        "audience_insight": {"type": ["string", "null"]},
+        "tone": {"type": ["string", "null"]},
+        "avoid": {"type": ["string", "null"], "description": "what the brand must never sound/look like"},
+        "languages": {"type": ["string", "null"]},
+        "palette": {"type": ["string", "null"], "description": "hex codes or colour names as given"},
+        "fonts": {"type": ["string", "null"]},
+        "logo_notes": {"type": ["string", "null"]},
+        "visual_style": {"type": ["string", "null"]},
+        "platforms": {"type": ["array", "null"], "items": {"type": "string"}},
+        "competitors": {"type": ["array", "null"], "items": {"type": "string"}},
+        "hashtags": {"type": ["array", "null"], "items": {"type": "string"}},
+        "offers": {"type": ["string", "null"]},
+        "compliance": {"type": ["string", "null"]},
+        "notes": {"type": ["string", "null"]},
+    },
+}
+
+
+async def cmd_brandkit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Brand profiles the content & design studio writes for.
+
+    /brandkit                    → list stored brands
+    /brandkit <name>             → show one profile
+    /brandkit add <free text>    → AI structures a brand + its target audience
+    """
+    if not _security_check(update):
+        return
+    from utils import brands as BR
+
+    args = list(context.args or [])
+    sub = args[0].lower() if args else ""
+
+    if sub == "add":
+        raw = " ".join(args[1:]).strip()
+        if not raw:
+            await update.message.reply_html(
+                "Describe the brand in free text — I'll structure it:\n"
+                "<code>/brandkit add Golden Duck, Yangon F&amp;B, premium salted egg snacks, "
+                "target: office workers 25-35 in Yangon who buy gifts, tone playful but "
+                "premium, colours gold and black, FB + IG, never discount-led</code>\n\n"
+                "Include the target audience — the studio writes to it."
+            )
+            return
+        try:
+            data, _ = await LLMClient().complete_json(
+                system=(
+                    "Extract a brand profile into the schema. Keep the founder's own words for "
+                    "audience and tone. Anything not stated is null — never invent brand facts."
+                ),
+                user_prompt=f"Brand: {raw}",
+                schema=_BRANDKIT_ADD_SCHEMA,
+                model=get_settings().fallback_model_name,
+            )
+        except Exception as exc:
+            await update.message.reply_html(f"❌ Couldn't parse: {exc}")
+            return
+        try:
+            saved = BR.add_brand({k: v for k, v in data.items() if v not in (None, "", [])})
+        except ValueError as exc:
+            await update.message.reply_html(f"❌ {exc}")
+            return
+        try:
+            from utils.tasks import log_activity
+            log_activity("Creative", f"Brand profile saved: {saved.get('brand', '?')}", source="telegram")
+        except Exception:
+            pass
+        missing = [f for f in ("target_audience", "tone", "palette") if not saved.get(f)]
+        note = f"\n\n⚠️ Still missing: {', '.join(missing)} — add them so the studio doesn't guess." if missing else ""
+        await update.message.reply_html(
+            f"✅ <b>{_html.escape(saved.get('brand', ''))}</b> saved to the brand kit.\n"
+            f"Run a month of content: <code>/content {_html.escape(saved.get('brand', ''))} 16</code>{note}"
+        )
+        return
+
+    if not args:
+        await update.message.reply_html(
+            "🎨 <b>Brand Kit</b> — what the studio writes and designs for\n\n"
+            + _html.escape(BR.brands_summary())
+            + "\n\nShow one: <code>/brandkit Golden Duck</code>\n"
+            "Add one: <code>/brandkit add &lt;brand, market, audience, tone, colours&gt;</code>"
+        )
+        return
+
+    query = " ".join(args)
+    brand = BR.find(query)
+    if not brand:
+        await update.message.reply_html(
+            f"No profile for '{_html.escape(query)}'.\n\n" + _html.escape(BR.brands_summary())
+        )
+        return
+    lines = [f"<b>{_html.escape(brand.get('brand', ''))}</b>"]
+    for field in BR.FIELDS[1:]:
+        value = brand.get(field)
+        if not value:
+            continue
+        text = ", ".join(str(v) for v in value) if isinstance(value, list) else str(value)
+        lines.append(f"<b>{field.replace('_', ' ').title()}:</b> {_html.escape(text)}")
+    await _send_long(update, "\n".join(lines))
+
+
+#: Live /content session so the buttons (render / revise) know what to act on.
+_content_session: dict = {}
+_MAX_CONTENT_CYCLES = 3
+
+
+async def cmd_content(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Content & Design Studio: a full month of content and design for a brand.
+
+    /content <brand or brief> [8|10|16|30]
+    """
+    if not _security_check(update):
+        return
+    from agents.content_studio import parse_studio_request
+    from config.content_packages import packages_overview
+
+    args = list(context.args or [])
+    if not args:
+        from utils import brands as BR
+        await update.message.reply_html(
+            "🎨 <b>Content &amp; Design Studio</b>\n\n"
+            "Strategist → Content Creator → Design Director → Designer produce a full "
+            "month for one brand: brand + owned-channel strategy, the calendar with "
+            "captions in English and Myanmar, the visual system, and a design spec for "
+            "every asset.\n\n"
+            "<b>Packages (posts per month):</b>\n"
+            + _html.escape(packages_overview())
+            + "\n\n<code>/content Golden Duck 16</code>\n"
+            "<code>/content 30 new bubble tea brand, Yangon, Gen-Z</code>\n\n"
+            "<b>Brands on file:</b>\n" + _html.escape(BR.brands_summary())
+        )
+        return
+
+    brand, package_key, brief = parse_studio_request(" ".join(args))
+    await _run_content_cycle(update, brand=brand, brief=brief, package=package_key, feedback="", cycle=1)
+
+
+async def _run_content_cycle(update: Update, brand: str, brief: str, package: str,
+                             feedback: str, cycle: int) -> None:
+    """Run one studio cycle and deliver the .docx with action buttons."""
+    from agents.content_studio import plan_to_sections, run_content_studio
+    from config.content_packages import resolve_package
+    from utils.cost_tracker import get_cost_tracker
+    from utils.docgen import build_proposal_docx
+
+    pkg = resolve_package(package)
+    tracker = await get_cost_tracker()
+    before = (await tracker.today_summary()).get("sgd", 0.0)
+    memory = SharedMemory(client_brief={"agency": "ZYNTH", "mode": "content_studio", "brand": brand})
+
+    try:
+        plan = await _await_with_progress(
+            update,
+            f"Studio cycle {cycle}/{_MAX_CONTENT_CYCLES}: strategy → {pkg.posts_per_month} posts → "
+            f"visual system → {pkg.designed_assets} design specs",
+            run_content_studio(brief, memory, brand=brand, package=package,
+                               feedback=feedback, cycle=cycle),
+        )
+    except Exception as exc:
+        logger.exception("Content studio failed: %s", exc)
+        await update.message.reply_html(f"❌ Content studio failed: {exc}")
+        return
+
+    ratio = plan.get("ratio", {})
+    title = f"{brand or 'Brand'} — {pkg.name.split(' — ')[0]} Content & Design Plan"
+    path = build_proposal_docx(
+        title=title,
+        client=brand or "Prospective Client",
+        market=(plan.get("strategy", {}).get("audience", {}) or {}).get("primary", "") or "Myanmar",
+        sections=plan_to_sections(plan),
+        one_line_ask=(
+            f"{ratio.get('posts_planned', 0)} posts/month · {ratio.get('design_ratio', '')} "
+            f"content:design · {ratio.get('short_videos', 0)} videos · "
+            f"{pkg.price_mmk} / {pkg.price_sgd} per month"
+        ),
+        estimated_value=f"{pkg.price_mmk} / {pkg.price_sgd} per month",
+    )
+    after = (await tracker.today_summary()).get("sgd", 0.0)
+
+    _content_session.update({
+        "brand": brand, "brief": brief, "package": package, "cycle": cycle,
+        "plan": plan, "doc_path": str(path), "awaiting_feedback": False,
+    })
+
+    try:
+        from utils.tasks import log_activity
+        log_activity("Creative", f"Content plan: {title[:50]}", source="telegram")
+    except Exception:
+        pass
+
+    mix = " · ".join(f"{count} {name.replace('_', ' ')}" for name, count in
+                     sorted(ratio.get("by_type", {}).items(), key=lambda kv: -kv[1]))
+    off_contract = "" if ratio.get("on_contract") else "\n⚠️ Adjusted to hold the package — see the last section."
+    with open(path, "rb") as f:
+        await update.message.reply_document(
+            document=f, filename=path.name,
+            caption=(
+                f"🎨 {title} · cycle {cycle}\n"
+                f"{ratio.get('posts_planned', 0)} posts · design ratio {ratio.get('design_ratio', '')} "
+                f"({ratio.get('design_ratio_pct', 0)}%) · {ratio.get('boosted', 0)} to boost\n"
+                f"{mix}\n"
+                f"Cost ~S${after - before:.2f}{off_contract}"
+            ),
+        )
+
+    from utils.imagegen import is_configured, status_note
+    render_count = len(plan.get("render_specs", []))
+    buttons = [[
+        InlineKeyboardButton("✅ Approve & lock", callback_data="cnt_approve"),
+        InlineKeyboardButton("✏️ Revise", callback_data="cnt_revise"),
+    ]]
+    if is_configured() and render_count:
+        buttons.append([InlineKeyboardButton(
+            f"🖼 Render key visuals ({min(render_count, get_settings().max_images_per_run)})",
+            callback_data="cnt_render",
+        )])
+    note = "" if is_configured() else f"\n\n<i>{_html.escape(status_note())}</i>"
+    await update.message.reply_html(
+        f"{render_count} design spec(s) come with a ready render prompt. "
+        "<b>Approve</b> locks this month (and emails it). <b>Revise</b> sends feedback "
+        f"into the next cycle." + note,
+        reply_markup=InlineKeyboardMarkup(buttons),
+    )
+
+
+async def handle_content_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Approve / Revise / Render buttons on a content & design plan."""
+    query = update.callback_query
+    await query.answer()
+    data = query.data or ""
+    plan = _content_session.get("plan")
+    if not plan:
+        await query.edit_message_text("Session expired — run /content again.")
+        return
+
+    if data == "cnt_approve":
+        _content_session["awaiting_feedback"] = False
+        brand = _content_session.get("brand") or "the brand"
+        await query.edit_message_text(
+            f"✅ APPROVED — {brand}'s month (cycle {_content_session.get('cycle', 1)}) is locked.\n"
+            "Next: confirm the client's asset checklist, schedule week 1, and hold the "
+            "50% deposit rule before production starts."
+        )
+        from pathlib import Path as _P
+        from utils.mailer import send_email
+        doc = _content_session.get("doc_path")
+        if doc and await send_email(
+            subject=f"APPROVED content & design plan: {brand}",
+            body=f"Approved at cycle {_content_session.get('cycle', 1)}.\nBrief: {_content_session.get('brief', '')}",
+            attachments=[_P(doc)],
+        ):
+            await query.message.reply_html("📧 Approved plan emailed to you.")
+        return
+
+    if data == "cnt_revise":
+        cycle = _content_session.get("cycle", 1)
+        if cycle >= _MAX_CONTENT_CYCLES:
+            await query.edit_message_text(
+                f"⛔ Max {_MAX_CONTENT_CYCLES} cycles reached. Approve this version or start "
+                "fresh with a sharper brief (cheaper than endless revision)."
+            )
+            return
+        _content_session["awaiting_feedback"] = True
+        await query.edit_message_text(
+            f"✏️ Revision cycle {cycle + 1}/{_MAX_CONTENT_CYCLES} — send your feedback as a "
+            "normal message now (what to change, what to keep)."
+        )
+        return
+
+    if data == "cnt_render":
+        from utils.imagegen import render_batch, status_note
+        specs = plan.get("render_specs", [])
+        if not specs:
+            await query.edit_message_text("No render prompts in this plan.")
+            return
+        cap = get_settings().max_images_per_run
+        await query.edit_message_text(f"🖼 Rendering {min(len(specs), cap)} key visual(s)…")
+        results = await render_batch(specs)
+        sent = 0
+        for result in results:
+            if not result.ok:
+                continue
+            with open(result.path, "rb") as f:
+                await query.message.reply_document(
+                    document=f, filename=result.path.name,
+                    caption=f"{result.label} — draft background. Type, logo and CTA are laid over by hand.",
+                )
+            sent += 1
+        failures = [r for r in results if not r.ok]
+        summary = f"🖼 Rendered {sent}/{len(results)}."
+        if len(specs) > cap:
+            summary += f" {len(specs) - cap} spec(s) not rendered (cap {cap} per run)."
+        if failures:
+            summary += f"\n⚠️ {_html.escape(failures[0].error[:200])}"
+        if sent:
+            summary += f"\nEst. cost US${sum(r.est_usd for r in results if r.ok):.2f}."
+        await query.message.reply_html(summary or status_note())
+        return
+
+
 async def cmd_mirror(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Refresh the Obsidian vault notes (Home, Snapshot, Hot Prospects, What We Built)."""
     if not _security_check(update):
@@ -2512,6 +2826,24 @@ async def chat_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             await update.message.reply_html(f"❌ Revision failed: {exc}")
         return
 
+    # If the MD just hit "Revise" on a content & design plan, this is feedback
+    if _content_session.get("awaiting_feedback"):
+        _content_session["awaiting_feedback"] = False
+        next_cycle = _content_session.get("cycle", 1) + 1
+        try:
+            await _run_content_cycle(
+                update,
+                brand=_content_session.get("brand", ""),
+                brief=_content_session.get("brief", ""),
+                package=_content_session.get("package", ""),
+                feedback=text,
+                cycle=next_cycle,
+            )
+        except Exception as exc:
+            logger.exception("Content revision failed: %s", exc)
+            await update.message.reply_html(f"❌ Revision failed: {exc}")
+        return
+
     await _chat_reply(update, context, text)
 
 
@@ -2680,10 +3012,13 @@ def main() -> None:
     app.add_handler(CommandHandler("mirror", cmd_mirror))
     app.add_handler(CommandHandler("push", cmd_push))
     app.add_handler(CommandHandler("video", cmd_video))
+    app.add_handler(CommandHandler("content", cmd_content))
+    app.add_handler(CommandHandler("brandkit", cmd_brandkit))
     app.add_handler(CommandHandler("task", cmd_task))
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
     app.add_handler(CallbackQueryHandler(handle_event_callback, pattern="^evt_"))
+    app.add_handler(CallbackQueryHandler(handle_content_callback, pattern="^cnt_"))
     app.add_handler(CallbackQueryHandler(handle_proposal_wizard, pattern="^pw_"))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_handler))
     app.add_handler(MessageHandler(filters.VOICE | filters.AUDIO, voice_handler))

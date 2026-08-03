@@ -27,6 +27,14 @@ class Settings(BaseSettings):
     model_name: str = Field(default="claude-sonnet-5", alias="ZYNTH_MODEL_NAME")
     fallback_model_name: str = Field(default="claude-haiku-4-5-20251001", alias="ZYNTH_FALLBACK_MODEL_NAME")
 
+    # --- Image generation (design studio artwork) ------------------------
+    # OpenAI Images. Without a key the Designer still produces full design
+    # specs + render prompts; only the rendering step is skipped.
+    openai_api_key: str = Field(default="", alias="OPENAI_API_KEY")
+    image_model_name: str = Field(default="gpt-image-1", alias="ZYNTH_IMAGE_MODEL")
+    # Hard cap per render batch — artwork is billed per image.
+    max_images_per_run: int = Field(default=4, alias="ZYNTH_MAX_IMAGES_PER_RUN")
+
     # --- Token / cost governance ----------------------------------------
     max_tokens_per_call: int = Field(default=4096, alias="ZYNTH_MAX_TOKENS_PER_CALL")
     max_tokens_per_workflow: int = Field(default=60_000, alias="ZYNTH_MAX_TOKENS_PER_WORKFLOW")
@@ -116,6 +124,11 @@ class Settings(BaseSettings):
         testable) without network access or secrets.
         """
         return bool(self.anthropic_api_key)
+
+    @property
+    def has_image_generation(self) -> bool:
+        """Whether the design studio can render artwork, not just spec it."""
+        return bool(self.openai_api_key and self.allow_network)
 
 
 @lru_cache(maxsize=1)

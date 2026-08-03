@@ -42,7 +42,10 @@ _ROUTE_SCHEMA: dict[str, Any] = {
     "properties": {
         "workflow": {
             "type": "string",
-            "enum": ["full_campaign", "research_only", "content_only", "leads_only", "ads_only"],
+            "enum": [
+                "full_campaign", "research_only", "content_only", "leads_only",
+                "ads_only", "content_studio", "brand_content_month",
+            ],
         },
         "reasoning": {"type": "string"},
     },
@@ -115,6 +118,27 @@ WORKFLOWS: dict[str, list[WorkflowStep]] = {
         WorkflowStep(agent_key="lead_gen", depends_on=["research_seo"]),
         WorkflowStep(agent_key="paid_ads", depends_on=["copywriter", "lead_gen"]),
     ],
+    # ----- Content & Design Studio -----
+    # Strategy first, then the month's copy and the visual system in parallel,
+    # then per-asset design specs. Every step passes the QA gate.
+    "content_studio": [
+        WorkflowStep(agent_key="brand_strategist"),
+        WorkflowStep(agent_key="content_creator", depends_on=["brand_strategist"]),
+        WorkflowStep(agent_key="design_director", depends_on=["brand_strategist"]),
+        WorkflowStep(agent_key="designer", depends_on=["content_creator", "design_director"]),
+    ],
+    # The studio collaborating with the rest of the agency: research and the
+    # campaign planner (CMO) set the direction, the studio produces the month,
+    # paid ads picks up the boost-flagged posts.
+    "brand_content_month": [
+        WorkflowStep(agent_key="research_seo"),
+        WorkflowStep(agent_key="cmo", depends_on=["research_seo"]),
+        WorkflowStep(agent_key="brand_strategist", depends_on=["research_seo", "cmo"]),
+        WorkflowStep(agent_key="content_creator", depends_on=["brand_strategist"]),
+        WorkflowStep(agent_key="design_director", depends_on=["brand_strategist"]),
+        WorkflowStep(agent_key="designer", depends_on=["content_creator", "design_director"]),
+        WorkflowStep(agent_key="paid_ads", depends_on=["content_creator"]),
+    ],
 }
 
 
@@ -154,7 +178,10 @@ class OrchestratorAgent:
             f"{ZYNTH_BRAND.as_system_prompt_block()}\n\n"
             "You are ZYNTH's intake Director. Classify the client's request into "
             "exactly one workflow: full_campaign (default for broad/ambiguous asks), "
-            "research_only, content_only, leads_only, or ads_only."
+            "research_only, content_only (a few pieces of copy), leads_only, ads_only, "
+            "content_studio (a month of social content AND design for one brand — "
+            "8/10/16/30 posts, calendar, visual system), or brand_content_month (the "
+            "same month, but preceded by market research and a campaign plan)."
         )
         data, _ = await self.llm.complete_json(
             system=system,
@@ -176,6 +203,12 @@ class OrchestratorAgent:
             raise ValueError(f"Unknown workflow '{workflow}'. Known: {list(WORKFLOWS)}")
 
         steps = WORKFLOWS[workflow]
+        missing = [s.agent_key for s in steps if s.agent_key not in self.agents]
+        if missing:
+            raise ValueError(
+                f"Workflow '{workflow}' needs agent(s) {missing} which this orchestrator "
+                f"wasn't built with. Registered: {sorted(self.agents)}"
+            )
         groups = _topological_groups(steps)
         memory = SharedMemory(client_brief)
         agent_kwargs = agent_kwargs or {}

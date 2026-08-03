@@ -4,7 +4,7 @@
 > chronological log is `CONTEXT.md`; the business bible is `docs/playbook/00`–`08`
 > and `NORTH_STAR.md`. This file is the snapshot: where we are, what's open, what's next.
 
-_Last updated: 2026-07-24 · Branch: `claude/zynth-multi-agent-framework-uk1a8i`_
+_Last updated: 2026-08-03 · Branch: `claude/multi-agent-content-design-frm2jn`_
 
 ## What ZYNTH is
 AI-run marketing & events agency (Myanmar + Singapore). MD/sole approver: Zane
@@ -23,7 +23,16 @@ Repo `zanezynthbrain/zynth-brain` — **PUBLIC** (MD's decision; keys protected 
   activities, marketing_gap, zynth_approach, target_role per prospect.
 - ✅ Google Drive "Company OS" mirror (department folders + live BD Sheet).
 - ✅ Security: `.gitignore` protects `.env`/keys (public repo).
-- ⏳ Consultant "Master Build" Phases 1–7 in progress (this session).
+- ✅ **Content & Design Studio** (this session): BrandStrategist → ContentCreator ∥
+  DesignDirector → Designer produce a full month per brand — brand + owned-channel
+  strategy, calendar with EN/Myanmar captions, visual system, per-asset design specs.
+  Telegram: `/content <brand> <8|10|16|30>`, `/brandkit`. Packages
+  (`config/content_packages.py`) are contractual: volume, content-type mix,
+  content:design ratio (6:8 · 7:10 · 11:16 · 19:30), videos, story sets, boosts,
+  price band — the pipeline reconciles output back onto them. Workflows
+  `content_studio` and `brand_content_month` chain it to research + the campaign
+  planner (CMO) + paid ads. Artwork rendering (OpenAI) is button-triggered and capped.
+- ⏳ Consultant "Master Build" Phases 1–7 in progress (previous session).
 
 ## Consultant plan — phase status
 1. Bridge — ✅ this file + `bridge/`.
@@ -41,6 +50,10 @@ Repo `zanezynthbrain/zynth-brain` — **PUBLIC** (MD's decision; keys protected 
 
 ## Open decisions waiting on MD
 - **Anthropic API credit** — bot brain is offline/limited without it (top up in Console).
+- **OPENAI_API_KEY + ZYNTH_ALLOW_NETWORK=true** — turns on artwork rendering in the
+  design studio (design specs and render prompts already work without it).
+- **Real client brands** — `/brandkit add <brand, market, audience, tone, colours>`;
+  until then the studio works from the brief and flags what it had to assume.
 - **Provide the 8 Manus .docx** (Phase 2) so real MM market figures replace placeholders.
 - **Merge working branch → main** to deploy this session's Phase 1–7 work.
 - Rotate the GitHub token exposed in chat (optional; MD deferred).
@@ -52,5 +65,6 @@ Repo `zanezynthbrain/zynth-brain` — **PUBLIC** (MD's decision; keys protected 
 
 ## Exact next step
 1. MD: add Anthropic credit + merge branch to `main`.
-2. Verify live in Telegram: `/brief` → `/autopilot` → `/autopilot run` → `/queue`.
+2. Verify live in Telegram: `/brief` → `/autopilot` → `/autopilot run` → `/queue`,
+   then `/brandkit add …` → `/content <brand> 16` → review the .docx → Approve.
 3. Then drop the Manus docs so Phase 2 figures go from placeholder → real.

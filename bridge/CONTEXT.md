@@ -65,8 +65,22 @@ sponsorship-funded, ZYNTH-owned IP.
    revise feedback flows into all specialists (max 3 cycles); approved docs
    emailed; Designer outputs a Blender MCP block (sent on approval, not in
    the client doc); per-cycle cost shown in the caption
-4. ⬜ Talent DB (Google Sheets service account, /talent add manual-first)
-- Not building yet: CampaignPlanner, Blender automation, scraping enrichment, HubSpot, hosted DB.
+4. ✅ Content & Design Studio — agents/content_studio.py: BrandStrategist
+   (brand + owned-channel strategy, primary model) → ContentCreator (the
+   month's calendar, EN + Myanmar captions) ∥ DesignDirector (visual system:
+   palette/type/templates) → Designer (per-asset specs + render prompts).
+   `/content <brand> <8|10|16|30>` → .docx + Approve/Revise (max 3 cycles).
+   Packages in config/content_packages.py are CONTRACTUAL: volume, content-type
+   mix, content:design ratio (6:8 · 7:10 · 11:16 · 19:30), videos, story sets,
+   boosts, price band — the pipeline reconciles model output back onto them and
+   reports every adjustment. Brand profiles + target audiences live in
+   utils/brands.py (`/brandkit`), pool-persisted; unknown brands trigger
+   open_questions, never invented facts. Artwork rendering via OpenAI
+   (utils/imagegen.py) is MD-triggered by button and capped — specs and prompts
+   ship with or without a key.
+5. ⬜ Talent DB (Google Sheets service account, /talent add manual-first)
+- Not building yet: standalone CampaignPlanner agent (CMO covers it; the studio
+  reads its output), Blender automation, scraping enrichment, hosted DB.
 
 ## Standing rules for any session working on this repo
 - Never commit `.env` or real keys. `.env.example` placeholders only. (`.gitignore` enforces this — repo is PUBLIC.)
@@ -135,5 +149,9 @@ sponsorship-funded, ZYNTH-owned IP.
 
 ## MD setup still pending
 - Anthropic credit top-up (bot brain offline without it)
+- OPENAI_API_KEY + ZYNTH_ALLOW_NETWORK=true in Railway → turns on artwork
+  rendering in the design studio (specs and prompts work without it)
+- Add real client brands via `/brandkit add` (brand + target audience) so the
+  studio stops working from briefs alone
 - SMTP_USER + SMTP_PASSWORD (Google App Password) in Railway → activates email
 - Test Claude Desktop + Blender MCP on laptop (gates Designer's Blender block)

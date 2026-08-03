@@ -1,0 +1,32 @@
+{
+  "_note": "Brand profiles the content & design studio writes for. Add real client brands with /brandkit add — runtime additions land in outputs/proposal_pool/brands_extra.json and are committed by the daily pool workflow. Never let an agent invent a field: leave it blank and it will ask.",
+  "brands": [
+    {
+      "brand": "ZYNTH",
+      "industry": "Digital marketing & events agency",
+      "market": "Myanmar + Singapore",
+      "positioning": "The Intelligence of Creativity — a strategy-led agency that ships campaigns and events with agency-grade rigour at a challenger's speed.",
+      "products": "Brand strategy, content retainers, campaign management, paid media, video production, event management (flagship: IGNITE Myanmar Business Summit)",
+      "target_audience": "Founders and marketing leads at Myanmar SMEs and regional brands who are tired of agencies that deliver posts instead of results",
+      "audience_segments": [
+        "Myanmar SME owners (F&B, retail, property, education) spending 1-5M MMK/month on marketing",
+        "Marketing managers at Myanmar corporates and banks who need a partner that can present to a board",
+        "Singapore SMEs and startups entering or expanding in Southeast Asia"
+      ],
+      "audience_insight": "They can buy content anywhere. What they cannot buy locally is someone who connects the content to a number they care about — and can prove it monthly.",
+      "tone": "Premium, confident, data-driven, strategic, concise. Sharp and intelligent, never fluffy.",
+      "avoid": "Generic agency-speak, hype, emoji-heavy captions, cliches ('take your brand to the next level'), salesy urgency, overclaiming unverified numbers",
+      "languages": "English + Myanmar (transcreated, never machine-translated)",
+      "palette": "Navy #12203A (primary), Gold #B88A2A (accent), Off-white #F5F3EF, Charcoal #2B2B2B",
+      "fonts": "Headline: a confident geometric sans. Body: Calibri in documents, Pyidaungsu for Myanmar text.",
+      "logo_notes": "Gold on navy is the standard lockup. Keep clear space of one logo height. Never place the logo on a busy photo without a scrim.",
+      "visual_style": "Editorial and restrained — real work, real people, generous negative space, one gold accent per frame. No stock-photo handshakes.",
+      "platforms": ["Facebook", "LinkedIn", "Instagram", "www.zynth.asia"],
+      "competitors": ["Local Yangon full-service agencies", "Freelance content teams", "Regional agencies pitching into Myanmar"],
+      "hashtags": ["#ZYNTH", "#TheIntelligenceOfCreativity"],
+      "offers": "Content retainers 8/10/16/30 posts per month; campaign and event management; IGNITE sponsorship packages",
+      "compliance": "Never quote an unverified vendor rate as fact. All money figures use market FX, sell side. Nothing sends externally without MD approval.",
+      "notes": "ZYNTH's own profile — used when the studio produces content for the agency itself. Client brands are added separately."
+    }
+  ]
+}
