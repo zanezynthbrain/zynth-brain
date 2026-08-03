@@ -112,7 +112,7 @@ BLACK = z.m_plain("Matte", (0.020, 0.020, 0.024), rough=0.70)
 STEEL = z.m_metal_brushed("Steel", (0.34, 0.35, 0.38), rough=0.38)
 PANEL = z.m_plain("PanelWhite", (0.78, 0.79, 0.82), rough=0.30)
 LEAF = z.m_plain("Leaf", (0.045, 0.150, 0.060), rough=0.62)
-FLORAL = z.m_plain("Floral", (0.90, 0.87, 0.80), rough=0.55, sheen=0.4)
+FLORAL = z.m_plain("Floral", (0.42, 0.20, 0.20), rough=0.66, sheen=0.30)
 CANDLE = z.m_emissive("Candle", (1.00, 0.62, 0.26), 9.0)
 SOFA = z.m_fabric("Sofa", (0.42, 0.40, 0.37), scale=120.0, sheen=0.35)
 SKIN = z.m_plain("Fig_skin", (0.52, 0.38, 0.30), rough=0.62)
@@ -122,9 +122,9 @@ LENS_B = z.m_emissive("LensCool", D["beam_b"], 24.0)
 
 LED_IMG = z.make_led_content("LED_Loop", 1536, 768,
                              deep=D["led_deep"], mid=D["led_mid"],
-                             gold=D["accent_glow"], swooshes=3, emblem=True)
-LEDMAT = z.m_led_screen("LED_Wall", LED_IMG, strength=1.9, px=(300, 76), pixel_depth=0.45)
-LED_SIDE = z.m_led_screen("LED_Side", LED_IMG, strength=1.4, px=(40, 92), pixel_depth=0.40)
+                             gold=D["accent_glow"], swooshes=3, emblem=True, gain=0.42)
+LEDMAT = z.m_led_screen("LED_Wall", LED_IMG, strength=0.85, px=(300, 76), pixel_depth=0.45)
+LED_SIDE = z.m_led_screen("LED_Side", LED_IMG, strength=0.70, px=(40, 92), pixel_depth=0.40)
 SCREEN = z.m_emissive("BoothScreen", D["led_mid"], 1.1)
 
 # ---------------------------------------------------------------------------
@@ -373,9 +373,9 @@ for i, (px, py) in enumerate([(-2.6, -9.2), (-8.6, -12.4), (3.4, -10.6), (12.6, 
 z.gradient_world(top=(0.008, 0.010, 0.022), bottom=(0.002, 0.002, 0.004), strength=1.0)
 
 # ambience is deliberately LOW — an event room is dark with pools of light
-z.area("Amb_room", (0, 2.0, H - 1.2), 14.0, 55, (1.00, 0.84, 0.64),
+z.area("Amb_room", (0, 2.0, H - 1.2), 14.0, 26, (1.00, 0.84, 0.64),
        size_y=20.0, shape="RECTANGLE", specular=0.4)
-z.area("Amb_front", (0, -14.0, H - 1.2), 12.0, 55, (1.00, 0.86, 0.70),
+z.area("Amb_front", (0, -14.0, H - 1.2), 12.0, 30, (1.00, 0.86, 0.70),
        size_y=10.0, shape="RECTANGLE", specular=0.4)
 z.area("Stage_key", (0, STAGE_Y - 5.5, 7.6), 7.0, 1500, D["beam_a"])
 z.area("Stage_fill", (0, STAGE_Y + 2.0, 6.0), 10.0, 380, D["beam_b"])
@@ -411,15 +411,25 @@ z.haze("Haze_stage", (STAGE_W + 4.0, STAGE_D + 8.0, 8.0), (0, STAGE_Y - 2.0, 4.0
 # cameras
 # ---------------------------------------------------------------------------
 CAMS = {
-    "iso": z.camera("CAM_ISO", (0, -34.0, 23.0), (0, 6.0, 2.2), lens=24, make_active=True),
+    "iso": z.camera("CAM_ISO", (0, -36.0, 25.0), (0, 7.0, 2.0), lens=26, make_active=True),
     "stage": z.camera("CAM_STAGE", (-10.6, -1.8, 2.35), (0.6, STAGE_Y + 1.2, 3.6),
                       lens=30, fstop=4.0, focus_target=(0, STAGE_Y, 3.2), make_active=False),
-    "plan": z.camera("CAM_PLAN", (0, 1.0, 40.0), (0, 1.0, 0.0), lens=32, make_active=False),
+    "plan": z.camera("CAM_PLAN", (0, 1.0, 44.0), (0, 1.0, 0.0), lens=34, make_active=False),
     "booth": z.camera("CAM_BOOTH", (-8.4, -6.4, 2.0), (-13.4, 1.0, 2.0),
                       lens=35, fstop=2.8, make_active=False),
-    "arch": z.camera("CAM_ARCH", (0.0, -20.5, 2.4), (0, 0.0, 3.0),
+    "arch": z.camera("CAM_ARCH", (0.0, -19.5, 2.4), (0, 2.0, 3.0),
                      lens=30, fstop=3.5, focus_target=(0, AY, 3.4), make_active=False),
 }
+# Dollhouse cutaway: an exterior camera must not stare at the outside of a sealed box.
+# Hide the shell pieces sitting between the camera and the room, per shot.
+SHOT_HIDE = {
+    "iso":   ("WallFront", "Ceiling"),
+    "plan":  ("Ceiling",),
+    "arch":  ("WallFront",),
+    "stage": (),
+    "booth": (),
+}
+
 bpy.context.scene.camera = CAMS["iso"]
 
 # ---------------------------------------------------------------------------
@@ -435,8 +445,16 @@ for shot in SHOTS:
     if not cam:
         print("no such camera:", shot, flush=True)
         continue
+    hidden = []
+    for pref in SHOT_HIDE.get(shot, ()):
+        for o in bpy.data.objects:
+            if o.name.startswith(pref) and not o.hide_render:
+                o.hide_render = True
+                hidden.append(o)
     path = os.path.join(OUT, f"AURUM_{KEY}_v3_{shot}.png")
-    print("RENDERING", shot, flush=True)
+    print("RENDERING", shot, "hidden:", [o.name for o in hidden], flush=True)
     z.render_shot(cam, path)
     print("RENDERED", shot, path, flush=True)
+    for o in hidden:
+        o.hide_render = False
 print("DONE", KEY, flush=True)

@@ -207,15 +207,16 @@ def m_metal_brushed(name, color, rough=0.28, streak=0.9):
 
 
 def m_marble(name, base=(0.045, 0.05, 0.075), vein=(0.55, 0.52, 0.48),
-             scale=2.2, rough=0.08):
+             scale=0.55, rough=0.08):
     """Polished stone floor — the reflection is what sells an event render."""
     m, nt, nodes, links = _newmat(name)
     b = _bsdf(nodes)
     _base(b, base, 0.0, rough, spec=0.6)
     mp = _mapping(nodes, links, scale=(1, 1, 1))
-    n = _noise(nodes, scale=scale, detail=10.0, rough=0.6, dist=6.0)
+    n = _noise(nodes, scale=scale, detail=6.0, rough=0.5, dist=1.4)
     links.new(mp.outputs["Vector"], n.inputs["Vector"])
-    r = _ramp(nodes, [(0.42, (*base, 1)), (0.50, (*vein, 1)), (0.58, (*base, 1))])
+    mid = tuple((b + v) / 2.0 for b, v in zip(base, vein))
+    r = _ramp(nodes, [(0.44, (*base, 1)), (0.50, (*mid, 1)), (0.56, (*base, 1))])
     links.new(n.outputs["Fac"], r.inputs["Fac"])
     links.new(r.outputs["Color"], b.inputs["Base Color"])
     return m
@@ -333,7 +334,7 @@ def m_textured(name, folder, rough_default=0.5):
 
 def make_led_content(name="LEDContent", w=1024, h=512,
                      deep=(0.02, 0.09, 0.34), mid=(0.06, 0.26, 0.72),
-                     gold=(1.0, 0.78, 0.32), swooshes=3, emblem=True):
+                     gold=(1.0, 0.78, 0.32), swooshes=3, emblem=True, gain=1.0):
     """Paint a brand LED loop: deep-blue field, radial core glow, gold arc swooshes,
     optional centre emblem. Returns a bpy Image usable by m_led_screen."""
     yy, xx = np.mgrid[0:h, 0:w]
@@ -381,7 +382,7 @@ def make_led_content(name="LEDContent", w=1024, h=512,
         for i in range(3):
             img[..., i] += gold[i] * e * 1.5
 
-    img = np.clip(img, 0.0, 4.0)
+    img = np.clip(img * gain, 0.0, 4.0)
     rgba = np.ones((h, w, 4), dtype=np.float32)
     rgba[..., :3] = img
     bi = bpy.data.images.new(name, width=w, height=h, float_buffer=True)
@@ -525,12 +526,20 @@ def smooth(obj, angle=35.0):
 
 
 def join(objs, name):
+    """Join parts into one object and BAKE its transform.
+
+    Critical: bpy.ops.object.join() keeps the ACTIVE object's rotation on the result.
+    If that rotation survives, place() — which assigns rotation_euler outright — wipes
+    it and the prefab lands mis-oriented (a horizontal truss standing on end). Applying
+    rotation+scale here makes every prefab axis-normalised and safe to instance."""
     objs = [o for o in objs if o and o.name in bpy.data.objects]
     sel_only(objs)
     if len(objs) > 1:
         bpy.ops.object.join()
     o = bpy.context.active_object
     o.name = name
+    sel_only(o)
+    bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
     return o
 
 
@@ -606,7 +615,9 @@ def prefab_table_setting(china_mat, glass_mat, gold_mat, flower_mat, candle_mat,
     # centrepiece: gold footed bowl + low floral dome + votives
     parts.append(smooth(cyl(f"{name}_ftr", 0.055, 0.20, (0, 0, 0.86), gold_mat, 24)))
     parts.append(smooth(cyl(f"{name}_bowl", 0.19, 0.09, (0, 0, 0.99), gold_mat, 32)))
-    parts.append(smooth(sph(f"{name}_flor", 0.24, (0, 0, 1.10), flower_mat, 20, 12)))
+    _fl = smooth(sph(f"{name}_flor", 0.20, (0, 0, 1.07), flower_mat, 20, 12))
+    _fl.scale = (1.0, 1.0, 0.62)          # low dome, not a balloon
+    parts.append(_fl)
     for k in range(5):
         a = 2 * math.pi * k / 5
         parts.append(smooth(cyl(f"{name}_vot{k}", 0.033, 0.075, (0.40 * math.cos(a),
