@@ -27,11 +27,17 @@ ZYNTH_3D_BLEND=/path/scene.blend ZYNTH_3D_PREVIEW=/path/shot.png python3 render_
 > EEVEE needs a GPU/EGL context (unavailable headless) — use **Cycles `CPU`** for stills.
 
 ## Reuse for any event
-`event_scene_build.py` is the AURUM / Novotel Yangon reference (stage, curved LED wall,
-runway, truss + lights, 20 round tables, 6 exhibition booths, photo booth, entrance arch,
-registration). Clone it, retune the `box()`/`cyl()` calls and materials (`GOLD`, `LEDBLU`,
-`SCREEN`…), and re-export for a new brief. To re-skin to a client: change the `GOLD`
-base colour and drop a logo plane on `LED_Backdrop` / `Arch_lintel`.
+`event_scene_build.py` is the AURUM / Novotel Yangon reference build (~682 objects):
+navy carpet + warm wood walls + gold LED cornice, gloss stage with a **curved** LED video
+wall and gold-framed side panels, truss + alternating blue/gold movers, hedge line, white
+runway, 24 round tables with chairs and gold candle centerpieces, 10 illuminated booths,
+gold WELCOME arch with real 3D text, photo booth + reception + cocktail poseurs (left),
+lounge + catering bar (right), figures for scale, full lighting rig.
+
+Two cameras ship inside the file — **CAM_ISO** (isometric layout) and **CAM_STAGE**
+(stage hero). Clone the script, retune the `box()`/`cyl()` calls and materials, re-export.
+To re-skin to a client: change the `GOLD` / `NAVY` / `LEDBLU` base colours and drop a logo
+plane on `LEDwall_*` / `Arch_top`.
 
 Scope: this is **blocking/massing** quality (clean primitives) for locking layout,
 sightlines and flow — the photoreal look comes from the AI render side of the skill.
