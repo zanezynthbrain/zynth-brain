@@ -199,3 +199,11 @@ Kept deliberately: each of these produced a visibly wrong render.
 | **Milky frame** | Whole render hazy and flat, no beams | Room haze ≥ 0.004 | Room 0.002–0.003 + dense *local* slab over the stage |
 | **Camera in the furniture** | Shooting through chair backs | Camera placed inside the table block | Place cameras outside occupied zones; aim with `z.camera(loc, target)` |
 | **Invisible beams** | No shafts despite haze + spots | Judged at 20 samples — denoiser erased them | Judge only at final samples (≥ 96) |
+| **Truss standing on end** | Horizontal lattice rendered as a vertical tower | `join()` keeps the ACTIVE object's rotation; `place()` assigns `rotation_euler` outright and wiped it | `join()` bakes rotation+scale so prefabs are axis-normalised |
+| **Black exterior render** | iso / plan camera returned a black frame | Room sealed with ceiling + front wall; camera outside the box | Per-shot `SHOT_HIDE` cutaway hiding shell pieces between camera and room |
+| **Camouflage stone** | Marble read as swirled camo, not stone | Noise distortion 6.0 at scale 2.2 | Distortion 1.4, scale 0.55, mid-tone vein stop |
+| **Balloon centrepiece** | Table florals read as big pale balls | Full sphere, radius 0.24, pale colour | Radius 0.20, Z-scale 0.62 (low dome), deeper desaturated tone |
+
+**How these were found:** by rendering and *looking*, then naming the defect. Not one of
+them was visible in the code. Always inspect the render before shipping it — the build
+script succeeding proves nothing about whether the image is right.
