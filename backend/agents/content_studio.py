@@ -30,6 +30,7 @@ part by token count, so it runs on the fallback model with a hard structure.
 from __future__ import annotations
 
 import asyncio
+from pathlib import Path as _P
 from typing import Any
 
 from agents.base import BaseAgent
@@ -77,6 +78,24 @@ async def _agency_context(memory: SharedMemory, max_chars: int = 2200) -> str:
         "Align to this. Where you disagree, say so in open_questions rather than "
         "silently contradicting it.\n"
         "===== END AGENCY CONTEXT =====\n"
+    )
+
+
+
+_BRIEF_PATH = _P(__file__).resolve().parent.parent / "data" / "visual_briefs_services.md"
+
+
+def _visual_brief_reference(max_chars: int = 3500) -> str:
+    """Inject ZYNTH's own visual briefs as the art-direction bar to clear."""
+    try:
+        text = _BRIEF_PATH.read_text(encoding="utf-8")
+    except Exception:
+        return ""
+    if len(text) > max_chars:
+        text = text[:max_chars] + "\n…(reference truncated)"
+    return (
+        "\n\n===== GOLD-STANDARD ART DIRECTION (match this depth of thinking) =====\n"
+        f"{text}\n===== END REFERENCE =====\n"
     )
 
 
@@ -447,7 +466,11 @@ class DesignDirectorAgent(BaseAgent):
             "minimum text size, subtitle rules for video), and the asset checklist the "
             "client must supply.\n"
             "Specific over pretty. No unnamed 'modern, clean, minimal' — say what it "
-            "actually looks like."
+            "actually looks like.\n\n"
+            "Every direction must carry an IDEA, not just a layout: name the moment or "
+            "the tension the imagery represents, the way the reference briefs do. A "
+            "visual a competitor could paste their logo onto has failed."
+            + _visual_brief_reference()
             + _feedback_note(kwargs.get("feedback", ""))
             + (f"\n\nQA feedback to address: {kwargs['qa_feedback']}" if kwargs.get("qa_feedback") else "")
         )

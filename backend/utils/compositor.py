@@ -162,6 +162,44 @@ def _background(width: int, height: int, colour, background: str | Path | None,
     return _field(width, height, colour, textured=textured, rules=rules)
 
 
+def _grade(img, navy, strength: float = 0.28):
+    """Pull a photograph toward the brand's navy shadows.
+
+    Generated imagery arrives in whatever palette the model chose. A light
+    duotone-toward-navy in the shadows is what makes three photographs from
+    three prompts read as one brand rather than three stock pictures.
+    """
+    from PIL import Image, ImageEnhance
+    tint = Image.new("RGB", img.size, navy)
+    graded = Image.blend(img, tint, strength)
+    return ImageEnhance.Contrast(graded).enhance(1.06)
+
+
+def _scrim(img, navy, top: float = 0.30, bottom: float = 0.78):
+    """Gradient scrim so type stays legible over photography.
+
+    Dark from the bottom (where the headline sits) fading out by mid-frame,
+    plus a light top wash for the badge. Without this, white type on a
+    photograph is a coin toss — with it, it is a decision.
+    """
+    from PIL import Image, ImageDraw
+    width, height = img.size
+    overlay = Image.new("RGB", (width, height), navy)
+    mask = Image.new("L", (width, height), 0)
+    draw = ImageDraw.Draw(mask)
+    # bottom two-thirds ramp
+    start = int(height * 0.34)
+    for y in range(start, height):
+        t = (y - start) / max(1, height - start)
+        draw.line([(0, y), (width, y)], fill=int(255 * bottom * (t ** 1.5)))
+    # top wash
+    top_end = int(height * 0.26)
+    for y in range(top_end):
+        t = 1 - (y / max(1, top_end))
+        draw.line([(0, y), (width, y)], fill=max(int(255 * top * t), mask.getpixel((0, y))))
+    return Image.composite(overlay, img, mask)
+
+
 def render_asset(
     spec: dict[str, Any],
     design_system: dict[str, Any] | None = None,
@@ -193,6 +231,16 @@ def render_asset(
 
     img = _background(width, height, base_colour, background,
                       textured=not light, rules=not light and "summit" not in template)
+
+    # Cinematic treatment: a real photograph is graded toward the brand's navy
+    # and scrimmed, then the type is set in the lower third like a poster —
+    # the opposite of a template card with a picture pasted behind it.
+    cinematic = bool(background and Path(str(background)).is_file())
+    if cinematic:
+        img = _grade(img, colours["navy"])
+        img = _scrim(img, colours["navy"])
+        ink, sub_ink = colours["offwhite"], (208, 214, 224)
+
     draw = ImageDraw.Draw(img, "RGBA")
 
     clear = CLEAR_ZONE if height > width else 150
@@ -202,7 +250,15 @@ def render_asset(
     items = spec.get("list_items") or []
     figures = spec.get("figures") or []
     badge = text.get("badge", "")
-    y = int(height * (0.16 if (items or figures or badge) else 0.24))
+    if cinematic:
+        # Measure the block from the bottom so the photograph keeps its top two
+        # thirds and the type lands where the scrim is darkest.
+        block = 300 + (len(items[:5]) * 56 if items else 0) + (150 if figures else 0)
+        block += 120 if text.get("myanmar") else 0
+        block += 110 if spec.get("price_line") else 0
+        y = max(int(height * 0.20), height - clear - block)
+    else:
+        y = int(height * (0.16 if (items or figures or badge) else 0.24))
 
     if badge:
         badge_font = _latin(22, 600)
