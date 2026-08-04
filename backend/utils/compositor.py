@@ -196,7 +196,24 @@ def render_asset(
     draw = ImageDraw.Draw(img, "RGBA")
 
     clear = CLEAR_ZONE if height > width else 150
-    y = int(height * 0.24)
+
+    # Service cards carry more furniture than a statement, so the block starts
+    # higher and the composition is measured from the content, not the canvas.
+    items = spec.get("list_items") or []
+    figures = spec.get("figures") or []
+    badge = text.get("badge", "")
+    y = int(height * (0.16 if (items or figures or badge) else 0.24))
+
+    if badge:
+        badge_font = _latin(22, 600)
+        bw = draw.textlength(badge, font=badge_font) + 36
+        bh = badge_font.size + 20
+        draw.rounded_rectangle([MARGIN, y, MARGIN + bw, y + bh], radius=bh // 2,
+                               fill=gold if not light else None,
+                               outline=None if not light else gold, width=2)
+        draw.text((MARGIN + 18, y + 8), badge, font=badge_font,
+                  fill=(colours["navy"] if not light else gold))
+        y += bh + 34
 
     # The gold entry rule — the system's signature mark.
     draw.rectangle([MARGIN, y, MARGIN + 120, y + 4], fill=gold)
@@ -214,6 +231,45 @@ def render_asset(
         for line in _wrap(draw, text["subline"], sub_font, width - 2 * MARGIN):
             draw.text((MARGIN, y), line, font=sub_font, fill=sub_ink)
             y += int(sub_font.size * 1.35)
+
+    # Inclusion list — one line per item, gold tick, generous leading.
+    if items:
+        y += 30
+        item_font = _latin(27, 400)
+        for item in items[:7]:
+            draw.rectangle([MARGIN, y + 13, MARGIN + 16, y + 16], fill=gold)
+            for i, line in enumerate(_wrap(draw, str(item), item_font, width - 2 * MARGIN - 40)):
+                draw.text((MARGIN + 36, y), line, font=item_font, fill=ink if i == 0 else sub_ink)
+                y += int(item_font.size * 1.32)
+            y += 12
+
+    # Figure row — the numbers do the selling (packages, volumes, price bands).
+    if figures:
+        y += 24
+        column = (width - 2 * MARGIN) // max(1, min(4, len(figures)))
+        fig_y = y
+        for i, figure in enumerate(figures[:4]):
+            fx = MARGIN + i * column
+            draw.text((fx, fig_y), str(figure.get("value", "")), font=_latin(58, 700), fill=ink)
+            draw.text((fx, fig_y + 74), str(figure.get("label", "")).upper(),
+                      font=_latin(19, 600), fill=sub_ink)
+        y = fig_y + 122
+
+    # Price row — a single gold total line, reading as a document not a flyer.
+    if spec.get("price_line"):
+        y += 16
+        rule_colour = (*sub_ink, 120)
+        draw.line([(MARGIN, y), (width - MARGIN, y)], fill=rule_colour, width=1)
+        price_font = _latin(32, 700)
+        label_font = _latin(26, 400)
+        draw.text((MARGIN, y + 24), spec.get("price_label", "Investment"),
+                  font=label_font, fill=sub_ink)
+        price = str(spec["price_line"])
+        draw.text((width - MARGIN - draw.textlength(price, font=price_font), y + 20),
+                  price, font=price_font, fill=gold)
+        y += 78
+        draw.line([(MARGIN, y), (width - MARGIN, y)], fill=rule_colour, width=1)
+        y += 10
 
     # Myanmar never shares a line with English — it stacks below a gold divider,
     # at 1.9 line-height, never letter-spaced.
