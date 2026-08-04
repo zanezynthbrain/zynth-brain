@@ -200,6 +200,23 @@ def _scrim(img, navy, top: float = 0.30, bottom: float = 0.78):
     return Image.composite(overlay, img, mask)
 
 
+
+def cinematic_block_height(spec: dict[str, Any]) -> int:
+    """Height the type block needs when set over a photograph.
+
+    Kept as a pure function because getting it wrong is invisible until a CTA
+    chip lands on top of the Burmese line — which is exactly what happened once.
+    """
+    text = spec.get("on_asset_text", {}) or {}
+    height = 300
+    height += len((spec.get("list_items") or [])[:5]) * 56
+    height += 150 if spec.get("figures") else 0
+    height += 120 if text.get("myanmar") else 0
+    height += 110 if spec.get("price_line") else 0
+    height += 90 if text.get("cta_chip") else 0
+    return height
+
+
 def render_asset(
     spec: dict[str, Any],
     design_system: dict[str, Any] | None = None,
@@ -253,10 +270,7 @@ def render_asset(
     if cinematic:
         # Measure the block from the bottom so the photograph keeps its top two
         # thirds and the type lands where the scrim is darkest.
-        block = 300 + (len(items[:5]) * 56 if items else 0) + (150 if figures else 0)
-        block += 120 if text.get("myanmar") else 0
-        block += 110 if spec.get("price_line") else 0
-        y = max(int(height * 0.20), height - clear - block)
+        y = max(int(height * 0.20), height - clear - cinematic_block_height(spec))
     else:
         y = int(height * (0.16 if (items or figures or badge) else 0.24))
 
@@ -343,7 +357,7 @@ def render_asset(
         label = text["cta_chip"]
         chip_w = draw.textlength(label, font=chip_font) + 52
         chip_h = chip_font.size + 28
-        cy = height - clear - chip_h + 20
+        cy = max(y + 26, height - clear - chip_h + 20)
         outline = gold if not light else colours["navy"]
         draw.rounded_rectangle([MARGIN, cy, MARGIN + chip_w, cy + chip_h],
                                radius=chip_h // 2, outline=outline, width=2)
@@ -396,4 +410,5 @@ def attach_to_plan(plan: dict[str, Any], results: list[dict[str, Any]]) -> dict[
 
 
 __all__ = ["render_asset", "render_plan_assets", "attach_to_plan", "palette_from",
+           "cinematic_block_height",
            "size_for", "is_available", "SIZES", "FONT_DIR", "OUT_DIR"]

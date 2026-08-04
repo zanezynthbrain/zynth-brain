@@ -180,3 +180,20 @@ def test_render_plan_assets_reports_per_spec_and_attaches_paths(monkeypatch, tmp
     posts = {p["ref"]: p for p in plan["content"]["posts"]}
     assert posts["P01"]["asset_path"].endswith("P01_1080x1080.png")
     assert "asset_path" not in posts["P03"], "posts without a spec stay untouched"
+
+
+def test_cinematic_block_reserves_room_for_every_element():
+    """A CTA chip once landed on top of the Burmese line — this is that guard."""
+    bare = {"on_asset_text": {"headline": "x"}}
+    full = {
+        "on_asset_text": {"headline": "x", "myanmar": "မြန်မာ", "cta_chip": "Go"},
+        "list_items": ["a", "b", "c"],
+        "figures": [{"value": "8", "label": "posts"}],
+        "price_line": "MMK 1M",
+    }
+    assert C.cinematic_block_height(bare) == 300
+    # every element must add its own room, none silently sharing space
+    assert C.cinematic_block_height(full) == 300 + 3 * 56 + 150 + 120 + 110 + 90
+
+    chip_only = {"on_asset_text": {"headline": "x", "cta_chip": "Go"}}
+    assert C.cinematic_block_height(chip_only) > C.cinematic_block_height(bare)
