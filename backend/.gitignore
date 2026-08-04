@@ -9,6 +9,12 @@ outputs/**/*.json
 outputs/**/*.csv
 outputs/**/*.txt
 outputs/**/*.md
+# Generated documents (/proposal, /event, /video, /content all write these —
+# regenerable from the plan data that IS committed, below)
+outputs/**/*.docx
+outputs/**/*.pdf
+outputs/**/*.pptx
+outputs/**/*.png
 !outputs/.gitkeep
 # The proposal pool IS the product — versioned so it survives redeploys
 !outputs/proposal_pool/**
