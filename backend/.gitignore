@@ -19,8 +19,9 @@ outputs/**/*.png
 # The proposal pool IS the product — versioned so it survives redeploys
 !outputs/proposal_pool/**
 
-# Rendered design drafts (regenerable artwork, sent to the MD not the repo)
+# Rendered design drafts + generated QC boards (regenerable, sent to the MD)
 outputs/designs/
+outputs/review/
 
 .pytest_cache/
 *.egg-info/

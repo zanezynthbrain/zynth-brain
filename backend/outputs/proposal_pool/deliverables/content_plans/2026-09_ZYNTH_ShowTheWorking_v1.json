@@ -240,7 +240,8 @@
         "needs_design": true,
         "asset_source": "designed",
         "boost": false,
-        "design_note": "A statement card that looks like a system diagram without being a diagram. The number 12 should carry the frame. Must be legible as a LinkedIn thumbnail."
+        "design_note": "A statement card that looks like a system diagram without being a diagram. The number 12 should carry the frame. Must be legible as a LinkedIn thumbnail.",
+        "asset_path": "outputs/assets/P01_twelve-agents_1080x1080.png"
       },
       {
         "ref": "P02",
@@ -264,7 +265,8 @@
         "needs_design": true,
         "asset_source": "designed",
         "boost": true,
-        "design_note": "Five frames, one per lead-time stage, building into a working-back calendar on the final frame. Numbers must dominate; this gets screenshotted and forwarded."
+        "design_note": "Five frames, one per lead-time stage, building into a working-back calendar on the final frame. Numbers must dominate; this gets screenshotted and forwarded.",
+        "asset_path": "outputs/assets/P02-f1_thadingyut-hook_1080x1350.png"
       },
       {
         "ref": "P03",
@@ -311,7 +313,8 @@
         "needs_design": true,
         "asset_source": "designed",
         "boost": true,
-        "design_note": "The summit lockup with the date carrying the frame. Dark, editorial, event-grade — this is the asset a sponsor's CFO will see first. No stock crowd photos."
+        "design_note": "The summit lockup with the date carrying the frame. Dark, editorial, event-grade — this is the asset a sponsor's CFO will see first. No stock crowd photos.",
+        "asset_path": "outputs/assets/P04_ignite-14-november_1080x1350.png"
       },
       {
         "ref": "P05",
@@ -381,7 +384,8 @@
         "needs_design": true,
         "asset_source": "designed",
         "boost": false,
-        "design_note": "Type-led statement card. The quote in the hook should be set as an actual quotation being dismantled — treatment should feel like an edit mark, not decoration."
+        "design_note": "Type-led statement card. The quote in the hook should be set as an actual quotation being dismantled — treatment should feel like an edit mark, not decoration.",
+        "asset_path": "outputs/assets/P07_not-a-strategy_1080x1350.png"
       },
       {
         "ref": "P08",
@@ -450,7 +454,8 @@
         "needs_design": true,
         "asset_source": "designed",
         "boost": false,
-        "design_note": "Five frames building a quote line by line, ending on the margin floor. Should read like a financial document with brand discipline — numbers right-aligned, one gold total."
+        "design_note": "Five frames building a quote line by line, ending on the margin floor. Should read like a financial document with brand discipline — numbers right-aligned, one gold total.",
+        "asset_path": "outputs/assets/P10-f5_margin-floor_1080x1350.png"
       },
       {
         "ref": "P11",
@@ -543,7 +548,8 @@
         "needs_design": true,
         "asset_source": "designed",
         "boost": false,
-        "design_note": "Four-item list card with strong hierarchy — the four human-owned items are the design. Restraint is the point; this is a credibility post, not a poster."
+        "design_note": "Four-item list card with strong hierarchy — the four human-owned items are the design. Restraint is the point; this is a credibility post, not a poster.",
+        "asset_path": "outputs/assets/P14_four-things_1080x1080.png"
       },
       {
         "ref": "P15",
@@ -589,7 +595,8 @@
         "needs_design": true,
         "asset_source": "designed",
         "boost": true,
-        "design_note": "The offer card. Package numbers do the work — 16, 11, 5, 10. Must not look like a discount flyer; it should look like a page from a proposal."
+        "design_note": "The offer card. Package numbers do the work — 16, 11, 5, 10. Must not look like a discount flyer; it should look like a page from a proposal.",
+        "asset_path": "outputs/assets/P16_september-offer_1080x1350.png"
       }
     ],
     "story_plan": [

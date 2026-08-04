@@ -78,7 +78,31 @@ sponsorship-funded, ZYNTH-owned IP.
    open_questions, never invented facts. Artwork rendering via OpenAI
    (utils/imagegen.py) is MD-triggered by button and capped — specs and prompts
    ship with or without a key.
-5. ⬜ Talent DB (Google Sheets service account, /talent add manual-first)
+5. ✅ Meta publishing + Burmese-first craft + QC board (MD-approved 2026-08-04)
+   - **Meta**: no connector exists, so `utils/meta.py` talks to the Graph API
+     directly. Facebook posts are scheduled AT Meta (10 min–6 months, survives
+     bot downtime); Instagram has NO scheduling API, so `scheduler.py` fires
+     approved IG posts every 5 min (`publisher` switch, deliberately NOT
+     master-gated — /quiet must never swallow an approved post). IG needs a
+     public media URL → `utils/assets.py` serves `/assets/<token>/<file>` off
+     the existing Railway public server (traversal-safe, extension-whitelisted).
+   - **Approval gate**: `utils/publish_queue.py` — pending → approved →
+     scheduled/published, pool-persisted. `/schedule <brand>` walks the month
+     post by post with Approve/Skip; nothing reaches Meta unapproved. Dry-run
+     (no token) shows exactly what WOULD be sent.
+   - **Burmese**: `knowledge/26_myanmar_ad_craft.md` + MyanmarCopyChiefAgent.
+     Content is now written Burmese-FIRST and transcreated to English; the Copy
+     Chief owns the final Burmese, reports translation artifacts, and raises
+     cultural flags (monks/pagodas/politics never campaign material).
+   - **Motion**: MotionDesignerAgent — beat sheets, subtitle specs, CapCut/
+     Premiere/Resolve edit specs, and OpenArt generation plans costed in credits
+     BEFORE spending (PixVerse 50/5s volume → Seedance 400/5s hero).
+   - **QC**: `utils/reviewboard.py` → `/review <brand>` renders a self-contained
+     HTML board (artwork + MM/EN copy + specs + deterministic checks, Myanmar
+     font embedded). `utils/compositor.py` composites brand-exact artwork from
+     design specs with the vendored fonts — Burmese is ALWAYS typeset, never
+     generated inside an image model.
+6. ⬜ Talent DB (Google Sheets service account, /talent add manual-first)
 - Not building yet: standalone CampaignPlanner agent (CMO covers it; the studio
   reads its output), Blender automation, scraping enrichment, hosted DB.
 
@@ -151,6 +175,14 @@ sponsorship-funded, ZYNTH-owned IP.
 - Anthropic credit top-up (bot brain offline without it)
 - OPENAI_API_KEY + ZYNTH_ALLOW_NETWORK=true in Railway → turns on artwork
   rendering in the design studio (specs and prompts work without it)
+- META_ACCESS_TOKEN (System User token, Business Manager — never expires),
+  META_PAGE_ID, META_IG_USER_ID → activates scheduling. Until then /schedule
+  runs in dry-run and shows exactly what would be sent.
+- ZYNTH_PUBLIC_URL + ZYNTH_ASSET_TOKEN → required for Instagram only (IG
+  fetches media by URL; Facebook does not need it).
+- OpenArt has 3,170 credits (Starter). Higgsfield is on 1 credit/free — not
+  worth paying for while OpenArt covers image AND video. Canva has NO brand
+  kit, so it can't enforce brand yet.
 - Add real client brands via `/brandkit add` (brand + target audience) so the
   studio stops working from briefs alone
 - SMTP_USER + SMTP_PASSWORD (Google App Password) in Railway → activates email

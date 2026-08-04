@@ -96,6 +96,25 @@ def _start_dashboard_server() -> None:
         def do_GET(self):  # noqa: N802
             if self.path in ("/health", "/healthz"):
                 self.send_response(200); self.end_headers(); self.wfile.write(b"ok"); return
+            if self.path.startswith("/assets"):
+                # Instagram fetches media by URL — this is that URL. Read-only,
+                # extension-whitelisted, filename-sanitised, optionally tokened.
+                try:
+                    from utils.assets import resolve_request
+                    target, mime = resolve_request(self.path)
+                    if not target:
+                        self.send_response(404); self.end_headers(); self.wfile.write(b"not found"); return
+                    body = target.read_bytes()
+                    self.send_response(200)
+                    self.send_header("Content-Type", mime)
+                    self.send_header("Content-Length", str(len(body)))
+                    self.send_header("Cache-Control", "public, max-age=3600")
+                    self.end_headers()
+                    self.wfile.write(body)
+                except Exception as exc:
+                    self.send_response(500); self.end_headers()
+                    self.wfile.write(f"asset error: {exc}".encode())
+                return
             if self.path.startswith("/api/state"):
                 try:
                     from utils.dashboard import build_state
@@ -269,6 +288,9 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/content &lt;brand&gt; &lt;8|10|16|30&gt; — A full month: brand strategy + calendar "
         "(EN/MM captions) + visual system + design specs 🎨\n"
         "/brandkit — Brand profiles + target audiences the studio writes for\n"
+        "/schedule &lt;brand&gt; — Review each post, then schedule to Facebook + Instagram 📡\n"
+        "/meta — Meta connection status (/meta check tests the live Page)\n"
+        "/review &lt;brand&gt; — QC board: artwork + MM/EN copy + automatic checks 🔍\n"
         "/ops — Vendor research + SOP\n\n"
         "<b>Campaign Workflows:</b>\n"
         "/run full_campaign\n"
@@ -2286,6 +2308,280 @@ async def handle_content_callback(update: Update, context: ContextTypes.DEFAULT_
         return
 
 
+async def cmd_meta(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Meta connection status and a live check of the Page / IG account.
+
+    /meta            → what's configured, what's missing
+    /meta check      → call the Graph API and confirm the token reaches the Page
+    """
+    if not _security_check(update):
+        return
+    from utils.assets import hosting_status
+    from utils.meta import is_configured, verify_connection
+
+    ok, note = is_configured()
+    args = [a.lower() for a in (context.args or [])]
+
+    if not args:
+        await update.message.reply_html(
+            "📡 <b>Meta publishing</b>\n\n"
+            f"{'✅' if ok else '⚠️'} {_html.escape(note)}\n"
+            f"{_html.escape(hosting_status())}\n\n"
+            "<b>How it works:</b>\n"
+            "· <b>Facebook</b> — scheduled at Meta (10 min to 6 months ahead). Once "
+            "scheduled, it publishes even if the bot is offline.\n"
+            "· <b>Instagram</b> — Meta has no scheduling API, so the bot publishes at "
+            "the minute itself. Needs a public asset URL.\n"
+            "· Nothing is sent without your per-post approval.\n\n"
+            "<code>/meta check</code> — test the token against the live Page\n"
+            "<code>/schedule &lt;brand&gt;</code> — load a month into the approval queue"
+        )
+        return
+
+    if args[0] == "check":
+        await update.message.reply_html("📡 Checking the Graph API…")
+        result = await verify_connection()
+        if not result.get("ok"):
+            await update.message.reply_html(
+                f"❌ {_html.escape(result.get('note', 'failed'))}\n\n"
+                "Set META_ACCESS_TOKEN, META_PAGE_ID (and META_IG_USER_ID for Instagram) "
+                "in Railway, plus ZYNTH_ALLOW_NETWORK=true."
+            )
+            return
+        page = result.get("page", {})
+        lines = [f"✅ <b>Page:</b> {_html.escape(str(page.get('name', '?')))} "
+                 f"({page.get('fan_count', '?')} followers)"]
+        if result.get("instagram"):
+            ig = result["instagram"]
+            lines.append(f"✅ <b>Instagram:</b> @{_html.escape(str(ig.get('username', '?')))} "
+                         f"({ig.get('followers_count', '?')} followers)")
+        elif result.get("instagram_error"):
+            lines.append(f"⚠️ Instagram: {_html.escape(result['instagram_error'][:200])}")
+        else:
+            lines.append("ℹ️ Instagram not configured (META_IG_USER_ID)")
+        lines.append(_html.escape(hosting_status()))
+        await update.message.reply_html("\n".join(lines))
+        return
+
+    await update.message.reply_html("Unknown option. Try <code>/meta</code> or <code>/meta check</code>.")
+
+
+def _queue_card(entry: dict) -> str:
+    """One queue entry rendered for review in Telegram."""
+    from utils.publisher import readiness
+    ready, why = readiness(entry)
+    when = entry.get("publish_at", "")[:16].replace("T", " ")
+    mm = entry.get("caption_mm", "")
+    en = entry.get("caption_en", "")
+    tags = " ".join(entry.get("hashtags", [])[:6])
+    return (
+        f"<b>{_html.escape(entry.get('ref', '?'))} · {_html.escape(entry.get('platform', ''))}</b> "
+        f"· {_html.escape(entry.get('content_type', ''))}\n"
+        f"🕒 {when} Yangon · {'✅ ' + why if ready else '⚠️ ' + why}\n\n"
+        f"<b>မြန်မာ:</b>\n{_html.escape(mm[:600])}\n\n"
+        f"<b>English:</b>\n{_html.escape(en[:600])}\n\n"
+        f"<i>{_html.escape(tags)}</i>"
+    )
+
+
+async def _show_next_pending(message, brand: str = "") -> bool:
+    """Send the next pending entry with approve/skip buttons. False when done."""
+    from utils import publish_queue as Q
+    pending = [e for e in Q.by_state("pending") if not brand or e.get("brand", "").lower() == brand.lower()]
+    if not pending:
+        await message.reply_html(
+            "✅ Nothing left pending.\n\n" + _html.escape(Q.summary_text()) +
+            "\n\nApproved Facebook posts are scheduled at Meta; approved Instagram posts "
+            "fire from the bot at their minute."
+        )
+        return False
+    entry = pending[0]
+    buttons = [[
+        InlineKeyboardButton("✅ Approve & schedule", callback_data=f"pub_ok:{entry['id']}"),
+        InlineKeyboardButton("⏭ Skip", callback_data=f"pub_no:{entry['id']}"),
+    ]]
+    await message.reply_html(
+        f"📋 <b>{len(pending)} post(s) awaiting your approval</b>\n\n" + _queue_card(entry),
+        reply_markup=InlineKeyboardMarkup(buttons),
+    )
+    return True
+
+
+async def cmd_schedule(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Load an approved content plan into the publishing queue, then review it.
+
+    /schedule                    → review whatever is already pending
+    /schedule <brand>            → queue that brand's latest plan, starting next Monday
+    /schedule status             → queue counts
+    """
+    if not _security_check(update):
+        return
+    from datetime import datetime, timedelta
+    from utils import publish_queue as Q
+
+    args = list(context.args or [])
+    sub = args[0].lower() if args else ""
+
+    if sub == "status":
+        entries = Q.all_entries()
+        lines = [f"📋 <b>Publishing queue</b>\n{_html.escape(Q.summary_text())}"]
+        for entry in entries[:15]:
+            icon = {"pending": "⏳", "approved": "✅", "scheduled": "📅",
+                    "published": "🚀", "skipped": "⏭", "failed": "❌"}.get(entry.get("state"), "•")
+            lines.append(
+                f"{icon} {_html.escape(entry.get('ref', '?'))} · "
+                f"{_html.escape(entry.get('platform', ''))} · "
+                f"{entry.get('publish_at', '')[:16].replace('T', ' ')}"
+                + (f" · {_html.escape(entry.get('error', '')[:60])}" if entry.get("error") else "")
+            )
+        await _send_long(update, "\n".join(lines))
+        return
+
+    if not sub:
+        await _show_next_pending(update.message)
+        return
+
+    # Load the most recent stored plan for this brand.
+    import json
+    from pathlib import Path
+    brand = " ".join(args)
+    plans_dir = Path("outputs/proposal_pool/deliverables/content_plans")
+    candidates = sorted(plans_dir.glob("*.json")) if plans_dir.is_dir() else []
+    match = None
+    for path in reversed(candidates):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if brand.lower() in str(data.get("brand", "")).lower():
+            match = data
+            break
+    if not match:
+        await update.message.reply_html(
+            f"No stored content plan found for '{_html.escape(brand)}'.\n"
+            "Run <code>/content &lt;brand&gt; 16</code> first — the plan is saved when you approve it."
+        )
+        return
+
+    # Week 1 starts next Monday, 19:00 Yangon.
+    now = datetime.now(Q.YANGON)
+    start = (now + timedelta(days=(7 - now.weekday()) % 7 or 7)).replace(
+        hour=19, minute=0, second=0, microsecond=0)
+    added = Q.enqueue_plan(match, start=start, brand=match.get("brand", brand))
+    if not added:
+        await update.message.reply_html(
+            "Those posts are already in the queue. Review them with <code>/schedule</code>."
+        )
+        return
+    await update.message.reply_html(
+        f"📥 Queued <b>{len(added)}</b> post(s) for {_html.escape(str(match.get('brand', brand)))} "
+        f"— {_html.escape(str(match.get('month', '')))}\n"
+        f"Week 1 starts {start:%a %d %b} at 19:00 Yangon.\n\n"
+        "Nothing is sent until you approve each one."
+    )
+    await _show_next_pending(update.message)
+
+
+async def handle_publish_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Approve / skip buttons on a queued post — the gate before Meta sees anything."""
+    query = update.callback_query
+    await query.answer()
+    data = query.data or ""
+    action, _, entry_id = data.partition(":")
+    from utils import publish_queue as Q
+    from utils.publisher import NotApproved, publish_entry, readiness
+
+    entry = Q.get(entry_id)
+    if not entry:
+        await query.edit_message_text("That entry is no longer in the queue.")
+        return
+
+    if action == "pub_no":
+        Q.skip(entry_id, "skipped by MD")
+        await query.edit_message_text(f"⏭ Skipped {entry.get('ref', '')}.")
+        await _show_next_pending(query.message, entry.get("brand", ""))
+        return
+
+    if action != "pub_ok":
+        return
+
+    ready, why = readiness(entry)
+    if not ready:
+        await query.edit_message_text(
+            f"⚠️ {entry.get('ref', '')} can't be sent yet — {why}.\n"
+            "Fix that, then run /schedule again."
+        )
+        await _show_next_pending(query.message, entry.get("brand", ""))
+        return
+
+    Q.approve(entry_id)
+    try:
+        result = await publish_entry(entry_id)
+    except NotApproved as exc:
+        await query.edit_message_text(f"❌ {exc}")
+        return
+
+    if not result.ok:
+        await query.edit_message_text(
+            f"❌ {entry.get('ref', '')} — {_html.escape(result.error[:300])}\n"
+            "The entry is marked failed; fix the cause and re-run /schedule."
+        )
+    elif result.action == "would_send":
+        await query.edit_message_text(
+            f"✅ {entry.get('ref', '')} approved — <b>dry run</b> (Meta not configured).\n"
+            f"Would {_html.escape(str(result.request.get('_intent', 'send')))} at "
+            f"{entry.get('publish_at', '')[:16].replace('T', ' ')} Yangon.",
+            parse_mode="HTML",
+        )
+    else:
+        await query.edit_message_text(f"✅ {entry.get('ref', '')} — {_html.escape(result.summary())}")
+
+    await _show_next_pending(query.message, entry.get("brand", ""))
+
+
+async def cmd_review(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Build the QC review board for a month and send it as a file.
+
+    /review <brand>   → artwork + MM/EN copy + specs + automatic checks, one page
+    """
+    if not _security_check(update):
+        return
+    import json
+    from pathlib import Path as _P
+    from utils import publish_queue as Q
+    from utils.reviewboard import summary, write
+
+    brand = " ".join(context.args or []).strip()
+    plans_dir = _P("outputs/proposal_pool/deliverables/content_plans")
+    candidates = sorted(plans_dir.glob("*.json")) if plans_dir.is_dir() else []
+    plan = None
+    for path in reversed(candidates):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if not brand or brand.lower() in str(data.get("brand", "")).lower():
+            plan = data
+            break
+    if not plan:
+        await update.message.reply_html(
+            "No stored content plan to review yet. Run <code>/content &lt;brand&gt; 16</code> first."
+        )
+        return
+
+    counts = summary(plan)
+    path = write(plan, queue=Q.all_entries())
+    verdict = ("✅ nothing blocking" if not counts["errors"]
+               else f"⛔ {counts['errors']} blocking issue(s)")
+    with open(path, "rb") as f:
+        await update.message.reply_document(
+            document=f, filename=path.name,
+            caption=(f"🔍 {plan.get('brand', '')} — {plan.get('month', '')} review board\n"
+                     f"{counts['posts']} posts · {verdict} · {counts['warnings']} warning(s)\n"
+                     "Open it: artwork, Burmese and English side by side, specs and checks."),
+        )
+
+
 async def cmd_mirror(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Refresh the Obsidian vault notes (Home, Snapshot, Hot Prospects, What We Built)."""
     if not _security_check(update):
@@ -3014,11 +3310,15 @@ def main() -> None:
     app.add_handler(CommandHandler("video", cmd_video))
     app.add_handler(CommandHandler("content", cmd_content))
     app.add_handler(CommandHandler("brandkit", cmd_brandkit))
+    app.add_handler(CommandHandler("meta", cmd_meta))
+    app.add_handler(CommandHandler("review", cmd_review))
+    app.add_handler(CommandHandler("schedule", cmd_schedule))
     app.add_handler(CommandHandler("task", cmd_task))
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
     app.add_handler(CallbackQueryHandler(handle_event_callback, pattern="^evt_"))
     app.add_handler(CallbackQueryHandler(handle_content_callback, pattern="^cnt_"))
+    app.add_handler(CallbackQueryHandler(handle_publish_callback, pattern="^pub_"))
     app.add_handler(CallbackQueryHandler(handle_proposal_wizard, pattern="^pw_"))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_handler))
     app.add_handler(MessageHandler(filters.VOICE | filters.AUDIO, voice_handler))

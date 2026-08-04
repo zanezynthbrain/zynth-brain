@@ -36,6 +36,7 @@ SWITCHES = [
     ("learning_brief",        "Weekly MD learning brief",               False, False),
     ("weekly_reviews",        "Weekly Mon/Fri/portfolio reviews",       False, False),
     ("fx_refresh",            "Daily FX rate refresh",                  False, False),
+    ("publisher",             "Publish MD-approved posts at their time", False, True),
 ]
 _DEFAULTS = {k: d for k, _, _, d in SWITCHES}
 _LABEL = {k: lbl for k, lbl, _, _ in SWITCHES}

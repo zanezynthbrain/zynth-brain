@@ -35,6 +35,21 @@ class Settings(BaseSettings):
     # Hard cap per render batch — artwork is billed per image.
     max_images_per_run: int = Field(default=4, alias="ZYNTH_MAX_IMAGES_PER_RUN")
 
+    # --- Meta publishing (Facebook Page + Instagram) ---------------------
+    # A System User token from Business Manager never expires — prefer it over
+    # the 60-day user-token refresh path. Needs pages_manage_posts,
+    # pages_read_engagement, instagram_basic, instagram_content_publish.
+    meta_access_token: str = Field(default="", alias="META_ACCESS_TOKEN")
+    meta_page_id: str = Field(default="", alias="META_PAGE_ID")
+    # The IG Business account linked to that Page (not the @handle — the numeric id).
+    meta_ig_user_id: str = Field(default="", alias="META_IG_USER_ID")
+
+    # --- Public asset hosting (Instagram fetches media by URL) -----------
+    # The Railway public URL for this service, e.g. https://zynth.up.railway.app
+    public_url: str = Field(default="", alias="ZYNTH_PUBLIC_URL")
+    # Optional path token so asset URLs aren't guessable.
+    asset_token: str = Field(default="", alias="ZYNTH_ASSET_TOKEN")
+
     # --- Token / cost governance ----------------------------------------
     max_tokens_per_call: int = Field(default=4096, alias="ZYNTH_MAX_TOKENS_PER_CALL")
     max_tokens_per_workflow: int = Field(default=60_000, alias="ZYNTH_MAX_TOKENS_PER_WORKFLOW")
