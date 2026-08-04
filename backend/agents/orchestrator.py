@@ -125,7 +125,9 @@ WORKFLOWS: dict[str, list[WorkflowStep]] = {
         WorkflowStep(agent_key="brand_strategist"),
         WorkflowStep(agent_key="content_creator", depends_on=["brand_strategist"]),
         WorkflowStep(agent_key="design_director", depends_on=["brand_strategist"]),
+        WorkflowStep(agent_key="myanmar_copy_chief", depends_on=["content_creator"]),
         WorkflowStep(agent_key="designer", depends_on=["content_creator", "design_director"]),
+        WorkflowStep(agent_key="motion_designer", depends_on=["content_creator", "design_director"]),
     ],
     # The studio collaborating with the rest of the agency: research and the
     # campaign planner (CMO) set the direction, the studio produces the month,
@@ -136,7 +138,9 @@ WORKFLOWS: dict[str, list[WorkflowStep]] = {
         WorkflowStep(agent_key="brand_strategist", depends_on=["research_seo", "cmo"]),
         WorkflowStep(agent_key="content_creator", depends_on=["brand_strategist"]),
         WorkflowStep(agent_key="design_director", depends_on=["brand_strategist"]),
+        WorkflowStep(agent_key="myanmar_copy_chief", depends_on=["content_creator"]),
         WorkflowStep(agent_key="designer", depends_on=["content_creator", "design_director"]),
+        WorkflowStep(agent_key="motion_designer", depends_on=["content_creator", "design_director"]),
         WorkflowStep(agent_key="paid_ads", depends_on=["content_creator"]),
     ],
 }

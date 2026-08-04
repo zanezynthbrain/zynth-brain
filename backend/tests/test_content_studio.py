@@ -267,9 +267,15 @@ def test_studio_workflows_are_registered_and_acyclic():
         order = [step.agent_key for group in groups for step in group]
         assert order.index("brand_strategist") < order.index("content_creator")
         assert order.index("design_director") < order.index("designer")
+        # the Burmese and the motion specs both wait on the finished calendar
+        assert order.index("content_creator") < order.index("myanmar_copy_chief")
+        assert order.index("content_creator") < order.index("motion_designer")
 
     studio = build_content_studio()
-    assert set(studio) == {"brand_strategist", "content_creator", "design_director", "designer"}
+    assert set(studio) == {
+        "brand_strategist", "content_creator", "design_director", "designer",
+        "myanmar_copy_chief", "motion_designer",
+    }
     # content_studio is runnable from the CLI/HTTP agent registry.
     registry = {**build_default_agents(), **studio}
     assert all(s.agent_key in registry for s in WORKFLOWS["content_studio"])
@@ -290,7 +296,8 @@ async def test_content_studio_workflow_runs_through_the_qa_gate():
     report = await orchestrator.run_workflow({"brand": "ZYNTH"}, workflow="content_studio")
 
     assert set(report.agent_results) == {
-        "brand_strategist", "content_creator", "design_director", "designer"
+        "brand_strategist", "content_creator", "design_director", "designer",
+        "myanmar_copy_chief", "motion_designer",
     }
     assert all(r.success for r in report.agent_results.values())
 

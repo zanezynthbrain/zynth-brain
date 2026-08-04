@@ -256,9 +256,10 @@ _POST_SCHEMA: dict[str, Any] = {
         "content_type": {"type": "string", "enum": CONTENT_TYPES},
         "pillar": {"type": "string"},
         "objective": {"type": "string", "description": "awareness / consideration / conversion / community"},
-        "hook": {"type": "string", "description": "the first line or first 1.5s — must stop the scroll"},
+        "hook": {"type": "string", "description": "the English hook — transcreated FROM hook_mm, not the source"},
+        "hook_mm": {"type": "string", "description": "the Burmese hook, written FIRST — this is the original"},
         "caption_en": {"type": "string"},
-        "caption_mm": {"type": "string", "description": "Myanmar Unicode (Pyidaungsu), transcreated not translated"},
+        "caption_mm": {"type": "string", "description": "Myanmar Unicode (Pyidaungsu), written first — the English is transcreated from this"},
         "hashtags": {"type": "array", "items": {"type": "string"}},
         "cta": {"type": "string"},
         "needs_design": {"type": "boolean", "description": "true if this post needs an original designed asset"},
@@ -326,11 +327,15 @@ class ContentCreatorAgent(BaseAgent):
             f"{package.copy_only_posts} are photo/UGC/copy-led with light treatment only. "
             f"Flag exactly {package.boosted_posts} posts with boost=true — pick the ones "
             "most likely to earn paid amplification.\n\n"
+            "WRITE THE BURMESE FIRST. For every post, compose hook_mm and caption_mm as "
+            "the ORIGINAL — Myanmar Unicode, spoken register, the rhythm and particles of "
+            "a real Myanmar ad (see the Myanmar Ad Craft knowledge). Then transcreate hook "
+            "and caption_en FROM the Burmese. A caption drafted in English and translated "
+            "will be sent back.\n\n"
             "For every post give: ref (P01, P02, …), week (1-4), day, platform, "
-            "content_type, pillar, objective, hook, caption_en, caption_mm (Myanmar "
-            "Unicode — transcreated so it reads like a Myanmar person wrote it, never a "
-            "literal translation), hashtags, cta, needs_design, design_note (what the "
-            "visual must DO, written for the designer), asset_source, boost.\n\n"
+            "content_type, pillar, objective, hook_mm, hook, caption_mm, caption_en, "
+            "hashtags, cta, needs_design, design_note (what the visual must DO, written "
+            "for the designer), asset_source, boost.\n\n"
             "Spread pillars across the month in the strategy's weightings, spread posts "
             "evenly across weeks 1-4, and vary the hooks — if two hooks share a formula, "
             "rewrite one. Also give: a month_theme, the story plan "
@@ -449,6 +454,263 @@ class DesignDirectorAgent(BaseAgent):
 
 
 # ---------------------------------------------------------------------------
+# 3b. Myanmar Copy Chief — the Burmese is final here, not in the calendar
+# ---------------------------------------------------------------------------
+
+_COPY_CHIEF_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "required": ["rewrites"],
+    "properties": {
+        "rewrites": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "required": ["ref", "hook_mm", "caption_mm"],
+                "properties": {
+                    "ref": {"type": "string", "description": "matches the post ref"},
+                    "hook_mm": {"type": "string", "description": "the Burmese hook — one breath, even beat"},
+                    "caption_mm": {"type": "string", "description": "the final Burmese caption"},
+                    "cta_mm": {"type": "string"},
+                    "register": {
+                        "type": "string",
+                        "description": "formal (ရေးသားစကား) / spoken (ပြောစကား) / ad voice (ကြော်ငြာသံ)",
+                    },
+                    "rhythm_note": {"type": "string", "description": "the syllable structure the hook uses, e.g. 4+4"},
+                    "issues_found": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "what was wrong with the incoming Burmese — feeds the next cycle",
+                    },
+                },
+            },
+        },
+        "register_decision": {"type": "string", "description": "the register held across the month, and why"},
+        "cultural_flags": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "anything that must go to the MD before publishing (religion, politics, claims)",
+        },
+        "open_questions": {"type": "array", "items": {"type": "string"}},
+    },
+}
+
+
+class MyanmarCopyChiefAgent(BaseAgent):
+    """Owns the Burmese. The calendar's Myanmar text is a draft until this runs."""
+
+    agent_key = "myanmar_copy_chief"
+    display_name = "Myanmar Copy Chief"
+    role_description = (
+        "You are ZYNTH's Myanmar Copy Chief (မြန်မာစာ အယ်ဒီတာချုပ်). You write Burmese ad "
+        "copy the way Myanmar advertising actually sounds — spoken register, balanced "
+        "syllable rhythm, one tone particle per sentence, Yangon code-switching, money in "
+        "သိန်း. You do not translate: you write the Burmese as the original and let the "
+        "English follow. You catch translation artifacts on sight — repeated သင်, "
+        "ဖြစ်ပါသည် endings, particle stacking, dead formal CTAs — and you hold the cultural "
+        "lines absolutely: monks, pagodas, Buddha images, national symbols and politics are "
+        "never campaign material, at any budget."
+    )
+    max_output_tokens = 14000
+    use_fallback_model = True
+    output_schema: dict[str, Any] = _COPY_CHIEF_SCHEMA
+
+    async def build_user_prompt(self, memory: SharedMemory, **kwargs: Any) -> str:
+        brand_name = kwargs.get("brand", "")
+        content = kwargs.get("content") or await memory.get("content_creator", {})
+        posts = content.get("posts", []) if isinstance(content, dict) else []
+        rows = "\n\n".join(
+            f"{p.get('ref', '?')} · {p.get('platform', '')} · {p.get('content_type', '')} · "
+            f"objective: {p.get('objective', '')}\n"
+            f"  intent (EN): {p.get('hook', '')}\n"
+            f"  draft MM hook: {p.get('hook_mm', '') or '(none — write it)'}\n"
+            f"  draft MM caption: {(p.get('caption_mm', '') or '(none — write it)')[:400]}\n"
+            f"  CTA: {p.get('cta', '')}"
+            for p in posts
+        )
+        return (
+            f"BRAND: {brand_name or 'see profile'}\n"
+            f"{brand_block(brand_name, max_chars=1500)}\n"
+            f"THE MONTH'S POSTS ({len(posts)}):\n{rows}\n\n"
+            "Rewrite the Burmese for every post so it reads as an original, not a "
+            "translation. For each: hook_mm (must pass the breath test — one breath, even "
+            "beat, ideally 4+4 or 5+5 syllables), caption_mm, cta_mm, the register you "
+            "used, a rhythm_note naming the structure, and issues_found listing what was "
+            "wrong with the draft.\n\n"
+            "Apply the four cuts: delete every သင် beyond the first, every ဖြစ်ပါသည် "
+            "closing, every second tone particle, every second CTA. Keep the English words "
+            "Yangon actually says (inbox, delivery, promotion, post, page); cut abstract "
+            "marketing nouns nobody says aloud. Money in သိန်း/သန်း. Never invent a price, "
+            "a claim or a statistic that isn't in the draft.\n\n"
+            "State the register you held across the month and why. Flag anything under "
+            "cultural_flags that must reach the MD before it publishes."
+            + _feedback_note(kwargs.get("feedback", ""))
+            + (f"\n\nQA feedback to address: {kwargs['qa_feedback']}" if kwargs.get("qa_feedback") else "")
+        )
+
+
+# ---------------------------------------------------------------------------
+# 3c. Motion Designer — reels, motion graphics, edit specs, generation plan
+# ---------------------------------------------------------------------------
+
+#: OpenArt credit rates (5s of video, or one image) as priced by the platform.
+#: Used to cost a generation plan BEFORE any credit is spent.
+OPENART_RATES: dict[str, int] = {
+    "pixverseV6": 50,               # 540p, volume B-roll
+    "wan2-7": 125,                  # 720p, controlled camera
+    "kling-3-omni": 175,            # std + sound
+    "byte-plus-seedance-2-mini": 200,
+    "gemini-omni-flash": 250,
+    "byte-plus-seedance-2-fast": 350,
+    "byte-plus-seedance-2": 400,    # hero: realism + synced audio + lip-sync
+    "grok-imagine-1-5": 405,
+    # stills
+    "kling-3-omni-image": 10,
+    "byte-plus-seedream-4-5": 15,
+    "nano-banana-2": 20,
+    "nano-banana-pro": 40,          # in-image text (English only — never Burmese)
+    "gpt-image-2": 40,
+}
+
+
+def estimate_credits(generation_plan: list[dict[str, Any]]) -> int:
+    """Cost a generation plan from its rows. Unknown models count as 0 and are flagged."""
+    total = 0
+    for row in generation_plan or []:
+        model = row.get("model", "")
+        rate = OPENART_RATES.get(model, 0)
+        seconds = row.get("seconds") or 0
+        if seconds:
+            total += rate * max(1, round(seconds / 5))
+        else:
+            total += rate * int(row.get("count", 1) or 1)
+    return total
+
+
+_MOTION_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "required": ["videos"],
+    "properties": {
+        "videos": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "required": ["ref", "format", "duration_seconds", "beat_sheet", "subtitle_spec", "edit_spec"],
+                "properties": {
+                    "ref": {"type": "string"},
+                    "format": {"type": "string", "description": "9:16 reel / 1:1 feed / 16:9"},
+                    "duration_seconds": {"type": "integer"},
+                    "hook_frame": {"type": "string", "description": "what is on screen in the first 1.5 seconds"},
+                    "beat_sheet": {
+                        "type": "array",
+                        "minItems": 3,
+                        "items": {
+                            "type": "object",
+                            "required": ["t", "visual"],
+                            "properties": {
+                                "t": {"type": "string", "description": "timecode, e.g. '0.0–1.5s'"},
+                                "visual": {"type": "string"},
+                                "text_on_screen": {"type": "string"},
+                                "text_mm": {"type": "string", "description": "the Burmese on screen, typeset not generated"},
+                                "audio": {"type": "string"},
+                                "source": {"type": "string", "description": "AI generated / filmed / screen capture / motion graphic"},
+                            },
+                        },
+                    },
+                    "motion_direction": {"type": "string", "description": "text animation, transitions, the gold rule as a device"},
+                    "subtitle_spec": {"type": "string", "description": "burned-in, bilingual, size, scrim, position — sound-off first"},
+                    "audio_direction": {"type": "string"},
+                    "generation_plan": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "required": ["shot", "model", "mode", "prompt"],
+                            "properties": {
+                                "shot": {"type": "string"},
+                                "model": {"type": "string", "description": "an OpenArt model id"},
+                                "mode": {"type": "string", "description": "text2video / image2video / element2video / text2image"},
+                                "seconds": {"type": "integer"},
+                                "count": {"type": "integer"},
+                                "prompt": {"type": "string", "description": "no Burmese text, no logos — those are laid over"},
+                            },
+                        },
+                    },
+                    "edit_spec": {"type": "string", "description": "CapCut / Premiere / Resolve steps an editor follows"},
+                    "delivery_spec": {"type": "string", "description": "aspect, resolution, fps, loudness, safe areas"},
+                },
+            },
+        },
+        "motion_system": {
+            "type": "string",
+            "description": "the reusable motion language for the brand — how type enters, how cuts work",
+        },
+        "open_questions": {"type": "array", "items": {"type": "string"}},
+    },
+}
+
+
+class MotionDesignerAgent(BaseAgent):
+    """Turns every video post into a beat sheet, an edit spec and a costed generation plan."""
+
+    agent_key = "motion_designer"
+    display_name = "Motion Designer"
+    role_description = (
+        "You are ZYNTH's Motion Designer. You design reels, motion graphics and the edit "
+        "itself. Every video you spec has a hook inside the first 1.5 seconds, a beat sheet "
+        "timed to the second, burned-in bilingual subtitles (sound-off is the default), and "
+        "an edit spec an editor can follow in CapCut, Premiere or DaVinci Resolve without "
+        "asking you a question. You plan AI generation honestly: AI makes backgrounds, "
+        "abstract motion and B-roll; anything that must be TRUE about the brand is filmed. "
+        "You cost every generation plan in credits before a single one is spent, and you "
+        "never ask an image or video model to render Burmese text — it is typeset over."
+    )
+    max_output_tokens = 14000
+    use_fallback_model = True
+    output_schema: dict[str, Any] = _MOTION_SCHEMA
+
+    async def build_user_prompt(self, memory: SharedMemory, **kwargs: Any) -> str:
+        brand_name = kwargs.get("brand", "")
+        design_system = kwargs.get("design_system") or await memory.get("design_director", {})
+        content = kwargs.get("content") or await memory.get("content_creator", {})
+        posts = content.get("posts", []) if isinstance(content, dict) else []
+        videos = [p for p in posts if p.get("content_type") == "short_video"]
+        budget = kwargs.get("credit_budget", 1500)
+        rows = "\n".join(
+            f"- {p.get('ref', '?')} · {p.get('platform', '')} · pillar {p.get('pillar', '')}\n"
+            f"    hook (EN): {p.get('hook', '')[:110]}\n"
+            f"    hook (MM): {p.get('hook_mm', '')[:110]}\n"
+            f"    note: {p.get('design_note', '')[:140]}"
+            for p in videos
+        )
+        rates = "\n".join(f"  {model}: {rate} credits per 5s (or per image)"
+                          for model, rate in sorted(OPENART_RATES.items(), key=lambda kv: kv[1]))
+        return (
+            f"BRAND: {brand_name or 'see profile'}\n"
+            f"{brand_block(brand_name, max_chars=1200)}\n"
+            "===== VISUAL SYSTEM (motion must extend it, not invent a second language) =====\n"
+            f"{design_system}\n===== END VISUAL SYSTEM =====\n\n"
+            f"VIDEOS TO SPEC ({len(videos)}):\n{rows}\n\n"
+            f"OPENART RATES (plan inside a {budget}-credit budget for the month):\n{rates}\n\n"
+            "For each video produce: format and duration, the hook_frame (what is on screen "
+            "in the first 1.5 seconds — a visual event plus text, no logo opener), a beat "
+            "sheet with timecodes (hook → turn → proof → ask, each beat naming its source: "
+            "AI generated, filmed, screen capture or motion graphic), motion direction, the "
+            "subtitle spec (burned-in, bilingual, Myanmar typeset in Pyidaungsu/Noto at 1.9 "
+            "line-height — never generated by a model), audio direction, a costed "
+            "generation_plan (model id, mode, seconds, prompt — prompts contain NO Burmese "
+            "text and NO logos), the edit spec for CapCut/Premiere/Resolve, and delivery "
+            "specs.\n\n"
+            "Tier the models honestly: PixVerse or Wan for volume B-roll, Seedance 2.0 for "
+            "the ONE hero video that earns it. Anything that must be true about ZYNTH — a "
+            "real venue, a real person, real work on a screen — is filmed, not generated. "
+            "Also give the reusable motion_system for the brand."
+            + _feedback_note(kwargs.get("feedback", ""))
+            + (f"\n\nQA feedback to address: {kwargs['qa_feedback']}" if kwargs.get("qa_feedback") else "")
+        )
+
+
+# ---------------------------------------------------------------------------
 # 4. Designer — per-asset specs + render prompts
 # ---------------------------------------------------------------------------
 
@@ -542,7 +804,8 @@ class DesignerAgent(BaseAgent):
             "Produce one design spec per post above, keyed by the SAME ref. Each spec: "
             "format + exact pixel size for that platform, which template, composition "
             "(subject, hierarchy, focal point, negative space), the on-asset text "
-            "(headline — short enough to read at thumbnail size — subline, Myanmar text, "
+            "(headline — short enough to read at thumbnail size — subline, Myanmar text "
+            "taken from the post's hook_mm and TYPESET, never generated by an image model, "
             "CTA chip), colour use by hex, imagery and where it comes from, carousel "
             "frames in order where relevant, motion notes for video (pacing, text "
             "animation, subtitle style), and a complete render_prompt for the "
@@ -690,6 +953,33 @@ def parse_studio_request(text: str) -> tuple[str, str, str]:
     return brand, resolve_package(package_spec).key, brief
 
 
+def apply_burmese(content: dict[str, Any], burmese: dict[str, Any]) -> dict[str, Any]:
+    """Fold the Copy Chief's rewrites into the calendar, keyed by post ref.
+
+    The Copy Chief owns the Burmese: where it returns a rewrite, that text wins.
+    Posts it didn't reach keep the creator's draft and are listed under
+    ``burmese_gaps`` so nothing silently ships as a translation.
+    """
+    rewrites = {r.get("ref"): r for r in (burmese.get("rewrites") or []) if r.get("ref")}
+    gaps: list[str] = []
+    for post in content.get("posts") or []:
+        rewrite = rewrites.get(post.get("ref"))
+        if not rewrite:
+            gaps.append(post.get("ref", "?"))
+            continue
+        if rewrite.get("caption_mm"):
+            post["caption_mm"] = rewrite["caption_mm"]
+        if rewrite.get("hook_mm"):
+            post["hook_mm"] = rewrite["hook_mm"]
+        if rewrite.get("cta_mm"):
+            post["cta_mm"] = rewrite["cta_mm"]
+        if rewrite.get("register"):
+            post["mm_register"] = rewrite["register"]
+    if gaps:
+        content["burmese_gaps"] = gaps
+    return content
+
+
 async def run_content_studio(
     brief: str,
     memory: SharedMemory,
@@ -698,16 +988,22 @@ async def run_content_studio(
     month: str = "next month",
     feedback: str = "",
     cycle: int = 1,
+    credit_budget: int = 1500,
 ) -> dict[str, Any]:
-    """Full studio cycle: strategy (primary) → content + design system (parallel,
-    cheap) → design specs (cheap).
+    """Full studio cycle.
+
+    strategy (primary model)
+      → content ∥ design system (cheap)
+      → reconcile against the package
+      → Burmese ∥ design specs ∥ motion specs (cheap, parallel)
 
     Returns {brand, month, package, strategy, content, design_system, designs,
-    ratio, render_specs, cycle}.
+    motion, burmese, ratio, render_specs, credits, cycle}.
     """
     settings = get_settings()
     pkg = resolve_package(package)
     brand_name = brand or ""
+    kwargs_credit_budget = credit_budget
 
     # 1. Strategy first — everything downstream inherits it. Primary model.
     strategist = BrandStrategistAgent()
@@ -753,17 +1049,28 @@ async def run_content_studio(
     content = _reconcile(content, pkg)
     await memory.set(creator.agent_key, content)
 
-    # 4. Per-asset design specs, keyed to the reconciled calendar.
+    # 4. The Burmese is finalised, the assets are specced, and the videos are
+    #    planned — all three read the reconciled calendar, so they run together.
+    copy_chief = MyanmarCopyChiefAgent()
     designer = DesignerAgent()
-    designs = await _run(
-        designer,
-        min(14000, 3000 + pkg.designed_assets * 500),
-        design_system=design_system,
-        content=content,
+    motion = MotionDesignerAgent()
+
+    burmese, designs, motion_plan = await asyncio.gather(
+        _run(copy_chief, min(14000, 3000 + pkg.posts_per_month * 420), content=content),
+        _run(designer, min(14000, 3000 + pkg.designed_assets * 500),
+             design_system=design_system, content=content),
+        _run(motion, min(14000, 4000 + pkg.short_videos * 900),
+             design_system=design_system, content=content,
+             credit_budget=kwargs_credit_budget),
     )
+
+    # The Copy Chief's Burmese is final — fold it back into the calendar.
+    content = apply_burmese(content, burmese)
+    await memory.set(creator.agent_key, content)
 
     ratio = ratio_report(content, pkg)
     package_dict = pkg.as_dict()
+    credits = credit_report(motion_plan, designs, credit_budget)
     result = {
         "brand": brand_name or (strategy.get("brand_platform", {}) or {}).get("positioning", "")[:60],
         "month": month,
@@ -773,7 +1080,10 @@ async def run_content_studio(
         "content": content,
         "design_system": design_system,
         "designs": designs,
+        "motion": motion_plan,
+        "burmese": burmese,
         "ratio": ratio,
+        "credits": credits,
         "render_specs": render_specs(designs),
         "cycle": cycle,
     }
@@ -781,6 +1091,51 @@ async def run_content_studio(
         "brand": result["brand"], "month": month, "package": pkg.key, "ratio": ratio,
     })
     return result
+
+
+def credit_report(motion_plan: dict[str, Any], designs: dict[str, Any],
+                  budget: int = 1500) -> dict[str, Any]:
+    """What this month costs to generate, before a single credit is spent.
+
+    Video comes from the motion designer's per-shot plans; stills are costed at
+    the still rate for every design spec carrying a render prompt.
+    """
+    video_rows: list[dict[str, Any]] = []
+    for video in motion_plan.get("videos") or []:
+        plan = video.get("generation_plan") or []
+        cost = estimate_credits(plan)
+        video_rows.append({
+            "ref": video.get("ref", "?"),
+            "duration_seconds": video.get("duration_seconds", 0),
+            "shots": len(plan),
+            "models": sorted({row.get("model", "?") for row in plan}),
+            "credits": cost,
+        })
+    video_total = sum(row["credits"] for row in video_rows)
+
+    still_specs = [s for s in (designs.get("design_specs") or []) if (s.get("render_prompt") or "").strip()]
+    # Stills default to the volume rate; the hero asset carries the text-capable model.
+    still_total = estimate_credits([
+        {"model": "nano-banana-2", "count": max(0, len(still_specs) - 1)},
+        {"model": "nano-banana-pro", "count": 1 if still_specs else 0},
+    ])
+
+    total = video_total + still_total
+    return {
+        "video_credits": video_total,
+        "still_credits": still_total,
+        "total_credits": total,
+        "budget": budget,
+        "within_budget": total <= budget,
+        "over_by": max(0, total - budget),
+        "videos": video_rows,
+        "stills_planned": len(still_specs),
+        "note": (
+            "OpenArt credits at published rates; a 5s clip is one unit. Generation is "
+            "MD-triggered, never automatic. Burmese text is never generated — it is "
+            "typeset over the render."
+        ),
+    }
 
 
 def render_specs(designs: dict[str, Any]) -> list[dict[str, str]]:
@@ -959,6 +1314,73 @@ def plan_to_sections(plan: dict[str, Any]) -> list[dict[str, Any]]:
                   s.get("imagery", "")] for s in specs],
     }] if specs else []
 
+    # 7b. Motion, reels and the edit
+    motion = plan.get("motion", {}) or {}
+    videos = motion.get("videos", []) or []
+    credits = plan.get("credits", {}) or {}
+    motion_body = _p(
+        motion.get("motion_system", ""),
+        f"Generation budget: {credits.get('total_credits', 0)} credits planned "
+        f"({credits.get('video_credits', 0)} video + {credits.get('still_credits', 0)} stills) "
+        f"against a {credits.get('budget', 0)}-credit month — "
+        + ("within budget." if credits.get("within_budget", True)
+           else f"OVER by {credits.get('over_by', 0)}; cut a hero shot or drop to a volume model.")
+        if credits else "",
+        "Burmese subtitles and on-screen type are typeset in Pyidaungsu/Noto over the "
+        "footage — never generated by a video model.",
+    )
+    motion_tables = []
+    if videos:
+        motion_tables.append({
+            "title": "Video specifications",
+            "headers": ["Ref", "Format", "Length", "Hook (first 1.5s)", "Subtitles", "Delivery"],
+            "rows": [[v.get("ref", ""), v.get("format", ""), f"{v.get('duration_seconds', '')}s",
+                      v.get("hook_frame", ""), v.get("subtitle_spec", ""), v.get("delivery_spec", "")]
+                     for v in videos],
+        })
+        beat_rows = []
+        for video in videos:
+            for beat in video.get("beat_sheet", []) or []:
+                beat_rows.append([
+                    video.get("ref", ""), beat.get("t", ""), beat.get("visual", ""),
+                    beat.get("text_on_screen", ""), beat.get("text_mm", ""), beat.get("source", ""),
+                ])
+        if beat_rows:
+            motion_tables.append({
+                "title": "Beat sheets — shot by shot",
+                "headers": ["Ref", "Time", "Visual", "On-screen (EN)", "On-screen (MM)", "Source"],
+                "rows": beat_rows,
+            })
+    if credits.get("videos"):
+        motion_tables.append({
+            "title": "AI generation plan and credit cost",
+            "headers": ["Ref", "Length", "Shots", "Models", "Credits"],
+            "rows": [[row["ref"], f"{row['duration_seconds']}s", str(row["shots"]),
+                      ", ".join(row["models"]), str(row["credits"])] for row in credits["videos"]],
+        })
+
+    # 7c. The Burmese
+    burmese = plan.get("burmese", {}) or {}
+    rewrites = burmese.get("rewrites", []) or []
+    burmese_body = _p(
+        f"Register held across the month: {burmese.get('register_decision', '')}"
+        if burmese.get("register_decision") else "",
+        "Burmese is written first and the English transcreated from it. Every caption is "
+        "checked against ZYNTH's Myanmar ad-craft standard: breath test on the hook, one "
+        "tone particle per sentence, one CTA, money in သိန်း, no translation artifacts.",
+        "For the MD before publishing:\n" + _bullets(burmese.get("cultural_flags"))
+        if burmese.get("cultural_flags") else "",
+        "Posts the Copy Chief did not reach (still draft Burmese): "
+        + ", ".join(content.get("burmese_gaps", [])) if content.get("burmese_gaps") else "",
+    )
+    burmese_tables = [{
+        "title": "Burmese hooks — register and rhythm",
+        "headers": ["Ref", "Hook (MM)", "Register", "Rhythm", "Fixed from the draft"],
+        "rows": [[r.get("ref", ""), r.get("hook_mm", ""), r.get("register", ""),
+                  r.get("rhythm_note", ""), "; ".join(r.get("issues_found", []) or [])]
+                 for r in rewrites],
+    }] if rewrites else []
+
     # 8. Measurement, scope and investment
     kpis = strategy.get("kpis", []) or []
     scope_body = _p(
@@ -988,12 +1410,15 @@ def plan_to_sections(plan: dict[str, Any]) -> list[dict[str, Any]]:
         {"heading": "Copy Deck", "body": "", "tables": caption_tables},
         {"heading": "Visual System", "body": system_body, "tables": system_tables},
         {"heading": "Design Specifications", "body": design_body, "tables": design_tables},
+        {"heading": "Motion, Reels & the Edit", "body": motion_body, "tables": motion_tables},
+        {"heading": "The Burmese — Register, Rhythm & Cultural Check",
+         "body": burmese_body, "tables": burmese_tables},
         {"heading": "Scope, Measurement & Investment", "body": scope_body, "tables": scope_tables},
     ]
 
     # Anything the team had to assume travels with the document, never silently.
     questions: list[str] = []
-    for block in (strategy, content, system, designs):
+    for block in (strategy, content, system, designs, motion, burmese):
         questions.extend(block.get("open_questions", []) or [])
     adjustments = content.get("package_adjustments", []) or []
     if questions or adjustments:
@@ -1011,6 +1436,8 @@ def plan_to_sections(plan: dict[str, Any]) -> list[dict[str, Any]]:
 
 __all__ = [
     "BrandStrategistAgent", "ContentCreatorAgent", "DesignDirectorAgent", "DesignerAgent",
+    "MyanmarCopyChiefAgent", "MotionDesignerAgent",
     "run_content_studio", "parse_studio_request", "plan_to_sections",
-    "ratio_report", "render_specs",
+    "ratio_report", "render_specs", "credit_report", "estimate_credits",
+    "apply_burmese", "OPENART_RATES",
 ]

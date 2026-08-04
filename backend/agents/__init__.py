@@ -20,6 +20,8 @@ from .content_studio import (
     ContentCreatorAgent,
     DesignDirectorAgent,
     DesignerAgent,
+    MotionDesignerAgent,
+    MyanmarCopyChiefAgent,
     run_content_studio,
 )
 
@@ -46,7 +48,7 @@ __all__ = [
     "EventManagerAgent", "OperationsAgent", "PortfolioAgent",
     # Content & Design Studio
     "BrandStrategistAgent", "ContentCreatorAgent", "DesignDirectorAgent",
-    "DesignerAgent", "run_content_studio",
+    "DesignerAgent", "MyanmarCopyChiefAgent", "MotionDesignerAgent", "run_content_studio",
     # Meta
     "ImproverAgent", "run_roundtable",
     # Factory functions
@@ -109,4 +111,6 @@ def build_content_studio(llm_client=None) -> dict[str, BaseAgent]:
         "content_creator": ContentCreatorAgent(shared_llm),
         "design_director": DesignDirectorAgent(shared_llm),
         "designer": DesignerAgent(shared_llm),
+        "myanmar_copy_chief": MyanmarCopyChiefAgent(shared_llm),
+        "motion_designer": MotionDesignerAgent(shared_llm),
     }
