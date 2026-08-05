@@ -171,6 +171,24 @@ sponsorship-funded, ZYNTH-owned IP.
 - To raise the bar further, replace/extend proposal_exemplar.md with more approved
   examples (keep it a skeleton, ~8-10k chars, to control per-call cost).
 
+## Finance — operating costs (2026-08-05)
+- **Money Out is live data:** `backend/utils/finance.py` + `backend/data/expenses.json`,
+  readable via `/expenses`. Burn ≈ **US$60/month** (US$5 confirmed, US$55 estimated):
+  Claude Pro, Anthropic API (ceiling S$40/mo), OpenArt Starter, zynth.asia domain,
+  mobile+wifi US$5, Railway ~US$5. Unverified amounts carry `verified:false` and are
+  reported with a TBC tag — never as fact. Budget sheet:
+  `docs/departments/FINANCE_operating_costs.md`.
+- **MD decision:** no production team yet → video is **edit-only, AI-generated**,
+  building a portfolio at commercial level. Crew/equipment rates stay on file for
+  client quotes (ZYNTH is producer-led), they are just not in the current burn.
+- **AI credits are stock, not subscription.** Credits scale with SHOT COUNT, not
+  runtime — every shot is a separate 5s-minimum generation. A 15s film at commercial
+  pacing is ~8 shots: 972 (lean) / 2,524 (balanced) / 4,752 (premium) credits,
+  including a ×1.35 retake factor. Recommended buy: **~8,700 credits** for
+  3 × 15s balanced (one portfolio film per service line).
+- OpenArt/openart.ai pricing is BLOCKED from the Railway/Claude environment, so the
+  dollar cost of a credit pack is unverified — the MD reads it off the billing page.
+
 ## MD setup still pending
 - Anthropic credit top-up (bot brain offline without it)
 - OPENAI_API_KEY + ZYNTH_ALLOW_NETWORK=true in Railway → turns on artwork

@@ -320,7 +320,8 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/venue — Yangon venue DB (search · add · outreach)\n\n"
         "<b>Run the Agency (playbook):</b>\n"
         "/audit — Week 0 Honest Audit: find your starting line\n"
-        "/scorecard — 12-metric master scorecard (/scorecard set mrr 12000)\n\n"
+        "/scorecard — 12-metric master scorecard (/scorecard set mrr 12000)\n"
+        "/expenses — Operating costs + monthly burn (/expenses credits 15 balanced) 💸\n\n"
         "<b>Knowledge Base:</b>\n"
         "/note — Quick-capture a note to the vault (agents use it instantly)\n"
         "/mirror — Refresh the Obsidian vault (Home · Snapshot · Hot Prospects)\n"
@@ -2582,6 +2583,93 @@ async def cmd_review(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
         )
 
 
+async def cmd_expenses(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Operating costs — the Money Out list from the finance operating system.
+
+    /expenses                          → every logged cost
+    /expenses burn                     → monthly burn, confirmed vs estimated
+    /expenses credits <seconds> <tier> → OpenArt credits for one film
+    /expenses verify <item> <amount>   → confirm an amount from a receipt
+    /expenses add <item> <amount> <cadence>
+    """
+    if not _security_check(update):
+        return
+    from utils import finance as FIN
+
+    args = list(context.args or [])
+    sub = args[0].lower() if args else ""
+
+    if sub == "burn":
+        await _send_long(update, FIN.format_burn())
+        return
+
+    if sub == "credits":
+        seconds = int(args[1]) if len(args) > 1 and args[1].isdigit() else 15
+        tier = args[2].lower() if len(args) > 2 else "balanced"
+        if tier not in ("lean", "balanced", "premium"):
+            tier = "balanced"
+        plan = FIN.credit_plan(seconds, tier)
+        await update.message.reply_html(
+            f"🎬 <b>{seconds}s film · {tier}</b>\n"
+            f"{plan['shots']} shots → {plan['generated_seconds']}s generated "
+            f"(you pay per 5s clip, not per second on screen)\n\n"
+            f"Plates: {plan['plate_credits']:,} · Video: {plan['video_credits']:,}\n"
+            f"Retakes ×{plan['retake_factor']}\n"
+            f"<b>Total: {plan['total_credits']:,} credits</b>"
+        )
+        return
+
+    if sub == "verify":
+        if len(args) < 3:
+            await update.message.reply_html(
+                "Confirm an amount from a receipt:\n"
+                "<code>/expenses verify \"Claude Pro\" 20</code>"
+            )
+            return
+        try:
+            amount = float(args[-1])
+        except ValueError:
+            await update.message.reply_html("The last argument must be the amount, e.g. 20")
+            return
+        item = " ".join(args[1:-1]).strip('"')
+        record = FIN.verify_expense(item, amount)
+        if not record:
+            await update.message.reply_html(
+                f"No runtime-logged cost matching '{_html.escape(item)}'. "
+                "Seeded costs are edited in backend/data/expenses.json."
+            )
+            return
+        await update.message.reply_html(
+            f"✅ {_html.escape(record['item'])} confirmed at US${amount:.2f}."
+        )
+        return
+
+    if sub == "add":
+        if len(args) < 3:
+            await update.message.reply_html(
+                "<code>/expenses add &lt;item&gt; &lt;amount&gt; &lt;monthly|yearly|one_off|usage&gt;</code>\n"
+                "<code>/expenses add \"OpenArt top-up\" 30 one_off</code>"
+            )
+            return
+        cadence = args[-1].lower() if args[-1].lower() in FIN.CADENCE else "monthly"
+        rest = args[1:-1] if cadence == args[-1].lower() else args[1:]
+        try:
+            amount = float(rest[-1])
+            item = " ".join(rest[:-1]).strip('"')
+        except (ValueError, IndexError):
+            await update.message.reply_html("Couldn't read the amount. Try: /expenses add Domain 15 yearly")
+            return
+        record = FIN.add_expense({"item": item, "amount_usd": amount, "cadence": cadence})
+        await update.message.reply_html(
+            f"📌 Logged: <b>{_html.escape(item)}</b> US${amount:.2f}/{cadence} ⚠️ TBC "
+            "— confirm with /expenses verify once you have the receipt."
+        )
+        return
+
+    await _send_long(update, "💸 <b>Operating costs</b>\n\n" + FIN.format_expenses()
+                     + "\n\n<code>/expenses burn</code> · <code>/expenses credits 15 balanced</code>")
+
+
 async def cmd_mirror(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Refresh the Obsidian vault notes (Home, Snapshot, Hot Prospects, What We Built)."""
     if not _security_check(update):
@@ -3312,6 +3400,7 @@ def main() -> None:
     app.add_handler(CommandHandler("brandkit", cmd_brandkit))
     app.add_handler(CommandHandler("meta", cmd_meta))
     app.add_handler(CommandHandler("review", cmd_review))
+    app.add_handler(CommandHandler("expenses", cmd_expenses))
     app.add_handler(CommandHandler("schedule", cmd_schedule))
     app.add_handler(CommandHandler("task", cmd_task))
     app.add_handler(CommandHandler("kb", cmd_kb))
