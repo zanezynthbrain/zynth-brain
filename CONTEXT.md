@@ -171,6 +171,36 @@ sponsorship-funded, ZYNTH-owned IP.
 - To raise the bar further, replace/extend proposal_exemplar.md with more approved
   examples (keep it a skeleton, ~8-10k chars, to control per-call cost).
 
+## Back-office cluster + video toolkit (2026-08-06, from the MD's other session)
+> Full record: **`docs/handoff/2026-08-06.md`** — read it on session start
+> (`CLAUDE.md` now points there).
+- **Finding:** the open skill ecosystem is deep in dev/infra, thin in agency
+  back-office. No HR skill and no agency-finance skill exist anywhere → both are
+  build-from-scratch. Verdict lives in `docs/adoption/BACKOFFICE_ADOPTION_MANIFEST.md`.
+- **`zb-` cluster built** (icp → offer → quote → objections → pitch-kit): one
+  spine, one set of numbers, mapped to the 11-section Proposal Standard.
+- **Finance controller agent, persona YADANA** (ရတနာ): quoting engine, project
+  P&L, 13-week cashflow, invoicing SOP, xlsx model spec.
+- **R1–R5 RECONCILED:** `backend/knowledge/01_zynth_services.md` is the single
+  source of truth (35% floor, 50% deposit, 3-month runway, 80/20 mix, 20%
+  reinvestment). The YADANA file's block gets replaced with it, not the reverse.
+  ⚠️ The handoff's "block under 40% margin" contradicts R1 — correct behaviour is
+  hard block <35%, amber 35–40%, green ≥40%. 40% is the target, 35% is the floor.
+- **YADANA vs `utils/finance.py`:** brains vs ledger, not duplicates. YADANA
+  decides whether a quote clears the floor; `finance.py` records what ZYNTH pays.
+  YADANA reads `monthly_burn()` rather than restating it.
+- **Video toolkit:** `digitalsamba/claude-code-video-toolkit` adopted as a
+  SEPARATE workspace for the Factory/volume tier only — not merged, not the hero
+  tier. Cherry-pick remotion/elevenlabs/ltx2/ffmpeg.
+- **Trust map:** "VideoDraft MCP / rodneymbrown1/MCP-blender-video-editor" is
+  HALLUCINATED — do not install. Real alternatives: KyaniteLabs/kinocut,
+  chandler767/mcp-video-editor, burningion/video-editing-mcp. Do not fork the
+  stack with CrewAI/AutoGen.
+- **Framing:** MCP = hands (tool access), Skills = brains (domain knowledge).
+- **BLOCKED:** the 5 SKILL.md files + adoption manifest are in the MD's Downloads,
+  not in this repo — they cannot be committed until they are provided. When they
+  land they go to `.claude/skills/` (repo-versioned), not `~/.claude/skills/`.
+
 ## Finance — operating costs (2026-08-05)
 - **Money Out is live data:** `backend/utils/finance.py` + `backend/data/expenses.json`,
   readable via `/expenses`. Burn ≈ **US$60/month** (US$5 confirmed, US$55 estimated):
