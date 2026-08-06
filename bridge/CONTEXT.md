@@ -197,9 +197,18 @@ sponsorship-funded, ZYNTH-owned IP.
   chandler767/mcp-video-editor, burningion/video-editing-mcp. Do not fork the
   stack with CrewAI/AutoGen.
 - **Framing:** MCP = hands (tool access), Skills = brains (domain knowledge).
-- **BLOCKED:** the 5 SKILL.md files + adoption manifest are in the MD's Downloads,
-  not in this repo — they cannot be committed until they are provided. When they
-  land they go to `.claude/skills/` (repo-versioned), not `~/.claude/skills/`.
+- **LANDED 2026-08-06:** the pack was delivered and unpacked. `.claude/skills/`
+  now holds the 5 new skills **plus all 21 previously user-level `zynth-*`
+  department skills** — 31 skills total, all repo-versioned and travelling with
+  every clone. `docs/adoption/` holds the manifest + pack README.
+- **R1–R5 replaced in `yadana-finance` §3** with the canonical block, verbatim.
+  §3.1 adds the green/amber/red banding (amber warns, only red blocks); §3.2 keeps
+  the draft's four operational rules as "quoting discipline", deliberately NOT
+  R-numbered so there is only ever one R-law. Fixed R-number drift inside the
+  file: the deposit rule is **R2**, not R4.
+- ⚠️ **Still open:** the xlsx workbook spec in the handoff still says "blocks any
+  job under 40% margin". Build it to the BANDED model in `yadana-finance` §3.1,
+  not to that line.
 
 ## Finance — operating costs (2026-08-05)
 - **Money Out is live data:** `backend/utils/finance.py` + `backend/data/expenses.json`,
