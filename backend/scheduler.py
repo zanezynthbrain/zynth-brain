@@ -26,6 +26,7 @@ from datetime import datetime
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
+from apscheduler.triggers.interval import IntervalTrigger
 
 from agents.ceo import CEOAgent
 from config import get_settings
@@ -599,6 +600,29 @@ async def run_friday_review() -> None:
     )
 
 
+
+async def run_instagram_publisher() -> None:
+    """Fire approved Instagram posts whose minute has arrived.
+
+    Instagram has no scheduling API — Meta will not hold a post for us — so this
+    IS the schedule for IG. It publishes only entries the MD already approved,
+    which is why it checks its own switch with raw_on() instead of enabled():
+    /quiet silences autonomous WORK, and must not silently swallow a post the MD
+    already said yes to.
+    """
+    from utils import switches
+    if not switches.raw_on("publisher"):
+        logger.info("⏸  instagram publisher off")
+        return
+    from utils.publisher import run_due_instagram
+    results = await run_due_instagram()
+    for result in results:
+        if not result.ok:
+            await send_message(f"❌ Instagram publish failed: {html.escape(result.error[:300])}")
+        elif result.action == "published":
+            await send_message(f"🚀 Published to Instagram: {result.post_id}")
+
+
 def _gated(job_key: str, fn):
     """Wrap a scheduled job so it only runs when its switch (and the master) is on.
     Manual runs (command queue / typed commands) call the underlying fn directly and
@@ -702,6 +726,16 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
         CronTrigger(hour="9-18", minute=15, timezone=settings.scheduler_timezone),
         id="outreach_sender",
         name="Outreach Sender",
+        replace_existing=True,
+    )
+
+    # Instagram publisher — every 5 minutes, because IG cannot be scheduled at
+    # Meta. Facebook posts are already held by Meta and need nothing here.
+    scheduler.add_job(
+        run_instagram_publisher,
+        IntervalTrigger(minutes=5, timezone=settings.scheduler_timezone),
+        id="instagram_publisher",
+        name="Instagram Publisher (approved posts)",
         replace_existing=True,
     )
 

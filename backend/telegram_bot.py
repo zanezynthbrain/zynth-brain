@@ -96,6 +96,25 @@ def _start_dashboard_server() -> None:
         def do_GET(self):  # noqa: N802
             if self.path in ("/health", "/healthz"):
                 self.send_response(200); self.end_headers(); self.wfile.write(b"ok"); return
+            if self.path.startswith("/assets"):
+                # Instagram fetches media by URL — this is that URL. Read-only,
+                # extension-whitelisted, filename-sanitised, optionally tokened.
+                try:
+                    from utils.assets import resolve_request
+                    target, mime = resolve_request(self.path)
+                    if not target:
+                        self.send_response(404); self.end_headers(); self.wfile.write(b"not found"); return
+                    body = target.read_bytes()
+                    self.send_response(200)
+                    self.send_header("Content-Type", mime)
+                    self.send_header("Content-Length", str(len(body)))
+                    self.send_header("Cache-Control", "public, max-age=3600")
+                    self.end_headers()
+                    self.wfile.write(body)
+                except Exception as exc:
+                    self.send_response(500); self.end_headers()
+                    self.wfile.write(f"asset error: {exc}".encode())
+                return
             if self.path.startswith("/api/state"):
                 try:
                     from utils.dashboard import build_state
@@ -266,12 +285,19 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/research — Market intel → Marketing group\n"
         "/event &lt;brief&gt; — Event Specialist Team → full proposal + approve/revise 🎪\n"
         "/video &lt;brief&gt; — Video package: concept + EN/MM script + storyboard + MMK budget 🎬\n"
+        "/content &lt;brand&gt; &lt;8|10|16|30&gt; — A full month: brand strategy + calendar "
+        "(EN/MM captions) + visual system + design specs 🎨\n"
+        "/brandkit — Brand profiles + target audiences the studio writes for\n"
+        "/schedule &lt;brand&gt; — Review each post, then schedule to Facebook + Instagram 📡\n"
+        "/meta — Meta connection status (/meta check tests the live Page)\n"
+        "/review &lt;brand&gt; — QC board: artwork + MM/EN copy + automatic checks 🔍\n"
         "/ops — Vendor research + SOP\n\n"
         "<b>Campaign Workflows:</b>\n"
         "/run full_campaign\n"
         "/run research_only\n"
         "/run ads_only\n"
-        "/run leads_only\n\n"
+        "/run leads_only\n"
+        "/run content_studio · /run brand_content_month\n\n"
         "<b>Proposal Factory:</b>\n"
         "/generate — Quick idea drafts (cheap model, fills the pool)\n"
         "/proposal &lt;brief&gt; — FULL client-ready proposal as a Word doc 📄\n"
@@ -294,7 +320,8 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/venue — Yangon venue DB (search · add · outreach)\n\n"
         "<b>Run the Agency (playbook):</b>\n"
         "/audit — Week 0 Honest Audit: find your starting line\n"
-        "/scorecard — 12-metric master scorecard (/scorecard set mrr 12000)\n\n"
+        "/scorecard — 12-metric master scorecard (/scorecard set mrr 12000)\n"
+        "/expenses — Operating costs + monthly burn (/expenses credits 15 balanced) 💸\n\n"
         "<b>Knowledge Base:</b>\n"
         "/note — Quick-capture a note to the vault (agents use it instantly)\n"
         "/mirror — Refresh the Obsidian vault (Home · Snapshot · Hot Prospects)\n"
@@ -1972,6 +1999,677 @@ async def cmd_video(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         )
 
 
+_BRANDKIT_ADD_SCHEMA = {
+    "type": "object",
+    "required": ["brand"],
+    "properties": {
+        "brand": {"type": "string"},
+        "industry": {"type": ["string", "null"]},
+        "market": {"type": ["string", "null"], "description": "Myanmar / Singapore / both"},
+        "positioning": {"type": ["string", "null"], "description": "what it stands for, one line"},
+        "products": {"type": ["string", "null"]},
+        "target_audience": {"type": ["string", "null"], "description": "keep the founder's own words"},
+        "audience_segments": {"type": ["array", "null"], "items": {"type": "string"}},
+        "audience_insight": {"type": ["string", "null"]},
+        "tone": {"type": ["string", "null"]},
+        "avoid": {"type": ["string", "null"], "description": "what the brand must never sound/look like"},
+        "languages": {"type": ["string", "null"]},
+        "palette": {"type": ["string", "null"], "description": "hex codes or colour names as given"},
+        "fonts": {"type": ["string", "null"]},
+        "logo_notes": {"type": ["string", "null"]},
+        "visual_style": {"type": ["string", "null"]},
+        "platforms": {"type": ["array", "null"], "items": {"type": "string"}},
+        "competitors": {"type": ["array", "null"], "items": {"type": "string"}},
+        "hashtags": {"type": ["array", "null"], "items": {"type": "string"}},
+        "offers": {"type": ["string", "null"]},
+        "compliance": {"type": ["string", "null"]},
+        "notes": {"type": ["string", "null"]},
+    },
+}
+
+
+async def cmd_brandkit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Brand profiles the content & design studio writes for.
+
+    /brandkit                    → list stored brands
+    /brandkit <name>             → show one profile
+    /brandkit add <free text>    → AI structures a brand + its target audience
+    """
+    if not _security_check(update):
+        return
+    from utils import brands as BR
+
+    args = list(context.args or [])
+    sub = args[0].lower() if args else ""
+
+    if sub == "add":
+        raw = " ".join(args[1:]).strip()
+        if not raw:
+            await update.message.reply_html(
+                "Describe the brand in free text — I'll structure it:\n"
+                "<code>/brandkit add Golden Duck, Yangon F&amp;B, premium salted egg snacks, "
+                "target: office workers 25-35 in Yangon who buy gifts, tone playful but "
+                "premium, colours gold and black, FB + IG, never discount-led</code>\n\n"
+                "Include the target audience — the studio writes to it."
+            )
+            return
+        try:
+            data, _ = await LLMClient().complete_json(
+                system=(
+                    "Extract a brand profile into the schema. Keep the founder's own words for "
+                    "audience and tone. Anything not stated is null — never invent brand facts."
+                ),
+                user_prompt=f"Brand: {raw}",
+                schema=_BRANDKIT_ADD_SCHEMA,
+                model=get_settings().fallback_model_name,
+            )
+        except Exception as exc:
+            await update.message.reply_html(f"❌ Couldn't parse: {exc}")
+            return
+        try:
+            saved = BR.add_brand({k: v for k, v in data.items() if v not in (None, "", [])})
+        except ValueError as exc:
+            await update.message.reply_html(f"❌ {exc}")
+            return
+        try:
+            from utils.tasks import log_activity
+            log_activity("Creative", f"Brand profile saved: {saved.get('brand', '?')}", source="telegram")
+        except Exception:
+            pass
+        missing = [f for f in ("target_audience", "tone", "palette") if not saved.get(f)]
+        note = f"\n\n⚠️ Still missing: {', '.join(missing)} — add them so the studio doesn't guess." if missing else ""
+        await update.message.reply_html(
+            f"✅ <b>{_html.escape(saved.get('brand', ''))}</b> saved to the brand kit.\n"
+            f"Run a month of content: <code>/content {_html.escape(saved.get('brand', ''))} 16</code>{note}"
+        )
+        return
+
+    if not args:
+        await update.message.reply_html(
+            "🎨 <b>Brand Kit</b> — what the studio writes and designs for\n\n"
+            + _html.escape(BR.brands_summary())
+            + "\n\nShow one: <code>/brandkit Golden Duck</code>\n"
+            "Add one: <code>/brandkit add &lt;brand, market, audience, tone, colours&gt;</code>"
+        )
+        return
+
+    query = " ".join(args)
+    brand = BR.find(query)
+    if not brand:
+        await update.message.reply_html(
+            f"No profile for '{_html.escape(query)}'.\n\n" + _html.escape(BR.brands_summary())
+        )
+        return
+    lines = [f"<b>{_html.escape(brand.get('brand', ''))}</b>"]
+    for field in BR.FIELDS[1:]:
+        value = brand.get(field)
+        if not value:
+            continue
+        text = ", ".join(str(v) for v in value) if isinstance(value, list) else str(value)
+        lines.append(f"<b>{field.replace('_', ' ').title()}:</b> {_html.escape(text)}")
+    await _send_long(update, "\n".join(lines))
+
+
+#: Live /content session so the buttons (render / revise) know what to act on.
+_content_session: dict = {}
+_MAX_CONTENT_CYCLES = 3
+
+
+async def cmd_content(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Content & Design Studio: a full month of content and design for a brand.
+
+    /content <brand or brief> [8|10|16|30]
+    """
+    if not _security_check(update):
+        return
+    from agents.content_studio import parse_studio_request
+    from config.content_packages import packages_overview
+
+    args = list(context.args or [])
+    if not args:
+        from utils import brands as BR
+        await update.message.reply_html(
+            "🎨 <b>Content &amp; Design Studio</b>\n\n"
+            "Strategist → Content Creator → Design Director → Designer produce a full "
+            "month for one brand: brand + owned-channel strategy, the calendar with "
+            "captions in English and Myanmar, the visual system, and a design spec for "
+            "every asset.\n\n"
+            "<b>Packages (posts per month):</b>\n"
+            + _html.escape(packages_overview())
+            + "\n\n<code>/content Golden Duck 16</code>\n"
+            "<code>/content 30 new bubble tea brand, Yangon, Gen-Z</code>\n\n"
+            "<b>Brands on file:</b>\n" + _html.escape(BR.brands_summary())
+        )
+        return
+
+    brand, package_key, brief = parse_studio_request(" ".join(args))
+    await _run_content_cycle(update, brand=brand, brief=brief, package=package_key, feedback="", cycle=1)
+
+
+async def _run_content_cycle(update: Update, brand: str, brief: str, package: str,
+                             feedback: str, cycle: int) -> None:
+    """Run one studio cycle and deliver the .docx with action buttons."""
+    from agents.content_studio import plan_to_sections, run_content_studio
+    from config.content_packages import resolve_package
+    from utils.cost_tracker import get_cost_tracker
+    from utils.docgen import build_proposal_docx
+
+    pkg = resolve_package(package)
+    tracker = await get_cost_tracker()
+    before = (await tracker.today_summary()).get("sgd", 0.0)
+    memory = SharedMemory(client_brief={"agency": "ZYNTH", "mode": "content_studio", "brand": brand})
+
+    try:
+        plan = await _await_with_progress(
+            update,
+            f"Studio cycle {cycle}/{_MAX_CONTENT_CYCLES}: strategy → {pkg.posts_per_month} posts → "
+            f"visual system → {pkg.designed_assets} design specs",
+            run_content_studio(brief, memory, brand=brand, package=package,
+                               feedback=feedback, cycle=cycle),
+        )
+    except Exception as exc:
+        logger.exception("Content studio failed: %s", exc)
+        await update.message.reply_html(f"❌ Content studio failed: {exc}")
+        return
+
+    ratio = plan.get("ratio", {})
+    title = f"{brand or 'Brand'} — {pkg.name.split(' — ')[0]} Content & Design Plan"
+    path = build_proposal_docx(
+        title=title,
+        client=brand or "Prospective Client",
+        market=(plan.get("strategy", {}).get("audience", {}) or {}).get("primary", "") or "Myanmar",
+        sections=plan_to_sections(plan),
+        one_line_ask=(
+            f"{ratio.get('posts_planned', 0)} posts/month · {ratio.get('design_ratio', '')} "
+            f"content:design · {ratio.get('short_videos', 0)} videos · "
+            f"{pkg.price_mmk} / {pkg.price_sgd} per month"
+        ),
+        estimated_value=f"{pkg.price_mmk} / {pkg.price_sgd} per month",
+    )
+    after = (await tracker.today_summary()).get("sgd", 0.0)
+
+    _content_session.update({
+        "brand": brand, "brief": brief, "package": package, "cycle": cycle,
+        "plan": plan, "doc_path": str(path), "awaiting_feedback": False,
+    })
+
+    try:
+        from utils.tasks import log_activity
+        log_activity("Creative", f"Content plan: {title[:50]}", source="telegram")
+    except Exception:
+        pass
+
+    mix = " · ".join(f"{count} {name.replace('_', ' ')}" for name, count in
+                     sorted(ratio.get("by_type", {}).items(), key=lambda kv: -kv[1]))
+    off_contract = "" if ratio.get("on_contract") else "\n⚠️ Adjusted to hold the package — see the last section."
+    with open(path, "rb") as f:
+        await update.message.reply_document(
+            document=f, filename=path.name,
+            caption=(
+                f"🎨 {title} · cycle {cycle}\n"
+                f"{ratio.get('posts_planned', 0)} posts · design ratio {ratio.get('design_ratio', '')} "
+                f"({ratio.get('design_ratio_pct', 0)}%) · {ratio.get('boosted', 0)} to boost\n"
+                f"{mix}\n"
+                f"Cost ~S${after - before:.2f}{off_contract}"
+            ),
+        )
+
+    from utils.imagegen import is_configured, status_note
+    render_count = len(plan.get("render_specs", []))
+    buttons = [[
+        InlineKeyboardButton("✅ Approve & lock", callback_data="cnt_approve"),
+        InlineKeyboardButton("✏️ Revise", callback_data="cnt_revise"),
+    ]]
+    if is_configured() and render_count:
+        buttons.append([InlineKeyboardButton(
+            f"🖼 Render key visuals ({min(render_count, get_settings().max_images_per_run)})",
+            callback_data="cnt_render",
+        )])
+    note = "" if is_configured() else f"\n\n<i>{_html.escape(status_note())}</i>"
+    await update.message.reply_html(
+        f"{render_count} design spec(s) come with a ready render prompt. "
+        "<b>Approve</b> locks this month (and emails it). <b>Revise</b> sends feedback "
+        f"into the next cycle." + note,
+        reply_markup=InlineKeyboardMarkup(buttons),
+    )
+
+
+async def handle_content_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Approve / Revise / Render buttons on a content & design plan."""
+    query = update.callback_query
+    await query.answer()
+    data = query.data or ""
+    plan = _content_session.get("plan")
+    if not plan:
+        await query.edit_message_text("Session expired — run /content again.")
+        return
+
+    if data == "cnt_approve":
+        _content_session["awaiting_feedback"] = False
+        brand = _content_session.get("brand") or "the brand"
+        await query.edit_message_text(
+            f"✅ APPROVED — {brand}'s month (cycle {_content_session.get('cycle', 1)}) is locked.\n"
+            "Next: confirm the client's asset checklist, schedule week 1, and hold the "
+            "50% deposit rule before production starts."
+        )
+        from pathlib import Path as _P
+        from utils.mailer import send_email
+        doc = _content_session.get("doc_path")
+        if doc and await send_email(
+            subject=f"APPROVED content & design plan: {brand}",
+            body=f"Approved at cycle {_content_session.get('cycle', 1)}.\nBrief: {_content_session.get('brief', '')}",
+            attachments=[_P(doc)],
+        ):
+            await query.message.reply_html("📧 Approved plan emailed to you.")
+        return
+
+    if data == "cnt_revise":
+        cycle = _content_session.get("cycle", 1)
+        if cycle >= _MAX_CONTENT_CYCLES:
+            await query.edit_message_text(
+                f"⛔ Max {_MAX_CONTENT_CYCLES} cycles reached. Approve this version or start "
+                "fresh with a sharper brief (cheaper than endless revision)."
+            )
+            return
+        _content_session["awaiting_feedback"] = True
+        await query.edit_message_text(
+            f"✏️ Revision cycle {cycle + 1}/{_MAX_CONTENT_CYCLES} — send your feedback as a "
+            "normal message now (what to change, what to keep)."
+        )
+        return
+
+    if data == "cnt_render":
+        from utils.imagegen import render_batch, status_note
+        specs = plan.get("render_specs", [])
+        if not specs:
+            await query.edit_message_text("No render prompts in this plan.")
+            return
+        cap = get_settings().max_images_per_run
+        await query.edit_message_text(f"🖼 Rendering {min(len(specs), cap)} key visual(s)…")
+        results = await render_batch(specs)
+        sent = 0
+        for result in results:
+            if not result.ok:
+                continue
+            with open(result.path, "rb") as f:
+                await query.message.reply_document(
+                    document=f, filename=result.path.name,
+                    caption=f"{result.label} — draft background. Type, logo and CTA are laid over by hand.",
+                )
+            sent += 1
+        failures = [r for r in results if not r.ok]
+        summary = f"🖼 Rendered {sent}/{len(results)}."
+        if len(specs) > cap:
+            summary += f" {len(specs) - cap} spec(s) not rendered (cap {cap} per run)."
+        if failures:
+            summary += f"\n⚠️ {_html.escape(failures[0].error[:200])}"
+        if sent:
+            summary += f"\nEst. cost US${sum(r.est_usd for r in results if r.ok):.2f}."
+        await query.message.reply_html(summary or status_note())
+        return
+
+
+async def cmd_meta(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Meta connection status and a live check of the Page / IG account.
+
+    /meta            → what's configured, what's missing
+    /meta check      → call the Graph API and confirm the token reaches the Page
+    """
+    if not _security_check(update):
+        return
+    from utils.assets import hosting_status
+    from utils.meta import is_configured, verify_connection
+
+    ok, note = is_configured()
+    args = [a.lower() for a in (context.args or [])]
+
+    if not args:
+        await update.message.reply_html(
+            "📡 <b>Meta publishing</b>\n\n"
+            f"{'✅' if ok else '⚠️'} {_html.escape(note)}\n"
+            f"{_html.escape(hosting_status())}\n\n"
+            "<b>How it works:</b>\n"
+            "· <b>Facebook</b> — scheduled at Meta (10 min to 6 months ahead). Once "
+            "scheduled, it publishes even if the bot is offline.\n"
+            "· <b>Instagram</b> — Meta has no scheduling API, so the bot publishes at "
+            "the minute itself. Needs a public asset URL.\n"
+            "· Nothing is sent without your per-post approval.\n\n"
+            "<code>/meta check</code> — test the token against the live Page\n"
+            "<code>/schedule &lt;brand&gt;</code> — load a month into the approval queue"
+        )
+        return
+
+    if args[0] == "check":
+        await update.message.reply_html("📡 Checking the Graph API…")
+        result = await verify_connection()
+        if not result.get("ok"):
+            await update.message.reply_html(
+                f"❌ {_html.escape(result.get('note', 'failed'))}\n\n"
+                "Set META_ACCESS_TOKEN, META_PAGE_ID (and META_IG_USER_ID for Instagram) "
+                "in Railway, plus ZYNTH_ALLOW_NETWORK=true."
+            )
+            return
+        page = result.get("page", {})
+        lines = [f"✅ <b>Page:</b> {_html.escape(str(page.get('name', '?')))} "
+                 f"({page.get('fan_count', '?')} followers)"]
+        if result.get("instagram"):
+            ig = result["instagram"]
+            lines.append(f"✅ <b>Instagram:</b> @{_html.escape(str(ig.get('username', '?')))} "
+                         f"({ig.get('followers_count', '?')} followers)")
+        elif result.get("instagram_error"):
+            lines.append(f"⚠️ Instagram: {_html.escape(result['instagram_error'][:200])}")
+        else:
+            lines.append("ℹ️ Instagram not configured (META_IG_USER_ID)")
+        lines.append(_html.escape(hosting_status()))
+        await update.message.reply_html("\n".join(lines))
+        return
+
+    await update.message.reply_html("Unknown option. Try <code>/meta</code> or <code>/meta check</code>.")
+
+
+def _queue_card(entry: dict) -> str:
+    """One queue entry rendered for review in Telegram."""
+    from utils.publisher import readiness
+    ready, why = readiness(entry)
+    when = entry.get("publish_at", "")[:16].replace("T", " ")
+    mm = entry.get("caption_mm", "")
+    en = entry.get("caption_en", "")
+    tags = " ".join(entry.get("hashtags", [])[:6])
+    return (
+        f"<b>{_html.escape(entry.get('ref', '?'))} · {_html.escape(entry.get('platform', ''))}</b> "
+        f"· {_html.escape(entry.get('content_type', ''))}\n"
+        f"🕒 {when} Yangon · {'✅ ' + why if ready else '⚠️ ' + why}\n\n"
+        f"<b>မြန်မာ:</b>\n{_html.escape(mm[:600])}\n\n"
+        f"<b>English:</b>\n{_html.escape(en[:600])}\n\n"
+        f"<i>{_html.escape(tags)}</i>"
+    )
+
+
+async def _show_next_pending(message, brand: str = "") -> bool:
+    """Send the next pending entry with approve/skip buttons. False when done."""
+    from utils import publish_queue as Q
+    pending = [e for e in Q.by_state("pending") if not brand or e.get("brand", "").lower() == brand.lower()]
+    if not pending:
+        await message.reply_html(
+            "✅ Nothing left pending.\n\n" + _html.escape(Q.summary_text()) +
+            "\n\nApproved Facebook posts are scheduled at Meta; approved Instagram posts "
+            "fire from the bot at their minute."
+        )
+        return False
+    entry = pending[0]
+    buttons = [[
+        InlineKeyboardButton("✅ Approve & schedule", callback_data=f"pub_ok:{entry['id']}"),
+        InlineKeyboardButton("⏭ Skip", callback_data=f"pub_no:{entry['id']}"),
+    ]]
+    await message.reply_html(
+        f"📋 <b>{len(pending)} post(s) awaiting your approval</b>\n\n" + _queue_card(entry),
+        reply_markup=InlineKeyboardMarkup(buttons),
+    )
+    return True
+
+
+async def cmd_schedule(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Load an approved content plan into the publishing queue, then review it.
+
+    /schedule                    → review whatever is already pending
+    /schedule <brand>            → queue that brand's latest plan, starting next Monday
+    /schedule status             → queue counts
+    """
+    if not _security_check(update):
+        return
+    from datetime import datetime, timedelta
+    from utils import publish_queue as Q
+
+    args = list(context.args or [])
+    sub = args[0].lower() if args else ""
+
+    if sub == "status":
+        entries = Q.all_entries()
+        lines = [f"📋 <b>Publishing queue</b>\n{_html.escape(Q.summary_text())}"]
+        for entry in entries[:15]:
+            icon = {"pending": "⏳", "approved": "✅", "scheduled": "📅",
+                    "published": "🚀", "skipped": "⏭", "failed": "❌"}.get(entry.get("state"), "•")
+            lines.append(
+                f"{icon} {_html.escape(entry.get('ref', '?'))} · "
+                f"{_html.escape(entry.get('platform', ''))} · "
+                f"{entry.get('publish_at', '')[:16].replace('T', ' ')}"
+                + (f" · {_html.escape(entry.get('error', '')[:60])}" if entry.get("error") else "")
+            )
+        await _send_long(update, "\n".join(lines))
+        return
+
+    if not sub:
+        await _show_next_pending(update.message)
+        return
+
+    # Load the most recent stored plan for this brand.
+    import json
+    from pathlib import Path
+    brand = " ".join(args)
+    plans_dir = Path("outputs/proposal_pool/deliverables/content_plans")
+    candidates = sorted(plans_dir.glob("*.json")) if plans_dir.is_dir() else []
+    match = None
+    for path in reversed(candidates):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if brand.lower() in str(data.get("brand", "")).lower():
+            match = data
+            break
+    if not match:
+        await update.message.reply_html(
+            f"No stored content plan found for '{_html.escape(brand)}'.\n"
+            "Run <code>/content &lt;brand&gt; 16</code> first — the plan is saved when you approve it."
+        )
+        return
+
+    # Week 1 starts next Monday, 19:00 Yangon.
+    now = datetime.now(Q.YANGON)
+    start = (now + timedelta(days=(7 - now.weekday()) % 7 or 7)).replace(
+        hour=19, minute=0, second=0, microsecond=0)
+    added = Q.enqueue_plan(match, start=start, brand=match.get("brand", brand))
+    if not added:
+        await update.message.reply_html(
+            "Those posts are already in the queue. Review them with <code>/schedule</code>."
+        )
+        return
+    await update.message.reply_html(
+        f"📥 Queued <b>{len(added)}</b> post(s) for {_html.escape(str(match.get('brand', brand)))} "
+        f"— {_html.escape(str(match.get('month', '')))}\n"
+        f"Week 1 starts {start:%a %d %b} at 19:00 Yangon.\n\n"
+        "Nothing is sent until you approve each one."
+    )
+    await _show_next_pending(update.message)
+
+
+async def handle_publish_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Approve / skip buttons on a queued post — the gate before Meta sees anything."""
+    query = update.callback_query
+    await query.answer()
+    data = query.data or ""
+    action, _, entry_id = data.partition(":")
+    from utils import publish_queue as Q
+    from utils.publisher import NotApproved, publish_entry, readiness
+
+    entry = Q.get(entry_id)
+    if not entry:
+        await query.edit_message_text("That entry is no longer in the queue.")
+        return
+
+    if action == "pub_no":
+        Q.skip(entry_id, "skipped by MD")
+        await query.edit_message_text(f"⏭ Skipped {entry.get('ref', '')}.")
+        await _show_next_pending(query.message, entry.get("brand", ""))
+        return
+
+    if action != "pub_ok":
+        return
+
+    ready, why = readiness(entry)
+    if not ready:
+        await query.edit_message_text(
+            f"⚠️ {entry.get('ref', '')} can't be sent yet — {why}.\n"
+            "Fix that, then run /schedule again."
+        )
+        await _show_next_pending(query.message, entry.get("brand", ""))
+        return
+
+    Q.approve(entry_id)
+    try:
+        result = await publish_entry(entry_id)
+    except NotApproved as exc:
+        await query.edit_message_text(f"❌ {exc}")
+        return
+
+    if not result.ok:
+        await query.edit_message_text(
+            f"❌ {entry.get('ref', '')} — {_html.escape(result.error[:300])}\n"
+            "The entry is marked failed; fix the cause and re-run /schedule."
+        )
+    elif result.action == "would_send":
+        await query.edit_message_text(
+            f"✅ {entry.get('ref', '')} approved — <b>dry run</b> (Meta not configured).\n"
+            f"Would {_html.escape(str(result.request.get('_intent', 'send')))} at "
+            f"{entry.get('publish_at', '')[:16].replace('T', ' ')} Yangon.",
+            parse_mode="HTML",
+        )
+    else:
+        await query.edit_message_text(f"✅ {entry.get('ref', '')} — {_html.escape(result.summary())}")
+
+    await _show_next_pending(query.message, entry.get("brand", ""))
+
+
+async def cmd_review(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Build the QC review board for a month and send it as a file.
+
+    /review <brand>   → artwork + MM/EN copy + specs + automatic checks, one page
+    """
+    if not _security_check(update):
+        return
+    import json
+    from pathlib import Path as _P
+    from utils import publish_queue as Q
+    from utils.reviewboard import summary, write
+
+    brand = " ".join(context.args or []).strip()
+    plans_dir = _P("outputs/proposal_pool/deliverables/content_plans")
+    candidates = sorted(plans_dir.glob("*.json")) if plans_dir.is_dir() else []
+    plan = None
+    for path in reversed(candidates):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if not brand or brand.lower() in str(data.get("brand", "")).lower():
+            plan = data
+            break
+    if not plan:
+        await update.message.reply_html(
+            "No stored content plan to review yet. Run <code>/content &lt;brand&gt; 16</code> first."
+        )
+        return
+
+    counts = summary(plan)
+    path = write(plan, queue=Q.all_entries())
+    verdict = ("✅ nothing blocking" if not counts["errors"]
+               else f"⛔ {counts['errors']} blocking issue(s)")
+    with open(path, "rb") as f:
+        await update.message.reply_document(
+            document=f, filename=path.name,
+            caption=(f"🔍 {plan.get('brand', '')} — {plan.get('month', '')} review board\n"
+                     f"{counts['posts']} posts · {verdict} · {counts['warnings']} warning(s)\n"
+                     "Open it: artwork, Burmese and English side by side, specs and checks."),
+        )
+
+
+async def cmd_expenses(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Operating costs — the Money Out list from the finance operating system.
+
+    /expenses                          → every logged cost
+    /expenses burn                     → monthly burn, confirmed vs estimated
+    /expenses credits <seconds> <tier> → OpenArt credits for one film
+    /expenses verify <item> <amount>   → confirm an amount from a receipt
+    /expenses add <item> <amount> <cadence>
+    """
+    if not _security_check(update):
+        return
+    from utils import finance as FIN
+
+    args = list(context.args or [])
+    sub = args[0].lower() if args else ""
+
+    if sub == "burn":
+        await _send_long(update, FIN.format_burn())
+        return
+
+    if sub == "credits":
+        seconds = int(args[1]) if len(args) > 1 and args[1].isdigit() else 15
+        tier = args[2].lower() if len(args) > 2 else "balanced"
+        if tier not in ("lean", "balanced", "premium"):
+            tier = "balanced"
+        plan = FIN.credit_plan(seconds, tier)
+        await update.message.reply_html(
+            f"🎬 <b>{seconds}s film · {tier}</b>\n"
+            f"{plan['shots']} shots → {plan['generated_seconds']}s generated "
+            f"(you pay per 5s clip, not per second on screen)\n\n"
+            f"Plates: {plan['plate_credits']:,} · Video: {plan['video_credits']:,}\n"
+            f"Retakes ×{plan['retake_factor']}\n"
+            f"<b>Total: {plan['total_credits']:,} credits</b>"
+        )
+        return
+
+    if sub == "verify":
+        if len(args) < 3:
+            await update.message.reply_html(
+                "Confirm an amount from a receipt:\n"
+                "<code>/expenses verify \"Claude Pro\" 20</code>"
+            )
+            return
+        try:
+            amount = float(args[-1])
+        except ValueError:
+            await update.message.reply_html("The last argument must be the amount, e.g. 20")
+            return
+        item = " ".join(args[1:-1]).strip('"')
+        record = FIN.verify_expense(item, amount)
+        if not record:
+            await update.message.reply_html(
+                f"No runtime-logged cost matching '{_html.escape(item)}'. "
+                "Seeded costs are edited in backend/data/expenses.json."
+            )
+            return
+        await update.message.reply_html(
+            f"✅ {_html.escape(record['item'])} confirmed at US${amount:.2f}."
+        )
+        return
+
+    if sub == "add":
+        if len(args) < 3:
+            await update.message.reply_html(
+                "<code>/expenses add &lt;item&gt; &lt;amount&gt; &lt;monthly|yearly|one_off|usage&gt;</code>\n"
+                "<code>/expenses add \"OpenArt top-up\" 30 one_off</code>"
+            )
+            return
+        cadence = args[-1].lower() if args[-1].lower() in FIN.CADENCE else "monthly"
+        rest = args[1:-1] if cadence == args[-1].lower() else args[1:]
+        try:
+            amount = float(rest[-1])
+            item = " ".join(rest[:-1]).strip('"')
+        except (ValueError, IndexError):
+            await update.message.reply_html("Couldn't read the amount. Try: /expenses add Domain 15 yearly")
+            return
+        record = FIN.add_expense({"item": item, "amount_usd": amount, "cadence": cadence})
+        await update.message.reply_html(
+            f"📌 Logged: <b>{_html.escape(item)}</b> US${amount:.2f}/{cadence} ⚠️ TBC "
+            "— confirm with /expenses verify once you have the receipt."
+        )
+        return
+
+    await _send_long(update, "💸 <b>Operating costs</b>\n\n" + FIN.format_expenses()
+                     + "\n\n<code>/expenses burn</code> · <code>/expenses credits 15 balanced</code>")
+
+
 async def cmd_mirror(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Refresh the Obsidian vault notes (Home, Snapshot, Hot Prospects, What We Built)."""
     if not _security_check(update):
@@ -2512,6 +3210,24 @@ async def chat_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             await update.message.reply_html(f"❌ Revision failed: {exc}")
         return
 
+    # If the MD just hit "Revise" on a content & design plan, this is feedback
+    if _content_session.get("awaiting_feedback"):
+        _content_session["awaiting_feedback"] = False
+        next_cycle = _content_session.get("cycle", 1) + 1
+        try:
+            await _run_content_cycle(
+                update,
+                brand=_content_session.get("brand", ""),
+                brief=_content_session.get("brief", ""),
+                package=_content_session.get("package", ""),
+                feedback=text,
+                cycle=next_cycle,
+            )
+        except Exception as exc:
+            logger.exception("Content revision failed: %s", exc)
+            await update.message.reply_html(f"❌ Revision failed: {exc}")
+        return
+
     await _chat_reply(update, context, text)
 
 
@@ -2680,10 +3396,18 @@ def main() -> None:
     app.add_handler(CommandHandler("mirror", cmd_mirror))
     app.add_handler(CommandHandler("push", cmd_push))
     app.add_handler(CommandHandler("video", cmd_video))
+    app.add_handler(CommandHandler("content", cmd_content))
+    app.add_handler(CommandHandler("brandkit", cmd_brandkit))
+    app.add_handler(CommandHandler("meta", cmd_meta))
+    app.add_handler(CommandHandler("review", cmd_review))
+    app.add_handler(CommandHandler("expenses", cmd_expenses))
+    app.add_handler(CommandHandler("schedule", cmd_schedule))
     app.add_handler(CommandHandler("task", cmd_task))
     app.add_handler(CommandHandler("kb", cmd_kb))
     app.add_handler(CallbackQueryHandler(handle_bd_callback, pattern="^bd_"))
     app.add_handler(CallbackQueryHandler(handle_event_callback, pattern="^evt_"))
+    app.add_handler(CallbackQueryHandler(handle_content_callback, pattern="^cnt_"))
+    app.add_handler(CallbackQueryHandler(handle_publish_callback, pattern="^pub_"))
     app.add_handler(CallbackQueryHandler(handle_proposal_wizard, pattern="^pw_"))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_handler))
     app.add_handler(MessageHandler(filters.VOICE | filters.AUDIO, voice_handler))

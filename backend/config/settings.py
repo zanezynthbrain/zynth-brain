@@ -27,6 +27,29 @@ class Settings(BaseSettings):
     model_name: str = Field(default="claude-sonnet-5", alias="ZYNTH_MODEL_NAME")
     fallback_model_name: str = Field(default="claude-haiku-4-5-20251001", alias="ZYNTH_FALLBACK_MODEL_NAME")
 
+    # --- Image generation (design studio artwork) ------------------------
+    # OpenAI Images. Without a key the Designer still produces full design
+    # specs + render prompts; only the rendering step is skipped.
+    openai_api_key: str = Field(default="", alias="OPENAI_API_KEY")
+    image_model_name: str = Field(default="gpt-image-1", alias="ZYNTH_IMAGE_MODEL")
+    # Hard cap per render batch — artwork is billed per image.
+    max_images_per_run: int = Field(default=4, alias="ZYNTH_MAX_IMAGES_PER_RUN")
+
+    # --- Meta publishing (Facebook Page + Instagram) ---------------------
+    # A System User token from Business Manager never expires — prefer it over
+    # the 60-day user-token refresh path. Needs pages_manage_posts,
+    # pages_read_engagement, instagram_basic, instagram_content_publish.
+    meta_access_token: str = Field(default="", alias="META_ACCESS_TOKEN")
+    meta_page_id: str = Field(default="", alias="META_PAGE_ID")
+    # The IG Business account linked to that Page (not the @handle — the numeric id).
+    meta_ig_user_id: str = Field(default="", alias="META_IG_USER_ID")
+
+    # --- Public asset hosting (Instagram fetches media by URL) -----------
+    # The Railway public URL for this service, e.g. https://zynth.up.railway.app
+    public_url: str = Field(default="", alias="ZYNTH_PUBLIC_URL")
+    # Optional path token so asset URLs aren't guessable.
+    asset_token: str = Field(default="", alias="ZYNTH_ASSET_TOKEN")
+
     # --- Token / cost governance ----------------------------------------
     max_tokens_per_call: int = Field(default=4096, alias="ZYNTH_MAX_TOKENS_PER_CALL")
     max_tokens_per_workflow: int = Field(default=60_000, alias="ZYNTH_MAX_TOKENS_PER_WORKFLOW")
@@ -116,6 +139,11 @@ class Settings(BaseSettings):
         testable) without network access or secrets.
         """
         return bool(self.anthropic_api_key)
+
+    @property
+    def has_image_generation(self) -> bool:
+        """Whether the design studio can render artwork, not just spec it."""
+        return bool(self.openai_api_key and self.allow_network)
 
 
 @lru_cache(maxsize=1)

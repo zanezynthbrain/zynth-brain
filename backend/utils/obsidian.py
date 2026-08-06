@@ -186,4 +186,137 @@ def full_sync() -> list[Path]:
             paths.append(fn())
         except Exception:
             pass
+    # Then push everything into the vault the MD's Obsidian actually opens.
+    for fn in (mirror_repo_docs, mirror_live_notes):
+        try:
+            paths.extend(fn())
+        except Exception:
+            pass
     return paths
+
+
+# ---------------------------------------------------------------------------
+# Repo → Obsidian mirror
+# ---------------------------------------------------------------------------
+# The MD's Obsidian opens the repo-root `vault/` folder (see vault/README.md).
+# Everything else — docs/, .claude/skills/, backend/ — is invisible there. So
+# the work lands in GitHub but never reaches the second brain.
+#
+# This mirrors the documents worth READING into vault/, and pulls the live
+# narrative notes across from the pool vault so they show up too.
+#
+# Every generated file opens with the TEMPLATE marker on purpose: the knowledge
+# loader skips those, so mirrors stay out of the agents' 30k character budget.
+# Agents read the source; the mirror is for the human.
+
+_REPO = Path(__file__).resolve().parent.parent.parent
+_OBSIDIAN = _REPO / "vault" / "ZYNTH-OS"
+
+#: source path (repo-relative) → destination inside vault/ZYNTH-OS/
+MIRRORED_DOCS: dict[str, str] = {
+    "docs/handoff/2026-08-06.md": "Handoffs/2026-08-06 Back-Office Build.md",
+    "docs/departments/FINANCE_operating_costs.md": "Finance/Operating Costs.md",
+    "docs/departments/FINANCE_operating_system.md": "Finance/Finance Operating System.md",
+    "docs/adoption/BACKOFFICE_ADOPTION_MANIFEST.md": "Adoption/Back-Office Manifest.md",
+    "backend/data/project_ignite_15s.md": "Projects/IGNITE 15s.md",
+}
+
+_GENERATED_HEADER = (
+    "<!-- TEMPLATE -->\n"
+    "<!-- Generated mirror — the knowledge loader skips this file on purpose. -->\n"
+    "---\ngenerated: true\nsource: {source}\nmirrored: {when}\n---\n\n"
+    "> **Generated mirror of `{source}`.** Edit the source in the repo, not this\n"
+    "> file — the next `/mirror` overwrites whatever is here.\n\n"
+)
+
+
+def _write_mirror(destination: Path, source_rel: str, body: str) -> Path:
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    header = _GENERATED_HEADER.format(
+        source=source_rel, when=datetime.now().strftime("%Y-%m-%d %H:%M")
+    )
+    destination.write_text(header + body, encoding="utf-8")
+    return destination
+
+
+def skills_index_note() -> Path:
+    """One page listing every repo-versioned skill and what triggers it."""
+    skills_dir = _REPO / ".claude" / "skills"
+    rows: list[tuple[str, str]] = []
+    for skill_file in sorted(skills_dir.glob("*/SKILL.md")):
+        name = skill_file.parent.name
+        description = ""
+        try:
+            text = skill_file.read_text(encoding="utf-8")
+            for line in text.splitlines()[:12]:
+                if line.startswith("description:"):
+                    description = line.split(":", 1)[1].strip()
+                    break
+        except Exception:
+            pass
+        rows.append((name, description))
+
+    groups = {
+        "Back-office (zb- cluster + finance)": lambda n: n.startswith(("zb-", "yadana")),
+        "Master planners": lambda n: n.startswith("zynth-master"),
+        "Creative & production": lambda n: any(
+            k in n for k in ("art-director", "creative", "copywriter", "video", "content", "social")
+        ),
+        "Growth & BD": lambda n: any(k in n for k in ("bd-", "market", "competitor", "paid", "seo", "pitch")),
+        "Operations": lambda n: any(k in n for k in ("account", "project", "event", "vendor", "analytics", "campaign", "brand")),
+    }
+
+    lines = [f"# Skills Index — {len(rows)} repo-versioned skills\n",
+             "Every skill below lives in `.claude/skills/` and travels with the repo.\n"]
+    placed: set[str] = set()
+    for title, matcher in groups.items():
+        members = [(n, d) for n, d in rows if matcher(n) and n not in placed]
+        if not members:
+            continue
+        placed.update(n for n, _ in members)
+        lines.append(f"\n## {title}\n")
+        for name, description in members:
+            lines.append(f"- **`{name}`** — {description[:220]}")
+    leftovers = [(n, d) for n, d in rows if n not in placed]
+    if leftovers:
+        lines.append("\n## Other\n")
+        for name, description in leftovers:
+            lines.append(f"- **`{name}`** — {description[:220]}")
+    return _write_mirror(_OBSIDIAN / "Skills Index.md", ".claude/skills/", "\n".join(lines) + "\n")
+
+
+def mirror_repo_docs() -> list[Path]:
+    """Copy the read-worthy repo docs into the vault Obsidian actually opens."""
+    written: list[Path] = []
+    for source_rel, dest_rel in MIRRORED_DOCS.items():
+        source = _REPO / source_rel
+        if not source.is_file():
+            continue
+        body = source.read_text(encoding="utf-8")
+        # Strip a leading TEMPLATE marker from the source so it isn't duplicated.
+        body = body.replace("<!-- TEMPLATE -->\n", "", 1)
+        written.append(_write_mirror(_OBSIDIAN / dest_rel, source_rel, body))
+    try:
+        written.append(skills_index_note())
+    except Exception:
+        pass
+    return written
+
+
+def mirror_live_notes() -> list[Path]:
+    """Bring the pool-vault narrative notes into the MD's Obsidian vault.
+
+    `/mirror` writes them to outputs/proposal_pool/vault/, which the agents read
+    but the MD's Obsidian never opens. This closes that gap.
+    """
+    written: list[Path] = []
+    if not _VAULT.is_dir():
+        return written
+    for note in sorted(_VAULT.glob("*.md")):
+        body = note.read_text(encoding="utf-8")
+        written.append(_write_mirror(
+            _OBSIDIAN / "Live" / note.name,
+            f"backend/outputs/proposal_pool/vault/{note.name}",
+            body,
+        ))
+    return written

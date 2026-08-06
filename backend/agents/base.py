@@ -48,6 +48,15 @@ class BaseAgent(ABC):
     role_description: str = "A generic ZYNTH marketing agent."
     #: JSON Schema the agent's structured output must satisfy.
     output_schema: dict[str, Any] = {"type": "object", "properties": {}}
+    #: Output-token budget for this agent's call. ``None`` uses the global
+    #: per-call default. Agents producing long structured output (a 30-post
+    #: content calendar, a design spec pack) must raise this or their JSON
+    #: gets truncated and fails validation.
+    max_output_tokens: int | None = None
+    #: Route this agent to the cheaper fallback model. Set on high-volume
+    #: drafting agents so running them through a workflow costs the same as
+    #: running them through their own cost-shaped pipeline.
+    use_fallback_model: bool = False
 
     def __init__(self, llm_client: LLMClient | None = None) -> None:
         self.llm = llm_client or LLMClient()
@@ -76,10 +85,16 @@ class BaseAgent(ABC):
         await memory.log(self.agent_key, "started")
         try:
             user_prompt = await self.build_user_prompt(memory, **kwargs)
+            model = None
+            if self.use_fallback_model:
+                from config import get_settings
+                model = get_settings().fallback_model_name
             data, response = await self.llm.complete_json(
                 system=self.build_system_prompt(),
                 user_prompt=user_prompt,
                 schema=self.output_schema,
+                max_tokens=self.max_output_tokens,
+                model=model,
             )
         except (LLMCallError, MalformedOutputError) as exc:
             await memory.log(self.agent_key, "failed", error=str(exc))

@@ -1,0 +1,67 @@
+{
+  "_note": "ZYNTH operating costs — the 'Money Out' list from FINANCE_operating_system.md section 7. Amounts with verified:false are UNVERIFIED and must be confirmed against a real receipt (/expenses verify <item> <amount>). Runtime additions go to outputs/proposal_pool/expenses_extra.json.",
+  "_as_of": "2026-08-05",
+  "_source": "MD (Zane), verbal, 2026-08-05",
+  "expenses": [
+    {
+      "item": "Claude Pro (Claude Code)",
+      "category": "ai_tools",
+      "amount_usd": 20.0,
+      "cadence": "monthly",
+      "currency": "USD",
+      "verified": false,
+      "note": "MD reports 'Pro plan'. Confirm the tier from the receipt — Pro and Max are very different monthly figures. This is the seat that runs the agency work.",
+      "owner": "zane@zynth.asia"
+    },
+    {
+      "item": "Anthropic API (agent runtime)",
+      "category": "ai_tools",
+      "amount_usd": 30.0,
+      "cadence": "usage",
+      "currency": "USD",
+      "verified": false,
+      "note": "Variable. The stored figure is the CEILING already agreed in CONTEXT.md (S$40/month, ~US$30) with a S$5/day cap enforced in cost_tracker.py. Actual spend is lower — check /cost and /costaudit for the real number.",
+      "owner": "zane@zynth.asia"
+    },
+    {
+      "item": "OpenArt (Starter)",
+      "category": "ai_tools",
+      "amount_usd": null,
+      "cadence": "monthly",
+      "currency": "USD",
+      "verified": false,
+      "note": "Plan confirmed as Starter via the OpenArt API; the price is NOT confirmed — openart.ai is blocked from this environment so it could not be read. Add the figure from the billing page. Credit top-ups are logged separately as one_off, because they behave like stock, not subscription.",
+      "owner": "zane@zynth.asia"
+    },
+    {
+      "item": "Domain — zynth.asia",
+      "category": "domain",
+      "amount_usd": null,
+      "cadence": "yearly",
+      "currency": "USD",
+      "verified": false,
+      "note": "MD reports buying it last month. .asia domains commonly run US$10-25/year but the actual figure is on the registrar invoice — do not quote a range to anyone until confirmed. Record the renewal date too; a lapsed domain takes the website and every email address with it.",
+      "owner": "zane@zynth.asia"
+    },
+    {
+      "item": "Mobile data + Wi-Fi",
+      "category": "connectivity",
+      "amount_usd": 5.0,
+      "cadence": "monthly",
+      "currency": "USD",
+      "verified": true,
+      "note": "MD-reported, 2026-08-05. Combined mobile bill, mobile data and home Wi-Fi.",
+      "owner": "zane@zynth.asia"
+    },
+    {
+      "item": "Railway (bot + scheduler hosting)",
+      "category": "infrastructure",
+      "amount_usd": 5.0,
+      "cadence": "monthly",
+      "currency": "USD",
+      "verified": false,
+      "note": "Not named by the MD but the bot runs on it — service 'fabulous-bravery'. ~US$5/month was the figure accepted when Railway was chosen (CONTEXT.md, 2026-07-12). Confirm on the Railway billing page.",
+      "owner": "zane@zynth.asia"
+    }
+  ]
+}
