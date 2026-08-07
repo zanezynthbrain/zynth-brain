@@ -3,6 +3,9 @@
 **On session start, read `docs/handoff/2026-08-06.md`** — the latest cross-session
 handoff, including the R1–R5 reconciliation and what is still uncommitted.
 
+**For the full system map — storage, skills, commands, learning loop, n8n
+comparison — read `docs/ZYNTH_MASTER_GUIDE.md`** (bilingual EN + မြန်မာ).
+
 Then, in this order:
 1. `CONTEXT.md` — the running decision log. What was decided, when, and why.
 2. `NORTH_STAR.md` — what ZYNTH is actually for, if the direction feels unclear.

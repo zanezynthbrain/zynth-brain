@@ -321,7 +321,8 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "<b>Run the Agency (playbook):</b>\n"
         "/audit — Week 0 Honest Audit: find your starting line\n"
         "/scorecard — 12-metric master scorecard (/scorecard set mrr 12000)\n"
-        "/expenses — Operating costs + monthly burn (/expenses credits 15 balanced) 💸\n\n"
+        "/expenses — Operating costs + monthly burn (/expenses credits 15 balanced) 💸\n"
+        "/outcome — Record real results vs outside benchmarks; /outcome learn 📊\n\n"
         "<b>Knowledge Base:</b>\n"
         "/note — Quick-capture a note to the vault (agents use it instantly)\n"
         "/mirror — Refresh the Obsidian vault (Home · Snapshot · Hot Prospects)\n"
@@ -2670,6 +2671,77 @@ async def cmd_expenses(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
                      + "\n\n<code>/expenses burn</code> · <code>/expenses credits 15 balanced</code>")
 
 
+async def cmd_outcome(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Record what actually happened, judged against outside benchmarks.
+
+    /outcome                                   → performance report
+    /outcome <ref> <kind> metric=value ...     → record a real result
+    /outcome verify <ref>                      → confirm against the dashboard
+    /outcome learn                             → push measured misses into prompts
+    """
+    if not _security_check(update):
+        return
+    from utils import outcomes as OC
+
+    args = list(context.args or [])
+    if not args:
+        await _send_long(update, OC.format_report())
+        return
+
+    sub = args[0].lower()
+    if sub == "verify":
+        if len(args) < 2:
+            await update.message.reply_html("<code>/outcome verify P04</code>")
+            return
+        row = OC.verify_outcome(args[1])
+        await update.message.reply_html(
+            f"✅ {_html.escape(args[1])} confirmed — it now counts toward the benchmarks."
+            if row else f"No unverified outcome for '{_html.escape(args[1])}'.")
+        return
+
+    if sub == "learn":
+        promoted = OC.promote_learnings()
+        if not promoted:
+            await update.message.reply_html(
+                "Nothing to promote yet — a metric needs 3 verified results below "
+                "benchmark before it becomes a lesson.")
+            return
+        await _send_long(update, f"🧠 Promoted {len(promoted)} measured lesson(s) into every "
+                                 "agent prompt:\n\n" + "\n\n".join(_html.escape(p) for p in promoted))
+        return
+
+    if len(args) < 3:
+        await update.message.reply_html(
+            "<code>/outcome P04 post engagement_rate=4.2 saves_per_post=18</code>\n\n"
+            f"Kinds: {', '.join(OC.KINDS)}\nMetrics: {', '.join(sorted(OC.BENCHMARKS))}")
+        return
+
+    ref, kind = args[0], args[1].lower()
+    metrics = {}
+    for token in args[2:]:
+        if "=" in token:
+            key, _, value = token.partition("=")
+            try:
+                metrics[key.strip()] = float(value)
+            except ValueError:
+                pass
+    if not metrics:
+        await update.message.reply_html("No metric=value pairs found.")
+        return
+    try:
+        row = OC.record_outcome(ref, kind, metrics)
+    except ValueError as exc:
+        await update.message.reply_html(f"❌ {exc}")
+        return
+    lines = [f"📊 <b>{_html.escape(ref)}</b> recorded ⚠️ unverified"]
+    for judged in row["metrics"]:
+        icon = {"beat": "🟢", "met": "🟡", "missed": "🔴"}.get(judged["verdict"], "⚪")
+        lines.append(f"{icon} {judged['metric']}: {judged['value']}{judged.get('unit','')} "
+                     f"— {judged['verdict']}")
+    lines.append(f"\nConfirm it: <code>/outcome verify {_html.escape(ref)}</code>")
+    await update.message.reply_html("\n".join(lines))
+
+
 async def cmd_mirror(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Refresh the Obsidian vault notes (Home, Snapshot, Hot Prospects, What We Built)."""
     if not _security_check(update):
@@ -3401,6 +3473,7 @@ def main() -> None:
     app.add_handler(CommandHandler("meta", cmd_meta))
     app.add_handler(CommandHandler("review", cmd_review))
     app.add_handler(CommandHandler("expenses", cmd_expenses))
+    app.add_handler(CommandHandler("outcome", cmd_outcome))
     app.add_handler(CommandHandler("schedule", cmd_schedule))
     app.add_handler(CommandHandler("task", cmd_task))
     app.add_handler(CommandHandler("kb", cmd_kb))

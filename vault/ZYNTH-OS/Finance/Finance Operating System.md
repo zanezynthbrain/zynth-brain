@@ -3,7 +3,7 @@
 ---
 generated: true
 source: docs/departments/FINANCE_operating_system.md
-mirrored: 2026-08-06 14:20
+mirrored: 2026-08-07 05:48
 ---
 
 > **Generated mirror of `docs/departments/FINANCE_operating_system.md`.** Edit the source in the repo, not this
