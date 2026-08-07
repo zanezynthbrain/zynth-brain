@@ -33,3 +33,6 @@ Thumbs.db
 # ── Logs & transient cost cache (proposal_pool data stays committed on purpose)
 *.log
 backend/outputs/cost_tracker/
+
+# Graphify code-graph build artifacts (regenerate with: graphify build)
+graphify-out/
