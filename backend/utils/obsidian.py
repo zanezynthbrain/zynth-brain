@@ -215,6 +215,7 @@ _OBSIDIAN = _REPO / "vault" / "ZYNTH-OS"
 #: source path (repo-relative) → destination inside vault/ZYNTH-OS/
 MIRRORED_DOCS: dict[str, str] = {
     "docs/handoff/2026-08-06.md": "Handoffs/2026-08-06 Back-Office Build.md",
+    "docs/handoff/2026-08-07.md": "Handoffs/2026-08-07 Studio Meta Learning.md",
     "docs/departments/FINANCE_operating_costs.md": "Finance/Operating Costs.md",
     "docs/departments/FINANCE_operating_system.md": "Finance/Finance Operating System.md",
     "docs/adoption/BACKOFFICE_ADOPTION_MANIFEST.md": "Adoption/Back-Office Manifest.md",

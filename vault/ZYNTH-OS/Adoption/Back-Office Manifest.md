@@ -3,7 +3,7 @@
 ---
 generated: true
 source: docs/adoption/BACKOFFICE_ADOPTION_MANIFEST.md
-mirrored: 2026-08-07 05:48
+mirrored: 2026-08-07 09:42
 ---
 
 > **Generated mirror of `docs/adoption/BACKOFFICE_ADOPTION_MANIFEST.md`.** Edit the source in the repo, not this

@@ -1,7 +1,8 @@
 # ZYNTH — repo entry point for Claude Code
 
-**On session start, read `docs/handoff/2026-08-06.md`** — the latest cross-session
-handoff, including the R1–R5 reconciliation and what is still uncommitted.
+**On session start, read `docs/handoff/2026-08-07.md`** — the latest cross-session
+handoff: what is on `main`, what is open, and two things that would break
+something if you continue without reading them.
 
 **For the full system map — storage, skills, commands, learning loop, n8n
 comparison — read `docs/ZYNTH_MASTER_GUIDE.md`** (bilingual EN + မြန်မာ).
