@@ -51,3 +51,21 @@ def test_full_sync_includes_the_mirror():
     import inspect
     source = inspect.getsource(OB.full_sync)
     assert "mirror_repo_docs" in source and "mirror_live_notes" in source
+
+
+def test_mirror_destinations_do_not_double_nest():
+    """_OBSIDIAN is already vault/ZYNTH-OS — a destination starting with
+    'ZYNTH-OS/' produced vault/ZYNTH-OS/ZYNTH-OS/. It did, once."""
+    for dest in OB.MIRRORED_DOCS.values():
+        assert not dest.startswith("ZYNTH-OS/"), f"{dest} nests ZYNTH-OS twice"
+
+
+def test_every_mirrored_source_exists():
+    """A destination pointing at a missing source silently mirrors nothing."""
+    missing = [src for src in OB.MIRRORED_DOCS if not (OB._REPO / src).is_file()]
+    assert not missing, f"mirror list points at files that don't exist: {missing}"
+
+
+def test_latest_handoff_is_mirrored():
+    assert any("2026-08-07" in src for src in OB.MIRRORED_DOCS), \
+        "the handoff CLAUDE.md points at must reach Obsidian too"

@@ -221,8 +221,8 @@ MIRRORED_DOCS: dict[str, str] = {
     "docs/adoption/BACKOFFICE_ADOPTION_MANIFEST.md": "Adoption/Back-Office Manifest.md",
     "backend/data/project_ignite_15s.md": "Projects/IGNITE 15s.md",
     "docs/ZYNTH_MASTER_GUIDE.md": "00 MASTER GUIDE.md",
-    "docs/zynth-os/Operational_Blueprint.md": "ZYNTH-OS/Operational Blueprint.md",
-    "docs/zynth-os/Master_Workflows.md": "ZYNTH-OS/Master Workflows.md",
+    "docs/zynth-os/Operational_Blueprint.md": "Blueprints/Operational Blueprint.md",
+    "docs/zynth-os/Master_Workflows.md": "Blueprints/Master Workflows.md",
 }
 
 _GENERATED_HEADER = (
