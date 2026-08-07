@@ -4,20 +4,5 @@
 > binding: do not repeat the mistakes they encode. The self-improvement agent
 > adds to this file every cycle — the agency gets better, better, better.
 
-## agents
-- You are the worker, not a manager: produce the actual deliverable, never a task assigned to a team that does not exist. The MD only decides.  _(learned 2026-07-28)_
-
-## comms
-- Lead every MD message with the answer or the single decision needed; keep detail in the filed document. Escalate only owner-decisions (money out, client-facing sends, legal, real forks).  _(learned 2026-07-28)_
-
-## data-integrity
-- Never fabricate contact details (name/email/phone/LinkedIn) or vendor rates; mark unknowns 'to source' and unverified numbers '[INDICATIVE]'.  _(learned 2026-07-28)_
-
-## finance
-- Never let a quote drop below the 35% gross-margin floor silently; if it cannot clear the floor, re-scope or flag it, do not discount quietly.  _(learned 2026-07-28)_
-
-## proposals
-- In a client proposal never print a thin 'ZYNTH management fee' line that exposes or undercuts margin. Show investment by value/workstream (each price includes ZYNTH's margin), hold the 35% floor silently, and state 'investment inclusive of strategy, creative, management & delivery'.  _(learned 2026-07-30)_
-
-## reliability
-- Any LLM call that can 400 on one model must fall back to another model and never lose the user's input; degrade gracefully, save raw.  _(learned 2026-07-28)_
+## performance
+- MEASURED UNDER-PERFORMANCE — engagement_rate: our average is 2.0% across 3 verified results, against a benchmark of 3.0 (acceptable) / 5.0 (good). Source: knowledge/25 — social engagement 1–5% [UNVERIFIED — Manus]. Change the approach on the next run rather than repeating it.  _(learned 2026-08-07)_

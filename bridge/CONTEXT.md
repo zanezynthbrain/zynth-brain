@@ -171,6 +171,36 @@ sponsorship-funded, ZYNTH-owned IP.
 - To raise the bar further, replace/extend proposal_exemplar.md with more approved
   examples (keep it a skeleton, ~8-10k chars, to control per-call cost).
 
+## ZYNTH-OS integration + the learning loop (2026-08-07)
+- **ZYNTH-OS Master Package integrated selectively.** Core docs → `docs/zynth-os/`
+  (Operational Blueprint, Master Workflows, Industry Mapping, Tech Stack Map,
+  SMM_1–8 references). **Adopted as skills** (flattened into `.claude/skills/`,
+  each with a ZYNTH guardrail block appended — R1–R5, MM/SG, bilingual, HITL):
+  `zynth-sponsorship-value`, `zynth-3d-production`, `zynth-tactical-prompts`.
+  **34 skills now loadable.**
+- **NOT adopted** (held readable in `docs/zynth-os/not-adopted/`, with reasons):
+  `zynth-profit-planning` (YADANA owns finance — no second finance system),
+  `zynth-creative-direction` + `zynth-agent-director` (collide with existing
+  `zynth-creative-director` / `zynth-art-director` — near-identical descriptions
+  make the wrong skill fire), `zynth-ads-management` (collides with
+  `zynth-paid-media-specialist`), and the four video skills (2026-08-06 decision:
+  video toolkit is a SEPARATE workspace for the volume tier).
+- **Package defects found:** `tools/` and `templates/` shipped EMPTY though both
+  docs promise Python automation and proposal templates; skills were nested by
+  category so Claude Code could not load them (the guide's own `cp -R` command
+  would have loaded nothing); no R1–R5 anywhere; `/home/ubuntu/` path shipped in
+  the instructions. Blender *automation* claims conflict with the locked
+  2026-07-13 decision (text block only) — adopted as spatial design knowledge.
+- **NEW: the external learning loop** — `backend/utils/outcomes.py` + `/outcome`.
+  The internal loop (mistakes → lessons → prompts, bestof exemplars) only ever
+  graded its own homework. Now real results are recorded, judged against sourced
+  external BENCHMARKS, and a metric that misses 3+ times (verified only) is
+  promoted into `utils/lessons.py` — i.e. into every agent prompt. Unverified
+  numbers never count toward a benchmark.
+- **`docs/ZYNTH_MASTER_GUIDE.md`** — bilingual EN/Myanmar system map: storage
+  (GitHub/Railway/Claude Code/Obsidian), the two-session git protocol, all 34
+  skills, all commands, both learning loops, n8n comparison, interface options.
+
 ## Back-office cluster + video toolkit (2026-08-06, from the MD's other session)
 > Full record: **`docs/handoff/2026-08-06.md`** — read it on session start
 > (`CLAUDE.md` now points there).

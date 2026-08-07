@@ -3,13 +3,13 @@
 ---
 generated: true
 source: .claude/skills/
-mirrored: 2026-08-06 14:20
+mirrored: 2026-08-07 05:48
 ---
 
 > **Generated mirror of `.claude/skills/`.** Edit the source in the repo, not this
 > file — the next `/mirror` overwrites whatever is here.
 
-# Skills Index — 31 repo-versioned skills
+# Skills Index — 34 repo-versioned skills
 
 Every skill below lives in `.claude/skills/` and travels with the repo.
 
@@ -62,3 +62,6 @@ Every skill below lives in `.claude/skills/` and travels with the repo.
 ## Other
 
 - **`graphify`** — "Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a graphify query first. Turns any input (co
+- **`zynth-3d-production`** — Provides professional-grade 3D spatial design, exhibition booth standards, stage design workflows, and Blender Python automation logic for the ZYNTH AI agent.
+- **`zynth-sponsorship-value`** — Provides specialized methods and SOPs for developing sponsorship strategies, valuing campaigns, articulating client benefits, and demonstrating clear ROI for ZYNTH Agency projects. Use this skill when seeking sponsorship
+- **`zynth-tactical-prompts`** — Provides a library of high-performance AI prompts and tactical frameworks for the Claude agent to execute advanced marketing and video production methods.
