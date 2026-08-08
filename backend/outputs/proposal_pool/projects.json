@@ -1,0 +1,25 @@
+[
+  {
+    "id": "f3c1ac0d20",
+    "slug": "ignite-myanmar-business-summit-2026",
+    "name": "IGNITE Myanmar Business Summit 2026",
+    "client": "ZYNTH (owned IP)",
+    "kind": "owned",
+    "stage": "proposal",
+    "value_mmk": 198000000.0,
+    "market": "MM",
+    "owner": "MD",
+    "event_date": "2026-11-14",
+    "notes": "Sponsorship-funded, 300 delegates, Yangon. Inventory 198M MMK. Lean build clears the 35% floor at 43% sell-through.",
+    "source": "seed",
+    "created_at": "2026-08-08T09:32:27+00:00",
+    "updated_at": "2026-08-08T09:32:27+00:00",
+    "history": [
+      {
+        "at": "2026-08-08T09:32:27+00:00",
+        "stage": "proposal",
+        "note": "created"
+      }
+    ]
+  }
+]

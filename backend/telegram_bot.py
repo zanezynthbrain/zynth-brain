@@ -149,7 +149,8 @@ def _start_dashboard_server() -> None:
 
         def do_POST(self):  # noqa: N802
             if not (self.path.startswith("/api/task") or self.path.startswith("/api/cmd")
-                    or self.path.startswith("/api/switch")):
+                    or self.path.startswith("/api/switch")
+                    or self.path.startswith("/api/project")):
                 self._json({"ok": False}, 404); return
             # optional token guard (only enforced when ZYNTH_DASHBOARD_TOKEN set)
             if token and self.headers.get("X-Token") != token and token not in self.path:
@@ -166,6 +167,10 @@ def _start_dashboard_server() -> None:
                     from utils.cmdqueue import enqueue
                     ok = enqueue(data.get("cmd", ""))
                     self._json({"ok": ok}); return
+                if self.path.startswith("/api/project"):
+                    from utils import projects
+                    payload, status = projects.handle_api(data)
+                    self._json(payload, status); return
                 from utils.tasks import add_task, set_status, assign_task
                 act = data.get("action")
                 if act == "add":
@@ -1788,6 +1793,51 @@ async def cmd_roundtable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         return
     await update.message.reply_html(summary(res))
     await _send_long(update, "✨ <b>Sharpened version:</b>\n\n" + res["final"][:3500])
+
+
+async def cmd_connections(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/connections — live health of every link: GitHub, Obsidian, Graphify,
+    Claude API, Telegram, Drive, autonomous switches, creative queue.
+
+    Runs the checks fresh each time — never reports a cached "all good"."""
+    if not _security_check(update):
+        return
+    from utils import connections
+    await update.message.reply_html(connections.text_report()[:4000])
+
+
+async def cmd_cqueue(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/cqueue — the creative queue: what's waiting to be generated.
+
+    /cqueue          → queue depth + the next items
+    /cqueue export   → a copy-paste block for a live Claude Code session
+    """
+    if not _security_check(update):
+        return
+    from utils import creative_queue as cq
+
+    arg = (context.args[0].lower() if context.args else "")
+    if arg == "export":
+        block = cq.export_for_session()
+        for chunk in [block[i:i + 3500] for i in range(0, len(block), 3500)] or [block]:
+            await update.message.reply_html(f"<pre>{_html.escape(chunk)}</pre>")
+        return
+
+    c = cq.counts()
+    lines = [
+        "🎬 <b>Creative queue</b>",
+        f"<b>{c['pending']} pending</b> — {c['image']} image · {c['video']} video · {c['scene3d']} 3D",
+        f"{c['generated']} generated to date",
+        "",
+    ]
+    lines += [_html.escape(s) for s in cq.summary_lines(8)]
+    lines += [
+        "",
+        "<i>The bot prepares these but cannot generate them — OpenArt, Higgsfield "
+        "and Blender are live-session tools. Open Claude Code and say "
+        "“drain the creative queue”, or use /cqueue export.</i>",
+    ]
+    await update.message.reply_html("\n".join(lines))
 
 
 async def cmd_deliverables(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -3456,6 +3506,8 @@ def main() -> None:
     app.add_handler(CommandHandler("improve", cmd_improve))
     app.add_handler(CommandHandler("roundtable", cmd_roundtable))
     app.add_handler(CommandHandler("deliverables", cmd_deliverables))
+    app.add_handler(CommandHandler("cqueue", cmd_cqueue))
+    app.add_handler(CommandHandler("connections", cmd_connections))
     app.add_handler(CommandHandler("switch", cmd_switch))
     app.add_handler(CommandHandler("quiet", cmd_quiet))
     app.add_handler(CommandHandler("active", cmd_active))

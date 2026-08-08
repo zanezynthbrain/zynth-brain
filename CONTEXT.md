@@ -274,3 +274,27 @@ sponsorship-funded, ZYNTH-owned IP.
   studio stops working from briefs alone
 - SMTP_USER + SMTP_PASSWORD (Google App Password) in Railway → activates email
 - Test Claude Desktop + Blender MCP on laptop (gates Designer's Blender block)
+
+## 2026-08-07 (session: IGNITE sponsorship)
+- **IGNITE 2026 sponsorship pack produced** — `deliverables/ignite/`: sponsor
+  prospectus (bilingual, fonts inlined from `backend/data/fonts/`) + internal
+  financial model. Vault note: `vault/ZYNTH-OS/Projects/IGNITE-2026-Sponsorship.md`.
+- **Commercial finding:** at full scale (113.3M cost) IGNITE needs **76%**
+  sponsorship sell-through to clear the R1 35% floor — unsafe for a first edition.
+  **Lean build (70.4M) clears at 43%, hits 40% target at 47%.** Recommendation:
+  launch lean, upgrade with money in the bank; sponsor prices identical either way.
+  Biggest lever = a hotel taking Gold **in-kind** for the venue (−6 to −16M and
+  fills a tier). Gates G1 15 Sep / G2 30 Sep / G3 15 Oct / G4 1 Nov.
+- All cost bands remain `[UNVERIFIED — Manus, Jul 2026]`; nothing goes to a sponsor
+  until one real quote per line exists. No past-edition data is claimed anywhere —
+  the first edition has none.
+- **⚠️ OPEN — Blender lock (2026-07-13) not resolved.** A parallel session pushed
+  ~2,120 lines of Blender render automation (`zynth3d.py`, `stage_forms.py`,
+  rewritten `event_scene_build.py`) onto branch
+  `claude/zynth-multi-agent-framework-uk1a8i`, on top of ~350 lines from this
+  session. That contradicts *"Blender = text block only (no render automation)"*.
+  Nothing was deleted and nothing merged to `main`. **MD must decide:** enforce the
+  lock, overturn it on the record, or split automation into a separate workspace
+  (the 2026-08-06 video-toolkit precedent). Until then `main` stays clean.
+- **Branch protocol:** two sessions had collided on one branch. This work moved to
+  `claude/ignite-sponsorship`, cut fresh from `main`.

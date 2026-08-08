@@ -234,12 +234,36 @@ _GENERATED_HEADER = (
 )
 
 
+def _strip_mirror_stamp(text: str) -> str:
+    """The note minus its `mirrored:` line — i.e. everything that carries meaning."""
+    return "\n".join(
+        line for line in text.splitlines() if not line.startswith("mirrored:")
+    )
+
+
 def _write_mirror(destination: Path, source_rel: str, body: str) -> Path:
+    """Write the mirrored note, but only when its content actually changed.
+
+    The header carries a `mirrored:` timestamp, so a naive write makes every
+    run differ from the last even when the source is untouched — which dirties
+    every mirrored file in git on each mirror, burying real edits in noise.
+    Compare without the stamp and skip the write when nothing meaningful moved.
+    """
     destination.parent.mkdir(parents=True, exist_ok=True)
     header = _GENERATED_HEADER.format(
         source=source_rel, when=datetime.now().strftime("%Y-%m-%d %H:%M")
     )
-    destination.write_text(header + body, encoding="utf-8")
+    new = header + body
+
+    if destination.exists():
+        try:
+            if _strip_mirror_stamp(destination.read_text(encoding="utf-8")) == \
+                    _strip_mirror_stamp(new):
+                return destination          # unchanged — leave the file alone
+        except OSError:
+            pass                            # unreadable: fall through and rewrite
+
+    destination.write_text(new, encoding="utf-8")
     return destination
 
 
