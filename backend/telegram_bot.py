@@ -1790,6 +1790,40 @@ async def cmd_roundtable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     await _send_long(update, "✨ <b>Sharpened version:</b>\n\n" + res["final"][:3500])
 
 
+async def cmd_cqueue(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/cqueue — the creative queue: what's waiting to be generated.
+
+    /cqueue          → queue depth + the next items
+    /cqueue export   → a copy-paste block for a live Claude Code session
+    """
+    if not _security_check(update):
+        return
+    from utils import creative_queue as cq
+
+    arg = (context.args[0].lower() if context.args else "")
+    if arg == "export":
+        block = cq.export_for_session()
+        for chunk in [block[i:i + 3500] for i in range(0, len(block), 3500)] or [block]:
+            await update.message.reply_html(f"<pre>{_html.escape(chunk)}</pre>")
+        return
+
+    c = cq.counts()
+    lines = [
+        "🎬 <b>Creative queue</b>",
+        f"<b>{c['pending']} pending</b> — {c['image']} image · {c['video']} video · {c['scene3d']} 3D",
+        f"{c['generated']} generated to date",
+        "",
+    ]
+    lines += [_html.escape(s) for s in cq.summary_lines(8)]
+    lines += [
+        "",
+        "<i>The bot prepares these but cannot generate them — OpenArt, Higgsfield "
+        "and Blender are live-session tools. Open Claude Code and say "
+        "“drain the creative queue”, or use /cqueue export.</i>",
+    ]
+    await update.message.reply_html("\n".join(lines))
+
+
 async def cmd_deliverables(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """/deliverables — list results saved to GitHub + Drive (dual storage)."""
     if not _security_check(update):
@@ -3456,6 +3490,7 @@ def main() -> None:
     app.add_handler(CommandHandler("improve", cmd_improve))
     app.add_handler(CommandHandler("roundtable", cmd_roundtable))
     app.add_handler(CommandHandler("deliverables", cmd_deliverables))
+    app.add_handler(CommandHandler("cqueue", cmd_cqueue))
     app.add_handler(CommandHandler("switch", cmd_switch))
     app.add_handler(CommandHandler("quiet", cmd_quiet))
     app.add_handler(CommandHandler("active", cmd_active))

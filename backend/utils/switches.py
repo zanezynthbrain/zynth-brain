@@ -37,6 +37,8 @@ SWITCHES = [
     ("weekly_reviews",        "Weekly Mon/Fri/portfolio reviews",       False, False),
     ("fx_refresh",            "Daily FX rate refresh",                  False, False),
     ("publisher",             "Publish MD-approved posts at their time", False, True),
+    ("brand_creative",        "Nightly brand content/design month",     False, False),
+    ("creative_prep",         "Nightly video + 3D brief prep (queued, not generated)", False, False),
 ]
 _DEFAULTS = {k: d for k, _, _, d in SWITCHES}
 _LABEL = {k: lbl for k, lbl, _, _ in SWITCHES}
