@@ -1,0 +1,159 @@
+<title>ZYNTH — Connections</title>
+<style>
+:root{
+  --bg:#F5F3EE; --card:#FFF; --ink:#15181D; --ink2:#535B68; --ink3:#858D9A;
+  --line:#DFDACE; --ok:#1F6F43; --warn:#9A6608; --down:#9E2C2C;
+  --accent:#8A6F1E; --shadow:0 1px 2px rgba(20,24,31,.06);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0A0E15; --card:#121926; --ink:#ECEAE4; --ink2:#A7AFBD; --ink3:#6B7484;
+  --line:#1F2937; --ok:#4FBE85; --warn:#DDA83F; --down:#E2726A;
+  --accent:#C9A227; --shadow:none;
+}}
+:root[data-theme="dark"]{
+  --bg:#0A0E15; --card:#121926; --ink:#ECEAE4; --ink2:#A7AFBD; --ink3:#6B7484;
+  --line:#1F2937; --ok:#4FBE85; --warn:#DDA83F; --down:#E2726A;
+  --accent:#C9A227; --shadow:none;
+}
+:root[data-theme="light"]{
+  --bg:#F5F3EE; --card:#FFF; --ink:#15181D; --ink2:#535B68; --ink3:#858D9A;
+  --line:#DFDACE; --ok:#1F6F43; --warn:#9A6608; --down:#9E2C2C;
+  --accent:#8A6F1E; --shadow:0 1px 2px rgba(20,24,31,.06);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto;padding:44px 22px 70px}
+h1{font-family:Georgia,"Times New Roman",serif;font-weight:400;
+  font-size:clamp(28px,4.4vw,40px);letter-spacing:-.02em;margin:0 0 6px}
+.sub{color:var(--ink2);margin:0 0 4px}
+.stamp{color:var(--ink3);font-size:13px;font-variant-numeric:tabular-nums;margin:0 0 30px}
+.tally{display:flex;gap:1px;background:var(--line);border:1px solid var(--line);
+  border-radius:3px;overflow:hidden;margin-bottom:32px}
+.t{flex:1;background:var(--card);padding:16px 18px}
+.t .n{font-family:Georgia,serif;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums}
+.t .l{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);
+  font-weight:600;margin-top:5px}
+.t.ok .n{color:var(--ok)} .t.warn .n{color:var(--warn)} .t.down .n{color:var(--down)}
+.link{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--line);
+  border-radius:3px;padding:18px 20px;margin-bottom:12px;box-shadow:var(--shadow)}
+.link.ok{border-left-color:var(--ok)}
+.link.warn{border-left-color:var(--warn)}
+.link.down{border-left-color:var(--down)}
+.hd{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.dot{font-size:13px;line-height:1}
+.link.ok .dot{color:var(--ok)} .link.warn .dot{color:var(--warn)} .link.down .dot{color:var(--down)}
+.nm{font-weight:600;font-size:17px}
+.st{margin-left:auto;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+.link.ok .st{color:var(--ok)} .link.warn .st{color:var(--warn)} .link.down .st{color:var(--down)}
+.dt{color:var(--ink2);margin:8px 0 0}
+.fx{margin-top:12px;padding:10px 12px;background:var(--bg);border:1px solid var(--line);
+  border-radius:3px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:13px;color:var(--ink);overflow-x:auto;white-space:pre}
+.fx b{display:block;font-family:ui-sans-serif,system-ui,sans-serif;font-size:10px;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);margin-bottom:5px;font-weight:600}
+details{margin-top:10px}
+summary{cursor:pointer;font-size:13px;color:var(--ink3);user-select:none}
+summary:hover{color:var(--accent)}
+pre.facts{margin:8px 0 0;padding:10px 12px;background:var(--bg);border:1px solid var(--line);
+  border-radius:3px;font-size:12.5px;overflow-x:auto;color:var(--ink2)}
+.note{border-left:2px solid var(--accent);padding:2px 0 2px 16px;margin:30px 0 0;
+  color:var(--ink2);font-size:14.5px;max-width:64ch}
+footer{margin-top:38px;padding-top:20px;border-top:1px solid var(--line);
+  color:var(--ink3);font-size:13px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style>
+<div class="wrap">
+<h1>Connections</h1>
+<p class="sub">Something is not connected.</p>
+<p class="stamp">Checked 2026-08-08T08:44:00+00:00 · every light below was verified at that moment, not remembered.</p>
+<div class="tally">
+<div class="t ok"><div class="n">2</div><div class="l">Connected</div></div>
+<div class="t warn"><div class="n">5</div><div class="l">Needs attention</div></div>
+<div class="t down"><div class="n">1</div><div class="l">Not connected</div></div>
+</div>
+<div class="link down">
+<div class="hd"><span class="dot">■</span><span class="nm">Claude API</span><span class="st">not connected</span></div>
+<p class="dt">No ANTHROPIC_API_KEY here — agents run in MOCK mode (placeholder output, not real work).</p>
+<div class="fx"><b>To fix</b>Set ANTHROPIC_API_KEY (it lives in Railway for the live bot).</div>
+<details><summary>What was checked</summary><pre class="facts">{
+  &quot;configured&quot;: false
+}</pre></details>
+</div>
+<div class="link warn">
+<div class="hd"><span class="dot">▲</span><span class="nm">GitHub</span><span class="st">degraded</span></div>
+<p class="dt">On claude/ignite-sponsorship. 21 uncommitted file(s).</p>
+<div class="fx"><b>To fix</b>git add -A &amp;&amp; git commit &amp;&amp; git push -u origin claude/ignite-sponsorship</div>
+<details><summary>What was checked</summary><pre class="facts">{
+  &quot;branch&quot;: &quot;claude/ignite-sponsorship&quot;,
+  &quot;unpushed&quot;: 0,
+  &quot;dirty_files&quot;: 21,
+  &quot;last_commit&quot;: &quot;64a20ab Creative queue: let the 24/7 bot prep media work a live session generates&quot;
+}</pre></details>
+</div>
+<div class="link warn">
+<div class="hd"><span class="dot">▲</span><span class="nm">Graphify code graph</span><span class="st">degraded</span></div>
+<p class="dt">Graph is 7 days old (1.3 MB) — it will answer from stale code. The repo has changed since it was built.</p>
+<div class="fx"><b>To fix</b>/graphify . --update   (in a Claude Code session)</div>
+<details><summary>What was checked</summary><pre class="facts">{
+  &quot;package_installed&quot;: true,
+  &quot;skill&quot;: true,
+  &quot;hook&quot;: true,
+  &quot;graph_json&quot;: true,
+  &quot;graph_mb&quot;: 1.3,
+  &quot;graph_age_days&quot;: 7.2
+}</pre></details>
+</div>
+<div class="link warn">
+<div class="hd"><span class="dot">▲</span><span class="nm">Telegram bot</span><span class="st">degraded</span></div>
+<p class="dt">No token in this environment (normal for a sandbox — the live bot holds it on Railway).</p>
+<div class="fx"><b>To fix</b>Set TELEGRAM_BOT_TOKEN on Railway.</div>
+<details><summary>What was checked</summary><pre class="facts">{
+  &quot;configured&quot;: false
+}</pre></details>
+</div>
+<div class="link warn">
+<div class="hd"><span class="dot">▲</span><span class="nm">Google Drive mirror</span><span class="st">degraded</span></div>
+<p class="dt">Off — deliverables save to GitHub only. Missing: GOOGLE_SERVICE_ACCOUNT_JSON, DRIVE_DELIVERABLES_FOLDER</p>
+<div class="fx"><b>To fix</b>Set both on Railway to switch Drive mirroring on.</div>
+<details><summary>What was checked</summary><pre class="facts">{
+  &quot;service_account&quot;: false,
+  &quot;folder_id&quot;: false
+}</pre></details>
+</div>
+<div class="link warn">
+<div class="hd"><span class="dot">▲</span><span class="nm">Autonomous jobs</span><span class="st">degraded</span></div>
+<p class="dt">MASTER OFF — quiet mode. Nothing runs on a schedule; the bot only answers when spoken to.</p>
+<div class="fx"><b>To fix</b>/active in Telegram, or toggle on the dashboard.</div>
+<details><summary>What was checked</summary><pre class="facts">{
+  &quot;master&quot;: false,
+  &quot;jobs_on&quot;: [
+    &quot;publisher&quot;
+  ]
+}</pre></details>
+</div>
+<div class="link ok">
+<div class="hd"><span class="dot">●</span><span class="nm">Obsidian vault</span><span class="st">connected</span></div>
+<p class="dt">47 notes in vault/ZYNTH-OS/ · 5 runtime notes mirrored from the bot</p>
+<details><summary>What was checked</summary><pre class="facts">{
+  &quot;vault_path&quot;: &quot;vault/ZYNTH-OS&quot;,
+  &quot;notes_in_vault&quot;: 47,
+  &quot;runtime_notes&quot;: 5,
+  &quot;mirror_lag_days&quot;: 0.0
+}</pre></details>
+</div>
+<div class="link ok">
+<div class="hd"><span class="dot">●</span><span class="nm">Creative queue</span><span class="st">connected</span></div>
+<p class="dt">Empty · 0 generated to date.</p>
+<details><summary>What was checked</summary><pre class="facts">{
+  &quot;image&quot;: 0,
+  &quot;video&quot;: 0,
+  &quot;scene3d&quot;: 0,
+  &quot;pending&quot;: 0,
+  &quot;generated&quot;: 0
+}</pre></details>
+</div>
+<p class="note">This page is generated from a live check. Re-run it any time with <code>/connections</code> in Telegram, or regenerate the page with <code>python -m utils.connections_page</code> from <code>backend/</code>. A green light here means the check passed when the timestamp says — it is never a stored assumption.</p>
+<footer>ZYNTH Asia — operations control surface. Secrets are never read or printed by these checks; only whether they are set.</footer>
+</div>

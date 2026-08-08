@@ -1790,6 +1790,17 @@ async def cmd_roundtable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     await _send_long(update, "✨ <b>Sharpened version:</b>\n\n" + res["final"][:3500])
 
 
+async def cmd_connections(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/connections — live health of every link: GitHub, Obsidian, Graphify,
+    Claude API, Telegram, Drive, autonomous switches, creative queue.
+
+    Runs the checks fresh each time — never reports a cached "all good"."""
+    if not _security_check(update):
+        return
+    from utils import connections
+    await update.message.reply_html(connections.text_report()[:4000])
+
+
 async def cmd_cqueue(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """/cqueue — the creative queue: what's waiting to be generated.
 
@@ -3491,6 +3502,7 @@ def main() -> None:
     app.add_handler(CommandHandler("roundtable", cmd_roundtable))
     app.add_handler(CommandHandler("deliverables", cmd_deliverables))
     app.add_handler(CommandHandler("cqueue", cmd_cqueue))
+    app.add_handler(CommandHandler("connections", cmd_connections))
     app.add_handler(CommandHandler("switch", cmd_switch))
     app.add_handler(CommandHandler("quiet", cmd_quiet))
     app.add_handler(CommandHandler("active", cmd_active))
