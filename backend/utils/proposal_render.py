@@ -113,4 +113,28 @@ def render_both(slug: str, title: str, client: str, market: str,
     return {"md": md_path, "docx": docx_path}
 
 
-__all__ = ["to_markdown", "write_markdown", "render_both", "money_table", "budget_table"]
+
+
+def dated_slug(client: str, title: str, kind: str = "Proposal",
+               version: int = 1, updated: str = "") -> str:
+    """Filename that sorts by date and says what it is at a glance.
+
+    ``2026-08-11_Proposal_WavePay_The-Next-Wave_v1``
+
+    The MD tracks these in Drive and Obsidian by eye, so the date leads (files
+    sort chronologically), the type comes next, then client and title. Every
+    re-render stamps today's date, so the newest version is always obvious
+    without opening anything.
+    """
+    import re
+    from datetime import date
+
+    def slug(t: str, n: int) -> str:
+        t = re.sub(r"[^A-Za-z0-9 \-]", "", t or "").strip()
+        return re.sub(r"\s+", "-", t)[:n].strip("-")
+
+    stamp = updated or date.today().isoformat()
+    parts = [stamp, slug(kind, 20), slug(client, 24), slug(title, 40), f"v{version}"]
+    return "_".join(x for x in parts if x)
+
+__all__ = ["dated_slug", "to_markdown", "write_markdown", "render_both", "money_table", "budget_table"]

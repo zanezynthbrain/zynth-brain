@@ -108,3 +108,51 @@ def test_library_reads_the_real_pool():
     assert s["total"] > 50, f"expected the real library, got {s['total']}"
     first = PL.index()[0]
     assert PL.full(first["proposal_id"]) is not None
+
+
+# ---- the constellation sphere ----
+
+def test_constellation_shows_the_whole_library_not_just_documents():
+    """The sphere showed 2 stars while the library held 75+ — it was reading
+    only the deliverables manifest."""
+    from utils import constellation
+    rows = constellation.proposals()
+    assert len(rows) > 50, f"sphere only has {len(rows)} stars"
+    kinds = {r["kind"] for r in rows}
+    assert kinds == {"document", "concept"}
+
+
+def test_every_star_has_something_to_open():
+    """A star that does nothing when clicked is worse than no star."""
+    from utils import constellation
+    for r in constellation.proposals():
+        assert r.get("url") or r.get("id"), f"{r.get('name')} opens nothing"
+
+
+def test_stars_carry_date_and_type_for_tracking():
+    from utils import constellation
+    for r in constellation.proposals()[:20]:
+        assert "date" in r and "type" in r
+
+
+def test_constellation_page_wires_the_concept_detail_path():
+    from utils import constellation
+    html = constellation.render()
+    for marker in ("openConcept", "/api/proposals", 'id="detail"', "closeDetail"):
+        assert marker in html, marker
+
+
+def test_dated_slug_leads_with_date_then_type():
+    from utils.proposal_render import dated_slug
+    s = dated_slug("WavePay Myanmar", "The Next Wave", "Proposal", 1, updated="2026-08-11")
+    assert s.startswith("2026-08-11_Proposal_")
+    assert "WavePay-Myanmar" in s and s.endswith("_v1")
+
+
+def test_dated_slug_strips_punctuation_that_breaks_filenames():
+    from utils.proposal_render import dated_slug
+    s = dated_slug("A/B: Co.", "Title — with, punctuation!", "Proposal", 2,
+                   updated="2026-01-02")
+    for bad in "/:,—!.":
+        assert bad not in s
+    assert s.endswith("_v2")
