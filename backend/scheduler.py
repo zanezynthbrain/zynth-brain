@@ -26,6 +26,7 @@ from datetime import datetime
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
+from apscheduler.triggers.interval import IntervalTrigger
 
 from agents.ceo import CEOAgent
 from config import get_settings
@@ -528,6 +529,171 @@ async def run_self_improve() -> None:
             pass
 
 
+def _rotate(items: list, key: str) -> object:
+    """Pick today's item from a list, advancing one per day so the whole set is
+    covered over time instead of the first entry being worked to death."""
+    if not items:
+        return None
+    from datetime import date
+    return items[date.today().toordinal() % len(items)]
+
+
+async def run_brand_creative() -> None:
+    """Nightly: produce a full content + design month for ONE brand, rotating
+    through the brand book a brand per night. This is the autonomous half of
+    "content/design for each brand" — text, calendars and specs, no media."""
+    logger.info("🎨 Brand creative month starting")
+    try:
+        from utils import brands
+        from utils.state import SharedMemory
+        from agents.content_studio import run_content_studio
+
+        llm = LLMClient()
+        if llm.is_mocked:
+            logger.info("Brand creative skipped — no API key")
+            return
+
+        book = brands.all_brands()
+        if not book:
+            logger.info("Brand creative skipped — no brands on file (/brandkit add)")
+            return
+        brand = _rotate(book, "brand") or book[0]
+        name = brand.get("name") or str(brand)
+
+        memory = SharedMemory()
+        result = await run_content_studio(
+            brief=f"Monthly owned-content package for {name}.",
+            memory=memory,
+            brand=name,
+            package=8,          # smallest tier — nightly cadence, keep cost low
+            month="next month",
+        )
+        posts = len(result.get("calendar", []) or [])
+        specs = len(result.get("design_specs", []) or [])
+
+        # Design specs carry a render_prompt — queue them instead of generating.
+        queued = 0
+        try:
+            from utils import creative_queue
+            for spec in (result.get("design_specs") or [])[:6]:
+                if not isinstance(spec, dict):
+                    continue
+                prompt = (spec.get("render_prompt") or "").strip()
+                if not prompt:
+                    continue
+                creative_queue.add(
+                    "image", name,
+                    spec.get("headline") or spec.get("ref") or "key visual",
+                    prompt,
+                    notes=spec.get("usage", ""),
+                    spec={"format": spec.get("format", "square")},
+                    source="brand_creative",
+                )
+                queued += 1
+        except Exception:
+            logger.exception("Queueing design specs failed")
+
+        try:
+            from utils.tasks import log_activity
+            log_activity("Creative", f"{name}: {posts} posts + {specs} design specs", source="brand_creative")
+        except Exception:
+            pass
+
+        await send_message(
+            f"🎨 <b>Brand creative month</b> — {html.escape(name)}\n"
+            f"{posts} posts · {specs} design specs · {queued} visuals queued\n"
+            f"<i>Review with /content {html.escape(name)} — nothing is published.</i>"
+        )
+    except Exception as exc:
+        logger.exception("Brand creative failed: %s", exc)
+        try:
+            from utils import mistakes
+            mistakes.record("brand_creative", "month failed", type(exc).__name__, "error")
+        except Exception:
+            pass
+
+
+async def run_creative_prep() -> None:
+    """Nightly: write ONE commercial-video brief and ONE 3D event-scene spec and
+    put them in the creative queue.
+
+    Deliberately does NOT generate anything. The bot has no access to OpenArt,
+    Higgsfield or Blender — those are live-session tools. This job prepares the
+    prompts so a session can generate the whole batch on the MD's say-so."""
+    logger.info("🎬 Creative prep starting")
+    try:
+        from utils import brands, creative_queue
+
+        llm = LLMClient()
+        if llm.is_mocked:
+            logger.info("Creative prep skipped — no API key")
+            return
+
+        book = brands.all_brands()
+        name = (_rotate(book, "creative") or {}).get("name", "ZYNTH") if book else "ZYNTH"
+        brand_ctx = brands.brand_block(name, max_chars=1200) if book else "ZYNTH — the agency's own brand."
+
+        spec = await llm.complete_json(
+            system=(
+                "You are ZYNTH's commercial video director and 3D designer. "
+                "Write generation-ready prompts, not descriptions. Every prompt must "
+                "stand alone: a generation model receives it with no other context. "
+                "Never put Burmese text inside an image or video prompt — Burmese is "
+                "always typeset afterwards. Respect the brand."
+            ),
+            user=(
+                f"Brand context:\n{brand_ctx}\n\n"
+                "Produce ONE 5-second commercial video concept and ONE 3D event-scene "
+                "concept for this brand. The video prompt must specify shot, lens, "
+                "movement, lighting and mood. The 3D prompt must specify the space, "
+                "stage form, materials and palette."
+            ),
+            schema={
+                "type": "object",
+                "required": ["video_title", "video_prompt", "scene_title", "scene_prompt"],
+                "properties": {
+                    "video_title":  {"type": "string"},
+                    "video_prompt": {"type": "string"},
+                    "video_notes":  {"type": "string"},
+                    "scene_title":  {"type": "string"},
+                    "scene_prompt": {"type": "string"},
+                    "scene_notes":  {"type": "string"},
+                },
+            },
+            max_tokens=1200,
+        )
+
+        creative_queue.add(
+            "video", name, spec["video_title"], spec["video_prompt"],
+            notes=spec.get("video_notes", ""),
+            spec={"duration_s": 5, "aspect": "9:16"},
+            source="creative_prep",
+        )
+        creative_queue.add(
+            "scene3d", name, spec["scene_title"], spec["scene_prompt"],
+            notes=spec.get("scene_notes", ""),
+            spec={"builder": "backend/../.claude/skills/zynth-3d-design-studio/tools/event_scene_build.py"},
+            source="creative_prep",
+        )
+
+        c = creative_queue.counts()
+        await send_message(
+            f"🎬 <b>Creative prep</b> — {html.escape(name)}\n"
+            f"Queued: 1 video + 1 3D scene\n"
+            f"<b>Queue now:</b> {c['pending']} pending "
+            f"({c['image']} image · {c['video']} video · {c['scene3d']} 3D)\n"
+            f"<i>Nothing generated — no credits spent. Open a Claude Code session "
+            f"and say “drain the creative queue” to produce them.</i>"
+        )
+    except Exception as exc:
+        logger.exception("Creative prep failed: %s", exc)
+        try:
+            from utils import mistakes
+            mistakes.record("creative_prep", "prep failed", type(exc).__name__, "error")
+        except Exception:
+            pass
+
+
 async def run_daily_proposals() -> None:
     """Autonomous daily proposal production — the proposal department generates
     new event/campaign proposals every day, on its own, no prompting. Grows the
@@ -597,6 +763,29 @@ async def run_friday_review() -> None:
         "• Review: what shipped, what slipped, what's at risk\n\n"
         "Agencies die at PROVE + EXPAND. Friday is where you win them."
     )
+
+
+
+async def run_instagram_publisher() -> None:
+    """Fire approved Instagram posts whose minute has arrived.
+
+    Instagram has no scheduling API — Meta will not hold a post for us — so this
+    IS the schedule for IG. It publishes only entries the MD already approved,
+    which is why it checks its own switch with raw_on() instead of enabled():
+    /quiet silences autonomous WORK, and must not silently swallow a post the MD
+    already said yes to.
+    """
+    from utils import switches
+    if not switches.raw_on("publisher"):
+        logger.info("⏸  instagram publisher off")
+        return
+    from utils.publisher import run_due_instagram
+    results = await run_due_instagram()
+    for result in results:
+        if not result.ok:
+            await send_message(f"❌ Instagram publish failed: {html.escape(result.error[:300])}")
+        elif result.action == "published":
+            await send_message(f"🚀 Published to Instagram: {result.post_id}")
 
 
 def _gated(job_key: str, fn):
@@ -705,6 +894,16 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
         replace_existing=True,
     )
 
+    # Instagram publisher — every 5 minutes, because IG cannot be scheduled at
+    # Meta. Facebook posts are already held by Meta and need nothing here.
+    scheduler.add_job(
+        run_instagram_publisher,
+        IntervalTrigger(minutes=5, timezone=settings.scheduler_timezone),
+        id="instagram_publisher",
+        name="Instagram Publisher (approved posts)",
+        replace_existing=True,
+    )
+
     # Autonomous nightly consolidation (21:00 Yangon — while the MD is away)
     scheduler.add_job(
         _gated("nightly_consolidation", run_consolidation),
@@ -735,6 +934,23 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
         CronTrigger(day_of_week="mon", hour=8, minute=0, timezone=settings.scheduler_timezone),
         id="weekly_bridge_export",
         name="Weekly BD Export → bridge/",
+        replace_existing=True,
+    )
+    # Brand creative month (22:00 Yangon — one brand per night, rotating)
+    scheduler.add_job(
+        _gated("brand_creative", run_brand_creative),
+        CronTrigger(hour=22, minute=0, timezone=settings.scheduler_timezone),
+        id="brand_creative",
+        name="Brand Content & Design Month",
+        replace_existing=True,
+    )
+    # Creative prep (22:30 Yangon — writes video + 3D prompts into the queue,
+    # generates nothing; a live session drains the queue on MD approval)
+    scheduler.add_job(
+        _gated("creative_prep", run_creative_prep),
+        CronTrigger(hour=22, minute=30, timezone=settings.scheduler_timezone),
+        id="creative_prep",
+        name="Creative Prep → queue",
         replace_existing=True,
     )
     # Command-deck drain (every minute — web dashboard buttons → real work)

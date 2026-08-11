@@ -1,0 +1,542 @@
+{
+  "brand": "ZYNTH",
+  "month": "Services — always-on",
+  "brief": "Service-line content for video production, social media management and event management.",
+  "content": {
+    "posts": [
+      {
+        "ref": "S00",
+        "platform": "Facebook",
+        "content_type": "static_post",
+        "pillar": "Services",
+        "objective": "awareness",
+        "hook_mm": "တစ်နေရာတည်းမှာ — ရိုက်၊ တင်၊ ကျင်းပ။",
+        "hook": "One team: film it, post it, run it.",
+        "caption_mm": "တစ်နေရာတည်းမှာ — ရိုက်၊ တင်၊ ကျင်းပ။\n\nZYNTH မှာ ဝန်ဆောင်မှု သုံးမျိုး ရှိပါတယ် —\n· ဗီဒီယို ထုတ်လုပ်မှု — concept ကနေ ပြီးဆုံးတဲ့ ဖိုင်အထိ\n· Social media စီမံခန့်ခွဲမှု — တစ်လစာ အစီအစဉ်၊ စာသား၊ ဒီဇိုင်း၊ အစီရင်ခံစာ\n· Event စီမံခန့်ခွဲမှု — အကြံအစည်ကနေ ပွဲပြီး အစီရင်ခံစာအထိ\n\nသုံးခုလုံး အဖွဲ့တစ်ဖွဲ့တည်းက လုပ်ပါတယ်။ ဒါကြောင့် ဗီဒီယိုထဲက ပုံက post ဖြစ်၊ post ထဲက စာသားက ပွဲစင်ပေါ် ရောက်ပါတယ်။ တစ်ခုနဲ့တစ်ခု မဆက်စပ်တဲ့ ကုမ္ပဏီ သုံးခုနဲ့ လုပ်နေစရာ မလိုတော့ပါဘူး။\n\nဘယ်ဟာက သင့်လုပ်ငန်းအတွက် လိုအပ်လဲ — inbox ပို့လိုက်ပါ။",
+        "caption_en": "One team: film it, post it, run it.\n\nThree services at ZYNTH —\n· Video production — concept to final delivery\n· Social media management — the month planned, written, designed, reported\n· Event management — idea to post-event report\n\nOne team does all three, which is why the frame from your film becomes the post, and the line in the post ends up on the stage. No three unconnected vendors blaming each other.\n\nNot sure which one you need? Message us — we'll tell you honestly.",
+        "hashtags": [
+          "ZYNTH",
+          "MyanmarBusiness",
+          "VideoProduction",
+          "SocialMedia",
+          "EventManagement"
+        ],
+        "cta": "Inbox ပို့လိုက်ပါ",
+        "needs_design": true,
+        "boost": true,
+        "design": {
+          "ref": "S00",
+          "format": "portrait 1080×1350",
+          "template": "Summit",
+          "on_asset_text": {
+            "headline": "Film it. Post it. Run it.",
+            "subline": "Three services. One team. Yangon and Singapore.",
+            "myanmar": "ရိုက်၊ တင်၊ ကျင်းပ — အဖွဲ့တစ်ဖွဲ့တည်း။",
+            "cta_chip": "Inbox us"
+          },
+          "figures": [
+            {
+              "value": "01",
+              "label": "Video"
+            },
+            {
+              "value": "02",
+              "label": "Social"
+            },
+            {
+              "value": "03",
+              "label": "Events"
+            }
+          ]
+        },
+        "asset_path": "outputs/proposal_pool/assets/services/S00_1080x1350.png"
+      },
+      {
+        "ref": "V01",
+        "platform": "Facebook",
+        "content_type": "static_post",
+        "pillar": "Video Production",
+        "objective": "awareness",
+        "hook_mm": "ဗီဒီယိုက လှတယ်။ ဒါပေမယ့် ဘယ်သူမှ ပြီးအောင် မကြည့်ဘူး။",
+        "hook": "The video is beautiful. Nobody finishes it.",
+        "caption_mm": "ဗီဒီယိုက လှတယ်။ ဒါပေမယ့် ဘယ်သူမှ ပြီးအောင် မကြည့်ဘူး။\n\nအများစုက ပထမ ၃ စက္ကန့်မှာ ကုမ္ပဏီ logo နဲ့ စတယ်။ ဒီ ၃ စက္ကန့်ဟာ သင့်ဗီဒီယိုတစ်ခုလုံးရဲ့ ကံကြမ္မာပါ။\n\nကျွန်တော်တို့ လုပ်တဲ့ပုံစံ —\n· ပထမ ၁.၅ စက္ကန့်မှာ လူကြည့်ချင်စိတ် ဖြစ်စေမယ့် မြင်ကွင်းတစ်ခု\n· အသံပိတ်ထားရင်လည်း နားလည်အောင် စာတန်းထိုး (မြန်မာ + အင်္ဂလိပ်)\n· logo က အစမှာ မဟုတ်ဘဲ အဆုံးမှာ\n\nလှတာက အစပါ။ ကြည့်ပြီးအောင် ဆွဲထားနိုင်တာက အလုပ်ဖြစ်တာပါ။",
+        "caption_en": "The video is beautiful. Nobody finishes it.\n\nMost brand videos open with a logo. Those first three seconds decide the fate of everything you paid for.\n\nHow we cut instead:\n· A visual event inside the first 1.5 seconds\n· Burned-in subtitles, Myanmar and English — sound-off is the default\n· The logo lands at the end, not the start\n\nBeautiful is the entry fee. Holding someone to the last frame is the work.",
+        "hashtags": [
+          "VideoProduction",
+          "ZYNTH",
+          "Yangon",
+          "ContentThatWorks"
+        ],
+        "cta": "Send us your last video — we'll tell you where it loses people.",
+        "needs_design": true,
+        "boost": false,
+        "design": {
+          "ref": "V01",
+          "format": "portrait 1080×1350",
+          "template": "Statement",
+          "on_asset_text": {
+            "headline": "Beautiful. And nobody finished it.",
+            "subline": "The first 1.5 seconds decide the rest of your budget.",
+            "myanmar": "လှတယ်။ ဒါပေမယ့် ဘယ်သူမှ ပြီးအောင် မကြည့်ဘူး။",
+            "cta_chip": ""
+          }
+        },
+        "asset_path": "outputs/proposal_pool/assets/services/V01_1080x1350.png"
+      },
+      {
+        "ref": "V02",
+        "platform": "Instagram",
+        "content_type": "static_post",
+        "pillar": "Video Production",
+        "objective": "conversion",
+        "hook_mm": "ဗီဒီယိုတစ်ခု ဘယ်လောက်ကျလဲ — ရှင်းရှင်းပြောပါမယ်။",
+        "hook": "What a video actually costs, said plainly.",
+        "caption_mm": "ဗီဒီယိုတစ်ခု ဘယ်လောက်ကျလဲ — ရှင်းရှင်းပြောပါမယ်။\n\n· Social ဗီဒီယို အစုလိုက် (၈–၁၂ ခု) — MMK 8–20M\n· Brand film ၆၀–၁၂၀ စက္ကန့် — MMK 27–84M\n· ပွဲရိုက်ကူးမှု — MMK 14–68M\n\nပါဝင်တာ — concept နဲ့ script (မြန်မာ + အင်္ဂလိပ်)၊ storyboard၊ ရိုက်ကူးရေး (ကင်မရာ ၁–၃ လုံး)၊ တည်းဖြတ်၊ အရောင်ချိန်၊ အသံ၊ စာတန်းထိုး၊ platform အလိုက် ဖိုင်များ။\n\n၅၀% ကြိုတင်ငွေ။ စျေးနှုန်းက ဈေးကွက်ငွေလဲနှုန်းနဲ့ တွက်ထားပါတယ်။ အတိအကျ လိုချင်ရင် brief တစ်ကြောင်း ပို့ပါ — ၄၈ နာရီအတွင်း quote ပြန်ပါမယ်။",
+        "caption_en": "What a video actually costs, said plainly.\n\n· Social batch (8–12 videos) — MMK 8–20M / S$2.5–6k\n· Brand film, 60–120s — MMK 27–84M / S$8–25k\n· Event coverage — MMK 14–68M / S$4–20k\n\nIncluded: concept and script in both languages, storyboard, 1–3 camera shoot, edit, colour, sound, subtitles, and platform-spec delivery files.\n\n50% deposit to start. Figures at market FX. Send a one-line brief and you'll have a real quote within 48 hours.",
+        "hashtags": [
+          "VideoProduction",
+          "ZYNTH",
+          "Pricing",
+          "MyanmarBusiness"
+        ],
+        "cta": "Send a one-line brief — quote back in 48 hours.",
+        "needs_design": true,
+        "boost": true,
+        "design": {
+          "ref": "V02",
+          "format": "portrait 1080×1350",
+          "template": "Ledger",
+          "on_asset_text": {
+            "badge": "01 · VIDEO PRODUCTION",
+            "headline": "Concept to final file.",
+            "subline": "Producer-led: we own the idea, script and direction.",
+            "myanmar": "အကြံအစည်ကနေ ပြီးဆုံးတဲ့ ဖိုင်အထိ။",
+            "cta_chip": "Get a quote"
+          },
+          "list_items": [
+            "Concept + script, Myanmar and English",
+            "Storyboard and shot list",
+            "1–3 camera shoot with a Yangon crew",
+            "Edit, colour, sound, bilingual subtitles",
+            "Delivery cut to each platform's spec"
+          ],
+          "price_line": "MMK 8–84M",
+          "price_label": "Social batch → brand film"
+        },
+        "asset_path": "outputs/proposal_pool/assets/services/V02_1080x1350.png"
+      },
+      {
+        "ref": "M01",
+        "platform": "Facebook",
+        "content_type": "static_post",
+        "pillar": "Social Media Management",
+        "objective": "awareness",
+        "hook_mm": "တစ်လကို post ဘယ်နှစ်ခု တင်ရင် အရောင်းတက်လဲ။",
+        "hook": "How many posts a month does it take to sell?",
+        "caption_mm": "တစ်လကို post ဘယ်နှစ်ခု တင်ရင် အရောင်းတက်လဲ။\n\nဒါက မှားနေတဲ့ မေးခွန်းပါ။ ရှစ်ခုနဲ့ ရောင်းရတဲ့ လုပ်ငန်းရှိသလို သုံးဆယ်တင်ပြီး ဘာမှမဖြစ်တဲ့ လုပ်ငန်းလည်း ရှိပါတယ်။\n\nအရေးကြီးတာ သုံးချက် —\n· ပထမစာကြောင်း — လူတစ်ယောက်အတွက် ရေးထားလား၊ လူအားလုံးအတွက်လား\n· မြန်မာစာ — လူရေးထားသလို ဖြစ်လား၊ ဘာသာပြန်ထားသလို ဖြစ်လား\n· တစ် post မှာ တောင်းဆိုချက် တစ်ခုတည်း ရှိလား\n\nဒါတွေ မှန်ရင် ရှစ်ခုနဲ့တောင် လုံလောက်ပါတယ်။ မမှန်ရင် သုံးဆယ်တင်လည်း ငွေကုန်ရုံပါပဲ။",
+        "caption_en": "How many posts a month does it take to sell?\n\nWrong question. Some businesses sell on eight. Some post thirty and move nothing.\n\nThree things decide it:\n· The first line — written for one person, or for everyone?\n· The Myanmar — does it read like a person wrote it, or a translator?\n· One ask per post — or two, so both get ignored?\n\nGet those right and eight is enough. Get them wrong and thirty is just a faster way to spend.",
+        "hashtags": [
+          "SocialMediaMarketing",
+          "ZYNTH",
+          "MyanmarSME",
+          "ContentStrategy"
+        ],
+        "cta": "Post your worst-performing first line — we'll rewrite it.",
+        "needs_design": true,
+        "boost": false,
+        "design": {
+          "ref": "M01",
+          "format": "square 1080×1080",
+          "template": "Statement",
+          "on_asset_text": {
+            "headline": "Eight can outsell thirty.",
+            "subline": "Volume isn't the strategy. The first line is.",
+            "myanmar": "ရှစ်ခုက သုံးဆယ်ထက် ပိုရောင်းနိုင်ပါတယ်။",
+            "cta_chip": ""
+          }
+        },
+        "asset_path": "outputs/proposal_pool/assets/services/M01_1080x1080.png"
+      },
+      {
+        "ref": "M02",
+        "platform": "Instagram",
+        "content_type": "static_post",
+        "pillar": "Social Media Management",
+        "objective": "conversion",
+        "hook_mm": "တစ်လစာ အကုန်လုံး — မဟာဗျူဟာကနေ အစီရင်ခံစာအထိ။",
+        "hook": "The whole month — strategy to report.",
+        "caption_mm": "တစ်လစာ အကုန်လုံး — မဟာဗျူဟာကနေ အစီရင်ခံစာအထိ။\n\nPackage လေးမျိုး ရှိပါတယ် — တစ်လကို post ၈ ခု၊ ၁၀ ခု၊ ၁၆ ခု၊ ၃၀ ခု။\n\nဘယ် package မဆို ပါဝင်တာ —\n· ဘရန်းနဲ့ channel မဟာဗျူဟာ (ဆက်မလုပ်တောင် သင့်လက်ထဲ ကျန်ပါမယ်)\n· စာသားများ — မြန်မာစာကို အရင်ရေးပြီး အင်္ဂလိပ်လို ပြန်ရေးပါတယ်\n· ဒီဇိုင်းအသစ်များ (၈ ခုမှာ ၆ ခု၊ ၁၆ ခုမှာ ၁၁ ခု)\n· Story set များ၊ ကြော်ငြာမြှင့်ရန် အကြံပြုချက်၊ လစဉ်အစီရင်ခံစာ\n\nတစ်လကို MMK 5–20M။ ၅၀% ကြိုတင်ငွေ။ ဘယ်အရွယ်အစား လိုက်ဖက်လဲ မသိရင် မေးလိုက်ပါ — မလိုအပ်တာ မရောင်းပါဘူး။",
+        "caption_en": "The whole month — strategy to report.\n\nFour sizes: 8, 10, 16 or 30 posts a month.\n\nEvery size includes:\n· A brand and channel strategy you keep, even if you leave\n· Copy written in Myanmar first, then transcreated to English\n· Original design (6 of 8, 11 of 16 — the ratio is contractual)\n· Story sets, boost recommendations, monthly reporting\n\nMMK 5–20M a month. 50% to start. Not sure which size fits? Ask — we won't sell you thirty when eight would do.",
+        "hashtags": [
+          "SocialMediaManagement",
+          "ZYNTH",
+          "ContentRetainer",
+          "Yangon"
+        ],
+        "cta": "Tell us your industry and budget — we'll name the right size.",
+        "needs_design": true,
+        "boost": true,
+        "design": {
+          "ref": "M02",
+          "format": "portrait 1080×1350",
+          "template": "Ledger",
+          "on_asset_text": {
+            "badge": "02 · SOCIAL MEDIA MANAGEMENT",
+            "headline": "The month, handled.",
+            "subline": "Strategy, copy in both languages, design, reporting.",
+            "myanmar": "မဟာဗျူဟာကနေ အစီရင်ခံစာအထိ။",
+            "cta_chip": "Find your size"
+          },
+          "figures": [
+            {
+              "value": "8",
+              "label": "posts"
+            },
+            {
+              "value": "10",
+              "label": "posts"
+            },
+            {
+              "value": "16",
+              "label": "posts"
+            },
+            {
+              "value": "30",
+              "label": "posts"
+            }
+          ],
+          "price_line": "MMK 5–20M / mo",
+          "price_label": "Retainer"
+        },
+        "asset_path": "outputs/proposal_pool/assets/services/M02_1080x1350.png"
+      },
+      {
+        "ref": "E01",
+        "platform": "Facebook",
+        "content_type": "static_post",
+        "pillar": "Event Management",
+        "objective": "awareness",
+        "hook_mm": "ပွဲပြီးမှ ပေါ်လာတဲ့ ကုန်ကျစရိတ်က ပွဲမဟုတ်တော့ပါဘူး။",
+        "hook": "A cost that appears after the event isn't a cost. It's a wound.",
+        "caption_mm": "ပွဲပြီးမှ ပေါ်လာတဲ့ ကုန်ကျစရိတ်က ပွဲမဟုတ်တော့ပါဘူး။\n\nရန်ကုန်မှာ အများဆုံး ဖြစ်တတ်တာတွေ —\n· ည ၂ နာရီ ဖြုတ်သိမ်းချိန် — crew နှုန်း ၁.၅ ဆကနေ ၂ ဆ တက်သွားတယ်\n· LED အရွယ်အစား နောက်ဆုံးမှ ပြောင်း — ကြိုတင်မှာထားတာ အလကား\n· မိုးရွာရင် ဘာလုပ်မလဲ မရှိတာ — ဒါက အစီအစဉ် မဟုတ်ပါဘူး\n\nဒါကြောင့် ကျွန်တော်တို့ budget တိုင်းမှာ ၁၀% အရန်ငွေကို စာရင်းတစ်ကြောင်း အနေနဲ့ ထည့်ထားပါတယ် — ဖျောက်မထားပါဘူး။ ငွေလဲနှုန်းကိုလည်း ဈေးကွက်နှုန်းနဲ့ တွက်ပြီး သုံးထားတဲ့ရက်စွဲကို ရေးထားပါတယ်။\n\nပွဲအပြီး ၇ ရက်အတွင်း အစီရင်ခံစာ ပေးပါတယ်။",
+        "caption_en": "A cost that appears after the event isn't a cost. It's a wound.\n\nThe three that catch Yangon events most often:\n· A 2am strike — crew rates jump 1.5–2×\n· LED size changed late — the booking you paid for is wasted\n· No wet-weather plan — which means there is no plan\n\nSo every budget we issue carries a 10% contingency as a visible line, never quietly absorbed. Every figure converts at market FX with the rate and date written on it.\n\nPost-event report within 7 days. Always.",
+        "hashtags": [
+          "EventManagement",
+          "ZYNTH",
+          "Yangon",
+          "EventPlanning"
+        ],
+        "cta": "Planning something? Send the date first — availability decides everything.",
+        "needs_design": true,
+        "boost": false,
+        "design": {
+          "ref": "E01",
+          "format": "portrait 1080×1350",
+          "template": "Statement",
+          "on_asset_text": {
+            "headline": "10% contingency. A visible line, every time.",
+            "subline": "A 2am strike can erase the margin of a beautiful event.",
+            "myanmar": "အရန်ငွေ ၁၀% — ဖျောက်မထားပါဘူး။",
+            "cta_chip": ""
+          }
+        },
+        "asset_path": "outputs/proposal_pool/assets/services/E01_1080x1350.png"
+      },
+      {
+        "ref": "E02",
+        "platform": "Instagram",
+        "content_type": "static_post",
+        "pillar": "Event Management",
+        "objective": "conversion",
+        "hook_mm": "အကြံအစည်ကနေ ပွဲပြီး အစီရင်ခံစာအထိ — အဖွဲ့တစ်ဖွဲ့တည်း။",
+        "hook": "Idea to post-event report, one team.",
+        "caption_mm": "အကြံအစည်ကနေ ပွဲပြီး အစီရင်ခံစာအထိ — အဖွဲ့တစ်ဖွဲ့တည်း။\n\n· ကုမ္ပဏီ ညစာစား / townhall (၁၀၀–၅၀၀ ယောက်) — MMK 51–203M\n· ကုန်ပစ္စည်း မိတ်ဆက်ပွဲ — MMK 68–270M\n· Activation / roadshow (တစ်နေရာ) — MMK 34–169M\n\nပါဝင်တာ — အကြံအစည်နဲ့ theme၊ နေရာရွေးချယ်မှု၊ စင်နဲ့ LED ဒီဇိုင်း၊ vendor စီမံခန့်ခွဲမှု၊ run-of-show၊ ပွဲနေ့ ကြီးကြပ်မှု၊ ရိုက်ကူးမှတ်တမ်း၊ ပွဲပြီး အစီရင်ခံစာ။\n\n၅၀% ကြိုတင်ငွေ။ ရက်စွဲကို အရင်ပြောပါ — နေရာနဲ့ vendor တွေက ရက်အလိုက် ကုန်သွားတတ်ပါတယ်။",
+        "caption_en": "Idea to post-event report, one team.\n\n· Corporate dinner / townhall (100–500 pax) — MMK 51–203M / S$15–60k\n· Product launch — MMK 68–270M / S$20–80k\n· Activation / roadshow, per site — MMK 34–169M / S$10–50k\n\nIncluded: concept and theme, venue sourcing, stage and LED design, vendor management, run-of-show, show-calling on the day, content capture, and the post-event report.\n\n50% deposit. Send the date first — venues and crews go by date, not by budget.",
+        "hashtags": [
+          "EventManagement",
+          "ZYNTH",
+          "ProductLaunch",
+          "CorporateEvents"
+        ],
+        "cta": "Send your date and guest count — we'll say yes or no honestly.",
+        "needs_design": true,
+        "boost": true,
+        "design": {
+          "ref": "E02",
+          "format": "portrait 1080×1350",
+          "template": "Summit",
+          "on_asset_text": {
+            "badge": "03 · EVENT MANAGEMENT",
+            "headline": "Idea to post-event report.",
+            "subline": "Concept, venue, stage, vendors, run-of-show, the day itself.",
+            "myanmar": "အကြံအစည်ကနေ အစီရင်ခံစာအထိ။",
+            "cta_chip": "Send your date"
+          },
+          "list_items": [
+            "Concept, theme and guest journey",
+            "Venue sourcing and permits",
+            "Stage, LED and lighting design",
+            "Vendor management and run-of-show",
+            "Show-calling, capture, 7-day report"
+          ],
+          "price_line": "MMK 34–270M",
+          "price_label": "Activation → launch"
+        },
+        "asset_path": "outputs/proposal_pool/assets/services/E02_1080x1350.png"
+      }
+    ],
+    "month_theme": "What we do, priced in the open."
+  },
+  "design_system": {
+    "art_direction": "Editorial, not promotional. Every asset should look like a page torn from a well-set business document rather than a social graphic — deep navy fields, generous margins, one gold accent doing one job per frame. The work is confident enough to be quiet: no gradients, no glow, no stock imagery of people pointing at laptops. Where photography appears it is real work, real rooms, real Yangon light. The system's job is to make a small agency look like the most rigorous one in the room, at thumbnail size, on a mid-range Android in daylight.",
+    "mood_keywords": [
+      "Editorial",
+      "Precise",
+      "Quietly premium",
+      "Documentary",
+      "Uncluttered",
+      "Institutional"
+    ],
+    "palette": [
+      {
+        "name": "ZYNTH Navy",
+        "hex": "#12203A",
+        "use": "Primary field for 70% of assets. Backgrounds and full-bleed panels. Never as body text on gold."
+      },
+      {
+        "name": "ZYNTH Gold",
+        "hex": "#B88A2A",
+        "use": "Accent only — one element per frame: a rule, a number, a CTA chip, or a highlighted word. Never a background, never two gold elements competing in one frame."
+      },
+      {
+        "name": "Off-White",
+        "hex": "#F5F3EF",
+        "use": "Primary text on navy; also the alternate light field for teaching/carousel frames where reading length is high."
+      },
+      {
+        "name": "Charcoal",
+        "hex": "#2B2B2B",
+        "use": "Body text on off-white fields, and secondary UI marks. Not for headlines — headlines are navy or off-white."
+      },
+      {
+        "name": "Slate",
+        "hex": "#5A6B85",
+        "use": "Captions, metadata, dates, source lines, disclaimers such as 'indicative — RFQ'. Never for anything that must be read at thumbnail size."
+      }
+    ],
+    "typography": {
+      "headline": "A confident geometric sans (Inter Tight / Söhne class), 600–700 weight. Feed headline 44–72pt at 1080px canvas. Sentence case, never all-caps except the IGNITE wordmark. Maximum 9 words — if it needs 10, the copy is wrong, not the layout.",
+      "body": "Same family, 400 weight, 24–30pt at 1080px, line-height 1.45, measure capped at 34 characters on square formats. Left-aligned always; centred body text is banned in this system.",
+      "myanmar": "Pyidaungsu (or Noto Sans Myanmar) — never a Latin face with Myanmar glyphs faked in. Line-height 1.9 minimum to clear stacked diacritics, and 15% larger optical size than the Latin equivalent to match perceived weight. Myanmar and English never share a line; they stack, with a 24px gold rule between them. Never letter-space Myanmar text.",
+      "hierarchy_rules": "One idea per frame, three levels maximum: headline, one supporting line, one CTA chip. Numbers are typographic events — when a frame has a number worth reading (12, 16, 35%, 50 days), it is set 2–3× the headline size and everything else recedes."
+    },
+    "templates": [
+      {
+        "name": "Statement",
+        "use_for": "static_post, testimonial — one idea, maximum impact",
+        "layout": "Full-bleed navy. Headline set in the upper two-thirds, left-aligned, 96px margins. Gold rule (4px, 120px wide) sits above the headline as an entry mark. Logo bottom-left at 48px, CTA chip bottom-right. Bottom 220px kept clear of critical elements for feed UI overlap.",
+        "dimensions": "1080×1350 (4:5) for feed; 1080×1080 square variant for LinkedIn"
+      },
+      {
+        "name": "Teach",
+        "use_for": "carousel, educational — sequential reasoning that must be read",
+        "layout": "Off-white field, charcoal body, navy headline. 12-column grid, content in columns 2–11. Frame number top-right in slate. Gold rule under the frame headline. Final frame flips to navy for the takeaway plus CTA — the colour flip IS the ending.",
+        "dimensions": "1080×1350 (4:5), 5–7 frames"
+      },
+      {
+        "name": "Ledger",
+        "use_for": "pricing, budget, FX and any frame carrying figures",
+        "layout": "Off-white field with a fine slate rule between every line item, figures right-aligned in a fixed 320px column, one gold total row. Reads as a document, not a graphic. No icons anywhere in this template.",
+        "dimensions": "1080×1350 (4:5)"
+      },
+      {
+        "name": "Summit",
+        "use_for": "all IGNITE assets — event-grade, sponsor-facing",
+        "layout": "Near-black navy (#0D1729 tint of the primary) with the IGNITE wordmark locked top-left and the date as the dominant typographic element. Optional duotone photography at 35% opacity behind, navy/gold duotone only. Tier or outcome lists set in two columns with gold ticks.",
+        "dimensions": "1080×1350 feed, 1920×1080 for deck reuse"
+      },
+      {
+        "name": "Proof",
+        "use_for": "before/after, results and metric callouts",
+        "layout": "Split field — 40% navy metric block left, 60% off-white context right (stacked vertically on portrait). The metric is the largest element on the canvas. Any unverified or withheld figure carries a slate 'indicative' or 'withheld by client' mark; figures are never invented to fill the block.",
+        "dimensions": "1080×1350 (4:5)"
+      }
+    ],
+    "layout_rules": [
+      "One gold element per frame. If a second wants to exist, the first one wasn't doing its job.",
+      "Headline maximum 9 words, and it must be legible when the asset is 120px wide — check every frame at that size before it ships.",
+      "Bottom 220px of any 4:5 asset stays clear of critical content (feed UI, caption fold).",
+      "Myanmar text never shares a line with English; it stacks below, separated by a 24px gold rule, at 1.9 line-height.",
+      "No icons in Ledger or Statement templates. Icons are permitted only in Teach, at 32px, single-weight, and never more than three per frame.",
+      "No drop shadows, no gradients, no glass effects, no glow. Depth comes from the field change, not from an effect.",
+      "Photography is real or it is absent. Generated imagery may only ever be an abstract background or texture — never a person, product, premises or result presented as real."
+    ],
+    "photography_direction": "Documentary, available light, slightly underexposed to keep navy shadows rich. Real desks, real Yangon rooms, real crew at work — the camera is an observer, never a director. Hands and screens over faces where a face isn't necessary. Colour graded cool in the shadows so it sits with the navy field; skin tones stay natural, never teal. No smiling stock, no handshakes, no laptops on cafe tables with nothing on the screen.",
+    "graphic_devices": [
+      "The gold entry rule — 4px × 120px, sits above every headline, the system's signature mark",
+      "The number as hero — figures set 2–3× headline size, the only permitted 'loud' element",
+      "The strike-through in gold — used exclusively to show what was cut or corrected (P05, P07)",
+      "The interval bracket — two rules with a gap, used to show a gap between two values (P13 FX)",
+      "The colour flip — carousel takeaway frames invert from off-white to navy, marking the ending"
+    ],
+    "accessibility": "Off-white #F5F3EF on navy #12203A = 13.1:1, and charcoal #2B2B2B on off-white = 13.6:1 — both far clear of WCAG AA. Gold #B88A2A on navy is 4.9:1: acceptable for headlines and large numbers, never for body text or anything below 24pt. Minimum on-asset text size 24pt at 1080px canvas. Every video carries burned-in subtitles in both languages (sound-off is the default), minimum 32pt with a 60%-opacity navy scrim behind. Every published asset also needs alt text — written by whoever schedules it, in the caption's primary language.",
+    "asset_checklist": [
+      "ZYNTH logo in SVG plus a light-background variant — the current PNG is being scaled and it shows",
+      "Licensed weights of the headline family for both web and print, or a confirmed open-source substitute",
+      "Pyidaungsu / Noto Sans Myanmar installed on every machine that touches an asset",
+      "A real photography set from the office and one client shoot — 20+ usable frames so the system stops depending on type alone",
+      "The IGNITE wordmark lockup with clear-space rules, and venue photography cleared for commercial use",
+      "Written permission for any client name, quote or figure published in P05, P09 and P12"
+    ],
+    "open_questions": [
+      "Headline typeface is specified by class, not by licence — confirm which family ZYNTH owns before week 1 production.",
+      "Is there an approved dark-mode variant of the logo? Assets currently assume gold-on-navy throughout.",
+      "Video subtitle style should be locked once and reused; currently specified per post, which will drift."
+    ]
+  },
+  "designs": {
+    "design_specs": [
+      {
+        "ref": "S00",
+        "format": "portrait 1080×1350",
+        "template": "Summit",
+        "on_asset_text": {
+          "headline": "Film it. Post it. Run it.",
+          "subline": "Three services. One team. Yangon and Singapore.",
+          "myanmar": "ရိုက်၊ တင်၊ ကျင်းပ — အဖွဲ့တစ်ဖွဲ့တည်း။",
+          "cta_chip": "Inbox us"
+        },
+        "figures": [
+          {
+            "value": "01",
+            "label": "Video"
+          },
+          {
+            "value": "02",
+            "label": "Social"
+          },
+          {
+            "value": "03",
+            "label": "Events"
+          }
+        ]
+      },
+      {
+        "ref": "V01",
+        "format": "portrait 1080×1350",
+        "template": "Statement",
+        "on_asset_text": {
+          "headline": "Beautiful. And nobody finished it.",
+          "subline": "The first 1.5 seconds decide the rest of your budget.",
+          "myanmar": "လှတယ်။ ဒါပေမယ့် ဘယ်သူမှ ပြီးအောင် မကြည့်ဘူး။",
+          "cta_chip": ""
+        }
+      },
+      {
+        "ref": "V02",
+        "format": "portrait 1080×1350",
+        "template": "Ledger",
+        "on_asset_text": {
+          "badge": "01 · VIDEO PRODUCTION",
+          "headline": "Concept to final file.",
+          "subline": "Producer-led: we own the idea, script and direction.",
+          "myanmar": "အကြံအစည်ကနေ ပြီးဆုံးတဲ့ ဖိုင်အထိ။",
+          "cta_chip": "Get a quote"
+        },
+        "list_items": [
+          "Concept + script, Myanmar and English",
+          "Storyboard and shot list",
+          "1–3 camera shoot with a Yangon crew",
+          "Edit, colour, sound, bilingual subtitles",
+          "Delivery cut to each platform's spec"
+        ],
+        "price_line": "MMK 8–84M",
+        "price_label": "Social batch → brand film"
+      },
+      {
+        "ref": "M01",
+        "format": "square 1080×1080",
+        "template": "Statement",
+        "on_asset_text": {
+          "headline": "Eight can outsell thirty.",
+          "subline": "Volume isn't the strategy. The first line is.",
+          "myanmar": "ရှစ်ခုက သုံးဆယ်ထက် ပိုရောင်းနိုင်ပါတယ်။",
+          "cta_chip": ""
+        }
+      },
+      {
+        "ref": "M02",
+        "format": "portrait 1080×1350",
+        "template": "Ledger",
+        "on_asset_text": {
+          "badge": "02 · SOCIAL MEDIA MANAGEMENT",
+          "headline": "The month, handled.",
+          "subline": "Strategy, copy in both languages, design, reporting.",
+          "myanmar": "မဟာဗျူဟာကနေ အစီရင်ခံစာအထိ။",
+          "cta_chip": "Find your size"
+        },
+        "figures": [
+          {
+            "value": "8",
+            "label": "posts"
+          },
+          {
+            "value": "10",
+            "label": "posts"
+          },
+          {
+            "value": "16",
+            "label": "posts"
+          },
+          {
+            "value": "30",
+            "label": "posts"
+          }
+        ],
+        "price_line": "MMK 5–20M / mo",
+        "price_label": "Retainer"
+      },
+      {
+        "ref": "E01",
+        "format": "portrait 1080×1350",
+        "template": "Statement",
+        "on_asset_text": {
+          "headline": "10% contingency. A visible line, every time.",
+          "subline": "A 2am strike can erase the margin of a beautiful event.",
+          "myanmar": "အရန်ငွေ ၁၀% — ဖျောက်မထားပါဘူး။",
+          "cta_chip": ""
+        }
+      },
+      {
+        "ref": "E02",
+        "format": "portrait 1080×1350",
+        "template": "Summit",
+        "on_asset_text": {
+          "badge": "03 · EVENT MANAGEMENT",
+          "headline": "Idea to post-event report.",
+          "subline": "Concept, venue, stage, vendors, run-of-show, the day itself.",
+          "myanmar": "အကြံအစည်ကနေ အစီရင်ခံစာအထိ။",
+          "cta_chip": "Send your date"
+        },
+        "list_items": [
+          "Concept, theme and guest journey",
+          "Venue sourcing and permits",
+          "Stage, LED and lighting design",
+          "Vendor management and run-of-show",
+          "Show-calling, capture, 7-day report"
+        ],
+        "price_line": "MMK 34–270M",
+        "price_label": "Activation → launch"
+      }
+    ]
+  },
+  "ratio": {
+    "posts_planned": 7,
+    "design_ratio": "7:7",
+    "short_videos": 0,
+    "boosted": 4
+  },
+  "credits": {
+    "total_credits": 0
+  }
+}

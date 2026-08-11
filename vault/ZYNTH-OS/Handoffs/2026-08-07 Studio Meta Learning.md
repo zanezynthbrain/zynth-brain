@@ -1,0 +1,103 @@
+<!-- TEMPLATE -->
+<!-- Generated mirror — the knowledge loader skips this file on purpose. -->
+---
+generated: true
+source: docs/handoff/2026-08-07.md
+mirrored: 2026-08-07 09:44
+---
+
+> **Generated mirror of `docs/handoff/2026-08-07.md`.** Edit the source in the repo, not this
+> file — the next `/mirror` overwrites whatever is here.
+
+# Handoff — 2026-08-07 (Studio, Meta, back-office, learning loop)
+
+> Written for the **other Claude Code session** ("Main - ZYNTH multi-agent
+> marketing framework"). Everything below is already merged to `main` —
+> `git pull` and it's yours. Read this, then `CONTEXT.md`.
+
+## Merged to main today: PR #33 and PR #34
+
+**PR #33 — Content & Design Studio + Meta + back-office**
+- `agents/content_studio.py` — six agents: BrandStrategist → ContentCreator ∥
+  DesignDirector → MyanmarCopyChief ∥ Designer ∥ MotionDesigner.
+  `/content <brand> <8|10|16|30>`.
+- `config/content_packages.py` — packages are **contractual**: volume, type mix,
+  content:design ratio (6:8 · 7:10 · 11:16 · 19:30), price bands. `_reconcile()`
+  forces model output onto those numbers and reports every adjustment.
+- `utils/meta.py`, `publish_queue.py`, `publisher.py`, `assets.py` — Facebook
+  scheduled at Meta; Instagram has no scheduling API so `scheduler.py` fires it.
+  **Per-post MD approval before anything is sent.** Dry-run without tokens.
+- `utils/reviewboard.py` (`/review`) — QC board with deterministic checks.
+- `utils/compositor.py` — brand-exact artwork from design specs; fonts vendored
+  in `backend/data/fonts/` (Noto Sans Myanmar + Inter, SIL OFL).
+- `utils/finance.py` + `data/expenses.json` (`/expenses`) — the Money Out ledger.
+- `knowledge/26_myanmar_ad_craft.md` — Burmese is written FIRST, English
+  transcreated from it.
+- `.claude/skills/` — the `zb-` cluster, `yadana-finance`, and all 21 previously
+  user-level `zynth-*` skills, now repo-versioned.
+
+**PR #34 — ZYNTH-OS integration + the learning loop**
+- ZYNTH-OS core docs → `docs/zynth-os/`. Three skills adopted
+  (`zynth-sponsorship-value`, `zynth-3d-production`, `zynth-tactical-prompts`),
+  eight held in `docs/zynth-os/not-adopted/` with reasons.
+- **`utils/outcomes.py` + `/outcome`** — the external learning loop. Real result
+  → external benchmark → 3 verified misses become a lesson in every agent prompt.
+- **`docs/ZYNTH_MASTER_GUIDE.md`** — bilingual system map. Read this first if
+  anything about storage, skills or commands is unclear.
+
+**34 skills · 160 tests passing · Railway deploys from `main`.**
+
+---
+
+## ⚠️ Before you continue: two things that would break something
+
+**1. The Blender question you were on.** The last prompt in that session was
+*"build camera fly-through into .blend files or skip animation?"*
+
+**Skip the animation.** `CONTEXT.md` (2026-07-13, locked): *"Blender = text block
+only (no render automation)."* The Event Designer produces a **Blender MCP text
+block** the MD pastes into Claude Desktop — ZYNTH does not automate renders.
+`zynth-3d-production` was adopted for **spatial design knowledge only**; its
+Blender automation claims were explicitly not adopted. Building a fly-through
+pipeline would contradict a locked decision and duplicate a skipped one.
+
+**2. Don't rebuild what exists.** Check before you build:
+
+| If you're about to build | It already exists |
+|---|---|
+| Anything finance/quoting | `.claude/skills/yadana-finance` + `utils/finance.py` |
+| A second content pipeline | `agents/content_studio.py` |
+| Social publishing | `utils/meta.py` + `publish_queue.py` |
+| Image compositing | `utils/compositor.py` |
+| A QC/review surface | `utils/reviewboard.py` |
+
+---
+
+## Open work, in priority order
+
+1. **Dashboard / interface** — the weakest part of the system. `utils/dashboard.py`
+   already serves a public page from the bot; extend it into one screen showing
+   pipeline, approvals, the content calendar, outcomes and costs. ~2 days.
+2. **Finance workbook (.xlsx)** — to the `yadana-finance` §10 spec. Build it
+   **banded**: green ≥40%, amber 35–39.9% (written justification), red <35%
+   blocked. The old "block under 40%" line in `docs/handoff/2026-08-06.md`
+   contradicts R1 — do not implement it.
+3. **IGNITE sponsorship** — 14 Nov, ~14 weeks out, sponsorship-funded. Chain:
+   `zynth-sponsorship-value` → `yadana-finance` → `zb-objections` → `zb-pitch-kit`.
+4. **Video toolkit** — clone `digitalsamba/claude-code-video-toolkit` as a
+   SEPARATE workspace (volume tier). Not merged here.
+5. **Talent DB** — Google Sheets, manual-first.
+
+## Blocked on the MD, not on code
+- Meta tokens (`META_ACCESS_TOKEN`, `META_PAGE_ID`, `META_IG_USER_ID`,
+  `ZYNTH_PUBLIC_URL`) — publishing is dry-run until these are set
+- OpenArt credits: **5 left**, ~8,700 needed for a 3-film portfolio slate
+- The learning loop has **no real data** until the first `/outcome` is recorded
+- Written client permission for the September plan's P05 and P09
+
+## Working protocol with the other session
+Both sessions share this repo. Git is the connection — there is nothing else to
+link. **`git pull` before you start.** One branch per session, never two on the
+same branch. Split by area: if one takes `backend/`, the other takes
+`.claude/skills/` and `docs/`. Merge to `main` often, in small pieces. Every
+decision goes in `CONTEXT.md` or a dated file in `docs/handoff/`.

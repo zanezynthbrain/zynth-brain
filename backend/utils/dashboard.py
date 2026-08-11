@@ -242,9 +242,37 @@ def build_state() -> dict[str, Any]:
     except Exception:
         proposals_made = []
 
+    # Projects — the unit the MD works in. IGNITE is one row here, not the system.
+    try:
+        from utils import projects as _proj
+        _proj.seed_if_empty()
+        project_rows = _proj.all_projects()
+        project_summary = _proj.summary()
+        project_board = _proj.board()
+    except Exception:
+        project_rows, project_summary, project_board = [], {}, {}
+
+    # Connectors — live health of every link, checked fresh on each poll.
+    try:
+        from utils import connections as _conn
+        conn = _conn.summary()
+    except Exception:
+        conn = {"overall": "warn", "tally": {}, "links": []}
+
+    try:
+        from utils import creative_queue as _cq
+        queue_counts = _cq.counts()
+    except Exception:
+        queue_counts = {}
+
     return {
         "generated": datetime.now().strftime("%a %d %b %Y, %H:%M"),
         "model": getattr(s, "model_name", ""),
+        "projects": project_rows,
+        "project_summary": project_summary,
+        "project_board": project_board,
+        "connections": conn,
+        "queue": queue_counts,
         "cost": cost,
         "pipeline": pipeline,
         "deliverables": deliverables,
@@ -391,6 +419,34 @@ a{color:var(--cyan);text-decoration:none}
 .wchip{display:inline-flex;gap:6px;align-items:baseline;font-size:11px;background:var(--panel2);
   border:1px solid var(--border);border-radius:6px;padding:5px 9px;margin:0 6px 6px 0}
 .wchip b{font-size:14px;font-variant-numeric:tabular-nums}
+/* ---- Projects ---- */
+.pstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:8px;margin-bottom:12px}
+.pstat{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:6px;padding:9px 11px}
+.pstat b{display:block;font-size:19px;font-variant-numeric:tabular-nums;color:var(--gold)}
+.pstat span{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.pboard{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:9px}
+.pcol{background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:6px;padding:8px;min-height:66px}
+.pcol>.t{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--mut);margin-bottom:7px;display:flex;justify-content:space-between}
+.pcard{background:rgba(255,255,255,.05);border:1px solid var(--line);border-left:2px solid var(--cyan);border-radius:5px;padding:8px 9px;margin-bottom:6px}
+.pcard.won,.pcard.delivery{border-left-color:var(--gold)}
+.pcard.lost{border-left-color:#E0736B;opacity:.55}
+.pcard.done{border-left-color:#4FBE85;opacity:.75}
+.pcard .n{font-size:12.5px;font-weight:600;line-height:1.3}
+.pcard .m{font-size:10.5px;color:var(--mut);margin-top:3px;display:flex;gap:7px;flex-wrap:wrap;font-variant-numeric:tabular-nums}
+.pcard .due{color:var(--gold)} .pcard .due.soon{color:#E0736B;font-weight:600}
+.pcard select{width:100%;margin-top:6px;font-size:10.5px;background:rgba(0,0,0,.35);color:var(--fg);border:1px solid var(--line);border-radius:4px;padding:3px}
+.padd{display:flex;gap:6px;margin-top:11px;flex-wrap:wrap}
+.padd input,.padd select{flex:1;min-width:88px;background:rgba(0,0,0,.3);color:var(--fg);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:12px}
+.padd button{background:var(--gold);color:#0A0A0A;border:0;border-radius:5px;padding:6px 13px;font-weight:700;font-size:12px;cursor:pointer}
+/* ---- Connectors ---- */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px}
+.conn{background:rgba(255,255,255,.03);border:1px solid var(--line);border-left:3px solid var(--mut);border-radius:6px;padding:9px 11px}
+.conn.ok{border-left-color:#4FBE85} .conn.warn{border-left-color:#DDA83F} .conn.down{border-left-color:#E0736B}
+.conn .n{font-size:12.5px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.conn .n i{font-style:normal;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase}
+.conn.ok .n i{color:#4FBE85} .conn.warn .n i{color:#DDA83F} .conn.down .n i{color:#E0736B}
+.conn .d{font-size:10.5px;color:var(--mut);margin-top:4px;line-height:1.45}
+.conn .f{font-size:10px;color:var(--cyan);margin-top:5px;font-family:ui-monospace,monospace;word-break:break-all}
 .act{display:block;width:100%;text-align:left;background:var(--panel2);border:1px solid var(--border);
   color:var(--ink);border-radius:8px;padding:11px 12px;font:inherit;font-size:12.5px;cursor:pointer;margin-top:7px;transition:.12s}
 .act:hover{border-color:var(--cyan);color:var(--cyan)}
@@ -446,6 +502,25 @@ a{color:var(--cyan);text-decoration:none}
   </div>
   <iframe src="/constellation" title="ZYNTH Proposal Constellation" loading="lazy"
     style="display:block;width:100%;height:46vh;min-height:340px;max-height:560px;border:0;background:#060505"></iframe>
+</div>
+
+<div class="panel" style="margin-bottom:14px">
+  <div class="h">Projects · everything live, one row each</div>
+  <div class="pstats" id="pstats"></div>
+  <div class="pboard" id="pboard"></div>
+  <div class="padd">
+    <input id="pname" placeholder="project name…" onkeydown="if(event.key==='Enter')addProject()">
+    <input id="pclient" placeholder="client">
+    <select id="pkind"></select>
+    <input id="pvalue" placeholder="value MMK" inputmode="numeric">
+    <input id="pdate" type="date" title="hard date">
+    <button onclick="addProject()">+ Project</button>
+  </div>
+</div>
+
+<div class="panel" style="margin-bottom:14px">
+  <div class="h">Connectors · checked live, every refresh</div>
+  <div id="conns"></div>
 </div>
 
 <div class="grid">
@@ -519,6 +594,8 @@ function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');setT
 
 /* ============ panels ============ */
 function render(){
+  try{renderProjects();}catch(e){}
+  try{renderConns();}catch(e){}
   const sys=S.sys||{}, c=S.cost||{today:0,cap:5,week:0,pct:0};
   $('#chips').innerHTML=[['BRAIN',sys.ai],['SYNC',sys.sync],['EMAIL',sys.email],['VOICE',sys.voice]]
     .map(([n,ok])=>`<span class="chip"><span class="d ${ok?'on':'off'}"></span>${n}</span>`).join('');
@@ -696,6 +773,61 @@ setInterval(()=>{const ds=(S.departments||[]).filter(d=>(d.works||[]).some(w=>w.
 /* ============ actions ============ */
 async function api(path,body){try{const r=await fetch(path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined});return await r.json();}catch(e){return{ok:false}}}
 async function cmd(k,dept){toast('Queued: '+k+' — watch Telegram');if(dept)fire(dept,null,'event');await api('/api/cmd',{cmd:k});}
+// ---- Projects ----
+const STAGES=['lead','proposal','won','delivery','done','lost'];
+const KINDS=['event','campaign','content','video','retainer','owned'];
+function mmk(n){n=Number(n||0);if(!n)return '—';
+  if(n>=1e6)return (n/1e6).toFixed(n>=1e7?0:1)+'M';
+  if(n>=1e3)return Math.round(n/1e3)+'k';return String(n);}
+function daysTo(iso){const d=new Date(iso+'T00:00:00'),t=new Date();
+  t.setHours(0,0,0,0);return Math.round((d-t)/86400000);}
+function renderProjects(){
+  const ps=S.project_summary||{},box=$('#pstats');
+  if(box)box.innerHTML=[['Active',ps.active||0],['Pipeline',mmk(ps.pipeline_mmk)],
+    ['Expected',mmk(ps.expected_mmk)],['Won',mmk(ps.won_mmk)],
+    ['Queue',(S.queue&&S.queue.pending)||0]]
+    .map(function(x){return '<div class="pstat"><b>'+esc(String(x[1]))+'</b><span>'+esc(x[0])+'</span></div>';}).join('');
+  const board=S.project_board||{},bd=$('#pboard');
+  if(bd)bd.innerHTML=STAGES.map(function(st){
+    const rows=board[st]||[];
+    const cards=rows.map(function(p){
+      const d=p.event_date?daysTo(p.event_date):null;
+      const due=(d===null)?'':'<span class="due'+(d<30?' soon':'')+'">'+(d<0?Math.abs(d)+'d ago':d+'d')+'</span>';
+      const opts=STAGES.map(function(x){return '<option value="'+x+'"'+(x===p.stage?' selected':'')+'>'+x+'</option>';}).join('');
+      return '<div class="pcard '+esc(p.stage)+'"><div class="n">'+esc(p.name)+'</div>'+
+        '<div class="m"><span>'+esc(p.client||'—')+'</span><span>'+esc(mmk(p.value_mmk))+'</span>'+due+'</div>'+
+        '<select onchange="moveProject(\''+p.id+'\',this.value)">'+opts+'</select></div>';
+    }).join('')||'<div class="mut" style="font-size:10.5px">—</div>';
+    return '<div class="pcol"><div class="t"><span>'+st+'</span><span>'+rows.length+'</span></div>'+cards+'</div>';
+  }).join('');
+  const ks=$('#pkind');
+  if(ks&&!ks.options.length)ks.innerHTML=KINDS.map(function(k){return '<option value="'+k+'">'+k+'</option>';}).join('');
+}
+async function addProject(){
+  const n=($('#pname').value||'').trim();if(!n)return;
+  const body={action:'add',name:n,client:($('#pclient').value||'').trim(),
+    kind:$('#pkind').value||'event',
+    value_mmk:Number(($('#pvalue').value||'').replace(/[^0-9.]/g,''))||0,
+    event_date:$('#pdate').value||''};
+  ['#pname','#pclient','#pvalue'].forEach(function(x){$(x).value='';});
+  const r=await api('/api/project',body);
+  toast(r&&r.ok?'Project added':'Could not add project');refresh();
+}
+async function moveProject(id,stage){
+  const r=await api('/api/project',{action:'stage',id:id,stage:stage});
+  toast(r&&r.ok?('Moved → '+stage):'Move failed');refresh();
+}
+// ---- Connectors ----
+function renderConns(){
+  const c=S.connections||{},el=$('#conns');if(!el)return;
+  const links=c.links||[];
+  if(!links.length){el.innerHTML='<div class="mut" style="font-size:11px">No connector data.</div>';return;}
+  const rank={down:0,warn:1,ok:2};
+  el.innerHTML='<div class="cgrid">'+links.slice().sort(function(a,b){return rank[a.status]-rank[b.status];}).map(function(l){
+    return '<div class="conn '+esc(l.status)+'"><div class="n"><span>'+esc(l.name)+'</span><i>'+esc(l.status)+'</i></div>'+
+      '<div class="d">'+esc(l.detail)+'</div>'+(l.fix?'<div class="f">'+esc(l.fix)+'</div>':'')+'</div>';
+  }).join('')+'</div>';
+}
 async function addTask(){const el=$('#tin');const v=(el.value||'').trim();if(!v)return;const dp=$('#dept').value;el.value='';fire(dp,null,'event');await api('/api/task',{action:'add',title:v,department:dp});toast('Task added → '+dp);refresh();}
 async function refresh(){const s=await api('/api/state');if(s&&s.departments){const nOld=(S.departments||[]).length;S=s;render();detectChanges();if((S.departments||[]).length!==nOld||!B.core)layoutBrain();else syncLayout();if(CURRENT)fillDrawer(CURRENT);}}
 function syncLayout(){ // keep positions, refresh values/works
