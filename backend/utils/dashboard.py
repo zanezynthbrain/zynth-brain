@@ -438,6 +438,22 @@ a{color:var(--cyan);text-decoration:none}
 .padd{display:flex;gap:6px;margin-top:11px;flex-wrap:wrap}
 .padd input,.padd select{flex:1;min-width:88px;background:rgba(0,0,0,.3);color:var(--fg);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:12px}
 .padd button{background:var(--gold);color:#0A0A0A;border:0;border-radius:5px;padding:6px 13px;font-weight:700;font-size:12px;cursor:pointer}
+/* ---- Proposal library ---- */
+.prrow{display:flex;gap:10px;align-items:baseline;padding:7px 9px;border:1px solid var(--line);
+  border-radius:5px;margin-bottom:5px;background:rgba(255,255,255,.03);cursor:pointer}
+.prrow:hover{border-color:var(--gold)}
+.prrow .t{flex:1;font-size:12.5px;font-weight:600;line-height:1.35}
+.prrow .g{font-size:10px;color:var(--mut);white-space:nowrap}
+.prrow .mk{font-size:9.5px;letter-spacing:.08em;padding:1px 5px;border:1px solid var(--line);
+  border-radius:3px;color:var(--cyan)}
+.prdetail{border:1px solid var(--gold);border-radius:6px;padding:12px 14px;margin-top:9px;
+  background:rgba(212,175,55,.06)}
+.prdetail h4{margin:0 0 4px;font-size:14px}
+.prdetail .meta{font-size:10.5px;color:var(--mut);margin-bottom:9px}
+.prdetail dl{margin:0;font-size:12px;line-height:1.55}
+.prdetail dt{color:var(--gold);font-size:10px;letter-spacing:.09em;text-transform:uppercase;margin-top:8px}
+.prdetail dd{margin:2px 0 0;color:var(--fg)}
+.prmore{font-size:11px;color:var(--mut);margin-top:7px}
 /* ---- Connectors ---- */
 .cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px}
 .conn{background:rgba(255,255,255,.03);border:1px solid var(--line);border-left:3px solid var(--mut);border-radius:6px;padding:9px 11px}
@@ -519,6 +535,18 @@ a{color:var(--cyan);text-decoration:none}
 </div>
 
 <div class="panel" style="margin-bottom:14px">
+  <div class="h">Proposal Library · every proposal the factory has made</div>
+  <div class="pstats" id="prstats"></div>
+  <div class="padd" style="margin:0 0 10px">
+    <input id="prq" placeholder="search title / type / sector…" oninput="loadProposals()">
+    <select id="prind" onchange="loadProposals()"></select>
+    <select id="prmkt" onchange="loadProposals()"></select>
+  </div>
+  <div id="prlist"></div>
+  <div id="prdoc"></div>
+</div>
+
+<div class="panel" style="margin-bottom:14px">
   <div class="h">Connectors · checked live, every refresh</div>
   <div id="conns"></div>
 </div>
@@ -596,6 +624,7 @@ function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');setT
 function render(){
   try{renderProjects();}catch(e){}
   try{renderConns();}catch(e){}
+  try{if(!PRF)loadProposals();}catch(e){}
   const sys=S.sys||{}, c=S.cost||{today:0,cap:5,week:0,pct:0};
   $('#chips').innerHTML=[['BRAIN',sys.ai],['SYNC',sys.sync],['EMAIL',sys.email],['VOICE',sys.voice]]
     .map(([n,ok])=>`<span class="chip"><span class="d ${ok?'on':'off'}"></span>${n}</span>`).join('');
@@ -816,6 +845,54 @@ async function addProject(){
 async function moveProject(id,stage){
   const r=await api('/api/project',{action:'stage',id:id,stage:stage});
   toast(r&&r.ok?('Moved → '+stage):'Move failed');refresh();
+}
+// ---- Proposal library ----
+let PRF=null;
+async function loadProposals(){
+  const q=($('#prq')&&$('#prq').value)||'', ind=($('#prind')&&$('#prind').value)||'',
+        mkt=($('#prmkt')&&$('#prmkt').value)||'';
+  const r=await api('/api/proposals',{action:'list',q:q,industry:ind,market:mkt,limit:60});
+  if(!r||!r.ok)return;
+  const st=r.stats||{};
+  const sb=$('#prstats');
+  if(sb)sb.innerHTML=[['Proposals',st.total||0],['Sectors',st.sectors||0],
+    ['Client docs',st.documents||0],['MM',(st.by_market&&st.by_market.MM)||0],
+    ['SG',(st.by_market&&st.by_market.SG)||0]]
+    .map(function(x){return '<div class="pstat"><b>'+esc(String(x[1]))+'</b><span>'+esc(x[0])+'</span></div>';}).join('');
+  if(!PRF&&r.facets){PRF=r.facets;
+    const i=$('#prind'); if(i)i.innerHTML='<option value="">all sectors</option>'+
+      PRF.industry.map(function(x){return '<option>'+esc(x)+'</option>';}).join('');
+    const m=$('#prmkt'); if(m)m.innerHTML='<option value="">all markets</option>'+
+      PRF.market.map(function(x){return '<option>'+esc(x)+'</option>';}).join('');}
+  const list=$('#prlist');
+  if(list)list.innerHTML=(r.rows||[]).map(function(x){
+    return '<div class="prrow" onclick="openProposal(\''+x.proposal_id+'\')">'+
+      '<span class="mk">'+esc(x.market||'')+'</span>'+
+      '<span class="t">'+esc(x.title||'')+'</span>'+
+      '<span class="g">'+esc(x.industry||'')+' · '+esc(x.month||'')+'</span></div>';
+  }).join('')||'<div class="mut" style="font-size:11px">No proposals match.</div>';
+  const dl=$('#prdoc');
+  if(dl)dl.innerHTML=(r.documents||[]).length?
+    '<div class="prmore">Client-ready documents: '+(r.documents||[]).map(function(d){
+      return esc(d.name)+' ('+d.size_kb+'KB)';}).join(' · ')+'</div>':'';
+}
+async function openProposal(id){
+  const r=await api('/api/proposals',{action:'open',id:id});
+  if(!r||!r.ok){toast('Could not open');return;}
+  const p=r.proposal, skip={proposal_id:1,title:1,file:1,created_at:1,industry:1,market:1,month:1,type:1};
+  let dl='';
+  Object.keys(p).forEach(function(k){
+    if(skip[k]||p[k]===null||p[k]==='')return;
+    let v=p[k];
+    if(Array.isArray(v))v=v.map(function(z){return typeof z==='object'?JSON.stringify(z):z;}).join(' · ');
+    else if(typeof v==='object')v=JSON.stringify(v);
+    dl+='<dt>'+esc(k.replace(/_/g,' '))+'</dt><dd>'+esc(String(v))+'</dd>';
+  });
+  const el=$('#prlist');
+  if(el)el.insertAdjacentHTML('afterbegin',
+    '<div class="prdetail"><h4>'+esc(p.title||'')+'</h4>'+
+    '<div class="meta">'+esc(p.industry||'')+' · '+esc(p.type||'')+' · '+esc(p.market||'')+
+    ' · '+esc(p.month||'')+'</div><dl>'+dl+'</dl></div>');
 }
 // ---- Connectors ----
 function renderConns(){

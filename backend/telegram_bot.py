@@ -150,7 +150,8 @@ def _start_dashboard_server() -> None:
         def do_POST(self):  # noqa: N802
             if not (self.path.startswith("/api/task") or self.path.startswith("/api/cmd")
                     or self.path.startswith("/api/switch")
-                    or self.path.startswith("/api/project")):
+                    or self.path.startswith("/api/project")
+                    or self.path.startswith("/api/proposals")):
                 self._json({"ok": False}, 404); return
             # optional token guard (only enforced when ZYNTH_DASHBOARD_TOKEN set)
             if token and self.headers.get("X-Token") != token and token not in self.path:
@@ -170,6 +171,10 @@ def _start_dashboard_server() -> None:
                 if self.path.startswith("/api/project"):
                     from utils import projects
                     payload, status = projects.handle_api(data)
+                    self._json(payload, status); return
+                if self.path.startswith("/api/proposals"):
+                    from utils import proposal_library
+                    payload, status = proposal_library.handle_api(data)
                     self._json(payload, status); return
                 from utils.tasks import add_task, set_status, assign_task
                 act = data.get("action")
