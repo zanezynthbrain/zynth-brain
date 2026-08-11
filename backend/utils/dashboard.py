@@ -419,6 +419,11 @@ a{color:var(--cyan);text-decoration:none}
 .wchip{display:inline-flex;gap:6px;align-items:baseline;font-size:11px;background:var(--panel2);
   border:1px solid var(--border);border-radius:6px;padding:5px 9px;margin:0 6px 6px 0}
 .wchip b{font-size:14px;font-variant-numeric:tabular-nums}
+.modebar{border-radius:6px;padding:9px 13px;margin-bottom:12px;font-size:12px;line-height:1.55;
+  border:1px solid var(--line);color:var(--mut)}
+.modebar.off{border-color:#E0736B;background:rgba(224,115,107,.10);color:#F0C4C0}
+.modebar.on{border-color:#4FBE85;background:rgba(79,190,133,.08);color:#B9E6CE}
+.modebar code{background:rgba(0,0,0,.35);padding:1px 5px;border-radius:3px}
 /* ---- Projects ---- */
 .pstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:8px;margin-bottom:12px}
 .pstat{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:6px;padding:9px 11px}
@@ -519,6 +524,8 @@ a{color:var(--cyan);text-decoration:none}
   <iframe src="/constellation" title="ZYNTH Proposal Constellation" loading="lazy"
     style="display:block;width:100%;height:46vh;min-height:340px;max-height:560px;border:0;background:#060505"></iframe>
 </div>
+
+<div id="modebar" class="modebar"></div>
 
 <div class="panel" style="margin-bottom:14px">
   <div class="h">Projects · everything live, one row each</div>
@@ -625,6 +632,7 @@ function render(){
   try{renderProjects();}catch(e){}
   try{renderConns();}catch(e){}
   try{if(!PRF)loadProposals();}catch(e){}
+  try{showMode();}catch(e){}
   const sys=S.sys||{}, c=S.cost||{today:0,cap:5,week:0,pct:0};
   $('#chips').innerHTML=[['BRAIN',sys.ai],['SYNC',sys.sync],['EMAIL',sys.email],['VOICE',sys.voice]]
     .map(([n,ok])=>`<span class="chip"><span class="d ${ok?'on':'off'}"></span>${n}</span>`).join('');
@@ -800,7 +808,23 @@ setInterval(()=>{const ds=(S.departments||[]).filter(d=>(d.works||[]).some(w=>w.
   const d=ds[Math.floor(Math.random()*ds.length)];fire(d.name,null,'idle');},3800);
 
 /* ============ actions ============ */
-async function api(path,body){try{const r=await fetch(path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined});return await r.json();}catch(e){return{ok:false}}}
+let LIVE=null;
+async function api(path,body){
+  try{const r=await fetch(path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined});
+    const j=await r.json(); if(LIVE!==true){LIVE=true;showMode();} return j;}
+  catch(e){ if(LIVE!==false){LIVE=false;showMode();} return {ok:false}; }
+}
+function showMode(){
+  const el=document.getElementById('modebar'); if(!el)return;
+  if(LIVE===false){
+    el.className='modebar off';
+    el.innerHTML='<b>Snapshot only — the buttons on this page will not work.</b> '+
+      'You are viewing the downloaded file, so it cannot reach the server. '+
+      'Open the live dashboard URL to add projects, move stages and flip switches '+
+      '(Telegram: <code>/dashboard</code> shows the link).';
+  } else { el.className='modebar on';
+    el.innerHTML='<b>Live</b> — connected. Everything on this page is interactive.'; }
+}
 async function cmd(k,dept){toast('Queued: '+k+' — watch Telegram');if(dept)fire(dept,null,'event');await api('/api/cmd',{cmd:k});}
 // ---- Projects ----
 const STAGES=['lead','proposal','won','delivery','done','lost'];
