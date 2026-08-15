@@ -230,6 +230,8 @@ MIRRORED_DOCS: dict[str, str] = {
     "docs/ZYNTH_SERVICE_PACKAGE_ARCHITECTURE.md": "Business Development/Service Package Architecture.md",
     "docs/ZYNTH_BUSINESS_DEVELOPMENT_PLAYBOOK.md": "Business Development/Business Development Playbook.md",
     "docs/ZYNTH_FOUNDER_ASSISTANT_OPERATING_MODEL.md": "Founder/Founder Assistant Operating Model.md",
+    "docs/ZYNTH_ANIMATION_AND_DESIGN_RESOURCE_ASSESSMENT.md": "Creative/Animation and Design Resource Assessment.md",
+    "docs/ZYNTH_SECOND_BRAIN_INFORMATION_ARCHITECTURE.md": "Founder/Second Brain Information Architecture.md",
     "docs/proposal-exemplars/01_FULL_PRODUCT_LAUNCH_PROPOSAL.md": "Proposals/Exemplars/Full Product Launch Proposal.md",
     "docs/proposal-exemplars/02_FULL_PUBLIC_BRAND_EXPERIENCE_PROPOSAL.md": "Proposals/Exemplars/Full Public Brand Experience Proposal.md",
     "research/myanmar_agency_market_findings.md": "Research/Myanmar Agency Market Findings.md",
