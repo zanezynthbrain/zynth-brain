@@ -137,6 +137,8 @@ There is one active operational gap. The Railway service does not yet have its u
 
 The live service also currently reports that the Obsidian vault is missing because its runtime path resolves relative to the backend directory. This is a deployment-path issue, not a loss of the repository vault. The next maintenance patch should resolve the repository root reliably in the Railway layout.
 
+A final live check also confirmed that the Railway switch configuration currently resets to defaults after a service restart or deployment. The approved Internal 24/7 configuration was restored after the latest deployment, but this is a material operating limitation: the next maintenance patch should persist master autonomy and individual switch state in durable storage, while retaining the secure defaults that keep outreach and publishing off.
+
 ## 11. Current system health and known constraints
 
 The full backend suite has been run. **268 tests passed** when the known Graphify environment-dependent assertion was deselected. One existing test still fails only because the Graphify package is not installed in the environment and the test expects a different “missing graph file” diagnostic. This does not affect the proposal, approval, autonomy, or vault capabilities; it should be fixed in a small maintenance change so the suite becomes fully green.
