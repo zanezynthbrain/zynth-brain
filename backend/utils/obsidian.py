@@ -236,9 +236,11 @@ MIRRORED_DOCS: dict[str, str] = {
     "docs/ZYNTH_PRODUCTIVITY_AND_PROPOSAL_READINESS.md": "Founder/Productivity and Proposal Readiness.md",
     "docs/proposal-exemplars/01_FULL_PRODUCT_LAUNCH_PROPOSAL.md": "Proposals/Exemplars/Full Product Launch Proposal.md",
     "docs/proposal-exemplars/02_FULL_PUBLIC_BRAND_EXPERIENCE_PROPOSAL.md": "Proposals/Exemplars/Full Public Brand Experience Proposal.md",
+    "docs/proposal-exemplars/03_FULL_MYANMAR_PHARMA_OTC_CAMPAIGN_PROPOSAL.md": "Proposals/Exemplars/Full Myanmar Pharma OTC Campaign Proposal.md",
     "research/myanmar_agency_market_findings.md": "Research/Myanmar Agency Market Findings.md",
     "research/singapore_agency_market_findings.md": "Research/Singapore Agency Market Findings.md",
     "research/myanmar_singapore_agency_pricing_signals.md": "Research/Myanmar Singapore Agency Pricing Signals.md",
+    "research/myanmar_pharmaceutical_marketing_campaign_research.md": "Research/Myanmar Pharmaceutical Marketing Campaign Research.md",
 }
 
 _GENERATED_HEADER = (
