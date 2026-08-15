@@ -32,3 +32,13 @@ The core problem is not lack of features. It is that **attention, confidence, an
 7. **System** — switches, agents, connections, data freshness and safeguards.
 
 The implementation must preserve existing APIs and live controls, show only information with a visible source/status, and never make external client, vendor, publishing, media-spend, or production decisions automatic.
+
+## Deployment Verification
+
+The founder command-centre implementation was committed and pushed to `main` as commit `950e93d31f14dbc2efbb755b8f060b133e2669c1` on 15 August 2026. Immediately after the push, the public Railway URL was still serving the previous dashboard, indicating that the Railway deployment had not yet completed or automatic deployment from `main` is disabled. The repository and source implementation are ready; the remaining deployment action is to allow/trigger Railway to build the new `main` commit.
+
+The Railway public service continued to serve the prior dashboard after the GitHub push. Railway has no configured task connector, but a connected personal browser is enabled. The Railway workspace dashboard route opened and was still loading at the time of inspection; it requires a completed load before the specific service and deployment can be verified or a deployment action can be considered.
+
+## Live Release Confirmed
+
+Railway confirmed the founder command-centre deployment as active and online. The public URL was subsequently verified serving the new `ZYNTH Founder Command` interface, with live project, proposal, automation-switch, creative-queue, and connection-status data. The initial top-right health label was refined in commit `b6375438fdd9c05c646d78648cde27be63c84c11` to say `LIVE DATA`, `CHECKS NEED REVIEW`, or `CHECKS NEED ATTENTION`, rather than implying the online Railway service itself is down.
