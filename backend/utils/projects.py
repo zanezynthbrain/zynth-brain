@@ -29,9 +29,13 @@ STAGES = ["lead", "proposal", "won", "delivery", "done", "lost"]
 #: Stages that still need work from us.
 ACTIVE_STAGES = {"lead", "proposal", "won", "delivery"}
 
-KINDS = ["event", "campaign", "content", "video", "retainer", "owned"]
+KINDS = [
+    "event", "campaign", "content", "video", "retainer", "owned",
+    "sponsorship", "digital", "social", "stage_design",
+]
 
 _MARKETS = ("MM", "SG")
+APPROVAL_STATUSES = ("pending", "approved", "declined", "not_required")
 
 
 def _now() -> str:
@@ -69,6 +73,8 @@ def add(
     event_date: str = "",
     notes: str = "",
     source: str = "md",
+    founder_confirmation_required: bool | None = None,
+    founder_approval: str = "",
 ) -> dict[str, Any]:
     """Create a project. Returns the stored row."""
     name = (name or "").strip()
@@ -82,6 +88,18 @@ def add(
         raise ValueError(f"market must be one of {list(_MARKETS)}")
     if value_mmk < 0:
         raise ValueError("value cannot be negative")
+    if founder_confirmation_required is None:
+        # Founder-created records are already intentional. Imported leads and
+        # agent discoveries remain blocked until the founder explicitly approves
+        # them; a record manually created through the authenticated dashboard is
+        # treated as a founder decision.
+        founder_confirmation_required = source not in {"md", "seed", "owner", "dashboard"}
+    if not founder_approval:
+        founder_approval = "pending" if founder_confirmation_required else "not_required"
+    if founder_approval not in APPROVAL_STATUSES:
+        raise ValueError(f"founder_approval must be one of {APPROVAL_STATUSES}")
+    if not founder_confirmation_required and founder_approval == "pending":
+        raise ValueError("a record without founder confirmation cannot be pending")
 
     row = {
         "id": uuid.uuid4().hex[:10],
@@ -96,6 +114,10 @@ def add(
         "event_date": event_date,          # ISO date or "" — the hard deadline
         "notes": notes[:500],
         "source": source[:40],
+        "founder_confirmation_required": bool(founder_confirmation_required),
+        "founder_approval": founder_approval,
+        "founder_approved_by": "",
+        "founder_approved_at": "",
         "created_at": _now(),
         "updated_at": _now(),
         "history": [{"at": _now(), "stage": stage, "note": "created"}],
@@ -127,11 +149,53 @@ def set_stage(project_id: str, stage: str, note: str = "") -> dict[str, Any] | N
     rows = _load()
     for r in rows:
         if r.get("id") == project_id or r.get("slug") == project_id:
+            if (
+                stage in {"proposal", "won", "delivery"}
+                and r.get("founder_confirmation_required")
+                and r.get("founder_approval") != "approved"
+            ):
+                raise PermissionError(
+                    "founder confirmation is required before a real lead can move to proposal, won or delivery"
+                )
             r["stage"] = stage
             r["updated_at"] = _now()
             r.setdefault("history", []).append(
                 {"at": _now(), "stage": stage, "note": note[:200]}
             )
+            _save(rows)
+            return r
+    return None
+
+
+def confirm(
+    project_id: str,
+    approved_by: str,
+    *,
+    approve: bool = True,
+    note: str = "",
+) -> dict[str, Any] | None:
+    """Record the founder's decision for an incoming lead or client project.
+
+    This is the explicit gate between autonomous internal work and real-world
+    agency commitments. Declined records remain in the audit trail but cannot
+    move into proposal or delivery stages.
+    """
+    if not (approved_by or "").strip():
+        raise ValueError("approved_by is required for a founder decision")
+    rows = _load()
+    for r in rows:
+        if r.get("id") == project_id or r.get("slug") == project_id:
+            decision = "approved" if approve else "declined"
+            r["founder_confirmation_required"] = True
+            r["founder_approval"] = decision
+            r["founder_approved_by"] = approved_by.strip()[:60]
+            r["founder_approved_at"] = _now()
+            r["updated_at"] = _now()
+            r.setdefault("history", []).append({
+                "at": _now(),
+                "stage": r.get("stage", "lead"),
+                "note": f"founder {decision}: {note[:160]}",
+            })
             _save(rows)
             return r
     return None
@@ -276,6 +340,13 @@ def handle_api(data: dict[str, Any]) -> tuple[dict[str, Any], int]:
             )
         elif action == "stage":
             row = set_stage(data.get("id", ""), data.get("stage", ""), data.get("note", ""))
+        elif action in {"approve", "decline"}:
+            row = confirm(
+                data.get("id", ""),
+                data.get("approved_by", "MD"),
+                approve=action == "approve",
+                note=data.get("note", ""),
+            )
         elif action == "update":
             row = update(data.get("id", ""),
                          **{k: v for k, v in data.items() if k not in ("action", "id")})
@@ -283,7 +354,7 @@ def handle_api(data: dict[str, Any]) -> tuple[dict[str, Any], int]:
             row = {"removed": True} if remove(data.get("id", "")) else None
         else:
             return {"ok": False, "error": f"unknown action {action!r}"}, 400
-    except (ValueError, TypeError) as exc:
+    except (ValueError, TypeError, PermissionError) as exc:
         return {"ok": False, "error": str(exc)}, 400
 
     if row is None:
@@ -292,7 +363,7 @@ def handle_api(data: dict[str, Any]) -> tuple[dict[str, Any], int]:
 
 
 __all__ = [
-    "STAGES", "ACTIVE_STAGES", "KINDS", "add", "all_projects", "get",
-    "set_stage", "update", "remove", "board", "summary", "days_to",
+    "STAGES", "ACTIVE_STAGES", "KINDS", "APPROVAL_STATUSES", "add", "all_projects", "get",
+    "set_stage", "confirm", "update", "remove", "board", "summary", "days_to",
     "linked_tasks", "seed_if_empty", "handle_api",
 ]

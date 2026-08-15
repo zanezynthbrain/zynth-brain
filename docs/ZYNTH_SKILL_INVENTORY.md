@@ -1,0 +1,40 @@
+# ZYNTH Skill Inventory
+
+| Skill | Lines | References | Scripts | Templates |
+|---|---:|---:|---:|---:|
+| graphify | 702 | 8 | 0 | 0 |
+| yadana-finance | 128 | 0 | 0 | 0 |
+| zb-icp | 44 | 0 | 0 | 0 |
+| zb-objections | 50 | 0 | 0 | 0 |
+| zb-offer | 40 | 0 | 0 | 0 |
+| zb-pitch-kit | 44 | 0 | 0 | 0 |
+| zynth-3d-design-studio | 56 | 0 | 0 | 0 |
+| zynth-3d-production | 57 | 0 | 0 | 0 |
+| zynth-account-manager | 368 | 0 | 0 | 0 |
+| zynth-analytics-specialist | 266 | 0 | 0 | 0 |
+| zynth-art-director | 270 | 0 | 0 | 0 |
+| zynth-bd-pitch-prep | 309 | 0 | 0 | 0 |
+| zynth-bd-researcher | 208 | 0 | 0 | 0 |
+| zynth-brand-strategist | 151 | 0 | 0 | 0 |
+| zynth-campaign-planner | 185 | 0 | 0 | 0 |
+| zynth-campaign-requirements | 309 | 0 | 0 | 0 |
+| zynth-commercial-video-studio | 73 | 0 | 0 | 0 |
+| zynth-competitor-analyst | 294 | 0 | 0 | 0 |
+| zynth-content-strategist | 254 | 0 | 0 | 0 |
+| zynth-copywriter | 215 | 0 | 0 | 0 |
+| zynth-creative-director | 202 | 0 | 0 | 0 |
+| zynth-creative-video-director | 122 | 9 | 0 | 0 |
+| zynth-event-manager | 149 | 0 | 0 | 0 |
+| zynth-market-researcher | 195 | 0 | 0 | 0 |
+| zynth-master-campaign-planner | 76 | 4 | 0 | 0 |
+| zynth-master-event-planner | 78 | 4 | 0 | 0 |
+| zynth-master-proposal-writer | 70 | 2 | 0 | 0 |
+| zynth-paid-media-specialist | 275 | 0 | 0 | 0 |
+| zynth-pitch-packager | 350 | 0 | 0 | 0 |
+| zynth-project-manager | 317 | 0 | 0 | 0 |
+| zynth-seo-specialist | 248 | 0 | 0 | 0 |
+| zynth-social-media-manager | 202 | 0 | 0 | 0 |
+| zynth-sponsorship-value | 47 | 0 | 0 | 0 |
+| zynth-tactical-prompts | 48 | 0 | 0 | 0 |
+| zynth-vendor-finder | 413 | 0 | 0 | 0 |
+| zynth-video-producer | 143 | 0 | 0 | 0 |

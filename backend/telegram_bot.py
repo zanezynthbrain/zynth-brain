@@ -309,6 +309,7 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "/run leads_only\n"
         "/run content_studio · /run brand_content_month\n\n"
         "<b>Proposal Factory:</b>\n"
+        "/workforce — Prepare 3 founder-reviewable daily concept packages\n"
         "/generate — Quick idea drafts (cheap model, fills the pool)\n"
         "/proposal &lt;brief&gt; — FULL client-ready proposal as a Word doc 📄\n"
         "/proposals — Browse proposal pool stats\n\n"
@@ -945,6 +946,33 @@ async def cmd_cost(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         )
     except Exception as exc:
         await update.message.reply_html(f"❌ Cost tracker error: {exc}")
+
+
+async def cmd_workforce(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Prepare today's three founder-reviewable Concept Packages on demand."""
+    if not _security_check(update):
+        return
+    try:
+        from utils.daily_workforce import run_daily_workforce, summary_text
+        from utils.llm_client import LLMClient
+
+        llm = LLMClient()
+        if llm.is_mocked:
+            await update.message.reply_html(
+                "⚠️ <b>Daily Agency Workforce is offline.</b>\n\n"
+                "Add the configured AI credential before generating real proposal packages. "
+                "No placeholder work has been created."
+            )
+            return
+        payload = await _await_with_progress(
+            update,
+            "Daily Agency Workforce — preparing 3 internal concept packages",
+            run_daily_workforce(llm_client=llm),
+        )
+        await update.message.reply_html(summary_text(payload)[:4000])
+    except Exception as exc:
+        logger.exception("Daily workforce command failed: %s", exc)
+        await update.message.reply_html(f"❌ Daily workforce generation failed: {exc}")
 
 
 async def cmd_proposals(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -3493,6 +3521,7 @@ def main() -> None:
     app.add_handler(CommandHandler("approve", cmd_approve))
     app.add_handler(CommandHandler("cost", cmd_cost))
     app.add_handler(CommandHandler("proposals", cmd_proposals))
+    app.add_handler(CommandHandler("workforce", cmd_workforce))
     app.add_handler(CommandHandler("generate", cmd_generate))
     app.add_handler(CommandHandler("proposal", cmd_proposal))
     app.add_handler(CommandHandler("fx", cmd_fx))

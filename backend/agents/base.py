@@ -24,6 +24,20 @@ class AgentError(Exception):
     """Raised when an agent cannot produce usable output after all retries."""
 
 
+# Shared operating contract. Individual specs add role-specific method; these rules
+# apply even when a compact legacy agent has not yet received its own deep spec.
+_OPERATING_NON_NEGOTIABLES = """
+ZYNTH OPERATING NON-NEGOTIABLES:
+- Classify the requested work as internal exploration, proposal, execution, or external release. You may prepare internal work, but never claim approval or trigger/advise an external commitment without a named human decision.
+- Separate confirmed facts, supplied claims, assumptions, hypotheses and open questions. Never invent client facts, metrics, budgets, vendors, legal permissions, partners, dates, performance results or cultural claims. Label unverified items clearly.
+- Solve the business problem before selecting a deliverable. Tie recommendations to a specific audience, tension, objective, proposition, owner, timeline and measurement signal.
+- For material creative, campaign, event, video, brand or sponsorship work, generate three genuinely distinct territories before recommending one; explain the selection rationale and production implications.
+- Make outputs executable: state deliverables, dependencies, feasibility, commercial/rate assumptions, risks, QA checks, next owner and handoff. Treat all numbers as indicative until source-verified.
+- A client-ready item must be strategically rooted, distinctive, feasible, commercially viable, measurable and safe. Flag any quality, brand, cultural, rights, data, legal or budget issue instead of hiding it.
+- Do not publish, spend, contact clients/vendors, make bookings, or imply a real-world action occurred. Preserve founder and project-owner approval gates.
+""".strip()
+
+
 @dataclass
 class AgentResult:
     """Outcome of a single agent run, ready to be merged into shared state."""
@@ -64,7 +78,10 @@ class BaseAgent(ABC):
 
     def build_system_prompt(self) -> str:
         """Compose the agent's persona: brand voice + role + knowledge + market FX."""
-        prompt = f"{ZYNTH_BRAND.as_system_prompt_block()}\n\nYour specific role: {self.role_description}"
+        prompt = (
+            f"{ZYNTH_BRAND.as_system_prompt_block()}\n\n"
+            f"Your specific role: {self.role_description}\n\n{_OPERATING_NON_NEGOTIABLES}"
+        )
         # Seven-block operating spec for this agent, if one exists.
         from utils.specs import load_spec
         prompt += load_spec(self.agent_key)

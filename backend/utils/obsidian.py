@@ -223,6 +223,9 @@ MIRRORED_DOCS: dict[str, str] = {
     "docs/ZYNTH_MASTER_GUIDE.md": "00 MASTER GUIDE.md",
     "docs/zynth-os/Operational_Blueprint.md": "Blueprints/Operational Blueprint.md",
     "docs/zynth-os/Master_Workflows.md": "Blueprints/Master Workflows.md",
+    "docs/ZYNTH_CAPABILITY_SYSTEM_STANDARD.md": "Capability System Standard.md",
+    "docs/ZYNTH_SKILL_REBUILD_ARCHITECTURE.md": "Capability Rebuild Architecture.md",
+    "docs/ZYNTH_CAPABILITY_REBUILD_VALIDATION.md": "Capability Rebuild Validation.md",
 }
 
 _GENERATED_HEADER = (
@@ -267,22 +270,49 @@ def _write_mirror(destination: Path, source_rel: str, body: str) -> Path:
     return destination
 
 
+def _frontmatter_description(text: str) -> str:
+    """Read a normal or folded YAML ``description`` without adding a YAML dependency.
+
+    Several ZYNTH skills use ``description: >``. The old mirror read only the
+    marker itself, making fully developed skills look blank in Drive. This small
+    parser deliberately handles the narrow frontmatter form used by the repo.
+    """
+    rows = text.splitlines()
+    if not rows or rows[0].strip() != "---":
+        return ""
+    for i, line in enumerate(rows[1:], start=1):
+        if line.strip() == "---":
+            break
+        if not line.startswith("description:"):
+            continue
+        first = line.split(":", 1)[1].strip()
+        if first not in {">", "|", ">-", "|-"}:
+            return first.strip('"')
+        parts: list[str] = []
+        for child in rows[i + 1:]:
+            if child.strip() == "---" or (child and not child[0].isspace()):
+                break
+            if child.strip():
+                parts.append(child.strip())
+        return " ".join(parts)
+    return ""
+
+
 def skills_index_note() -> Path:
-    """One page listing every repo-versioned skill and what triggers it."""
+    """One page listing every repo-versioned skill, trigger, source and resources."""
     skills_dir = _REPO / ".claude" / "skills"
-    rows: list[tuple[str, str]] = []
+    rows: list[tuple[str, str, int]] = []
     for skill_file in sorted(skills_dir.glob("*/SKILL.md")):
         name = skill_file.parent.name
         description = ""
+        resource_count = 0
         try:
             text = skill_file.read_text(encoding="utf-8")
-            for line in text.splitlines()[:12]:
-                if line.startswith("description:"):
-                    description = line.split(":", 1)[1].strip()
-                    break
+            description = _frontmatter_description(text)
+            resource_count = sum(1 for p in skill_file.parent.rglob("*") if p.is_file() and p.name != "SKILL.md")
         except Exception:
             pass
-        rows.append((name, description))
+        rows.append((name, description, resource_count))
 
     groups = {
         "Back-office (zb- cluster + finance)": lambda n: n.startswith(("zb-", "yadana")),
@@ -298,18 +328,28 @@ def skills_index_note() -> Path:
              "Every skill below lives in `.claude/skills/` and travels with the repo.\n"]
     placed: set[str] = set()
     for title, matcher in groups.items():
-        members = [(n, d) for n, d in rows if matcher(n) and n not in placed]
+        members = [(n, d, r) for n, d, r in rows if matcher(n) and n not in placed]
         if not members:
             continue
-        placed.update(n for n, _ in members)
+        placed.update(n for n, _, _ in members)
         lines.append(f"\n## {title}\n")
-        for name, description in members:
-            lines.append(f"- **`{name}`** — {description[:220]}")
-    leftovers = [(n, d) for n, d in rows if n not in placed]
+        for name, description, resources in members:
+            summary = description[:360].rstrip() or "No description was parsed; open the source skill before use."
+            lines.append(
+                f"- **`{name}`** — {summary}\n"
+                f"  - **Full operating source:** `.claude/skills/{name}/SKILL.md`"
+                f" · **Supporting resources:** {resources}"
+            )
+    leftovers = [(n, d, r) for n, d, r in rows if n not in placed]
     if leftovers:
         lines.append("\n## Other\n")
-        for name, description in leftovers:
-            lines.append(f"- **`{name}`** — {description[:220]}")
+        for name, description, resources in leftovers:
+            summary = description[:360].rstrip() or "No description was parsed; open the source skill before use."
+            lines.append(
+                f"- **`{name}`** — {summary}\n"
+                f"  - **Full operating source:** `.claude/skills/{name}/SKILL.md`"
+                f" · **Supporting resources:** {resources}"
+            )
     return _write_mirror(_OBSIDIAN / "Skills Index.md", ".claude/skills/", "\n".join(lines) + "\n")
 
 

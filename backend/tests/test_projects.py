@@ -207,3 +207,48 @@ def test_api_remove_is_not_called_twice():
     assert status == 200
     payload, status = P.handle_api({"action": "remove", "id": row["id"]})
     assert status == 404
+
+
+# ---- founder confirmation boundary ----
+
+def test_agent_discovered_lead_requires_founder_confirmation_before_proposal():
+    row = P.add("Inbound Corporate Event Lead", source="agent", kind="event")
+    assert row["founder_confirmation_required"] is True
+    assert row["founder_approval"] == "pending"
+
+    with pytest.raises(PermissionError, match="founder confirmation"):
+        P.set_stage(row["id"], "proposal")
+
+    approved = P.confirm(row["id"], "Managing Director", note="Proceed to proposal")
+    assert approved and approved["founder_approval"] == "approved"
+    P.set_stage(row["id"], "proposal")
+    assert P.get(row["id"])["stage"] == "proposal"
+
+
+def test_declined_lead_remains_blocked_and_preserves_audit_history():
+    row = P.add("Unqualified Sponsorship Lead", source="agent", kind="sponsorship")
+    declined = P.confirm(row["id"], "Managing Director", approve=False, note="Not a strategic fit")
+    assert declined and declined["founder_approval"] == "declined"
+    assert "founder declined" in declined["history"][-1]["note"]
+
+    with pytest.raises(PermissionError):
+        P.set_stage(row["id"], "proposal")
+
+
+def test_api_can_approve_an_agent_lead_before_stage_movement():
+    payload, status = P.handle_api({
+        "action": "add", "name": "AI-discovered Lead", "source": "agent", "kind": "digital",
+    })
+    assert status == 200 and payload["project"]["founder_approval"] == "pending"
+    pid = payload["project"]["id"]
+
+    payload, status = P.handle_api({"action": "stage", "id": pid, "stage": "proposal"})
+    assert status == 400 and "founder confirmation" in payload["error"]
+
+    payload, status = P.handle_api({
+        "action": "approve", "id": pid, "approved_by": "Managing Director", "note": "Create proposal",
+    })
+    assert status == 200 and payload["project"]["founder_approval"] == "approved"
+
+    payload, status = P.handle_api({"action": "stage", "id": pid, "stage": "proposal"})
+    assert status == 200 and payload["project"]["stage"] == "proposal"

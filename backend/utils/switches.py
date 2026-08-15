@@ -28,6 +28,7 @@ SWITCHES = [
     ("morning_brief",         "Daily CEO brief (full agency run — biggest cost)", False, False),
     ("eod_report",            "End-of-day summary",                     False, False),
     ("daily_proposals",       "Daily proposal production (one by one)", False, False),
+    ("daily_workforce",       "Daily Agency Workforce (3 founder-reviewable packages)", False, False),
     ("market_research",       "Daily prospect research",                False, False),
     ("bd_autopilot",          "BD autopilot (enrich + draft outreach)", False, False),
     ("outreach_sender",       "Send released outreach",                 False, False),

@@ -468,6 +468,8 @@ async def run_command_queue() -> None:
                 await run_consolidation()
             elif cmd == "proposals":
                 await run_daily_proposals()
+            elif cmd == "workforce":
+                await run_daily_agency_workforce()
             elif cmd == "costaudit":
                 from utils.costaudit import audit_text
                 await send_message(audit_text())
@@ -694,6 +696,40 @@ async def run_creative_prep() -> None:
             pass
 
 
+async def run_daily_agency_workforce() -> None:
+    """Create three founder-reviewable cross-sector Concept Packages each day.
+
+    This is proactive internal agency work only. The result is stored under the
+    proposal pool and reported to the founder; it cannot contact clients,
+    publish, commit spend, or trigger creative generation.
+    """
+    logger.info("🏭 Daily Agency Workforce starting")
+    try:
+        from utils.daily_workforce import run_daily_workforce, summary_text
+        llm = LLMClient()
+        if llm.is_mocked:
+            logger.info("Daily Agency Workforce skipped — no live LLM credential")
+            return
+        payload = await run_daily_workforce(llm_client=llm)
+        await send_message(summary_text(payload)[:4000])
+        try:
+            from utils.tasks import log_activity
+            log_activity(
+                "Creative",
+                "Daily Agency Workforce prepared 3 founder-reviewable concept packages",
+                source="daily_workforce",
+            )
+        except Exception:
+            pass
+    except Exception as exc:
+        logger.exception("Daily Agency Workforce failed: %s", exc)
+        try:
+            from utils import mistakes
+            mistakes.record("daily_workforce", "daily concept pack failed", type(exc).__name__, "error")
+        except Exception:
+            pass
+
+
 async def run_daily_proposals() -> None:
     """Autonomous daily proposal production — the proposal department generates
     new event/campaign proposals every day, on its own, no prompting. Grows the
@@ -865,6 +901,17 @@ def build_scheduler(settings=None) -> AsyncIOScheduler:
         CronTrigger(hour=9, minute=0, timezone=settings.scheduler_timezone),
         id="daily_proposals",
         name="Daily Proposal Production",
+        replace_existing=True,
+    )
+
+    # Daily Agency Workforce (09:30 Yangon — three internal concept packages).
+    # The daily proposal factory runs first; this broader workforce output is
+    # founder-reviewable and never triggers client contact or production.
+    scheduler.add_job(
+        _gated("daily_workforce", run_daily_agency_workforce),
+        CronTrigger(hour=9, minute=30, timezone=settings.scheduler_timezone),
+        id="daily_agency_workforce",
+        name="Daily Agency Workforce (3 founder-reviewable packages)",
         replace_existing=True,
     )
 

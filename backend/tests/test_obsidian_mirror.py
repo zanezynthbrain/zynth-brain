@@ -109,3 +109,29 @@ def test_stamp_stripper_ignores_only_the_timestamp_line():
     assert obsidian._strip_mirror_stamp(a) == obsidian._strip_mirror_stamp(b)
     assert "generated: true" in obsidian._strip_mirror_stamp(a)
     assert "body" in obsidian._strip_mirror_stamp(a)
+
+
+def test_folded_skill_description_is_extracted_for_the_vault_index():
+    text = """---
+name: sample
+description: >
+  First line of a useful capability.
+  Second line makes the source clear.
+---
+# Sample
+"""
+    assert OB._frontmatter_description(text) == (
+        "First line of a useful capability. Second line makes the source clear."
+    )
+
+
+def test_skills_index_shows_full_source_and_not_fold_marker():
+    text = OB.skills_index_note().read_text(encoding="utf-8")
+    assert "Full operating source:" in text
+    assert "`zynth-master-event-planner`** — >" not in text
+    assert ".claude/skills/zynth-master-event-planner/SKILL.md" in text
+
+
+def test_capability_system_documents_are_mirrored():
+    assert "docs/ZYNTH_CAPABILITY_SYSTEM_STANDARD.md" in OB.MIRRORED_DOCS
+    assert "docs/ZYNTH_SKILL_REBUILD_ARCHITECTURE.md" in OB.MIRRORED_DOCS

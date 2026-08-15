@@ -7,6 +7,11 @@ version: 1.0
 
 # ZYNTH Tactical Prompt Library
 
+## ZYNTH Operating Contract
+
+Follow the shared [ZYNTH Capability System Standard](../../../docs/ZYNTH_CAPABILITY_SYSTEM_STANDARD.md). In particular: classify the work band; separate verified facts from assumptions; create three distinct territories for material creative work; make output executable and measurable; pass the relevant quality gate; and preserve founder/project-owner approval before external release, spend, client contact, vendor commitment, or publication.
+
+
 This skill provides the ZYNTH Master Strategist AI agent with a comprehensive library of high-performance prompts and tactical frameworks. These prompts are designed to translate strategic objectives and creative directions into actionable AI commands, enabling the agent to execute advanced marketing and video production methods with precision and impact.
 
 ## How to Use This Skill

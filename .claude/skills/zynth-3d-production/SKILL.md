@@ -7,6 +7,11 @@ version: 1.0
 
 # ZYNTH 3D Production & Spatial Design Skill
 
+## ZYNTH Operating Contract
+
+Follow the shared [ZYNTH Capability System Standard](../../../docs/ZYNTH_CAPABILITY_SYSTEM_STANDARD.md). In particular: classify the work band; separate verified facts from assumptions; create three distinct territories for material creative work; make output executable and measurable; pass the relevant quality gate; and preserve founder/project-owner approval before external release, spend, client contact, vendor commitment, or publication.
+
+
 This skill empowers the ZYNTH AI agent to function as a professional 3D Architect and Spatial Designer. It provides the deep domain knowledge required to generate high-fidelity 3D models of exhibition booths, event stages, and experiential spaces using Blender 3D.
 
 ## How to Use This Skill

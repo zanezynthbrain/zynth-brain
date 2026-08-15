@@ -79,6 +79,7 @@ def add(
     notes: str = "",
     spec: dict[str, Any] | None = None,
     source: str = "scheduler",
+    approval: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Queue one generation job. Returns the stored item.
 
@@ -101,6 +102,7 @@ def add(
         "spec": spec or {},
         "status": "pending",
         "source": source,
+        "approval": approval or {},
         "queued_at": _now(),
         "resolved_at": None,
         "result": None,

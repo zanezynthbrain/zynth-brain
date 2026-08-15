@@ -1,44 +1,83 @@
 ---
 name: zb-pitch-kit
-description: ZYNTH back-office sales skill. Use to assemble the sales collateral around a proposal — pitch deck, one-pager, objection pre-empt, demo/walkthrough script — mapped onto the 11-section ZYNTH Proposal Standard. Adaptation layer over coreyhaines31/sales-enablement. Trigger for "build the pitch kit", "one-pager for this client", "sales deck", "demo script", "prep the pitch".
-model: opus
-sources: [chat]
-adapts: coreyhaines31/sales-enablement
+description: >
+  Assemble a founder-approved, decision-ready ZYNTH pitch package from qualified
+  discovery, validated offer/scope, finance-approved commercial logic, creative
+  direction, evidence, objections, and client decision process. Use for proposal
+  decks, one-pagers, meeting/walkthrough scripts, stakeholder decision kits, and
+  presentation readiness. Pair with zb-icp, zb-offer, zb-objections, yadana-finance,
+  zynth-master-proposal-writer, and zynth-pitch-packager. Do not use to invent proof,
+  price/scope, claims, case results, brand permissions, or client approval—or to send
+  the package without the authorised human release.
 ---
 
-# zb-pitch-kit — ZYNTH Sales Enablement
+# ZYNTH Pitch and Decision Package
 
-**Upstream:** `coreyhaines31/sales-enablement` (pitch decks, one-pagers, objection docs, demo scripts).
-**What ZYNTH adds:** everything maps onto the **11-section ZYNTH Proposal Standard** and the brand system (gold/black, "Intelligence of Creativity"), pulls its inputs from `zb-icp` / `zb-offer` / `zb-objections`, and its numbers from the Finance quoting engine (`YADANA`). This skill *assembles*; it does not re-derive.
+## ZYNTH Operating Contract
 
-## What the kit contains
-1. **Pitch deck** — the proposal in presentation form, following the 11-section standard.
-2. **One-pager** — the offer sheet compressed to a single leave-behind (outcome → mechanism → tiers → move-now).
-3. **Objection pre-empt** — the "You might be wondering…" block from `zb-objections`.
-4. **Demo / walkthrough script** — how Zane talks through the deck live, section by section, with the transitions and the ask.
+Follow the shared [ZYNTH Capability System Standard](../../../docs/ZYNTH_CAPABILITY_SYSTEM_STANDARD.md). In particular: classify the work band; separate verified facts from assumptions; create three distinct territories for material creative work; make output executable and measurable; pass the relevant quality gate; and preserve founder/project-owner approval before external release, spend, client contact, vendor commitment, or publication.
 
-## Mapping to the 11-section Proposal Standard
-Each kit piece is built from the same spine so nothing contradicts:
-1. Cover / brand frame → deck cover, one-pager header
-2. Client challenge (from `zb-icp`) → deck slide 2, one-pager top line
-3. ZYNTH understanding / insight → the mechanism
-4. Strategic approach → deck core
-5. Scope & deliverables (tiered) → one-pager tier table
-6. Creative direction → deck visuals (brand system)
-7. Timeline → deck + one-pager
-8. Investment (from `YADANA` quote) → deck price slide, anchored per `zb-offer`
-9. Why ZYNTH → mechanism + edge
-10. Objection pre-empt → the "wondering" block
-11. Next step / the ask → demo script close
 
-## Build sequence
-`zb-icp` (who + fears) → `zb-offer` (the offer) → `YADANA` (the price) → `zb-objections` (pre-empts) → **`zb-pitch-kit` assembles** → deck via `pptx`, one-pager via `docx`/`canvas-design`, export via `pdf`.
+## Mission
 
-## Output
-A complete, brand-consistent pitch package: deck (.pptx), one-pager (.pdf), objection sheet, demo script. Bilingual where the account requires it.
+Make it easy for a buyer to decide well. A pitch package should show that ZYNTH understands the real problem, offers a distinctive and feasible route, controls commercial risk, and knows exactly what decision is required. It is not a slide collection or a generic agency credentials deck.
 
-## Guardrails
-- Never contradict the offer, the quote, or the tier language across pieces — one spine, one set of numbers.
-- Brand system enforced (read `zynth-brand-identity` before any visual).
-- Creative guardrail: no religious/sacred imagery.
-- HITL: full package approved by Zane before it goes out.
+## Preflight: the One-Source Spine
+
+Before assembling any asset, build a source-of-truth table. Every deck slide, one-pager, visual, script, and objection response must reconcile to it.
+
+| Source element | Required owner/source |
+| --- | --- |
+| Buyer problem, audience, buying group and trigger | `zb-icp` / verified discovery |
+| Strategic proposition, scope options and recommendation | `zb-offer` / proposal owner |
+| Creative direction and delivery implications | Creative Director / relevant capability lead |
+| Price, terms, currency, margin/cash/contingency logic | `yadana-finance` or approved quote |
+| Proof/cases/outcomes | Verified internal/client-approved evidence only |
+| Objections/risks | `zb-objections` and discovery record |
+| Decision path and approvers | Account owner / client discovery |
+| Brand/copy/legal/assets | Current verified brand kit and named reviewers |
+
+If any commercial, evidence, scope, brand, or decision source is incomplete, create a **meeting preparation draft** rather than a client-ready package.
+
+## Build Method
+
+1. **Define the meeting decision.** Identify what the audience should approve, challenge, provide, or schedule at the end. Adapt the package to the true buying group, not a generic C-suite persona.
+2. **Write the decision narrative.** Use the sequence: buyer reality → insight/tension → opportunity → distinctive approach → how it works → proof/feasibility → scope/investment → risk controls → decision/next step.
+3. **Build three pitch modes when material.** Prepare: executive decision narrative, functional delivery detail, and commercial/procurement view. One deck can layer these; do not force every stakeholder through the same detail level.
+4. **Translate the selected creative direction.** Use visuals to prove the concept/system/experience, not decorative stock. Label internal/indicative renders, mockups, assumptions and unapproved brand assets.
+5. **Construct each artifact from the spine.** Use `templates/pitch-package-checklist.md`; apply the correct format, language, hierarchy, data/claim and accessibility checks.
+6. **Prepare the conversation.** Draft a walkthrough script with opening question, section transitions, evidence prompts, objections, decision questions, pause points and clear close.
+7. **Run consistency and decision QA.** Verify every scope, number, date, term, claim, logo, visual, KPI and next step against its source. Obtain founder/authorised approval before external release.
+
+## Pitch Package Contract
+
+| Artifact | Decision use | Minimum content |
+| --- | --- | --- |
+| Executive deck | Gain strategic/commercial alignment. | Challenge, insight, selected route, value, proof, scope/investment, risk controls, decision. |
+| One-pager | Leave-behind or executive recap. | Outcome, mechanism, recommended scope, differentiated value, commercial/status note, next action. |
+| Delivery appendix | Answer functional/procurement questions. | Deliverables/in-out, timeline/RACI, dependencies, measurement, assumptions, risk/change control. |
+| Creative/experience section | Make the approach tangible. | Territory/selected direction, rationale, system, production/build implication, approval state. |
+| Commercial view | Enable responsible financial decision. | Finance-approved investment/terms, scope trade-offs, milestones, assumptions, exclusions, validity/owner. |
+| Objection sheet | Prepare a transparent decision conversation. | Top account-specific concerns, evidence/limitation, option/trade-off, next question. |
+| Walkthrough script | Facilitate the meeting. | Opening, desired decision, slide/story transitions, questions, objections, close and follow-up owner. |
+
+## Quality Gate
+
+| Dimension | Pass condition |
+| --- | --- |
+| Buyer relevance | The pitch begins and ends with the buyer’s actual objective, risk and decision—not ZYNTH’s service list. |
+| Strategic distinctiveness | There is one clear proposition/approach with a defensible reason it fits. |
+| Evidence integrity | Cases, numbers, results, market claims, sponsor/vendor facts and timelines have verified source/status. |
+| Commercial integrity | Scope, price, currency, terms, margin/contingency status and trade-offs reconcile to finance-approved source. |
+| Feasibility | Delivery, production, timing, dependencies, owner and risk controls are credible. |
+| Creative/brand craft | Story, copy, visual system, language, legibility, accessibility and asset rights are controlled. |
+| Decision clarity | The buyer knows exactly what decision, input, owner and date are required next. |
+| Governance | Founder/client/brand/legal/financial approvals and release state are explicit. |
+
+## Release and Handoff
+
+- The creator may prepare internal drafts. The founder/authorised commercial and client owners approve external proposal release. Changes to scope, price, terms, claims, rights or commitments require source-spine revalidation.
+- Hand off to Account/BD for meeting ownership, Creative/Production for technical answer, Finance for commercial validation, and Project Manager for approved delivery transition.
+- Store the final source documents, version, approval record, meeting notes, objections, outcome, next action and win/loss lesson in the project folder.
+
+Use `templates/pitch-package-checklist.md` to assemble and QC every package.
