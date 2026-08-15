@@ -30,21 +30,13 @@ ZYNTH proposal makes the client feel *understood*, shows an idea only ZYNTH woul
 proves it will work, and makes saying yes the obvious choice.
 
 ## The winning standard (non-negotiable)
-1. **Client-first, not ZYNTH-first.** Open with THEIR problem and world, in their words.
-   The client must feel understood before they're sold to.
-2. **One sharp idea, made vivid.** A distinctive, defensible big idea — expressed so the
-   reader can *see and feel* it — not a menu of tactics.
-3. **Complete & systematic.** Every section of `references/output-contract.md`, fully
-   populated. No "TBD", no empty tables, no placeholder numbers.
-4. **Accurate & real-money.** Priced at real MMK/SGD market rates, market FX
-   (1 USD ≈ 4,400 MMK / 1.35 SGD); the 35% margin floor holds (target 40%); every figure
-   is sourced or tagged `[INDICATIVE — confirm by RFQ]`. Never fabricate a contact/number.
-5. **Value made unmistakable.** The result and ROI stated as a single number the client
-   can't miss — what they get, by when, for what investment.
-6. **Proof.** Credibility woven in — relevant thinking, method, and "Why ZYNTH" (speed,
-   craft, dual-market, real pricing). Never fabricate case studies or clients.
-7. **Winning close.** Clear commercial model (sell vs sponsor), terms, and a single,
-   confident call to action.
+1. **Client-first, not ZYNTH-first.** Open with their problem, commercial stakes, market and decision context in their words. Mark client statements, verified evidence and assumptions separately.
+2. **Three routes before one recommendation.** Develop at least three distinct creative territories, then select and defend the recommended concept. Make the client see, feel and understand the idea—not a menu of tactics.
+3. **Full client-grade system.** Follow `../../../docs/ZYNTH_FULL_CLIENT_GRADE_PROPOSAL_STANDARD.md` as the minimum 15-section contract. Include the concept, experience/customer journey, deliverables/acceptance criteria, production, suppliers, timeline/RACI, bottom-up budget, terms, attribution, risk and mobilisation setup needed for the particular brief.
+4. **Accurate and commercially honest.** Every number is verified, indicative, or an assumption. Use an RFQ for supplier-dependent costs; separate ZYNTH fees, media, production, talent, venue, technology, travel, taxes, and contingency. Use dated FX only when supplied by a source. Never fabricate contacts, rates, client facts, performance, case studies, or margin.
+5. **Creative freedom with delivery reality.** Add specialist modules for events, sponsorship, creator/TikTok, 3D, video, retail, regulated work, public experience or Myanmar/Singapore dual-market execution whenever relevant. The standard is a floor, never a ceiling.
+6. **Value made unmistakable.** Define the intended result, the evidence/assumptions behind it, attribution method, value logic, and action if performance is below plan. Never guarantee outcomes that depend on client, media, market, or operational factors.
+7. **Founder-controlled close.** State scope, exclusions, terms, approvals, and one clear next decision. Do not release, book, spend, publish, contact suppliers, or represent a commitment without the required founder/client approval.
 
 ## How to write a winning proposal (the process)
 1. **Capture the brief** — client, sector, objective, budget band, market (MM/SG),
@@ -56,19 +48,18 @@ proves it will work, and makes saying yes the obvious choice.
    the audience, decision-makers, budget norms, and win-themes are right for the industry.
 4. **Read the winning playbook** (`references/winning-playbook.md`) — what makes proposals
    win per sector, and the anti-patterns that lose.
-5. **Assemble to the output contract** (`references/output-contract.md`).
-6. **Run the discussion + Critic pass** — put the draft through the ZYNTH roundtable
-   (agents discuss and sharpen it) and score it on the winning rubric; fix anything below
-   bar BEFORE it reaches the client.
+5. **Assemble to the full standard** (`../../../docs/ZYNTH_FULL_CLIENT_GRADE_PROPOSAL_STANDARD.md`), using `references/output-contract.md` as the original proposal anatomy and `templates/` where available.
+6. **Run the discussion + Critic pass** — put the draft through the ZYNTH roundtable, score concept, market grounding, execution, financial integrity, measurement, risk, cultural relevance and decision readiness; fix anything below 8 before it reaches the client.
 
-## Financial law (every proposal)
-35% gross-margin floor · 40% target · 50% deposit · 15–20% management fee · 10%
-contingency · market FX. A proposal that can't hold the floor says so and shows the path.
+## Financial and commercial controls
+Build budgets bottom-up. Use a founder-approved margin target, deposit and milestone schedule, revision/change-order policy, payment currency/FX review rule, and 10% contingency where third-party uncertainty warrants it. Do not apply a hardcoded margin, fee, payment term or FX rate without a current ZYNTH policy or stated source. A proposal that cannot protect its economics must state the trade-off and show options.
 
 ## References
-- `references/output-contract.md` — the anatomy of a winning proposal (section by section) + the winning rubric.
-- `references/winning-playbook.md` — what wins per sector, win-themes, anti-patterns, the psychology of yes.
-- Sectors & pricing: `../zynth-master-campaign-planner/references/sectors.md` + `commercial-model.md`.
+- `../../../docs/ZYNTH_FULL_CLIENT_GRADE_PROPOSAL_STANDARD.md` — the mandatory full client-grade contract and specialist modules.
+- `../../../docs/ZYNTH_SERVICE_PACKAGE_ARCHITECTURE.md` — ZYNTH offer logic, pricing architecture and modular scopes.
+- `references/output-contract.md` — the original winning-proposal anatomy and rubric.
+- `references/winning-playbook.md` — sector win-themes and anti-patterns.
+- Sectors & pricing: `../zynth-master-campaign-planner/references/sectors.md` + `commercial-model.md`; validate every current number before use.
 - Gold-standard reference: `backend/data/reference_proposal_wavepay.md` (the "Next Wave" proposal).
 
 Deliver as a single, polished, client-signable document (a Word doc when asked), bilingual

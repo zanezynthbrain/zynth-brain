@@ -1,0 +1,58 @@
+Starting video analysis...
+Submitting video analysis task...
+Task submitted (ID: video-analysis-b014b19a-6376-4ff6-bd70-a32b26c691e2)
+[8s] Status: Analyzing video content with AI...
+[33s] Still processing, please wait...
+[1m3s] Still processing, please wait...
+[1m20s] Status: Analysis completed
+[1m20s] Analysis completed!
+Full analysis result saved to: /home/ubuntu/video_RFFwb04pSQs_analysis_20260815_125052.md
+Note: This tool performs AI-based visual and audio analysis, not verbatim transcription. For detailed speech transcription, use `manus-speech-to-text` instead.
+Analysis result:
+
+Based on the video provided, here is a detailed breakdown of the operations and strategies of a Singapore-based influencer-marketing agency.
+
+### **(A) Speaker/Context**
+*   **Guest:** Joel Wong, Co-Founder of Social Jet Pte Ltd.
+*   **Context:** A two-part interview on *The Golden Nuggets Podcast* discussing agency growth, the mechanics of influencer marketing in Singapore, and the transition from e-commerce to service-based agency models.
+
+### **(B) Near-Exact Quotes**
+*   "People don't buy the product; they buy the story around the product."
+*   "Influencer marketing is we are leveraging the audience of the influencers... UGC is we're using the creator's face, not their followers."
+*   "Hold rate, which is how many people actually watch [the content]."
+*   "The unique 'Godfather Offer' that will make people not think twice and just say yes."
+*   "99% of the people don't even put action to [free advice]. They want someone to hand-hold them."
+*   "Don't immediately go and chase profit... start with 'Why'."
+
+### **(C) Named Services, Data Points, Sectors, and Examples**
+*   **Agency Operations & Scale:**
+    *   **Social Jet Pte Ltd:** Currently a team of **22 members** (16 in Singapore, others in Malaysia and the Philippines).
+    *   **Network:** Access to a community of **1,500+ influencers** in Singapore.
+    *   **Experience:** More than **300 campaigns** executed over 3.5 years.
+*   **Service Packaging:**
+    *   **Full-Funnel Marketing:** Connecting brands with creators and running end-to-end systems.
+    *   **Content at Scale:** Rapid creation and testing of creatives across paid and organic channels.
+    *   **B2B Consulting:** Managing Shopify pages and end-to-end brand launches.
+    *   **Influencer Bootcamp:** A 2-day formal class for business owners priced at **$2,997**.
+*   **Sectors & Brand Examples:**
+    *   **Enterprises:** Citibank, Coca-Cola (focus on top-of-mind recall).
+    *   **SMBs:** Focus on ROI and bottom-line metrics.
+    *   **Lifestyle/Apparel:** Lululemon vs. Nike (storytelling examples); Joel’s previous 7-figure streetwear brand.
+    *   **Trending Products:** Creatine gummies, anxiety-reduction products, and sleep aids.
+*   **Campaign Data Points:**
+    *   **Budgeting:** $1,000 is considered the absolute minimum but is often ineffective; **$3,000–$5,000** is the recommended starting point for a 2–3 month test.
+    *   **Influencer Tiers:** Costs range from $500 for two small creators to **$20,000–$30,000** for a single 30-second TikTok from a top-tier influencer.
+
+### **(D) Practices for Adoption (ZYNTH)**
+*   **The "Godfather Offer":** Ensure every campaign brief includes a unique value proposition that differentiates the brand from all competitors.
+*   **Prioritize Nano/Micro-Influencers:** For SMB clients, focus on smaller creators who offer better "bang for buck" and allow for more diverse content testing.
+*   **Audience Location Audits:** Always verify an influencer's follower demographics; a Singapore influencer with only 30% local followers is a poor investment for a local brand.
+*   **Paid Media Integration:** Never rely solely on organic reach. Use paid media to boost high-performing influencer content to specific target audiences.
+*   **Focus on "Hold Rate":** Measure success by how long viewers stay engaged with the creator's content, rather than just raw view counts.
+*   **Invest in Creator Relationships:** Build trust by treating creators as partners (e.g., hosting community events/parties) rather than just transactional vendors.
+
+### **(E) Caveats or Claims Needing Corroboration**
+*   **AI Dominance:** Joel claims that in **6 months**, 8 out of 10 videos will be AI-generated and indistinguishable from reality. This timeline for total market saturation is aggressive and speculative.
+*   **Organic Content Utility:** He labels purely organic content as "overrated," suggesting it is nearly useless without paid ad spend. This contradicts some successful "viral-only" brand strategies.
+*   **Minimum Budgets:** The claim that influencer marketing is not "life-changing" below a $3k–$5k monthly spend may vary significantly depending on the niche and the quality of the "Godfather Offer."
+*   **Attribution Realities:** He notes that post-iOS 14, tracking is significantly harder, implying that many agencies may be "guessing" at exact attribution unless they use deep-funnel tracking tools.

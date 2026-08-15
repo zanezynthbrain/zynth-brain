@@ -29,20 +29,26 @@ def load_exemplar() -> str:
             _exemplar_cache = ""
     return _exemplar_cache
 
-# ZYNTH Proposal Standard structure: 11 sections, table-heavy, executable — not a
-# narrative pitch. Benchmarked against the ZYNTH IGNITE Master Proposal.
+# ZYNTH client-grade proposal structure. It is a minimum completeness standard,
+# not a ceiling on creative or specialist thinking. Add relevant specialist detail
+# inside the sections when a brief needs event, 3D, video, creator, sponsorship,
+# regulated-sector, retail, or dual-market treatment.
 SECTION_NAMES = [
-    "Executive Overview & Strategic Rationale",
-    "Market Analysis & Audience Intelligence",
-    "Concept, Programme & Creative Direction",
-    "Financial Model (multi-currency)",
-    "Marketing & Campaign Plan",
-    "Operations Plan & Phase Gates",
-    "Vendor & Talent Register",
-    "KPI Dashboard & Measurement Framework",
-    "Risk Register & Contingency Protocols",
-    "Post-Event/Campaign Report Framework & Roadmap",
-    "Investment Summary & Next Steps",
+    "Proposal Control Sheet & Executive Decision Summary",
+    "Client Challenge, Stakes & Strategic Objective",
+    "Market, Audience & Category Intelligence",
+    "Human Insight, Opportunity & Competitive Opening",
+    "Creative Territories Considered & Recommended Route",
+    "Campaign/Event Title, Big Idea & Full Concept Explanation",
+    "Audience Journey, Channel Architecture & Signature Moment",
+    "Deliverables, Content, Experience & Production Specification",
+    "Workstreams, Timeline, RACI & Approval Rhythm",
+    "Supplier, Technology, Compliance & Operational Plan",
+    "Itemised Investment, Funding Model & Scenario Logic",
+    "Commercial Terms, Rights, Scope Control & Payment Plan",
+    "Results, Measurement, Attribution & Learning Plan",
+    "Risk Register, Contingency & Governance",
+    "Why ZYNTH, Client Inputs & Next Mobilisation Decision",
 ]
 
 _TABLE_SCHEMA: dict[str, Any] = {
@@ -78,8 +84,8 @@ _PROPOSAL_SCHEMA: dict[str, Any] = {
         },
         "sections": {
             "type": "array",
-            "minItems": 11,
-            "maxItems": 11,
+            "minItems": 15,
+            "maxItems": 15,
             "items": {
                 "type": "object",
                 "required": ["heading", "body", "tables"],
@@ -107,17 +113,17 @@ _PROPOSAL_SCHEMA: dict[str, Any] = {
 
 
 class MasterProposalAgent(BaseAgent):
-    """Writes the full eight-section master proposal document."""
+    """Writes a full fifteen-section client-grade proposal document."""
 
     agent_key = "master_proposal"
     display_name = "Master Proposal Writer"
     role_description = (
         "You are ZYNTH's senior proposal writer producing complete, client-ready "
-        "proposal documents. You write to the ZYNTH document standard: numbered "
-        "sections, no emoji, client-grade prose, concrete deliverables and numbers. "
-        "You always respect financial governance: pricing protects a 35% gross "
-        "margin and every proposal carries the 50% deposit-before-work clause. "
-        "Vendor rates from the knowledge base are estimates pending RFQ."
+        "decision documents. You write to the full ZYNTH document standard: clear "
+        "sections, concept depth, concrete deliverables, bottom-up costs, measurement, "
+        "risk and approvals. You protect commercial discipline with founder-approved "
+        "margin targets, deposits and written change control. Vendor rates are verified "
+        "or explicitly indicative pending RFQ."
     )
     output_schema: dict[str, Any] = _PROPOSAL_SCHEMA
 
@@ -133,44 +139,45 @@ class MasterProposalAgent(BaseAgent):
         from utils.bestof import best_of_block
         exemplar_block = best_of_block()
         return (
-            f"Write a COMPLETE, EXECUTABLE client-ready proposal for this brief:\n\n"
+            f"Write a COMPLETE, EXECUTABLE, CLIENT-GRADE ZYNTH proposal for this brief:\n\n"
             f"BRIEF: {brief}\n"
             f"{venues_block()}"
             f"{exemplar_block}"
-            "FIRST, write `one_line_ask`: ONE sentence — who engages ZYNTH to do what, "
-            "for what turnkey investment, targeting which single headline result. This is "
-            "the line the client reads before anything else.\n\n"
-            f"Then produce exactly these eleven sections:\n{section_list}\n\n"
-            "OPEN Section 1 by restating the one-line ask and the strategic read — WHY this, "
-            "WHY now, and the single audience insight the whole plan is built on (not just "
-            "an overview).\n\n"
-            "TABLE REQUIREMENTS (a document without these is a pitch, not a plan):\n"
-            "- Sec 2: audience segment table (segment, demographics, channel behaviour) "
-            "and/or competitor table\n"
-            "- Sec 3: programme/run-of-show table (time, duration, segment, owner) for "
-            "events; content calendar table for campaigns\n"
-            "- Sec 4: itemised cost table with USD/SGD/MMK columns at the MARKET rate, "
-            "10% contingency line, quoted total; THEN a transparent commercial table "
-            "(delivered cost + ZYNTH management fee with its tier %, e.g. Premium 20-25% + "
-            "total client investment) and 50/30/20 payment terms; if the project generates "
-            "revenue (tickets/sponsorship), add a revenue table AND a Lean/Standard/Premium "
-            "scenario P&L table\n"
-            "- Sec 5: week-by-week plan table (week, phase, activities, channels, budget)\n"
-            "- Sec 6: phase-gate table (phase, timeline, gates, owner, risk if skipped)\n"
-            "- Sec 7: vendor/talent table (category, recommendation, est cost, lead time, "
-            "backup). DATA HONESTY: tag each row 'Verified' (confirmed in ZYNTH's supplier "
-            "DB) or 'Indicative' (market placeholder, confirmed at contracting) — never "
-            "present a guessed number as fact.\n"
-            "- Sec 8: KPI + ATTRIBUTION table (metric, target, HOW measured). State how each "
-            "result is attributed to the work — e.g. a unique QR/tracking link per guest or "
-            "lead — so success is measured, not claimed. Lead with the money/reach metrics.\n"
-            "- Sec 9: risk table (risk, likelihood, impact, mitigation, owner)\n"
-            "- Sec 11: investment summary + 50% deposit clause + a 'What we need from you' "
-            "client-input checklist (approvals, assets, spokespeople, disclaimers) so the "
-            "client can act immediately.\n"
-            "Other rules: infer market/industry from the brief and state assumptions; "
-            "every number realistic for the market; prose carries strategy, tables carry "
-            "the detail; client-grade, no emoji, no coding/system jargon."
+            "FIRST, write `one_line_ask`: who engages ZYNTH to do what, over what period, "
+            "for what stated investment basis, targeting which headline decision or result. "
+            "Make it approvable in one sentence.\n\n"
+            f"Then produce exactly these fifteen sections:\n{section_list}\n\n"
+            "This is a completeness FLOOR, not a creative ceiling. Generate bold, original, "
+            "market-relevant work and add specialist tables/logic for events, 3D, video, "
+            "creator, sponsorship, retail, regulated work or dual markets whenever relevant.\n\n"
+            "NON-NEGOTIABLE CONTENT:\n"
+            "- Sec 1: release status, version, decision required, one-line ask and executive summary.\n"
+            "- Sec 3–4: distinguish verified facts, client-provided inputs and assumptions. Include "
+            "audience, category/competitor and cultural/market table as appropriate.\n"
+            "- Sec 5: compare at least THREE named creative territories and defend the recommended route.\n"
+            "- Sec 6: give the campaign/event title, big idea, full concept explanation, brand role, "
+            "signature moment, visual/tonal world, key message and cultural/claims boundaries.\n"
+            "- Sec 7: include a full audience journey plus phase/channel/experience architecture.\n"
+            "- Sec 8: specify deliverable, quantity, format, owner, revisions, approval gate and acceptance criteria.\n"
+            "- Sec 9: include a week-by-week timeline and RACI/approval table.\n"
+            "- Sec 10: include supplier/technology/rights/compliance table. Tag every supplier/rate "
+            "Verified, Indicative or To Source. Never invent contacts or present a guess as fact.\n"
+            "- Sec 11: itemise every budget line in the local market currency; separate ZYNTH fee, paid media, "
+            "production, talent, venue, technology, travel, taxes and third-party costs. State FX/date only "
+            "when supplied by evidence. Include a 10% contingency on confirmed third-party cost and show any "
+            "lean/standard/premium scenario when scope uncertainty is material.\n"
+            "- Sec 12: state payment milestones, deposits, revision/change-order policy, exclusions, IP/usage, "
+            "account ownership and currency review rule. Do not claim a fixed margin or payment term unless "
+            "the brief or ZYNTH policy gives one; label proposed terms clearly.\n"
+            "- Sec 13: table with objective, KPI, definition, target/baseline status, source/tool, cadence, "
+            "attribution method, owner and action if underperforming. Never guarantee ROI, sales or reach.\n"
+            "- Sec 14: risk table covering creative, cultural, claims, platform, data, commercial, production, "
+            "safety and market-specific risks as relevant, with likelihood, impact, mitigation, owner and fallback.\n"
+            "- Sec 15: explain why ZYNTH without fabricated proof, list exact client inputs and named approval gates, "
+            "then close with one practical mobilisation decision.\n\n"
+            "Write rich, specific client-grade prose and useful tables. Every number must be marked verified, "
+            "indicative or assumption. Explain the concept so a client can feel it and explain the setup so a "
+            "delivery team can run it. No emoji, no AI/system jargon, no empty generic statements."
         )
 
     async def write_proposal(self, brief: str, memory: SharedMemory) -> dict[str, Any]:
@@ -195,7 +202,7 @@ class MasterProposalAgent(BaseAgent):
             system=self.build_system_prompt(),
             user_prompt=prompt,
             schema=_PROPOSAL_SCHEMA,
-            max_tokens=16000,
+            max_tokens=24000,
         )
         await memory.record_tokens(response.input_tokens, response.output_tokens)
         return data

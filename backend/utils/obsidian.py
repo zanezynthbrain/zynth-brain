@@ -226,6 +226,15 @@ MIRRORED_DOCS: dict[str, str] = {
     "docs/ZYNTH_CAPABILITY_SYSTEM_STANDARD.md": "Capability System Standard.md",
     "docs/ZYNTH_SKILL_REBUILD_ARCHITECTURE.md": "Capability Rebuild Architecture.md",
     "docs/ZYNTH_CAPABILITY_REBUILD_VALIDATION.md": "Capability Rebuild Validation.md",
+    "docs/ZYNTH_FULL_CLIENT_GRADE_PROPOSAL_STANDARD.md": "Proposals/Full Client-Grade Proposal Standard.md",
+    "docs/ZYNTH_SERVICE_PACKAGE_ARCHITECTURE.md": "Business Development/Service Package Architecture.md",
+    "docs/ZYNTH_BUSINESS_DEVELOPMENT_PLAYBOOK.md": "Business Development/Business Development Playbook.md",
+    "docs/ZYNTH_FOUNDER_ASSISTANT_OPERATING_MODEL.md": "Founder/Founder Assistant Operating Model.md",
+    "docs/proposal-exemplars/01_FULL_PRODUCT_LAUNCH_PROPOSAL.md": "Proposals/Exemplars/Full Product Launch Proposal.md",
+    "docs/proposal-exemplars/02_FULL_PUBLIC_BRAND_EXPERIENCE_PROPOSAL.md": "Proposals/Exemplars/Full Public Brand Experience Proposal.md",
+    "research/myanmar_agency_market_findings.md": "Research/Myanmar Agency Market Findings.md",
+    "research/singapore_agency_market_findings.md": "Research/Singapore Agency Market Findings.md",
+    "research/myanmar_singapore_agency_pricing_signals.md": "Research/Myanmar Singapore Agency Pricing Signals.md",
 }
 
 _GENERATED_HEADER = (
