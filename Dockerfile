@@ -9,6 +9,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the backend source
 COPY backend/ .
 
+# Founder-readable knowledge and capability sources consumed by the Second Brain.
+# The backend is intentionally flattened into /app; these retain their versioned
+# repository-relative paths so the map can expose truthful source references.
+COPY .claude/ ./.claude/
+COPY docs/ ./docs/
+COPY research/ ./research/
+
 # Obsidian-synced vault (repo root) → readable by the knowledge loader
 COPY vault/ ./vault/
 

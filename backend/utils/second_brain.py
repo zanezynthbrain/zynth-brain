@@ -10,7 +10,17 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-_REPO = Path(__file__).resolve().parents[2]
+_HERE = Path(__file__).resolve()
+# Locally this module lives at <repo>/backend/utils; Railway's Docker image
+# flattens backend/ into /app. Detect the former from the repository assets,
+# then use the correct runtime root and agent directory for each layout.
+_REPO_CANDIDATE = _HERE.parents[2]
+if (_REPO_CANDIDATE / ".claude" / "skills").is_dir() or (_REPO_CANDIDATE / "docs").is_dir():
+    _REPO = _REPO_CANDIDATE
+    _AGENTS = _REPO / "backend" / "agents"
+else:
+    _REPO = _HERE.parents[1]
+    _AGENTS = _REPO / "agents"
 _SKILLS = _REPO / ".claude" / "skills"
 _DOCS = _REPO / "docs"
 _RESEARCH = _REPO / "research"
@@ -115,7 +125,7 @@ def _edge(source: str, target: str, relation: str, *, active: bool = False) -> d
 def _agent_nodes() -> tuple[list[dict[str, str]], list[dict[str, Any]]]:
     nodes: list[dict[str, str]] = []
     edges: list[dict[str, Any]] = []
-    for path in sorted((_REPO / "backend" / "agents").glob("*.py")):
+    for path in sorted(_AGENTS.glob("*.py")):
         if path.name.startswith("_") or path.stem == "base":
             continue
         slug = path.stem
