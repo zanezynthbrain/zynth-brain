@@ -4,7 +4,7 @@
 
 This static review tests whether each skill exposes the minimum operating contract required for repeatable agency work: a clear trigger, qualification/brief, workflow, output, quality gate, guardrails, commercial or outcome discipline, supporting references, and adequate depth. It is a **gap detector**, not evidence that the underlying advice is true; rates, laws, vendors, market facts, and client claims must still be verified at the point of use.
 
-**Skills assessed:** 36. **Rebuild priority:** 0. **Needs strengthening:** 9. **Strong base:** 27.
+**Skills assessed:** 36. **Rebuild priority:** 0. **Needs strengthening:** 11. **Strong base:** 25.
 
 ## Skill Scorecard
 
@@ -14,8 +14,8 @@ This static review tests whether each skill exposes the minimum operating contra
 | `yadana-finance` | 133 | 0 | 0 | 8/9 | Strong base | references |
 | `zb-icp` | 97 | 1 | 0 | 9/9 | Strong base | — |
 | `zb-objections` | 68 | 1 | 0 | 9/9 | Strong base | — |
-| `zb-offer` | 87 | 0 | 0 | 9/9 | Strong base | — |
-| `zb-pitch-kit` | 78 | 0 | 0 | 9/9 | Strong base | — |
+| `zb-offer` | 92 | 0 | 0 | 7/9 | Needs strengthening | references, depth |
+| `zb-pitch-kit` | 83 | 0 | 0 | 7/9 | Needs strengthening | references, depth |
 | `zynth-3d-design-studio` | 129 | 1 | 0 | 9/9 | Strong base | — |
 | `zynth-3d-production` | 62 | 5 | 0 | 8/9 | Strong base | workflow |
 | `zynth-account-manager` | 373 | 0 | 0 | 8/9 | Strong base | references |
@@ -36,7 +36,7 @@ This static review tests whether each skill exposes the minimum operating contra
 | `zynth-market-researcher` | 200 | 0 | 0 | 8/9 | Strong base | references |
 | `zynth-master-campaign-planner` | 81 | 4 | 0 | 9/9 | Strong base | — |
 | `zynth-master-event-planner` | 83 | 4 | 0 | 9/9 | Strong base | — |
-| `zynth-master-proposal-writer` | 75 | 2 | 0 | 9/9 | Strong base | — |
+| `zynth-master-proposal-writer` | 66 | 2 | 0 | 9/9 | Strong base | — |
 | `zynth-paid-media-specialist` | 280 | 0 | 0 | 7/9 | Needs strengthening | brief, references |
 | `zynth-pitch-packager` | 355 | 0 | 0 | 8/9 | Strong base | references |
 | `zynth-project-manager` | 322 | 0 | 0 | 8/9 | Strong base | references |
@@ -67,7 +67,7 @@ This scorecard reviews implementation affordances, not the strategic quality of 
 | `improver` | 170 | 4/5 | tests |
 | `lead_gen` | 158 | 2/5 | quality, error-control, tests |
 | `market_researcher` | 134 | 4/5 | tests |
-| `master_proposal` | 201 | 4/5 | tests |
+| `master_proposal` | 208 | 4/5 | tests |
 | `operations` | 124 | 2/5 | quality, error-control, tests |
 | `orchestrator` | 302 | 5/5 | — |
 | `paid_ads` | 147 | 2/5 | quality, error-control, tests |
