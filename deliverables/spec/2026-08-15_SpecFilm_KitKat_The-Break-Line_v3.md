@@ -2,7 +2,7 @@
 
 **Client:** KitKat / Nestlé — **SPEC WORK, NOT COMMISSIONED**
 **Produced by:** ZYNTH · zynth.asia
-**Date:** 15 August 2026 · **Version:** v2 — consistency pass
+**Date:** 15 August 2026 · **Version:** v3 — sound pass
 **Format:** 20s hero · cutdowns 15s / 6s · 16:9, 9:16, 1:1
 
 ---
@@ -123,6 +123,74 @@ the snap land. Do not let anyone fill it.
 
 ---
 
+## 4b. The sound pass — what was wrong and what changed
+
+### What was wrong
+
+Every clip in v1 and v2 was generated on **Wan 2.7**. Wan 2.7 does not generate
+audio at all. The files carry an audio flag, so they look like they have sound;
+the track is silent. The sound design written into section 4 above was never
+produced — it existed only on paper.
+
+That was a model-selection error on our side, not a limitation of the idea. A
+film whose entire structure is built around one snap and the silence before it
+cannot be generated on a silent model.
+
+### What changed in v3
+
+Three shots were regenerated on **audio-native** models, from the same v2 anchor
+frames, so the picture continuity of v2 is preserved and the sound is now real.
+
+| # | Shot | Model | Audio | Credits |
+|---|---|---|---|---|
+| 1 | The groove | Kling 3 Omni (`generateSound`) | room tone + sub-bass drone | 175 |
+| 2 | The monoliths | Kling 3 Omni (`generateSound`) | one held bowed note | 175 |
+| 3 | **The snap** | Gemini Omni Flash (native audio) | silence → the crack → grains landing | 250 |
+| — | Director test | Seedance 2.0 `element2video` from the Shot Plan | full four-beat sequence with audio | 400 |
+
+The sound was written into each prompt as its own paragraph and — this is the
+part that matters — written by **exclusion**. Left unconstrained, all of these
+models reach for the same generic trailer score. Every prompt explicitly bans
+music, voice, whoosh, riser, bass drop and stock impact. What is left is the
+room, one note, and the snap.
+
+### Smart Shot — the OpenArt "Director" feature
+
+The feature is called **Smart Shot**. From a scene description plus product
+reference images it produces a **Shot Plan**: one wide production-design sheet
+carrying reference views, set design, a top-down camera floor plan, storyboard
+frames and lighting notes — and it hands back a `videoPrompt` plus a
+ready-to-submit render payload.
+
+We ran it two ways for this film:
+
+- **`preview-shot-plan` (60 credits)** — the sheet alone. This is the one to
+  run habitually: it is cheap, it is reviewable before any money is spent on
+  video, and it is the closest thing in the toolchain to a real pre-production
+  document.
+- **The plan's own render path** — its suggested next step was Seedance 2.0
+  `element2video` with the sheet as a visual reference. We ran that at 720p with
+  audio (400 credits) to see whether a planned four-beat sequence in one clip
+  beats four separately anchored clips.
+
+### The v3 assets
+
+| Asset | Link |
+|---|---|
+| Shot Plan sheet (Smart Shot) | [open](https://cdn.openart.ai/openart-ai/production/2026-08/create-image/zQlwAWg6g9rSn0INEuso/gpt-image-2-responses-image_1786813667683_9e6d5043.png) |
+| Shot 1 — the groove, with sound | [open](https://cdn.openart.ai/openart-ai/production/2026-08/create-video/zQlwAWg6g9rSn0INEuso/098b0146c5ffcf3d7d2c22b7632314df-6d3fac09-66dc-4727-90a2-ede2cec22240_1786813658646_c8e47dbf.mp4) |
+| Shot 2 — the monoliths, with sound | [open](https://cdn.openart.ai/openart-ai/production/2026-08/create-video/zQlwAWg6g9rSn0INEuso/463072da336ac14c1c36ec8aea52d0a1-47b08dd7-9893-4d0b-ab37-cdb25df9484c_1786813892267_d0b27831.mp4) |
+| Shot 3 — **the snap**, with sound | [open](https://cdn.openart.ai/openart-ai/production/2026-08/create-video/zQlwAWg6g9rSn0INEuso/video_1786813759389_ecd8b2bb_1786813759465_8a4d6736.mp4) |
+| Director test — full sequence, one clip | [open](https://cdn.openart.ai/openart-ai/production/2026-08/create-video/zQlwAWg6g9rSn0INEuso/02178681399974800000000000000000000ffffc0a88538fdfb15_1786814135218_b94406a1.mp4) |
+
+**Recommendation:** use `preview-shot-plan` on every multi-shot film from here,
+as the step before generation. Use its one-clip render as a *comparison* rather
+than the master — a single 5-second clip cannot hold four beats at the pace this
+film needs, and shot-by-shot generation from a locked anchor frame still gives
+more control over each individual frame.
+
+---
+
 ## 5. Deliverables
 
 | Cut | Aspect | Use |
@@ -139,31 +207,52 @@ typeset — never generated inside the frame.
 
 ## 6. What it cost, and what is still missing
 
-**Total spent: 870 OpenArt credits** across two passes.
+**Total spent: 2,060 OpenArt credits** across three passes.
 
 | Pass | Work | Credits |
 |---|---|---|
-| v1 | 4 frames text2image + 3 clips | 435 |
-| v2 | 4 frames image2image from anchor + 4 clips | 560 |
-| | **Balance: 2,795 → ≈1,925** | |
+| v1 | 4 frames text2image + 3 clips (Wan 2.7, silent) | 435 |
+| v2 | 4 frames image2image from anchor + 4 clips (Wan 2.7, silent) | 560 |
+| v3 | Smart Shot plan + 2 Kling 3 Omni + 1 Gemini Omni Flash + 1 Seedance 2.0 | 1,065 |
+| | **Balance: 2,795 → 735** | |
 
-**Fixed in v2:** continuity. Every shot now derives from one anchor frame, so
-the chocolate, the red and the light match across the film. That was the single
-biggest flaw in v1 and it is the difference between four renders and one shoot.
+**Fixed in v2:** continuity. Every shot derives from one anchor frame, so the
+chocolate, the red and the light match across the film.
+
+**Fixed in v3:** sound. The three shots that carry the film now come out of
+audio-native models with the sound design actually generated, not just written
+down. Plus a Shot Plan from Smart Shot to plan against.
 
 **Still missing — honestly:**
 
 1. **No logo.** The endframe is composed for it but the official KitKat lockup is
    a licensed asset. It cannot be generated and should not be.
-2. **Not edited.** Four 5-second clips, not a cut film. The groove wipes, grade,
-   sound design and the silence at 0:09 are an edit pass in Resolve — that is
-   craft work, not generation, and it is where the film actually becomes a film.
-3. **No Burmese typesetting.** Subtitles and the endframe line are a hand pass in
+2. **Not edited.** Individual clips, not a cut film. The groove wipes, grade, the
+   mix and the silence at 0:09 are an edit pass in Resolve — that is craft work,
+   not generation, and it is where the film becomes a film. The generated audio
+   is raw material for that mix, not a finished mix.
+3. **The endframe is still silent.** Shot 4 was left on the v2 Wan 2.7 clip; its
+   single low resonant hit is cheaper to place by hand in the edit than to
+   regenerate at 175 credits.
+4. **No Burmese typesetting.** Subtitles and the endframe line are a hand pass in
    Pyidaungsu, never generated in-frame.
-4. **720p.** Fine for review and social; a broadcast master would need a 1080p
+5. **720p.** Fine for review and social; a broadcast master would need a 1080p
    regeneration pass.
 
 **What it would take to finish:** the edit. No more generation is required.
+
+---
+
+## 7. The standing lesson
+
+The rule that came out of this pass is now written into
+`.claude/skills/zynth-creative-video-director/references/ai-hybrid-production.md`
+so no future ZYNTH film repeats it:
+
+> Decide the sound of a shot before picking its model. PixVerse V6 and Wan 2.7
+> generate no audio. Any shot whose sound carries meaning goes to Kling 3 Omni,
+> Seedance 2.x or Gemini Omni Flash — and the sound is written into the prompt
+> by exclusion, naming what must not appear as well as what must.
 
 ---
 

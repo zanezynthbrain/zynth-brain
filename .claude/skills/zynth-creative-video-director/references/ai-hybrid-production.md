@@ -111,16 +111,55 @@ light.
 
 Cost = duration ÷ 5s × the model's per-clip rate. State it before generating.
 
-| Tier | Model | ~Credits / 5s |
-|---|---|---|
-| Volume B-roll | PixVerse V6 (540p) | 50 |
-| Controlled camera | Wan 2.7 (720p) | 125 |
-| Sound included | Kling 3 Omni | 175 |
-| Hero, realism + lip-sync | Seedance 2.0 | 400 |
+| Tier | Model | Audio | ~Credits / 5s |
+|---|---|---|---|
+| Volume B-roll | PixVerse V6 (540p) | **none** | 50 |
+| Controlled camera | Wan 2.7 (720p) | **none** | 125 |
+| Sound included | Kling 3 Omni (std) | generated | 175 |
+| Sound included, cheap | Seedance 2.0 Mini (720p) | generated | 200 |
+| Best synchronised SFX | Gemini Omni Flash | generated | 250 |
+| Hero, realism + lip-sync | Seedance 2.0 (720p) | generated | 400 |
+| Shot planning only | Smart Shot `preview-shot-plan` | n/a | 60 |
 
 A 45s film at hero quality is ~9 clips × 400 = **3,600 credits**. That is why
 the tiering matters: hero the two shots that carry the idea, run everything else
 at volume rate.
+
+### The audio rule — read before choosing a model
+
+**PixVerse V6 and Wan 2.7 generate NO audio.** Their files may still carry an
+audio track flag; the track is silent. If a shot's sound is part of the idea —
+a snap, an impact, a whisper, a beat drop, anything the viewer is supposed to
+*hear* — those two models are the wrong choice no matter how good the picture
+is, and a review will come back saying the sound is unsatisfying.
+
+Rules:
+
+1. Decide the sound of a shot **before** picking its model, not after.
+2. Any shot whose sound carries meaning goes to an audio-native model:
+   Kling 3 Omni (`generateSound: true`), Seedance 2.0 / 2.0 Mini / 2.5
+   (`generateAudio: true`), or Gemini Omni Flash (audio is always native).
+3. Silent-model clips are only acceptable for shots that will be scored and
+   sound-designed by hand in post — say so explicitly in the brief.
+4. Write the sound into the prompt as its own paragraph, and write it by
+   **exclusion**: name what must NOT appear (no music, no voice, no whoosh, no
+   riser, no stock impact) as well as what must. Left unconstrained, every one
+   of these models reaches for generic trailer score.
+
+### Smart Shot — the "Director" feature
+
+Smart Shot turns a scene description plus product/character references into a
+**Shot Plan**: one wide production-design sheet with reference views, set
+design, a top-down camera floor plan, storyboard frames and lighting notes. It
+returns a `videoPrompt` and a ready-to-submit `nextStep` payload.
+
+- `preview-shot-plan` (60) — the plan alone. Cheap. Run this before committing
+  budget to a sequence, and put the sheet in front of the founder.
+- `generate-shot-video` (235) — plan and render in one call.
+
+Use it when a film has to hold together across several shots. It does not
+replace the anchor-frame discipline above; it replaces the guessing about
+staging that happens before the anchor frame exists.
 
 ---
 
