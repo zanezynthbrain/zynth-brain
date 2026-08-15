@@ -234,6 +234,7 @@ MIRRORED_DOCS: dict[str, str] = {
     "docs/ZYNTH_SECOND_BRAIN_INFORMATION_ARCHITECTURE.md": "Founder/Second Brain Information Architecture.md",
     "docs/ZYNTH_SECOND_BRAIN_SPHERE_EXPERIENCE.md": "Founder/Second Brain Sphere Experience.md",
     "docs/ZYNTH_PRODUCTIVITY_AND_PROPOSAL_READINESS.md": "Founder/Productivity and Proposal Readiness.md",
+    "docs/ZYNTH_ZANE_PHARMA_COMMERCIAL_STORYBOARD_SCRIPT.md": "Proposals/Commercials/Zane Pharma Commercial Storyboard and Script.md",
     "docs/proposal-exemplars/01_FULL_PRODUCT_LAUNCH_PROPOSAL.md": "Proposals/Exemplars/Full Product Launch Proposal.md",
     "docs/proposal-exemplars/02_FULL_PUBLIC_BRAND_EXPERIENCE_PROPOSAL.md": "Proposals/Exemplars/Full Public Brand Experience Proposal.md",
     "docs/proposal-exemplars/03_FULL_MYANMAR_PHARMA_OTC_CAMPAIGN_PROPOSAL.md": "Proposals/Exemplars/Full Myanmar Pharma OTC Campaign Proposal.md",
