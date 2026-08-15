@@ -2,7 +2,7 @@
 
 **Client:** KitKat / Nestlé — **SPEC WORK, NOT COMMISSIONED**
 **Produced by:** ZYNTH · zynth.asia
-**Date:** 15 August 2026 · **Version:** v1
+**Date:** 15 August 2026 · **Version:** v2 — consistency pass
 **Format:** 20s hero · cutdowns 15s / 6s · 16:9, 9:16, 1:1
 
 ---
@@ -80,28 +80,31 @@ you have been holding all day.
 
 ---
 
-## 3. Shot list — as generated
+## 3. Shot list — v2, consistency pass
 
-Four hero frames (Seedream 4.5, 2K, 16:9), three animated (Wan 2.7, 720p, 5s).
+**All four shots are generated from a single style anchor** (the groove macro),
+via image2image. That is what makes them read as one shoot rather than four
+separate renders: same chocolate colour, same cocoa grain, same crimson, same
+hard raking key.
 
-| # | Shot | Movement | Purpose | Status |
-|---|---|---|---|---|
-| 1 | **The groove** — overhead macro along the channels | Slow dolly-in down the groove | Establishes the fault line as a place | ✅ animated |
-| 2 | **The monolith** — fingers upright, low hero angle, haze | Lateral drift, parallax through the channels | Scale. Makes a chocolate bar architectural | ✅ animated |
-| 3 | **The snap** — fracture caught mid-air, shards suspended | Ultra slow motion, halves parting | The film's centre. Everything before is setup | ✅ animated |
-| 4 | **The cross-section** — layered wafer face, shallow DOF | (still — held as the last frame) | The reward. Proof of what is inside | ✅ frame only |
-| 5 | **Endframe** — bar reassembled, red field, lockup | Type animates along the groove line | The ask | ⬜ needs licensed logo |
+| # | Shot | Movement | Purpose |
+|---|---|---|---|
+| 1 | **The groove** — overhead macro along the channels | Slow dolly-in down the groove | Establishes the fault line as a place |
+| 2 | **The monoliths** — fingers upright, low angle, haze | Lateral drift, parallax through the channels | Scale. Makes a chocolate bar architectural |
+| 3 | **The snap** — fracture, shards suspended | Ultra slow motion, halves parting | The film's centre. Everything before is setup |
+| 4 | **The endframe** — whole bar, clean red field | Almost imperceptible push, highlight drifts | The ask. Negative space left for the lockup |
+
+Shot 4 is deliberately composed with **empty red space above and below** so the
+KitKat lockup and the line can be typeset into it without recomposing.
 
 ### The edit rule
 
 Every cut is a **wipe along a groove angle** — not a dissolve, not a hard cut.
 The transition travels down the same diagonal as the fault line in the outgoing
-shot. Six cuts, six grooves, one geometry.
+shot. Four shots, four grooves, one geometry.
 
 At 0:11 the film does the thing it has been building to: **the snap wipes to the
-next shot**. The break is the transition. That is the whole film in one frame.
-
----
+next shot.** The break is the transition.
 
 ## 4. Twenty seconds
 
@@ -136,24 +139,31 @@ typeset — never generated inside the frame.
 
 ## 6. What it cost, and what is still missing
 
-**Spent: 435 OpenArt credits** (4 images × 15 = 60; 3 videos × 125 = 375).
-Balance before 2,795 → after ≈ 2,360.
+**Total spent: 870 OpenArt credits** across two passes.
 
-**Honest gaps:**
+| Pass | Work | Credits |
+|---|---|---|
+| v1 | 4 frames text2image + 3 clips | 435 |
+| v2 | 4 frames image2image from anchor + 4 clips | 560 |
+| | **Balance: 2,795 → ≈1,925** | |
 
-1. **No logo.** The endframe needs the official KitKat lockup. That is a licensed
-   asset — it cannot be generated and should not be.
-2. **Shots are 5 seconds each and unedited.** They are three clips, not a cut
-   film. Assembly, the groove wipes, grade and sound are the next pass.
-3. **Continuity is approximate.** Each frame was generated independently, so the
-   chocolate is not literally the same bar across shots. For a real campaign the
-   fix is a character-sheet workflow — lock one hero frame, generate everything
-   else from it as image2image.
-4. **No Burmese typesetting yet** — subtitles and the endframe line are a
-   hand-typeset pass.
+**Fixed in v2:** continuity. Every shot now derives from one anchor frame, so
+the chocolate, the red and the light match across the film. That was the single
+biggest flaw in v1 and it is the difference between four renders and one shoot.
 
-**To finish this properly:** ~600 more credits for consistent re-generation from
-a locked hero frame, plus an edit/grade/sound pass in Resolve.
+**Still missing — honestly:**
+
+1. **No logo.** The endframe is composed for it but the official KitKat lockup is
+   a licensed asset. It cannot be generated and should not be.
+2. **Not edited.** Four 5-second clips, not a cut film. The groove wipes, grade,
+   sound design and the silence at 0:09 are an edit pass in Resolve — that is
+   craft work, not generation, and it is where the film actually becomes a film.
+3. **No Burmese typesetting.** Subtitles and the endframe line are a hand pass in
+   Pyidaungsu, never generated in-frame.
+4. **720p.** Fine for review and social; a broadcast master would need a 1080p
+   regeneration pass.
+
+**What it would take to finish:** the edit. No more generation is required.
 
 ---
 
