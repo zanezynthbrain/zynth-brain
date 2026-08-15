@@ -28,6 +28,7 @@ SWITCHES = [
     ("morning_brief",         "Daily CEO brief (full agency run — biggest cost)", False, False),
     ("eod_report",            "End-of-day summary",                     False, False),
     ("daily_proposals",       "Daily proposal production (one by one)", False, False),
+    ("daily_workforce",       "Daily Agency Workforce (3 founder-reviewable packages)", False, False),
     ("market_research",       "Daily prospect research",                False, False),
     ("bd_autopilot",          "BD autopilot (enrich + draft outreach)", False, False),
     ("outreach_sender",       "Send released outreach",                 False, False),
@@ -36,6 +37,9 @@ SWITCHES = [
     ("learning_brief",        "Weekly MD learning brief",               False, False),
     ("weekly_reviews",        "Weekly Mon/Fri/portfolio reviews",       False, False),
     ("fx_refresh",            "Daily FX rate refresh",                  False, False),
+    ("publisher",             "Publish MD-approved posts at their time", False, True),
+    ("brand_creative",        "Nightly brand content/design month",     False, False),
+    ("creative_prep",         "Nightly video + 3D brief prep (queued, not generated)", False, False),
 ]
 _DEFAULTS = {k: d for k, _, _, d in SWITCHES}
 _LABEL = {k: lbl for k, lbl, _, _ in SWITCHES}

@@ -91,6 +91,12 @@ Pay to: [bank / KBZPay / Wave details]
 ```
 
 ## 7. Bookkeeping — the simplest system that works
+
+> **Money Out is now live data**, not just a spreadsheet: `backend/data/expenses.json`
+> holds every recurring cost and `FINANCE_operating_costs.md` is the readable
+> budget sheet (burn, AI credit planning, recommended top-up). In Telegram:
+> `/expenses`, `/expenses burn`, `/expenses credits 15 balanced`.
+
 Keep **one spreadsheet** (or the Drive Finance sheet) with two tabs:
 - **Money In:** date · client · invoice # · amount · received? (Y/N)
 - **Money Out:** date · vendor/what · amount · project it belongs to · paid? (Y/N)

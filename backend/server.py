@@ -16,7 +16,7 @@ from typing import Any
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-from agents import OrchestratorAgent, WORKFLOWS, build_default_agents
+from agents import OrchestratorAgent, WORKFLOWS, build_content_studio, build_default_agents
 from config import get_settings
 from utils.logging_config import configure_logging
 
@@ -25,7 +25,7 @@ configure_logging(settings.log_level)
 
 app = FastAPI(title="ZYNTH Agent Backend", version="1.0.0")
 
-_agents = build_default_agents()
+_agents = {**build_default_agents(), **build_content_studio()}
 _orchestrator = OrchestratorAgent(agents=_agents)
 
 

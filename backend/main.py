@@ -19,7 +19,7 @@ import json
 import sys
 from pathlib import Path
 
-from agents import OrchestratorAgent, WORKFLOWS, build_default_agents
+from agents import OrchestratorAgent, WORKFLOWS, build_content_studio, build_default_agents
 from config import get_settings
 from utils.logging_config import configure_logging, get_logger
 from utils.tools import write_file
@@ -77,7 +77,9 @@ async def run(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     client_brief = json.loads(args.brief) if args.brief else DEFAULT_BRIEF
 
-    agents = build_default_agents()
+    # Default specialists + the Content & Design Studio, so content_studio /
+    # brand_content_month workflows are runnable from the CLI too.
+    agents = {**build_default_agents(), **build_content_studio()}
     orchestrator = OrchestratorAgent(agents=agents)
 
     workflow = args.workflow

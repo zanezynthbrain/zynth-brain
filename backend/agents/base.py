@@ -24,6 +24,20 @@ class AgentError(Exception):
     """Raised when an agent cannot produce usable output after all retries."""
 
 
+# Shared operating contract. Individual specs add role-specific method; these rules
+# apply even when a compact legacy agent has not yet received its own deep spec.
+_OPERATING_NON_NEGOTIABLES = """
+ZYNTH OPERATING NON-NEGOTIABLES:
+- Classify the requested work as internal exploration, proposal, execution, or external release. You may prepare internal work, but never claim approval or trigger/advise an external commitment without a named human decision.
+- Separate confirmed facts, supplied claims, assumptions, hypotheses and open questions. Never invent client facts, metrics, budgets, vendors, legal permissions, partners, dates, performance results or cultural claims. Label unverified items clearly.
+- Solve the business problem before selecting a deliverable. Tie recommendations to a specific audience, tension, objective, proposition, owner, timeline and measurement signal.
+- For material creative, campaign, event, video, brand or sponsorship work, generate three genuinely distinct territories before recommending one; explain the selection rationale and production implications.
+- Make outputs executable: state deliverables, dependencies, feasibility, commercial/rate assumptions, risks, QA checks, next owner and handoff. Treat all numbers as indicative until source-verified.
+- A client-ready item must be strategically rooted, distinctive, feasible, commercially viable, measurable and safe. Flag any quality, brand, cultural, rights, data, legal or budget issue instead of hiding it.
+- Do not publish, spend, contact clients/vendors, make bookings, or imply a real-world action occurred. Preserve founder and project-owner approval gates.
+""".strip()
+
+
 @dataclass
 class AgentResult:
     """Outcome of a single agent run, ready to be merged into shared state."""
@@ -48,6 +62,15 @@ class BaseAgent(ABC):
     role_description: str = "A generic ZYNTH marketing agent."
     #: JSON Schema the agent's structured output must satisfy.
     output_schema: dict[str, Any] = {"type": "object", "properties": {}}
+    #: Output-token budget for this agent's call. ``None`` uses the global
+    #: per-call default. Agents producing long structured output (a 30-post
+    #: content calendar, a design spec pack) must raise this or their JSON
+    #: gets truncated and fails validation.
+    max_output_tokens: int | None = None
+    #: Route this agent to the cheaper fallback model. Set on high-volume
+    #: drafting agents so running them through a workflow costs the same as
+    #: running them through their own cost-shaped pipeline.
+    use_fallback_model: bool = False
 
     def __init__(self, llm_client: LLMClient | None = None) -> None:
         self.llm = llm_client or LLMClient()
@@ -55,7 +78,10 @@ class BaseAgent(ABC):
 
     def build_system_prompt(self) -> str:
         """Compose the agent's persona: brand voice + role + knowledge + market FX."""
-        prompt = f"{ZYNTH_BRAND.as_system_prompt_block()}\n\nYour specific role: {self.role_description}"
+        prompt = (
+            f"{ZYNTH_BRAND.as_system_prompt_block()}\n\n"
+            f"Your specific role: {self.role_description}\n\n{_OPERATING_NON_NEGOTIABLES}"
+        )
         # Seven-block operating spec for this agent, if one exists.
         from utils.specs import load_spec
         prompt += load_spec(self.agent_key)
@@ -76,10 +102,16 @@ class BaseAgent(ABC):
         await memory.log(self.agent_key, "started")
         try:
             user_prompt = await self.build_user_prompt(memory, **kwargs)
+            model = None
+            if self.use_fallback_model:
+                from config import get_settings
+                model = get_settings().fallback_model_name
             data, response = await self.llm.complete_json(
                 system=self.build_system_prompt(),
                 user_prompt=user_prompt,
                 schema=self.output_schema,
+                max_tokens=self.max_output_tokens,
+                model=model,
             )
         except (LLMCallError, MalformedOutputError) as exc:
             await memory.log(self.agent_key, "failed", error=str(exc))

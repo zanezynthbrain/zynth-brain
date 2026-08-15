@@ -5,6 +5,11 @@ description: "Use for any question about a codebase, its architecture, file rela
 
 # /graphify
 
+## ZYNTH Operating Contract
+
+Follow the shared [ZYNTH Capability System Standard](../../../docs/ZYNTH_CAPABILITY_SYSTEM_STANDARD.md). In particular: classify the work band; separate verified facts from assumptions; create three distinct territories for material creative work; make output executable and measurable; pass the relevant quality gate; and preserve founder/project-owner approval before external release, spend, client contact, vendor commitment, or publication.
+
+
 Turn any folder of files into a navigable knowledge graph with community detection, an honest audit trail, and three outputs: interactive HTML, GraphRAG-ready JSON, and a plain-language GRAPH_REPORT.md.
 
 ## Usage

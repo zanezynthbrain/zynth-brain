@@ -1,0 +1,1069 @@
+{
+  "brand": "ZYNTH",
+  "month": "September 2026",
+  "brief": "ZYNTH's own September 2026 month — 10 weeks out from IGNITE Myanmar Business Summit (14 Nov). Goals: sponsor conversations for stage-time tiers, qualified retainer enquiries, and authority that supports pricing above local freelancers.",
+  "package": {
+    "key": "growth_16",
+    "name": "Growth — 16 posts/month",
+    "posts_per_month": 16,
+    "designed_assets": 11,
+    "short_videos": 5,
+    "story_sets": 10,
+    "platforms": [
+      "Facebook",
+      "Instagram",
+      "TikTok",
+      "LinkedIn"
+    ],
+    "type_mix": {
+      "static_post": 4,
+      "carousel": 3,
+      "short_video": 5,
+      "educational": 2,
+      "testimonial": 1,
+      "promo_offer": 1
+    },
+    "revision_rounds": 2,
+    "boosted_posts": 5,
+    "reporting": "Monthly report + fortnightly optimisation call",
+    "price_mmk": "MMK 3,800,000 – 5,400,000",
+    "price_sgd": "S$1,600 – 2,300",
+    "best_for": "Brands pushing for share of voice across 3-4 platforms",
+    "effort_hours": 44,
+    "design_ratio": "11:16",
+    "design_ratio_pct": 69,
+    "copy_only_posts": 5,
+    "posts_per_week": 4.0
+  },
+  "strategy": {
+    "brand_platform": {
+      "positioning": "For Myanmar and Singapore business owners who are tired of paying for posts instead of results, ZYNTH is the agency that runs on an AI workforce with one human accountable — unlike traditional agencies, we show the thinking, the numbers and the margin behind every campaign.",
+      "promise": "Every piece of work we ship can be traced to a number the client already cares about — and we will show that number whether it flatters us or not.",
+      "personality": [
+        "Precise",
+        "Unbluffable",
+        "Generous with method",
+        "Regionally fluent",
+        "Quietly premium"
+      ],
+      "tone_of_voice": "Direct and specific. Short sentences. Numbers over adjectives. We explain how something works rather than claiming we're good at it. Confident enough to say 'this won't work for you' out loud. Never hype, never emoji-led, never the word 'unlock'.",
+      "tagline_options": [
+        "The Intelligence of Creativity",
+        "We show the thinking.",
+        "Creative work you can audit."
+      ],
+      "do_not": [
+        "Never claim a result we cannot evidence with a client's own dashboard",
+        "Never quote an unverified vendor rate as fact — tag it TBC",
+        "Never use stock-photo handshakes, fake dashboards, or invented testimonials",
+        "Never post the words 'take your brand to the next level' or 'unlock growth'",
+        "Never use religious imagery, monks, or national symbols as campaign decoration"
+      ]
+    },
+    "audience": {
+      "primary": "Owners and marketing leads at Myanmar SMEs and corporates spending MMK 1.5–8M a month on marketing, plus Singapore SMEs expanding into Southeast Asia — people who sign the cheque and personally feel it when the money doesn't return.",
+      "segments": [
+        {
+          "name": "The Yangon owner-operator",
+          "profile": "35–50, runs an F&B / retail / property / education business doing MMK 50M+ a month. Lives on Facebook and Viber, mid-range Android, checks the page himself at 10pm. Has burned money on two agencies and one freelancer.",
+          "trigger": "A competitor's page suddenly looks more professional than his — or a festival season is 6 weeks out and nothing is booked.",
+          "objection": "\"Agencies charge me for posts I could get my cousin to make for 200k.\""
+        },
+        {
+          "name": "The corporate marketing manager",
+          "profile": "28–40, at a bank, telco, developer or FMCG distributor. Reports to a board that asks for numbers. Uses LinkedIn professionally, Facebook for work pages. Needs a partner whose deck she can present without rewriting it.",
+          "trigger": "Quarterly review coming and last quarter's agency report was screenshots of likes.",
+          "objection": "\"Can they handle procurement, timelines and a board-level presentation?\""
+        },
+        {
+          "name": "The Singapore SME founder looking regional",
+          "profile": "30–45, S$2–20M revenue, considering Myanmar or wider SEA. Multi-platform, PDPA-aware, benchmarks against Singapore agency pricing and finds it heavy.",
+          "trigger": "A regional expansion decision with no local marketing partner and no local cost knowledge.",
+          "objection": "\"Do they actually know Myanmar on the ground, or just say they do?\""
+        }
+      ],
+      "insight": "Marketing spend is the only line on a Myanmar SME's P&L that nobody can defend in a meeting. Owners don't distrust agencies because the work is ugly — they distrust it because they cannot see inside it. The brand that shows its own working, including its margin and its failures, stops being a vendor and becomes the person they call before they decide anything."
+    },
+    "messaging_house": {
+      "core_message": "We show the thinking — the strategy, the numbers, and the margin.",
+      "pillars": [
+        "Method over mystique: our frameworks are published, not protected",
+        "One human is accountable for everything an AI workforce produces",
+        "Local truth: real Yangon rates, real market FX, real platform behaviour",
+        "IGNITE proves it — we run our own flagship at our own risk"
+      ],
+      "proof_points": [
+        "An AI agent workforce with the MD as sole approver — nothing goes out unapproved",
+        "Every quote priced at market FX (sell side), 35% margin floor, 10% contingency, 50% deposit",
+        "IGNITE Myanmar Business Summit, 14 Nov 2026 — ZYNTH-owned IP, sponsorship-funded",
+        "Vendor and venue databases built from real Yangon quotes, unverified rates tagged TBC"
+      ]
+    },
+    "content_pillars": [
+      {
+        "name": "Proof of Work",
+        "purpose": "Convert the interested into enquiries by showing real output and real numbers",
+        "share_pct": 30,
+        "example_topics": [
+          "Campaign teardown: what we'd change and why",
+          "A month of content, start to finish, in 40 seconds",
+          "Before/after of a brand's feed with the reasoning shown",
+          "What a MMK 4M month actually buys"
+        ],
+        "success_signal": "Saves and DMs asking 'what would this cost for us'"
+      },
+      {
+        "name": "The Intelligence",
+        "purpose": "Build the authority that lets us price above local freelancers",
+        "share_pct": 25,
+        "example_topics": [
+          "How we price a campaign, including the margin floor",
+          "The three numbers we check before accepting a client",
+          "How an AI agent workforce actually runs an agency day",
+          "Why we quote at market FX and never the official rate"
+        ],
+        "success_signal": "Shares by other marketers; screenshots in group chats"
+      },
+      {
+        "name": "IGNITE",
+        "purpose": "Sell sponsorship and fill the room for 14 Nov — the flagship that de-risks Q4",
+        "share_pct": 25,
+        "example_topics": [
+          "What a sponsor actually gets, tier by tier",
+          "The room: who's in it and why that matters",
+          "Behind the build of a summit, in public",
+          "Countdown milestones and early-bird deadlines"
+        ],
+        "success_signal": "Sponsor deck requests and confirmed meetings"
+      },
+      {
+        "name": "Myanmar Market Truths",
+        "purpose": "Earn reach and inbound trust from people not yet ready to buy",
+        "share_pct": 20,
+        "example_topics": [
+          "Festival-season campaign lead times nobody plans for",
+          "What Facebook-first reach really means for budget allocation",
+          "Market FX vs official rate in a marketing budget",
+          "Yangon production rates, published"
+        ],
+        "success_signal": "Reach and follows from non-followers; comments from owners"
+      }
+    ],
+    "channel_strategy": [
+      {
+        "platform": "Facebook",
+        "role": "Primary reach and enquiry engine in Myanmar — this is where owners actually are",
+        "format_focus": "Static statements, carousels, short video with burned-in Myanmar subtitles",
+        "cadence": "8 posts/month (2 per week)",
+        "best_times": "Weekdays 12:00–13:00 and 20:00–22:00 Yangon; avoid Sunday morning"
+      },
+      {
+        "platform": "LinkedIn",
+        "role": "Credibility with corporate marketing managers and Singapore founders; IGNITE sponsor sales",
+        "format_focus": "Method posts, teardowns, sponsor-facing IGNITE content, English only",
+        "cadence": "5 posts/month",
+        "best_times": "Tue–Thu 08:30–09:30 SGT"
+      },
+      {
+        "platform": "Instagram",
+        "role": "Craft proof — the work has to look like the standard we sell",
+        "format_focus": "Reels, carousels, design detail",
+        "cadence": "3 posts/month + all 10 story sets",
+        "best_times": "Weekdays 19:00–21:00 Yangon"
+      }
+    ],
+    "owned_strategy": {
+      "thesis": "ZYNTH sells judgement, and judgement can only be demonstrated in public. Every month we publish the method (Intelligence), the evidence (Proof of Work), and the local truth (Market Truths) that a competitor would charge for. The compounding asset is a searchable body of thinking that arrives before the sales conversation does — so by the time an owner calls, the price argument is already won. IGNITE is the annual moment that converts that audience into a room we own.",
+      "ninety_day_arc": [
+        "September — Earn the room: publish the method and the market truths, open sponsor conversations while there is still runway to 14 Nov.",
+        "October — Earn the trust: proof-heavy month, teardowns and client results, IGNITE speaker and agenda reveals, festival-season work in market.",
+        "November — Earn the transaction: IGNITE week dominates, live coverage becomes the year's proof library, and Q1 retainers close off the back of it."
+      ],
+      "community_plan": "Reply to every comment and DM within 4 working hours, in the language the person used. Price questions get a real range in public, not 'DM us'. Owners who comment twice get a named follow-up from the MD, not a template.",
+      "organic_paid_handshake": "Boost only what has already earned it: any post that clears 5% engagement or 20 saves in 48 hours gets MMK 150–300k behind it for 5 days, targeted to Yangon/Mandalay business owners 30–55. IGNITE sponsor posts are boosted on publication regardless — the deadline is fixed and reach cannot wait for proof. 5 posts a month, no more."
+    },
+    "kpis": [
+      {
+        "metric": "Qualified inbound enquiries",
+        "target": "6 per month (from 'what would this cost' DMs and form fills)",
+        "why": "The only organic metric that touches revenue; 2 closes at retainer level covers the month"
+      },
+      {
+        "metric": "IGNITE sponsor deck requests",
+        "target": "12 in September",
+        "why": "Sponsorship funds the flagship; September is the last month with enough runway to close for 14 Nov"
+      },
+      {
+        "metric": "Engagement rate (FB + IG)",
+        "target": "4%+ on non-boosted posts",
+        "why": "Below 3% means the hooks are agency-voice, not owner-voice — a rewrite signal, not a spend signal"
+      },
+      {
+        "metric": "Saves per educational post",
+        "target": "20+",
+        "why": "Saves predict enquiries better than likes in this category; it is the intent proxy we act on"
+      },
+      {
+        "metric": "Follower growth from non-followers",
+        "target": "+300 net, with 60%+ reach from non-followers",
+        "why": "Proves Market Truths content is travelling beyond the existing audience"
+      }
+    ],
+    "open_questions": [
+      "TikTok is in the Growth package but not in ZYNTH's active channels — this month runs FB/LinkedIn/IG and we revisit TikTok in October with the IGNITE footage.",
+      "Which client results are cleared for publication by name? P05 and P09 are written to be anonymised until written permission is in hand.",
+      "Confirm IGNITE sponsor tier pricing is final before P11 publishes on 16 Sep.",
+      "Is the MD available for two pieces to camera (P06, P14)? Both are stronger with a face than with type-on-screen."
+    ]
+  },
+  "content": {
+    "month_theme": "Show the working. Every post in September either publishes a method we could have kept private, evidences a result we can stand behind, or moves a sponsor closer to IGNITE — because the brand's whole claim is that our thinking survives being looked at.",
+    "posts": [
+      {
+        "ref": "P01",
+        "week": 1,
+        "day": "Tue 1 Sep",
+        "platform": "LinkedIn",
+        "content_type": "static_post",
+        "pillar": "The Intelligence",
+        "objective": "awareness",
+        "hook": "Our agency's status meeting was replaced by a 5:30am brief written by an AI workforce. One human still signs everything.",
+        "caption_en": "Our agency's status meeting was replaced by a 5:30am brief written by an AI workforce. One human still signs everything.\n\nTwelve agents. Research, creative, media, finance, operations. They run overnight, argue with each other through a shared memory, and put a brief on the desk before the city is awake. Nothing reaches a client until the MD approves it — that has never changed and won't.\n\nWhat it buys our clients isn't cheaper work. It's a bigger team than our headcount, working on their brand at 3am, and a founder who has the time to think instead of chase.\n\nWe'll keep showing how it works. That's the point.",
+        "caption_mm": "ZYNTH ရဲ့ အစည်းအဝေးတွေကို မနက် ၅:၃၀ အစီရင်ခံစာနဲ့ အစားထိုးလိုက်ပါပြီ။ ဒါပေမယ့် လူတစ်ယောက်က အားလုံးကို လက်မှတ်ထိုးအတည်ပြုပေးနေဆဲပါ။\n\nAI အေးဂျင့် ၁၂ ခု — သုတေသန၊ ဖန်တီးမှု၊ မီဒီယာ၊ ငွေကြေးနဲ့ လုပ်ငန်းလည်ပတ်မှု။ ညအိပ်ရာမှာ အလုပ်လုပ်ပြီး မနက်စောစော အစီရင်ခံစာ တင်ပေးပါတယ်။ ဘယ်အလုပ်မှ MD ရဲ့ အတည်ပြုချက်မပါဘဲ client ဆီ မရောက်ပါဘူး။\n\nဒါက ဈေးပေါတဲ့အလုပ်မဟုတ်ပါဘူး။ သင့်ဘရန်းအတွက် ည ၃ နာရီမှာတောင် အလုပ်လုပ်နေတဲ့ အဖွဲ့ တစ်ဖွဲ့ ရရှိခြင်းပါ။",
+        "hashtags": [
+          "#ZYNTH",
+          "#TheIntelligenceOfCreativity",
+          "#MyanmarBusiness",
+          "#AgencyLife"
+        ],
+        "cta": "Follow — we publish the method, not just the work.",
+        "needs_design": true,
+        "asset_source": "designed",
+        "boost": false,
+        "design_note": "A statement card that looks like a system diagram without being a diagram. The number 12 should carry the frame. Must be legible as a LinkedIn thumbnail.",
+        "asset_path": "outputs/assets/P01_twelve-agents_1080x1080.png"
+      },
+      {
+        "ref": "P02",
+        "week": 1,
+        "day": "Thu 3 Sep",
+        "platform": "Facebook",
+        "content_type": "carousel",
+        "pillar": "Myanmar Market Truths",
+        "objective": "awareness",
+        "hook": "Thadingyut is six weeks away. If your campaign isn't briefed this week, you're not running a campaign — you're running an announcement.",
+        "caption_en": "Thadingyut is six weeks away. If your campaign isn't briefed this week, you're not running a campaign — you're running an announcement.\n\nHere's the real lead time nobody plans for in Yangon:\n· Concept and approval — 7 days\n· Design and production — 10 days\n· Printing and fabrication — 10–14 days, longer if it's a festival week\n· Media booking — 7 days before first impression\n· Buffer for one round of client changes — 5 days, and there is always one round\n\nThat's five weeks before a single post goes live. Swipe for the working-back calendar you can hand to your team today.\n\nSave this one. You'll need it again for Tazaungdaing.",
+        "caption_mm": "သီတင်းကျွတ်ပွဲတော် ခြောက်ပတ်ပဲ လိုတော့တယ်။ ဒီအပတ်ထဲ campaign brief မထုတ်ရင် campaign မဟုတ်တော့ဘဲ ကြေညာချက်လေးပဲ ဖြစ်သွားပါလိမ့်မယ်။\n\nရန်ကုန်မှာ တကယ်ကြာတဲ့ အချိန်တွေက —\n· concept နဲ့ အတည်ပြုချက် — ၇ ရက်\n· ဒီဇိုင်းနဲ့ ထုတ်လုပ်မှု — ၁၀ ရက်\n· ပုံနှိပ်နဲ့ တည်ဆောက်မှု — ၁၀ မှ ၁၄ ရက်\n· မီဒီယာ ကြိုတင်စာရင်းသွင်း — ၇ ရက်\n· client ပြင်ဆင်ချက် တစ်ကြိမ်အတွက် — ၅ ရက် (တစ်ကြိမ်တော့ အမြဲရှိပါတယ်)\n\npost တစ်ခုမတင်ခင် ၅ ပတ်ကြာပါတယ်။ ပြက္ခဒိန်အပြည့်အစုံကို ဘေးဆက်ကြည့်ပါ။\n\nသိမ်းထားပါ — တန်ဆောင်တိုင်အတွက် ထပ်လိုပါလိမ့်မယ်။",
+        "hashtags": [
+          "#Thadingyut",
+          "#MyanmarMarketing",
+          "#ZYNTH",
+          "#YangonBusiness",
+          "#CampaignPlanning"
+        ],
+        "cta": "Save this, then send it to whoever owns your festival calendar.",
+        "needs_design": true,
+        "asset_source": "designed",
+        "boost": true,
+        "design_note": "Five frames, one per lead-time stage, building into a working-back calendar on the final frame. Numbers must dominate; this gets screenshotted and forwarded.",
+        "asset_path": "outputs/assets/P02-f1_thadingyut-hook_1080x1350.png"
+      },
+      {
+        "ref": "P03",
+        "week": 1,
+        "day": "Fri 4 Sep",
+        "platform": "Instagram",
+        "content_type": "short_video",
+        "pillar": "Proof of Work",
+        "objective": "consideration",
+        "hook": "This is what 16 posts a month actually looks like before anyone sees them.",
+        "caption_en": "This is what 16 posts a month actually looks like before anyone sees them.\n\nStrategy first — pillars, audience, the one thing the month has to achieve. Then the calendar, both languages, written to those pillars. Then the visual system: palette, type, templates. Then a design spec for every asset that needs one.\n\nMost of this is invisible in the feed. It's the reason the feed works.\n\n40 seconds. Sound on.",
+        "caption_mm": "တစ်လကို post ၁၆ ခု — လူတွေမမြင်ခင် တကယ်လုပ်ရတာတွေပါ။\n\nပထမ မဟာဗျူဟာ — content pillar၊ ပရိသတ်၊ ဒီလရဲ့ ရည်ရွယ်ချက်။ ပြီးရင် ပြက္ခဒိန်၊ ဘာသာစကားနှစ်မျိုးနဲ့ စာသားတွေ။ ပြီးရင် အရောင်၊ စာလုံးနဲ့ template တွေပါတဲ့ ဒီဇိုင်းစနစ်။ နောက်ဆုံး ဒီဇိုင်းတိုင်းအတွက် သတ်မှတ်ချက်။\n\nဒါတွေအားလုံးက feed ထဲမှာ မမြင်ရပါဘူး — ဒါပေမယ့် feed အလုပ်ဖြစ်ရတဲ့ အကြောင်းရင်းပါ။",
+        "hashtags": [
+          "#ZYNTH",
+          "#ContentStrategy",
+          "#BehindTheWork",
+          "#MyanmarAgency"
+        ],
+        "cta": "Want the same for your brand? DM 'SEPTEMBER'.",
+        "needs_design": false,
+        "asset_source": "screen recording + desk footage, edited in Resolve",
+        "boost": false,
+        "design_note": "Not a designed asset — screen capture of the actual plan documents plus desk overhead. Burned-in Myanmar subtitles required, gold caption bar, 9:16."
+      },
+      {
+        "ref": "P04",
+        "week": 1,
+        "day": "Sat 5 Sep",
+        "platform": "Facebook",
+        "content_type": "static_post",
+        "pillar": "IGNITE",
+        "objective": "conversion",
+        "hook": "14 November. Yangon. 300 business owners in one room, and we're building it in public.",
+        "caption_en": "14 November. Yangon. 300 business owners in one room, and we're building it in public.\n\nIGNITE Myanmar Business Summit is ZYNTH's own event — our IP, our risk, funded by sponsors who want the room, not the logo placement.\n\nSponsor conversations for the tiers that include stage time close in September. After that there isn't enough runway to produce them properly, and we'd rather say no than deliver a rushed activation with your name on it.\n\nDeck on request. Comment IGNITE or message the page.",
+        "caption_mm": "နိုဝင်ဘာ ၁၄ ရက်။ ရန်ကုန်။ စီးပွားရေးလုပ်ငန်းရှင် ၃၀၀ တစ်နေရာတည်းမှာ။\n\nIGNITE Myanmar Business Summit ဟာ ZYNTH ကိုယ်တိုင် ပိုင်ဆိုင်ပြီး ကိုယ်တိုင် တာဝန်ယူ ကျင်းပတဲ့ ပွဲပါ။ ကမကထပြုသူတွေအတွက် logo နေရာမဟုတ်ဘဲ ပရိသတ်နဲ့ တိုက်ရိုက်တွေ့ဆုံခွင့်ပါ။\n\nစင်မြင့်ပေါ် ပါဝင်ခွင့်ပါတဲ့ အဆင့်တွေအတွက် ဆွေးနွေးမှုတွေ စက်တင်ဘာလကုန်မှာ ပိတ်ပါမယ်။ အချိန်မလုံလောက်ဘဲ အလျင်စလို လုပ်ပေးတာမျိုး မလုပ်ချင်ပါဘူး။\n\nအသေးစိတ်အတွက် IGNITE လို့ comment ပေးပါ။",
+        "hashtags": [
+          "#IGNITEMyanmar",
+          "#IGNITE2026",
+          "#ZYNTH",
+          "#MyanmarBusiness",
+          "#BusinessSummit"
+        ],
+        "cta": "Comment IGNITE for the sponsor deck.",
+        "needs_design": true,
+        "asset_source": "designed",
+        "boost": true,
+        "design_note": "The summit lockup with the date carrying the frame. Dark, editorial, event-grade — this is the asset a sponsor's CFO will see first. No stock crowd photos.",
+        "asset_path": "outputs/assets/P04_ignite-14-november_1080x1350.png"
+      },
+      {
+        "ref": "P05",
+        "week": 2,
+        "day": "Tue 8 Sep",
+        "platform": "LinkedIn",
+        "content_type": "carousel",
+        "pillar": "Proof of Work",
+        "objective": "consideration",
+        "hook": "A fintech client had nine days to launch. Here is the exact plan we ran — including what we cut.",
+        "caption_en": "A fintech client had nine days to launch. Here is the exact plan we ran — including what we cut.\n\nNine days is not enough for a proper campaign. So we didn't pretend it was. We cut the brand film, cut the influencer layer, and put everything into three things that could actually move in nine days: one clear message, a paid structure built for cold audiences, and a landing page that answered the two objections we heard in every sales call.\n\nSwipe for the day-by-day. Frame 6 is the part most people skip — the objection list.\n\nClient name withheld until we have written permission. The numbers are theirs, not ours to publish without it.",
+        "caption_mm": "Fintech client တစ်ဦးမှာ ၉ ရက်ပဲ ရှိခဲ့ပါတယ်။ ကျွန်တော်တို့ တကယ်လုပ်ခဲ့တဲ့ အစီအစဉ်ကို ဖြတ်တောက်ခဲ့တာတွေအပါအဝင် တင်ပြပါမယ်။\n\n၉ ရက်ဟာ campaign တစ်ခုအတွက် မလုံလောက်ပါဘူး။ ဒါကြောင့် brand film နဲ့ influencer အပိုင်းကို ဖြတ်ပြီး ၉ ရက်အတွင်း တကယ်အလုပ်ဖြစ်မယ့် သုံးခုကိုပဲ အာရုံစိုက်ခဲ့ပါတယ် — ရှင်းလင်းတဲ့ message တစ်ခု၊ ပရိသတ်အသစ်အတွက် ကြော်ငြာဖွဲ့စည်းပုံ၊ နဲ့ မေးခွန်းနှစ်ခုကို ဖြေပေးတဲ့ landing page။\n\nနေ့စဉ်အစီအစဉ်ကို ဘေးဆက်ကြည့်ပါ။",
+        "hashtags": [
+          "#CampaignTeardown",
+          "#Fintech",
+          "#ZYNTH",
+          "#MarketingStrategy",
+          "#GoToMarket"
+        ],
+        "cta": "Working to a deadline like this? Send me the date and I'll tell you honestly if it's possible.",
+        "needs_design": true,
+        "asset_source": "designed",
+        "boost": true,
+        "design_note": "Seven frames, day-numbered, with what was cut shown struck through in gold. Frame 6 is the objection list and should feel like the payoff."
+      },
+      {
+        "ref": "P06",
+        "week": 2,
+        "day": "Wed 9 Sep",
+        "platform": "Facebook",
+        "content_type": "short_video",
+        "pillar": "The Intelligence",
+        "objective": "awareness",
+        "hook": "Three numbers we check before we take your money. If they don't work, we say no.",
+        "caption_en": "Three numbers we check before we take your money. If they don't work, we say no.\n\n1. What one customer is worth to you over a year. Not one sale — a year.\n2. What you can afford to pay to get one. If that number is smaller than the platform's cost per lead in your category, no campaign fixes it.\n3. Your margin. A 12% margin business cannot buy growth with paid media. It has to earn it with content and referral first.\n\nWe've turned down work on number 3 more than once. It's cheaper for everyone than six months of blaming the creative.",
+        "caption_mm": "သင့်ဆီက ငွေမယူခင် ကျွန်တော်တို့ စစ်ဆေးတဲ့ ဂဏန်း သုံးလုံး။ မကိုက်ရင် ငြင်းပါတယ်။\n\n၁။ customer တစ်ယောက်ရဲ့ တစ်နှစ်တာ တန်ဖိုး (အရောင်းတစ်ကြိမ်တည်း မဟုတ်ပါ)။\n၂။ customer တစ်ယောက်ရဖို့ သင်ပေးနိုင်တဲ့ ကုန်ကျစရိတ်။ platform ရဲ့ နှုန်းထက် နည်းနေရင် ဘယ် campaign မှ မဖြေရှင်းနိုင်ပါဘူး။\n၃။ သင့်အမြတ်နှုန်း။ ၁၂% အမြတ်နဲ့ လုပ်ငန်းက ကြော်ငြာနဲ့ တိုးတက်မှု မဝယ်နိုင်ပါဘူး။\n\nအမှတ် ၃ ကြောင့် အလုပ်ကို ငြင်းဖူးပါတယ်။ နှစ်ဦးနှစ်ဖက် ပိုသက်သာပါတယ်။",
+        "hashtags": [
+          "#MarketingMath",
+          "#ZYNTH",
+          "#SMEMyanmar",
+          "#BusinessGrowth"
+        ],
+        "cta": "Know your three numbers? Put them in the comments and I'll tell you what I'd do.",
+        "needs_design": false,
+        "asset_source": "MD piece to camera, office, natural light",
+        "boost": false,
+        "design_note": "Not a designed asset — MD to camera, 45s. Numbers appear as gold type-on-screen, one at a time. Myanmar subtitles burned in. Vertical 9:16."
+      },
+      {
+        "ref": "P07",
+        "week": 2,
+        "day": "Thu 10 Sep",
+        "platform": "Facebook",
+        "content_type": "educational",
+        "pillar": "Myanmar Market Truths",
+        "objective": "awareness",
+        "hook": "\"Facebook is where everyone is\" is not a strategy. It's a starting condition.",
+        "caption_en": "\"Facebook is where everyone is\" is not a strategy. It's a starting condition.\n\nEveryone's competitor is on the same platform, buying the same placements, targeting the same city. Being present is table stakes. The decision that actually moves your number is what you do with the 3 seconds you rent.\n\nThree things that change results more than the platform choice:\n· A first line written for one person, not an audience\n· Myanmar text that reads like a person wrote it, not a translation tool\n· A single CTA — the moment there are two, both get ignored\n\nPlatform is the room. The message is whether anyone turns around.",
+        "caption_mm": "\"Facebook မှာ လူတိုင်းရှိတယ်\" ဆိုတာ မဟာဗျူဟာ မဟုတ်ပါဘူး။ အခြေအနေတစ်ခုပါ။\n\nပြိုင်ဘက်တွေလည်း အဲဒီ platform မှာပဲ၊ အဲဒီနေရာတွေကိုပဲ ဝယ်နေကြပါတယ်။ ရှိနေရုံနဲ့ မလုံလောက်ပါဘူး။ အရေးကြီးတာက သင်ရတဲ့ ၃ စက္ကန့်ကို ဘယ်လိုသုံးလဲ ဆိုတာပါ။\n\nplatform ရွေးချယ်မှုထက် ပိုအရေးကြီးတဲ့ သုံးချက် —\n· လူတစ်ယောက်အတွက် ရေးထားတဲ့ ပထမစာကြောင်း\n· ဘာသာပြန်စက်နဲ့ မဟုတ်ဘဲ လူရေးထားသလို မြန်မာစာ\n· CTA တစ်ခုတည်း — နှစ်ခုဖြစ်သွားရင် နှစ်ခုလုံး လျစ်လျူရှုခံရပါတယ်\n\nPlatform က အခန်းပါ။ Message ကတော့ ဘယ်သူလှည့်ကြည့်မလဲ ဆုံးဖြတ်တာပါ။",
+        "hashtags": [
+          "#MyanmarMarketing",
+          "#FacebookMarketing",
+          "#ZYNTH",
+          "#ContentThatWorks"
+        ],
+        "cta": "Post your worst-performing first line in the comments. I'll rewrite three of them today.",
+        "needs_design": true,
+        "asset_source": "designed",
+        "boost": false,
+        "design_note": "Type-led statement card. The quote in the hook should be set as an actual quotation being dismantled — treatment should feel like an edit mark, not decoration.",
+        "asset_path": "outputs/assets/P07_not-a-strategy_1080x1350.png"
+      },
+      {
+        "ref": "P08",
+        "week": 2,
+        "day": "Sat 12 Sep",
+        "platform": "Instagram",
+        "content_type": "short_video",
+        "pillar": "IGNITE",
+        "objective": "consideration",
+        "hook": "We walked the IGNITE venue this week. Here's the room 300 owners will sit in.",
+        "caption_en": "We walked the IGNITE venue this week. Here's the room 300 owners will sit in.\n\nStage on the long wall, not the short one — every seat inside 18 metres. Two breakout zones so the conversations that matter happen off-stage. Sponsor activations on the traffic path between session and coffee, because a booth in a dead corner is a donation, not a placement.\n\nThis is what we mean when we say we design the room before we sell it.\n\n14 November. Deck on request.",
+        "caption_mm": "ဒီအပတ်မှာ IGNITE ကျင်းပမယ့် နေရာကို သွားကြည့်ခဲ့ပါတယ်။ လုပ်ငန်းရှင် ၃၀၀ ထိုင်မယ့် အခန်းပါ။\n\nစင်မြင့်ကို အလျားရှည်တဲ့ နံရံဘက်မှာ ထားပါမယ် — ထိုင်ခုံတိုင်းက ၁၈ မီတာအတွင်း ရှိပါမယ်။ ဆွေးနွေးခန်း နှစ်ခန်း၊ ကမကထပြုသူတွေရဲ့ နေရာကိုတော့ လူသွားလူလာများတဲ့ လမ်းကြောင်းပေါ်မှာ ထားပါမယ်။\n\nနိုဝင်ဘာ ၁၄ ရက်။",
+        "hashtags": [
+          "#IGNITEMyanmar",
+          "#EventDesign",
+          "#ZYNTH",
+          "#Yangon"
+        ],
+        "cta": "Sponsors: DM for the tier deck before the September cut-off.",
+        "needs_design": false,
+        "asset_source": "venue walkthrough footage, phone gimbal",
+        "boost": false,
+        "design_note": "Not a designed asset — walkthrough with gold annotation overlays marking stage, breakouts and sponsor path. Subtitles both languages. 9:16."
+      },
+      {
+        "ref": "P09",
+        "week": 3,
+        "day": "Tue 15 Sep",
+        "platform": "Facebook",
+        "content_type": "testimonial",
+        "pillar": "Proof of Work",
+        "objective": "consideration",
+        "hook": "\"You were the first agency that told us not to spend.\"",
+        "caption_en": "\"You were the first agency that told us not to spend.\"\n\nA client said this to us after we recommended pausing paid media for six weeks and fixing the enquiry response time first. Their team was taking 14 hours to reply to a Facebook message. No amount of ad spend survives a 14-hour reply.\n\nWe lost six weeks of media commission on that call. We kept the client for the year.\n\nQuote shared with permission. Name withheld at their request.",
+        "caption_mm": "\"မသုံးပါနဲ့လို့ ပြောတဲ့ ပထမဆုံး အေဂျင်စီပါ။\"\n\nကြော်ငြာအသုံးစရိတ်ကို ခြောက်ပတ် ရပ်ထားပြီး message ပြန်ဖြေတဲ့ အချိန်ကို အရင်ပြင်ဖို့ အကြံပေးပြီးနောက် client တစ်ဦးက ပြောခဲ့တာပါ။ သူတို့အဖွဲ့က Facebook message တစ်ခုကို ၁၄ နာရီကြာမှ ပြန်ဖြေနေခဲ့တာပါ။\n\nကျွန်တော်တို့ ခြောက်ပတ်စာ ကော်မရှင် ဆုံးရှုံးခဲ့ပေမယ့် client ကို တစ်နှစ်လုံး ဆက်ရခဲ့ပါတယ်။",
+        "hashtags": [
+          "#ClientWork",
+          "#ZYNTH",
+          "#MarketingAdvice",
+          "#MyanmarSME"
+        ],
+        "cta": "How fast does your team reply? Check it today — it's free to fix.",
+        "needs_design": true,
+        "asset_source": "designed",
+        "boost": false,
+        "design_note": "Quote card. The quote is the whole design — set large, gold rule, no photo. The 14-hour number appears as a small counterpoint mark."
+      },
+      {
+        "ref": "P10",
+        "week": 3,
+        "day": "Wed 16 Sep",
+        "platform": "LinkedIn",
+        "content_type": "carousel",
+        "pillar": "The Intelligence",
+        "objective": "consideration",
+        "hook": "How we price a campaign — including our margin. Yes, the actual number.",
+        "caption_en": "How we price a campaign — including our margin. Yes, the actual number.\n\nEvery quote we issue is built the same way: production at real supplier cost, a 10% contingency line that is never quietly spent, a management fee, and a 35% margin floor below which we don't take the job. Not because we're greedy — because an agency working under 35% starts cutting the parts of the work the client can't see.\n\nEverything converts at market FX, sell side. Never the official rate. If a quote uses the official rate, someone is absorbing a loss and it will show up in your delivery.\n\nSwipe for the structure. Copy it — we'd rather the whole market quoted properly.",
+        "caption_mm": "campaign တစ်ခုကို ဘယ်လို ဈေးသတ်မှတ်လဲ — အမြတ်နှုန်းအပါအဝင် ပြပါမယ်။\n\nကုန်ကျစရိတ် အစစ်၊ ၁၀% အရန်ငွေ၊ စီမံခန့်ခွဲမှုကြေး၊ နဲ့ ၃၅% အမြတ်နှုန်း အနည်းဆုံးအဆင့် — ဒီအောက်ဆိုရင် အလုပ်မယူပါဘူး။ ၃၅% အောက်နဲ့ လုပ်ရင် client မမြင်ရတဲ့ အပိုင်းတွေကို ဖြတ်တောက်ရတတ်လို့ပါ။\n\nငွေလဲနှုန်းကို ဈေးကွက်နှုန်းနဲ့ တွက်ပါတယ်။ တရားဝင်နှုန်းနဲ့ တွက်ထားတဲ့ စျေးနှုန်းဆိုရင် တစ်ယောက်ယောက် အရှုံးခံနေတာပါ — နောက်ဆုံး delivery မှာ ပေါ်လာပါလိမ့်မယ်။",
+        "hashtags": [
+          "#AgencyPricing",
+          "#ZYNTH",
+          "#Transparency",
+          "#MarketingBudget"
+        ],
+        "cta": "Got a quote you can't read? Send it over — I'll show you what's missing.",
+        "needs_design": true,
+        "asset_source": "designed",
+        "boost": false,
+        "design_note": "Five frames building a quote line by line, ending on the margin floor. Should read like a financial document with brand discipline — numbers right-aligned, one gold total.",
+        "asset_path": "outputs/assets/P10-f5_margin-floor_1080x1350.png"
+      },
+      {
+        "ref": "P11",
+        "week": 3,
+        "day": "Thu 17 Sep",
+        "platform": "LinkedIn",
+        "content_type": "educational",
+        "pillar": "IGNITE",
+        "objective": "conversion",
+        "hook": "What an IGNITE sponsor actually gets — written as a list of outcomes, not a list of logos.",
+        "caption_en": "What an IGNITE sponsor actually gets — written as a list of outcomes, not a list of logos.\n\nMost sponsorship decks sell placement: logo here, banner there, a mention from the stage. Placement is not an outcome. Here's how we've built the tiers instead:\n\n· Named introductions to a defined number of attending decision-makers — arranged, not hoped for\n· Stage time that carries your subject-matter expert, not your marketing copy\n· Content rights to everything we film at your activation, delivered edited within 10 days\n· A post-event report with attendance, engagement and lead handover — the same report we'd hold ourselves to\n\n14 November, Yangon. Tiers with stage time close at the end of September.",
+        "caption_mm": "IGNITE ကမကထပြုသူတွေ တကယ်ရမယ့်အရာတွေကို logo စာရင်းမဟုတ်ဘဲ ရလဒ်စာရင်းအနေနဲ့ ရေးထားပါတယ်။\n\n· တက်ရောက်လာမယ့် ဆုံးဖြတ်ချက်ချသူတွေနဲ့ တိုက်ရိုက် မိတ်ဆက်ပေးခြင်း\n· စင်မြင့်ပေါ်မှာ သင့်ကျွမ်းကျင်သူ ပါဝင်ခွင့်\n· သင့်နေရာမှာ ရိုက်ကူးထားတဲ့ ဗီဒီယိုအားလုံးကို ၁၀ ရက်အတွင်း တည်းဖြတ်ပြီး ပေးအပ်ခြင်း\n· ပွဲအပြီး အစီရင်ခံစာ — တက်ရောက်မှု၊ ပါဝင်မှုနဲ့ lead လွှဲပြောင်းမှု အပြည့်အစုံ\n\nနိုဝင်ဘာ ၁၄ ရက်၊ ရန်ကုန်။ စင်မြင့်ပါဝင်ခွင့်ပါတဲ့ အဆင့်တွေ စက်တင်ဘာကုန် ပိတ်ပါမယ်။",
+        "hashtags": [
+          "#IGNITEMyanmar",
+          "#Sponsorship",
+          "#ZYNTH",
+          "#B2BMarketing",
+          "#EventMarketing"
+        ],
+        "cta": "Request the tier deck — comment or DM before 30 September.",
+        "needs_design": true,
+        "asset_source": "designed",
+        "boost": true,
+        "design_note": "Outcome list rendered as a tier comparison the reader can scan in 5 seconds. Must survive being forwarded to a CFO as a screenshot."
+      },
+      {
+        "ref": "P12",
+        "week": 3,
+        "day": "Sat 19 Sep",
+        "platform": "Instagram",
+        "content_type": "short_video",
+        "pillar": "Proof of Work",
+        "objective": "consideration",
+        "hook": "Same brand. Same budget. Six weeks apart. The only thing we changed was the first line.",
+        "caption_en": "Same brand. Same budget. Six weeks apart. The only thing we changed was the first line.\n\nBefore: a caption that opened with the company's name and a product feature.\nAfter: a caption that opened with the customer's problem in their own words.\n\nEverything else — the image, the spend, the audience, the posting time — stayed identical, because otherwise you learn nothing.\n\nThe hook is not decoration. It's the whole transaction.",
+        "caption_mm": "ဘရန်းတူတူ။ ဘတ်ဂျက်တူတူ။ ခြောက်ပတ်ခြား။ ပြောင်းလိုက်တာက ပထမစာကြောင်းတစ်ကြောင်းပဲ။\n\nအရင်က — ကုမ္ပဏီနာမည်နဲ့ ကုန်ပစ္စည်း အင်္ဂါရပ်နဲ့ စခဲ့တယ်။\nအခုက — customer ရဲ့ ပြဿနာကို သူတို့စကားလုံးနဲ့ စလိုက်တယ်။\n\nကျန်တာအားလုံး — ပုံ၊ ငွေ၊ ပရိသတ်၊ တင်တဲ့အချိန် — အတူတူပါပဲ။ မဟုတ်ရင် ဘာမှ မသင်ယူရပါဘူး။",
+        "hashtags": [
+          "#BeforeAndAfter",
+          "#CopyThatWorks",
+          "#ZYNTH",
+          "#SocialMediaTips"
+        ],
+        "cta": "Send me your first line. I'll rewrite it in the comments.",
+        "needs_design": false,
+        "asset_source": "screen recording of both posts + analytics, edited",
+        "boost": false,
+        "design_note": "Not a designed asset — split-screen before/after with the changed line highlighted in gold. No fabricated analytics: show only real screens or blur the figures."
+      },
+      {
+        "ref": "P13",
+        "week": 4,
+        "day": "Tue 22 Sep",
+        "platform": "Facebook",
+        "content_type": "static_post",
+        "pillar": "Myanmar Market Truths",
+        "objective": "awareness",
+        "hook": "If your marketing budget is written at the official exchange rate, your budget is fiction.",
+        "caption_en": "If your marketing budget is written at the official exchange rate, your budget is fiction.\n\nEvery supplier you'll actually pay — printers, production crews, LED vendors, imported materials — prices against the market rate. Budget at the official rate and the gap shows up halfway through the campaign, usually as a quality cut nobody admits to.\n\nTwo habits that fix it:\n· Write every budget line at the market rate, sell side, and date the rate you used\n· Carry a 10% contingency that is a line item, not a hope\n\nIt doesn't make the campaign cheaper. It makes the number true.",
+        "caption_mm": "သင့် marketing ဘတ်ဂျက်ကို တရားဝင် ငွေလဲနှုန်းနဲ့ ရေးထားရင် အဲဒီဘတ်ဂျက်က အမှန်မဟုတ်ပါဘူး။\n\nသင်တကယ်ငွေချေရမယ့် ပုံနှိပ်တိုက်၊ ရိုက်ကူးရေးအဖွဲ့၊ LED ငှားရမ်းသူ၊ တင်သွင်းပစ္စည်းတွေ အားလုံးက ဈေးကွက်နှုန်းနဲ့ ဈေးပေးပါတယ်။ ကွာဟချက်က campaign တစ်ဝက်ရောက်မှ ပေါ်လာပြီး အရည်အသွေး လျှော့ချရတတ်ပါတယ်။\n\n· ဘတ်ဂျက်တိုင်းကို ဈေးကွက်နှုန်းနဲ့ ရေးပါ၊ သုံးထားတဲ့နှုန်းရဲ့ ရက်စွဲကို မှတ်ထားပါ\n· ၁၀% အရန်ငွေကို စာရင်းတစ်ကြောင်းအနေနဲ့ ထည့်ထားပါ\n\nဈေးမပေါသွားပါဘူး — ဒါပေမယ့် ဂဏန်းက မှန်သွားပါလိမ့်မယ်။",
+        "hashtags": [
+          "#MarketingBudget",
+          "#MyanmarBusiness",
+          "#ZYNTH",
+          "#Planning"
+        ],
+        "cta": "Building your Q4 budget now? Ask me what rate to use before you sign anything.",
+        "needs_design": true,
+        "asset_source": "designed",
+        "boost": false,
+        "design_note": "A single-number statement card — the gap between two rates shown as a visual interval. No currency symbols as decoration; this must read as sober financial advice, not a promo."
+      },
+      {
+        "ref": "P14",
+        "week": 4,
+        "day": "Wed 23 Sep",
+        "platform": "LinkedIn",
+        "content_type": "static_post",
+        "pillar": "The Intelligence",
+        "objective": "awareness",
+        "hook": "The hardest part of running an AI workforce isn't the AI. It's deciding what a human must still own.",
+        "caption_en": "The hardest part of running an AI workforce isn't the AI. It's deciding what a human must still own.\n\nOurs owns four things, permanently:\n· Any number that reaches a client — if we can't verify it, it ships tagged unverified or it doesn't ship\n· Anything that leaves the building — every email, every proposal, approved by a person\n· Saying no to work we shouldn't take\n· The relationship. Nobody wants a quarterly review with a workflow.\n\nEverything else — research, drafting, structuring, costing, calendars — the agents do faster and more consistently than we did manually. Pretending otherwise would be its own kind of dishonesty.",
+        "caption_mm": "AI အလုပ်သမားအဖွဲ့ကို လည်ပတ်ရာမှာ အခက်ဆုံးက AI မဟုတ်ပါဘူး။ လူသားက ဘာကို ဆက်လက် တာဝန်ယူရမလဲ ဆုံးဖြတ်တာပါ။\n\nကျွန်တော်တို့မှာ လေးခုပါ —\n· client ဆီရောက်တဲ့ ဂဏန်းတိုင်း — အတည်မပြုနိုင်ရင် အတည်မပြုရသေးဟု ဖော်ပြရပါတယ်\n· အပြင်ထွက်တဲ့ အရာတိုင်း — email၊ proposal အားလုံး လူက အတည်ပြုရပါတယ်\n· မယူသင့်တဲ့ အလုပ်ကို ငြင်းခြင်း\n· ဆက်ဆံရေး — ဘယ်သူမှ workflow နဲ့ အစည်းအဝေး မလုပ်ချင်ပါဘူး\n\nကျန်တာတွေကိုတော့ အေးဂျင့်တွေက ပိုမြန်ပြီး ပိုတည်ငြိမ်စွာ လုပ်ပေးနိုင်ပါတယ်။",
+        "hashtags": [
+          "#AIAgents",
+          "#ZYNTH",
+          "#FutureOfWork",
+          "#AgencyOperations"
+        ],
+        "cta": "If you're automating part of your business, what did you keep human? Genuinely asking.",
+        "needs_design": true,
+        "asset_source": "designed",
+        "boost": false,
+        "design_note": "Four-item list card with strong hierarchy — the four human-owned items are the design. Restraint is the point; this is a credibility post, not a poster.",
+        "asset_path": "outputs/assets/P14_four-things_1080x1080.png"
+      },
+      {
+        "ref": "P15",
+        "week": 4,
+        "day": "Fri 25 Sep",
+        "platform": "Instagram",
+        "content_type": "short_video",
+        "pillar": "IGNITE",
+        "objective": "conversion",
+        "hook": "50 days to IGNITE. Here's what's locked and what's still open.",
+        "caption_en": "50 days to IGNITE. Here's what's locked and what's still open.\n\nLocked: date, venue, format, the first speakers, the production partner.\nOpen: two sponsor tiers with stage time, and three seats on the closing panel.\n\nWe're publishing the build as it happens — including the parts that slip. If you've ever wondered what running a 300-person summit actually costs and takes, this is the month to watch.\n\n14 November, Yangon.",
+        "caption_mm": "IGNITE အထိ ၅၀ ရက်။ အတည်ဖြစ်ပြီးသားနဲ့ ကျန်နေသေးတာတွေ ပြောပြပါမယ်။\n\nအတည်ဖြစ်ပြီး — ရက်စွဲ၊ နေရာ၊ ပုံစံ၊ ပထမဆုံး ဟောပြောသူများ၊ ထုတ်လုပ်ရေးလုပ်ဖော်ကိုင်ဖက်။\nကျန်နေသေး — စင်မြင့်ပါဝင်ခွင့်ပါတဲ့ ကမကထ အဆင့်နှစ်ခုနဲ့ နိဂုံးဆွေးနွေးပွဲ နေရာသုံးခု။\n\nပွဲတည်ဆောက်မှုကို အချိန်နဲ့တပြေးညီ တင်ပြသွားပါမယ် — အဆင်မပြေတာတွေပါ ထည့်ပြပါမယ်။\n\nနိုဝင်ဘာ ၁၄ ရက်၊ ရန်ကုန်။",
+        "hashtags": [
+          "#IGNITEMyanmar",
+          "#50Days",
+          "#ZYNTH",
+          "#BuildInPublic"
+        ],
+        "cta": "Two tiers left with stage time — DM before 30 September.",
+        "needs_design": false,
+        "asset_source": "production b-roll + countdown motion graphic",
+        "boost": false,
+        "design_note": "Not a designed asset — countdown motion over build footage. The 50 animates on beat. Locked/open list as gold ticks and outlines. 9:16, subtitles both languages."
+      },
+      {
+        "ref": "P16",
+        "week": 4,
+        "day": "Sat 26 Sep",
+        "platform": "Facebook",
+        "content_type": "promo_offer",
+        "pillar": "Proof of Work",
+        "objective": "conversion",
+        "hook": "Sixteen posts, one strategy, both languages — October onboarding closes 30 September.",
+        "caption_en": "Sixteen posts, one strategy, both languages — October onboarding closes 30 September.\n\nWhat a month looks like:\n· A brand and channel strategy you keep, whether you stay with us or not\n· 16 posts across Facebook, Instagram and LinkedIn — 11 with original design, 5 short videos\n· Captions written in English and Myanmar, not translated between them\n· 10 story sets, 5 posts flagged for paid amplification, monthly reporting\n\nMMK 3.8–5.4M per month depending on scope. 50% to start. We onboard three brands a month because that's what we can do properly.\n\nIf your month needs 8 posts instead of 16, say so — we'd rather sell you the right size.",
+        "caption_mm": "post ၁၆ ခု၊ မဟာဗျူဟာတစ်ခု၊ ဘာသာစကားနှစ်မျိုး — အောက်တိုဘာအတွက် လက်ခံမှု စက်တင်ဘာ ၃၀ ပိတ်ပါမယ်။\n\nတစ်လအတွင်း ရရှိမှာက —\n· ဘရန်းနဲ့ channel မဟာဗျူဟာ (ဆက်မလုပ်တောင် သင့်လက်ထဲ ကျန်ပါမယ်)\n· Facebook, Instagram, LinkedIn အတွက် post ၁၆ ခု — ၁၁ ခုမှာ ဒီဇိုင်းအသစ်၊ ၅ ခုက ဗီဒီယို\n· အင်္ဂလိပ်နဲ့ မြန်မာ စာသား (ဘာသာပြန်မဟုတ်ပါ)\n· story set ၁၀ ခု၊ ကြော်ငြာမြှင့်တင်ရန် post ၅ ခု၊ လစဉ်အစီရင်ခံစာ\n\nတစ်လ MMK ၃၈ သိန်း မှ ၅၄ သိန်း။ ၅၀% ကြိုတင်ငွေ။ တစ်လကို ဘရန်း သုံးခုပဲ လက်ခံပါတယ်။\n\n၁၆ ခု မလိုဘဲ ၈ ခုပဲ လိုရင် ပြောပါ — မှန်ကန်တဲ့ အရွယ်အစားကိုပဲ ရောင်းချင်ပါတယ်။",
+        "hashtags": [
+          "#ZYNTH",
+          "#ContentRetainer",
+          "#MyanmarBusiness",
+          "#SocialMediaMarketing"
+        ],
+        "cta": "Message the page with your industry and monthly budget — I'll tell you which size fits.",
+        "needs_design": true,
+        "asset_source": "designed",
+        "boost": true,
+        "design_note": "The offer card. Package numbers do the work — 16, 11, 5, 10. Must not look like a discount flyer; it should look like a page from a proposal.",
+        "asset_path": "outputs/assets/P16_september-offer_1080x1350.png"
+      }
+    ],
+    "story_plan": [
+      "Week 1 · Set 1 — Monday plan-in-public: the September calendar on screen, what we're testing this month",
+      "Week 1 · Set 2 — Thadingyut lead-time countdown, one frame per stage, repost the P02 carousel",
+      "Week 2 · Set 3 — Desk-level craft: a caption being rewritten in Myanmar, before and after",
+      "Week 2 · Set 4 — IGNITE venue walk stills with the stage plan drawn over them, poll: which zone matters most to you",
+      "Week 3 · Set 5 — Quote card from P09 with a question sticker: how fast does your team reply?",
+      "Week 3 · Set 6 — Pricing carousel teaser, ask-me-anything sticker on agency quotes",
+      "Week 3 · Set 7 — Behind the design system: palette and template frames animating in",
+      "Week 4 · Set 8 — FX and budget: a real quote line being rewritten at market rate (figures blurred)",
+      "Week 4 · Set 9 — 50-day IGNITE countdown, locked vs open list, swipe-up to the deck request",
+      "Week 4 · Set 10 — Month in review: what performed, what flopped, what we're changing in October"
+    ],
+    "series_ideas": [
+      "Show the Working — one published framework a month, the kind other agencies charge for",
+      "Nine Days — deadline teardowns, what we cut and why, repeatable with any client story",
+      "The Rewrite — send us your worst first line, we rewrite it publicly (highest-engagement format we have)",
+      "Building IGNITE in Public — monthly build note including the slips, retired after November",
+      "Rates, Published — one real Yangon production cost per month, sourced and dated"
+    ],
+    "community_prompts": [
+      "Price questions get a real range in public — never 'DM us for pricing'. The range is the trust.",
+      "When someone posts their first line under P07 or P12, rewrite three of them the same day, in their language.",
+      "Sponsor enquiries: reply within 2 hours in September, with the deck attached and one specific reason their brand fits the room.",
+      "If someone challenges the 35% margin post, engage properly and publicly — that argument is the best advertising we have.",
+      "Never argue with criticism of a client's product. Take it to DM and tell the client the same day."
+    ],
+    "open_questions": [
+      "P05 and P09 are anonymised pending written client permission — confirm before 8 Sep or we swap in the ZYNTH-owned IGNITE build story.",
+      "P12 needs real before/after analytics screens; if figures can't be shown, blur them rather than recreate them.",
+      "Myanmar captions are written for a Yangon business reader — worth one native read-through before scheduling week 1."
+    ]
+  },
+  "design_system": {
+    "art_direction": "Editorial, not promotional. Every asset should look like a page torn from a well-set business document rather than a social graphic — deep navy fields, generous margins, one gold accent doing one job per frame. The work is confident enough to be quiet: no gradients, no glow, no stock imagery of people pointing at laptops. Where photography appears it is real work, real rooms, real Yangon light. The system's job is to make a small agency look like the most rigorous one in the room, at thumbnail size, on a mid-range Android in daylight.",
+    "mood_keywords": [
+      "Editorial",
+      "Precise",
+      "Quietly premium",
+      "Documentary",
+      "Uncluttered",
+      "Institutional"
+    ],
+    "palette": [
+      {
+        "name": "ZYNTH Navy",
+        "hex": "#12203A",
+        "use": "Primary field for 70% of assets. Backgrounds and full-bleed panels. Never as body text on gold."
+      },
+      {
+        "name": "ZYNTH Gold",
+        "hex": "#B88A2A",
+        "use": "Accent only — one element per frame: a rule, a number, a CTA chip, or a highlighted word. Never a background, never two gold elements competing in one frame."
+      },
+      {
+        "name": "Off-White",
+        "hex": "#F5F3EF",
+        "use": "Primary text on navy; also the alternate light field for teaching/carousel frames where reading length is high."
+      },
+      {
+        "name": "Charcoal",
+        "hex": "#2B2B2B",
+        "use": "Body text on off-white fields, and secondary UI marks. Not for headlines — headlines are navy or off-white."
+      },
+      {
+        "name": "Slate",
+        "hex": "#5A6B85",
+        "use": "Captions, metadata, dates, source lines, disclaimers such as 'indicative — RFQ'. Never for anything that must be read at thumbnail size."
+      }
+    ],
+    "typography": {
+      "headline": "A confident geometric sans (Inter Tight / Söhne class), 600–700 weight. Feed headline 44–72pt at 1080px canvas. Sentence case, never all-caps except the IGNITE wordmark. Maximum 9 words — if it needs 10, the copy is wrong, not the layout.",
+      "body": "Same family, 400 weight, 24–30pt at 1080px, line-height 1.45, measure capped at 34 characters on square formats. Left-aligned always; centred body text is banned in this system.",
+      "myanmar": "Pyidaungsu (or Noto Sans Myanmar) — never a Latin face with Myanmar glyphs faked in. Line-height 1.9 minimum to clear stacked diacritics, and 15% larger optical size than the Latin equivalent to match perceived weight. Myanmar and English never share a line; they stack, with a 24px gold rule between them. Never letter-space Myanmar text.",
+      "hierarchy_rules": "One idea per frame, three levels maximum: headline, one supporting line, one CTA chip. Numbers are typographic events — when a frame has a number worth reading (12, 16, 35%, 50 days), it is set 2–3× the headline size and everything else recedes."
+    },
+    "templates": [
+      {
+        "name": "Statement",
+        "use_for": "static_post, testimonial — one idea, maximum impact",
+        "layout": "Full-bleed navy. Headline set in the upper two-thirds, left-aligned, 96px margins. Gold rule (4px, 120px wide) sits above the headline as an entry mark. Logo bottom-left at 48px, CTA chip bottom-right. Bottom 220px kept clear of critical elements for feed UI overlap.",
+        "dimensions": "1080×1350 (4:5) for feed; 1080×1080 square variant for LinkedIn"
+      },
+      {
+        "name": "Teach",
+        "use_for": "carousel, educational — sequential reasoning that must be read",
+        "layout": "Off-white field, charcoal body, navy headline. 12-column grid, content in columns 2–11. Frame number top-right in slate. Gold rule under the frame headline. Final frame flips to navy for the takeaway plus CTA — the colour flip IS the ending.",
+        "dimensions": "1080×1350 (4:5), 5–7 frames"
+      },
+      {
+        "name": "Ledger",
+        "use_for": "pricing, budget, FX and any frame carrying figures",
+        "layout": "Off-white field with a fine slate rule between every line item, figures right-aligned in a fixed 320px column, one gold total row. Reads as a document, not a graphic. No icons anywhere in this template.",
+        "dimensions": "1080×1350 (4:5)"
+      },
+      {
+        "name": "Summit",
+        "use_for": "all IGNITE assets — event-grade, sponsor-facing",
+        "layout": "Near-black navy (#0D1729 tint of the primary) with the IGNITE wordmark locked top-left and the date as the dominant typographic element. Optional duotone photography at 35% opacity behind, navy/gold duotone only. Tier or outcome lists set in two columns with gold ticks.",
+        "dimensions": "1080×1350 feed, 1920×1080 for deck reuse"
+      },
+      {
+        "name": "Proof",
+        "use_for": "before/after, results and metric callouts",
+        "layout": "Split field — 40% navy metric block left, 60% off-white context right (stacked vertically on portrait). The metric is the largest element on the canvas. Any unverified or withheld figure carries a slate 'indicative' or 'withheld by client' mark; figures are never invented to fill the block.",
+        "dimensions": "1080×1350 (4:5)"
+      }
+    ],
+    "layout_rules": [
+      "One gold element per frame. If a second wants to exist, the first one wasn't doing its job.",
+      "Headline maximum 9 words, and it must be legible when the asset is 120px wide — check every frame at that size before it ships.",
+      "Bottom 220px of any 4:5 asset stays clear of critical content (feed UI, caption fold).",
+      "Myanmar text never shares a line with English; it stacks below, separated by a 24px gold rule, at 1.9 line-height.",
+      "No icons in Ledger or Statement templates. Icons are permitted only in Teach, at 32px, single-weight, and never more than three per frame.",
+      "No drop shadows, no gradients, no glass effects, no glow. Depth comes from the field change, not from an effect.",
+      "Photography is real or it is absent. Generated imagery may only ever be an abstract background or texture — never a person, product, premises or result presented as real."
+    ],
+    "photography_direction": "Documentary, available light, slightly underexposed to keep navy shadows rich. Real desks, real Yangon rooms, real crew at work — the camera is an observer, never a director. Hands and screens over faces where a face isn't necessary. Colour graded cool in the shadows so it sits with the navy field; skin tones stay natural, never teal. No smiling stock, no handshakes, no laptops on cafe tables with nothing on the screen.",
+    "graphic_devices": [
+      "The gold entry rule — 4px × 120px, sits above every headline, the system's signature mark",
+      "The number as hero — figures set 2–3× headline size, the only permitted 'loud' element",
+      "The strike-through in gold — used exclusively to show what was cut or corrected (P05, P07)",
+      "The interval bracket — two rules with a gap, used to show a gap between two values (P13 FX)",
+      "The colour flip — carousel takeaway frames invert from off-white to navy, marking the ending"
+    ],
+    "accessibility": "Off-white #F5F3EF on navy #12203A = 13.1:1, and charcoal #2B2B2B on off-white = 13.6:1 — both far clear of WCAG AA. Gold #B88A2A on navy is 4.9:1: acceptable for headlines and large numbers, never for body text or anything below 24pt. Minimum on-asset text size 24pt at 1080px canvas. Every video carries burned-in subtitles in both languages (sound-off is the default), minimum 32pt with a 60%-opacity navy scrim behind. Every published asset also needs alt text — written by whoever schedules it, in the caption's primary language.",
+    "asset_checklist": [
+      "ZYNTH logo in SVG plus a light-background variant — the current PNG is being scaled and it shows",
+      "Licensed weights of the headline family for both web and print, or a confirmed open-source substitute",
+      "Pyidaungsu / Noto Sans Myanmar installed on every machine that touches an asset",
+      "A real photography set from the office and one client shoot — 20+ usable frames so the system stops depending on type alone",
+      "The IGNITE wordmark lockup with clear-space rules, and venue photography cleared for commercial use",
+      "Written permission for any client name, quote or figure published in P05, P09 and P12"
+    ],
+    "open_questions": [
+      "Headline typeface is specified by class, not by licence — confirm which family ZYNTH owns before week 1 production.",
+      "Is there an approved dark-mode variant of the logo? Assets currently assume gold-on-navy throughout.",
+      "Video subtitle style should be locked once and reused; currently specified per post, which will drift."
+    ]
+  },
+  "designs": {
+    "hero_asset_ref": "P02",
+    "estimated_design_hours": "26–30 hours for the month (11 designed assets + 10 story sets), roughly 60% of it in the two carousels and the IGNITE tier card",
+    "production_order": [
+      "1. Build the five templates as master files first (Statement, Teach, Ledger, Summit, Proof) — nothing else starts until these are approved",
+      "2. Batch all Statement assets together: P01, P04 (Summit variant), P13, P14",
+      "3. Batch both Teach carousels: P02, P05, P10 — same grid, same frame furniture",
+      "4. Summit batch: P04, P11 — shared duotone treatment and wordmark lockup",
+      "5. Proof and quote: P09, P07",
+      "6. Ledger: P16 offer card, reusing the P10 figure column",
+      "7. Story sets last — they are crops and reframes of the above, not new artwork"
+    ],
+    "design_specs": [
+      {
+        "ref": "P01",
+        "format": "square 1080×1080 (LinkedIn)",
+        "template": "Statement",
+        "composition": "Navy full-bleed. The numeral 12 set at 320pt in off-white occupies the left third, bleeding slightly off the left margin. Headline stacked right of it in three lines, 44pt. Twelve fine gold tick marks run vertically down the right margin — one per agent — reading as a system without becoming a diagram. Logo bottom-left, no CTA chip.",
+        "on_asset_text": {
+          "headline": "Twelve agents. One human signs.",
+          "subline": "The brief is on the desk at 5:30am.",
+          "myanmar": "အေးဂျင့် ၁၂ ခု။ လူတစ်ယောက်က အတည်ပြုသည်။",
+          "cta_chip": ""
+        },
+        "colour_use": "Navy #12203A field, off-white #F5F3EF type, gold #B88A2A tick marks only — the single accent.",
+        "imagery": "None. Typographic asset.",
+        "frames": [],
+        "motion_note": "",
+        "render_prompt": "Abstract editorial background texture: deep navy #12203A field with a barely-visible grid of fine horizontal rules, subtle paper grain, slight vignette in the corners, even flat lighting, no objects, no people, no text, no logos, minimal institutional design language, square 1:1 composition with generous empty space in the centre-left.",
+        "production_note": "Numeral and tick marks are typeset in Figma over the rendered field. Check the 12 holds at 120px preview."
+      },
+      {
+        "ref": "P02",
+        "format": "carousel 1080×1350 (4:5), 5 frames",
+        "template": "Teach",
+        "composition": "Off-white frames with navy headlines; each frame carries one lead-time stage with its day count set as the hero number, right-aligned against a gold rule. Frame 5 flips to navy and resolves into the working-back calendar as a simple 5-row table.",
+        "on_asset_text": {
+          "headline": "Six weeks out. Here's the real calendar.",
+          "subline": "Thadingyut lead times, Yangon, 2026",
+          "myanmar": "သီတင်းကျွတ်အတွက် တကယ့်အချိန်ဇယား",
+          "cta_chip": "Save this"
+        },
+        "colour_use": "Off-white #F5F3EF frames 1–4, charcoal #2B2B2B body, navy #12203A headlines and final frame. Gold rule under each stage number.",
+        "imagery": "None — numbers and rules carry it.",
+        "frames": [
+          "Frame 1 — Hook: 'Thadingyut is six weeks away.' Sub: 'Your campaign is already late.' Gold entry rule.",
+          "Frame 2 — 7 DAYS · Concept and approval. One line on why approval always takes longer than the brief says.",
+          "Frame 3 — 10 DAYS · Design and production. Note: bilingual copy adds a day, plan for it.",
+          "Frame 4 — 10–14 DAYS · Print and fabrication, longer in festival weeks. Tagged 'indicative — confirm by RFQ'.",
+          "Frame 5 — Navy flip: the working-back calendar, five rows, dated from 15 October. CTA chip: Save this."
+        ],
+        "motion_note": "",
+        "render_prompt": "Clean off-white #F5F3EF paper background texture, subtle fibre grain, very soft even studio lighting from above, faint navy hairline grid barely visible, completely empty, no text, no objects, no people, editorial print design aesthetic, vertical 4:5 composition.",
+        "production_note": "Day counts must be verified against ZYNTH's actual supplier lead times before publishing — tag anything unconfirmed."
+      },
+      {
+        "ref": "P04",
+        "format": "portrait 1080×1350 (4:5)",
+        "template": "Summit",
+        "composition": "Near-black navy field. IGNITE wordmark locked top-left at 64px. '14 NOVEMBER' set as the dominant element across the middle third in off-white, with '2026 · YANGON' in gold beneath at a quarter of the size. Duotone venue photography at 35% opacity fills the lower half, cropped so the horizon sits on the lower third line. CTA chip bottom-right.",
+        "on_asset_text": {
+          "headline": "14 November 2026",
+          "subline": "IGNITE Myanmar Business Summit · Yangon · 300 seats",
+          "myanmar": "နိုဝင်ဘာ ၁၄ · ရန်ကုန်",
+          "cta_chip": "Comment IGNITE"
+        },
+        "colour_use": "Deep navy #0D1729 field, off-white date, gold #B88A2A for year/city line and CTA chip. Photography duotoned navy-to-gold, no third colour.",
+        "imagery": "Real venue or Yangon skyline photography, duotoned. If cleared venue photography isn't available, use the rendered abstract field and hold the type alone.",
+        "frames": [],
+        "motion_note": "",
+        "render_prompt": "Abstract architectural background: dark navy #0D1729 interior space, wide empty auditorium suggested only through soft light falloff and a faint horizontal light line, heavy negative space in the upper two-thirds, cinematic low-key lighting, warm gold rim light along one edge, no people, no seats in focus, no text, no logos, vertical 4:5 composition, editorial event photography mood.",
+        "production_note": "Sponsor-facing asset — the date must be the first thing read at thumbnail size. Do not add sponsor logos to this version."
+      },
+      {
+        "ref": "P05",
+        "format": "carousel 1080×1350 (4:5), 7 frames",
+        "template": "Teach",
+        "composition": "Day-numbered frames, off-white, with cut items struck through in gold. Frame 6 (the objection list) flips to navy early — breaking the pattern deliberately to mark it as the payoff — and frame 7 returns to off-white for the CTA.",
+        "on_asset_text": {
+          "headline": "Nine days to launch. What we cut.",
+          "subline": "A fintech teardown, day by day",
+          "myanmar": "၉ ရက်အတွင်း ဖြတ်တောက်ခဲ့တာများ",
+          "cta_chip": "Send me your deadline"
+        },
+        "colour_use": "Off-white field, charcoal body, navy day numbers. Gold strictly for the strike-throughs and frame 6's accent.",
+        "imagery": "None.",
+        "frames": [
+          "Frame 1 — Hook: 'Nine days to launch.' Sub: 'Here's the plan, including what we cut.'",
+          "Frame 2 — DAY 1–2 · Message. One message, tested against two objections.",
+          "Frame 3 — CUT · Brand film, struck through in gold. One line: 'Nine days doesn't buy a film. It buys a message.'",
+          "Frame 4 — DAY 3–5 · Paid structure for cold audiences, three ad sets, one variable each.",
+          "Frame 5 — CUT · Influencer layer, struck through. 'No time to brief them properly. Unbriefed KOLs cost twice.'",
+          "Frame 6 — Navy: the objection list. Two objections heard in every sales call, and where each was answered.",
+          "Frame 7 — Off-white: what we'd do with 30 days instead. CTA chip."
+        ],
+        "motion_note": "",
+        "render_prompt": "Clean off-white #F5F3EF paper texture background, fine fibre grain, soft even lighting, completely empty, no text, no objects, no people, print editorial aesthetic, vertical 4:5 composition.",
+        "production_note": "Client name and figures stay withheld until written permission — use the slate 'withheld by client' mark, never a placeholder logo."
+      },
+      {
+        "ref": "P07",
+        "format": "portrait 1080×1350 (4:5)",
+        "template": "Statement",
+        "composition": "Navy field. The quoted phrase '\"Facebook is where everyone is\"' set large in the upper half in off-white with a gold strike-through running through it. Beneath, in half the size: 'is not a strategy.' The three fixes sit as a short left-aligned list in the lower third at body size. Bottom 220px clear.",
+        "on_asset_text": {
+          "headline": "\"Facebook is where everyone is\" is not a strategy.",
+          "subline": "It's a starting condition.",
+          "myanmar": "ဒါက မဟာဗျူဟာ မဟုတ်ပါ — အခြေအနေတစ်ခုပါ။",
+          "cta_chip": ""
+        },
+        "colour_use": "Navy field, off-white type, single gold strike-through — the frame's one accent.",
+        "imagery": "None.",
+        "frames": [],
+        "motion_note": "",
+        "render_prompt": "Deep navy #12203A abstract background, subtle horizontal scanline texture, soft vignette, flat even lighting, completely empty with generous negative space, no text, no objects, no people, no logos, minimal editorial design, vertical 4:5 composition.",
+        "production_note": "The strike-through must sit optically through the x-height, not the baseline. Hand-adjust; do not use the font's built-in strike."
+      },
+      {
+        "ref": "P09",
+        "format": "portrait 1080×1350 (4:5)",
+        "template": "Statement",
+        "composition": "Navy field, quote set at 56pt across the upper two-thirds in off-white, opening quote mark oversized in gold at 180pt bleeding off the top-left margin. Attribution line in slate at the lower third: 'Client, retained 12 months · name withheld at their request'. The number 14 (hours) appears small and gold at the right margin as a counterpoint mark.",
+        "on_asset_text": {
+          "headline": "\"You were the first agency that told us not to spend.\"",
+          "subline": "Client, retained 12 months · name withheld at their request",
+          "myanmar": "\"မသုံးပါနဲ့လို့ ပြောတဲ့ ပထမဆုံး အေဂျင်စီပါ။\"",
+          "cta_chip": ""
+        },
+        "colour_use": "Navy field, off-white quote, gold quote mark and the 14, slate attribution.",
+        "imagery": "None — no client logo, no stock portrait.",
+        "frames": [],
+        "motion_note": "",
+        "render_prompt": "Deep navy #12203A field with a soft directional light gradient from the upper left, very subtle paper grain, empty composition with large negative space, no text, no objects, no people, no logos, quiet editorial mood, vertical 4:5 composition.",
+        "production_note": "Do not publish until the written permission for the quote is on file. If permission stalls, this slot swaps to a ZYNTH-owned IGNITE build note."
+      },
+      {
+        "ref": "P10",
+        "format": "carousel 1080×1350 (4:5), 5 frames",
+        "template": "Ledger",
+        "composition": "Off-white document frames. Each frame adds one line to a quote: production cost, contingency, management fee, margin — figures right-aligned in a fixed 320px column, slate hairlines between rows. Frame 5 flips navy with the 35% floor as the hero number.",
+        "on_asset_text": {
+          "headline": "How we price a campaign.",
+          "subline": "Including the margin. Yes, the actual number.",
+          "myanmar": "အမြတ်နှုန်းအပါအဝင် ဈေးနှုန်းသတ်မှတ်ပုံ",
+          "cta_chip": "Copy this structure"
+        },
+        "colour_use": "Off-white field, charcoal figures, slate rules, one gold total row per frame. Navy final frame with gold 35%.",
+        "imagery": "None. No icons in this template.",
+        "frames": [
+          "Frame 1 — Hook plus an empty quote skeleton, showing the four lines to come.",
+          "Frame 2 — Production at real supplier cost. Note: unverified rates carry a TBC mark, always.",
+          "Frame 3 — Contingency 10%, as a line item. 'If it isn't a line, it isn't a contingency.'",
+          "Frame 4 — Management fee, and what it actually covers hour by hour.",
+          "Frame 5 — Navy: 35% margin floor set at 280pt. 'Below this we don't take the job.'"
+        ],
+        "motion_note": "",
+        "render_prompt": "Off-white #F5F3EF document paper background, very fine horizontal rule texture, subtle print grain, flat neutral lighting, completely empty, no text, no numbers, no objects, no people, accounting-document aesthetic, vertical 4:5 composition.",
+        "production_note": "Use round illustrative figures, clearly marked 'illustrative' — never a real client's quote, even anonymised."
+      },
+      {
+        "ref": "P11",
+        "format": "portrait 1080×1350 (4:5) + 1920×1080 deck variant",
+        "template": "Summit",
+        "composition": "Near-black navy. Headline top-left under the IGNITE wordmark. Four outcomes set as a two-column list with gold ticks, each one line, no paragraph text. Deadline line ('Stage-time tiers close 30 September') sits at the bottom in gold, the frame's second and final gold moment — permitted here because the ticks read as one element.",
+        "on_asset_text": {
+          "headline": "What a sponsor actually gets.",
+          "subline": "Outcomes, not logo placement · 14 November, Yangon",
+          "myanmar": "ကမကထပြုသူများ တကယ်ရမည့်အရာများ",
+          "cta_chip": "Request the deck"
+        },
+        "colour_use": "Deep navy #0D1729, off-white list text, gold ticks and deadline line.",
+        "imagery": "None — this is a scannable document asset, forwarded as a screenshot.",
+        "frames": [],
+        "motion_note": "",
+        "render_prompt": "Dark navy #0D1729 abstract background with a faint vertical light gradient, very subtle texture, cinematic low-key, completely empty, no people, no text, no logos, premium corporate event aesthetic, vertical 4:5 composition.",
+        "production_note": "Do not publish until sponsor tier pricing is signed off. Deck variant needs the same content at 1920×1080 for the sales deck."
+      },
+      {
+        "ref": "P13",
+        "format": "portrait 1080×1350 (4:5)",
+        "template": "Ledger",
+        "composition": "Off-white field. Two values shown as an interval bracket — official rate above, market rate below — with the gap between them marked in gold and labelled 'the part your budget doesn't survive'. No currency symbols used decoratively. Two habits listed beneath in body size.",
+        "on_asset_text": {
+          "headline": "Budget at the official rate and the number is fiction.",
+          "subline": "Write every line at market rate, sell side — and date the rate you used.",
+          "myanmar": "ဈေးကွက်နှုန်းနဲ့ ရေးပါ — သုံးထားတဲ့ရက်စွဲကို မှတ်ထားပါ။",
+          "cta_chip": ""
+        },
+        "colour_use": "Off-white field, charcoal type, slate labels, single gold interval bracket.",
+        "imagery": "None.",
+        "frames": [],
+        "motion_note": "",
+        "render_prompt": "Off-white #F5F3EF paper background with fine grain and a very subtle horizontal rule pattern, flat neutral studio lighting, completely empty, no text, no numbers, no currency symbols, no objects, no people, sober financial-document aesthetic, vertical 4:5 composition.",
+        "production_note": "Show the rate as a dated range from ZYNTH's own FX system, never a live-looking figure. Neutral, practical framing only."
+      },
+      {
+        "ref": "P14",
+        "format": "square 1080×1080 (LinkedIn)",
+        "template": "Statement",
+        "composition": "Navy field, headline across the top third, then the four human-owned items as a numbered list with generous leading. Each number in gold at 48pt, item text off-white at 28pt. Nothing else on the canvas — the restraint is the argument.",
+        "on_asset_text": {
+          "headline": "Four things the AI doesn't own.",
+          "subline": "Numbers · anything that leaves the building · saying no · the relationship",
+          "myanmar": "AI မပိုင်ဆိုင်တဲ့ လေးခု",
+          "cta_chip": ""
+        },
+        "colour_use": "Navy field, off-white type, gold numerals as the single accent group.",
+        "imagery": "None.",
+        "frames": [],
+        "motion_note": "",
+        "render_prompt": "Deep navy #12203A abstract field, soft even lighting, extremely subtle noise texture, large empty composition, no text, no objects, no people, no logos, minimal editorial design, square 1:1 composition.",
+        "production_note": "Keep to four items. If a fifth is proposed, cut it — the count is the point."
+      },
+      {
+        "ref": "P16",
+        "format": "portrait 1080×1350 (4:5)",
+        "template": "Ledger",
+        "composition": "Off-white field structured like a proposal page, not a flyer. Four package numbers (16 posts · 11 designed · 5 videos · 10 story sets) set as a four-column figure row across the middle. Investment line beneath in a single gold total row. Deadline in slate at the base. Logo top-left, no starbursts, no discount language anywhere.",
+        "on_asset_text": {
+          "headline": "Sixteen posts. One strategy. Both languages.",
+          "subline": "October onboarding closes 30 September · three brands only",
+          "myanmar": "post ၁၆ ခု၊ မဟာဗျူဟာတစ်ခု၊ ဘာသာစကားနှစ်မျိုး",
+          "cta_chip": "Message the page"
+        },
+        "colour_use": "Off-white field, navy figures, charcoal body, one gold investment row.",
+        "imagery": "None.",
+        "frames": [],
+        "motion_note": "",
+        "render_prompt": "Off-white #F5F3EF premium document paper texture, subtle fibre grain, soft even top lighting, completely empty with wide margins, no text, no objects, no people, no logos, high-end proposal document aesthetic, vertical 4:5 composition.",
+        "production_note": "Price must match config/content_packages.py growth_16 band exactly — if the band changes, this asset is rebuilt, not edited."
+      }
+    ],
+    "open_questions": [
+      "Five of the eleven assets currently carry no photography — that's a deliberate typographic system, but it depends on the logo SVG and licensed type landing before week 1.",
+      "P04 and P11 need cleared venue photography; without it both hold on the rendered abstract field, which is weaker for sponsor sales."
+    ]
+  },
+  "ratio": {
+    "package": "Growth — 16 posts/month",
+    "posts_planned": 16,
+    "posts_contracted": 16,
+    "designed_assets": 11,
+    "copy_led": 5,
+    "design_ratio": "11:16",
+    "design_ratio_pct": 69,
+    "contracted_ratio": "11:16",
+    "story_sets": 10,
+    "short_videos": 5,
+    "boosted": 5,
+    "by_type": {
+      "static_post": 4,
+      "carousel": 3,
+      "short_video": 5,
+      "educational": 2,
+      "testimonial": 1,
+      "promo_offer": 1
+    },
+    "by_platform": {
+      "LinkedIn": 5,
+      "Facebook": 7,
+      "Instagram": 4
+    },
+    "by_pillar": {
+      "The Intelligence": 4,
+      "Myanmar Market Truths": 3,
+      "Proof of Work": 5,
+      "IGNITE": 4
+    },
+    "on_contract": true
+  },
+  "render_specs": [
+    {
+      "prompt": "Abstract editorial background texture: deep navy #12203A field with a barely-visible grid of fine horizontal rules, subtle paper grain, slight vignette in the corners, even flat lighting, no objects, no people, no text, no logos, minimal institutional design language, square 1:1 composition with generous empty space in the centre-left.",
+      "label": "P01",
+      "format": "square 1080×1080 (LinkedIn)"
+    },
+    {
+      "prompt": "Clean off-white #F5F3EF paper background texture, subtle fibre grain, very soft even studio lighting from above, faint navy hairline grid barely visible, completely empty, no text, no objects, no people, editorial print design aesthetic, vertical 4:5 composition.",
+      "label": "P02",
+      "format": "carousel 1080×1350 (4:5), 5 frames"
+    },
+    {
+      "prompt": "Abstract architectural background: dark navy #0D1729 interior space, wide empty auditorium suggested only through soft light falloff and a faint horizontal light line, heavy negative space in the upper two-thirds, cinematic low-key lighting, warm gold rim light along one edge, no people, no seats in focus, no text, no logos, vertical 4:5 composition, editorial event photography mood.",
+      "label": "P04",
+      "format": "portrait 1080×1350 (4:5)"
+    },
+    {
+      "prompt": "Clean off-white #F5F3EF paper texture background, fine fibre grain, soft even lighting, completely empty, no text, no objects, no people, print editorial aesthetic, vertical 4:5 composition.",
+      "label": "P05",
+      "format": "carousel 1080×1350 (4:5), 7 frames"
+    },
+    {
+      "prompt": "Deep navy #12203A abstract background, subtle horizontal scanline texture, soft vignette, flat even lighting, completely empty with generous negative space, no text, no objects, no people, no logos, minimal editorial design, vertical 4:5 composition.",
+      "label": "P07",
+      "format": "portrait 1080×1350 (4:5)"
+    },
+    {
+      "prompt": "Deep navy #12203A field with a soft directional light gradient from the upper left, very subtle paper grain, empty composition with large negative space, no text, no objects, no people, no logos, quiet editorial mood, vertical 4:5 composition.",
+      "label": "P09",
+      "format": "portrait 1080×1350 (4:5)"
+    },
+    {
+      "prompt": "Off-white #F5F3EF document paper background, very fine horizontal rule texture, subtle print grain, flat neutral lighting, completely empty, no text, no numbers, no objects, no people, accounting-document aesthetic, vertical 4:5 composition.",
+      "label": "P10",
+      "format": "carousel 1080×1350 (4:5), 5 frames"
+    },
+    {
+      "prompt": "Dark navy #0D1729 abstract background with a faint vertical light gradient, very subtle texture, cinematic low-key, completely empty, no people, no text, no logos, premium corporate event aesthetic, vertical 4:5 composition.",
+      "label": "P11",
+      "format": "portrait 1080×1350 (4:5) + 1920×1080 deck variant"
+    },
+    {
+      "prompt": "Off-white #F5F3EF paper background with fine grain and a very subtle horizontal rule pattern, flat neutral studio lighting, completely empty, no text, no numbers, no currency symbols, no objects, no people, sober financial-document aesthetic, vertical 4:5 composition.",
+      "label": "P13",
+      "format": "portrait 1080×1350 (4:5)"
+    },
+    {
+      "prompt": "Deep navy #12203A abstract field, soft even lighting, extremely subtle noise texture, large empty composition, no text, no objects, no people, no logos, minimal editorial design, square 1:1 composition.",
+      "label": "P14",
+      "format": "square 1080×1080 (LinkedIn)"
+    },
+    {
+      "prompt": "Off-white #F5F3EF premium document paper texture, subtle fibre grain, soft even top lighting, completely empty with wide margins, no text, no objects, no people, no logos, high-end proposal document aesthetic, vertical 4:5 composition.",
+      "label": "P16",
+      "format": "portrait 1080×1350 (4:5)"
+    }
+  ],
+  "cycle": 1
+}

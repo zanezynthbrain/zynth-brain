@@ -22,6 +22,18 @@
 .tip{position:absolute;pointer-events:none;background:rgba(10,9,7,.92);border:1px solid var(--line);
   border-radius:6px;padding:9px 12px;font-size:11px;color:var(--ink);opacity:0;transition:opacity .15s;max-width:240px;transform:translate(-50%,-130%)}
 .tip.on{opacity:1}
+.detail{position:absolute;right:14px;top:14px;width:min(380px,calc(100% - 28px));max-height:78%;
+  overflow:auto;background:rgba(10,9,7,.96);border:1px solid var(--gold);border-radius:8px;
+  padding:14px 16px;opacity:0;pointer-events:none;transition:opacity .18s;z-index:5}
+.detail.on{opacity:1;pointer-events:auto}
+.detail .dh{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.detail .dh b{color:var(--gold);font-size:14px;line-height:1.35}
+.detail .dh span{color:var(--mut);font-size:10px;cursor:pointer;white-space:nowrap}
+.detail .dh span:hover{color:var(--gold)}
+.detail .dm{color:var(--mut);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;margin:5px 0 10px}
+.detail dl{margin:0;font-size:12px;line-height:1.55;color:#E8E2D6}
+.detail dt{color:var(--gold);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;margin-top:9px}
+.detail dd{margin:2px 0 0}
 .tip b{color:var(--gold);font-family:"Iowan Old Style",Palatino,Georgia,serif;font-size:13px}
 .tip .m{color:var(--mut);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
 .tip .go{color:var(--gold2);font-size:9.5px;margin-top:5px}
@@ -38,6 +50,7 @@
   <div class="legend"><i style="background:#D4AF37;box-shadow:0 0 8px #D4AF37"></i>A proposal we've made &nbsp;·&nbsp; <i style="background:#3a352a"></i>Open space to fill</div>
   <div class="hint">drag to rotate · tap a gold star to open it</div>
   <div class="tip" id="tip"></div>
+  <div class="detail" id="detail"></div>
 </div>
 
 <script>
@@ -69,11 +82,46 @@ addEventListener('pointermove',e=>{
   hover=null;let best=22;
   for(const n of realNodes){if(n.sx==null||n.behind)continue;const d=Math.hypot(mx-n.sx,my-n.sy);if(d<best){best=d;hover=n;}}
   if(hover){tip.classList.add('on');tip.style.left=hover.sx+'px';tip.style.top=hover.sy+'px';
-    tip.innerHTML=`<b>${hover.data.name}</b> — ${hover.data.line}<div class="m">${hover.data.sector} · ${hover.data.market}</div><div class="go">▸ tap to open</div>`;
+    tip.innerHTML=`<b>${hover.data.name}</b>`+(hover.data.line?` — ${hover.data.line}`:'')+`<div class="m">${hover.data.sector||''} · ${hover.data.market||''}`+(hover.data.date?` · ${hover.data.date}`:'')+`</div>`+`<div class="go">▸ ${hover.data.kind==='document'?'open the document':'open the concept'}</div>`;
     cv.style.cursor='pointer';}
   else{tip.classList.remove('on');cv.style.cursor=drag?'grabbing':'grab';}
 });
-cv.addEventListener('click',()=>{if(hover&&hover.data.url)window.open(hover.data.url,'_blank');});
+cv.addEventListener('click',()=>{
+  if(!hover)return;
+  const d=hover.data;
+  if(d.url){window.open(d.url,'_blank');return;}
+  if(d.id)openConcept(d);
+});
+// Concepts have no URL, so open their detail in place rather than doing nothing.
+async function openConcept(d){
+  const box=document.getElementById('detail'); if(!box)return;
+  box.className='detail on';
+  box.innerHTML='<div class="dh"><b>'+esc(d.name)+'</b><span onclick="closeDetail()">close</span></div>'+
+    '<div class="dm">'+esc(d.sector||'')+' · '+esc(d.market||'')+' · '+esc(d.date||'')+'</div>'+
+    '<div class="dl">loading…</div>';
+  let r=null;
+  try{const res=await fetch('/api/proposals',{method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'open',id:d.id})}); r=await res.json();}catch(e){}
+  if(!r||!r.ok){
+    box.querySelector('.dl').innerHTML='Could not load this proposal. '+
+      'If you are viewing a downloaded file rather than the live dashboard, the page cannot reach the server.';
+    return;
+  }
+  const p=r.proposal, skip={proposal_id:1,title:1,file:1,created_at:1,industry:1,market:1,month:1,type:1};
+  let html='';
+  Object.keys(p).forEach(function(k){
+    if(skip[k]||p[k]===null||p[k]==='')return;
+    let v=p[k];
+    if(Array.isArray(v))v=v.map(function(z){return typeof z==='object'?JSON.stringify(z):z;}).join(' · ');
+    else if(typeof v==='object')v=JSON.stringify(v);
+    html+='<dt>'+esc(k.replace(/_/g,' '))+'</dt><dd>'+esc(String(v))+'</dd>';
+  });
+  box.querySelector('.dl').innerHTML='<dl>'+html+'</dl>';
+}
+function closeDetail(){const b=document.getElementById('detail');if(b)b.className='detail';}
+function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 
 function rot(v){ // yaw around Y, then pitch around X
   let [x,y,z]=v;
