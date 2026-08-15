@@ -25,7 +25,7 @@ if missing:
 if not state["clusters"] or not state["edges"]:
     raise SystemExit("Second Brain must contain both clusters and relationships")
 html = render(state)
-for marker in ("ZYNTH SECOND BRAIN", "__STATE__", "Connected operating map"):
+for marker in ("ZYNTH SECOND BRAIN", "__STATE__", "Live system sphere"):
     if marker == "__STATE__":
         if marker in html:
             raise SystemExit("Second Brain state was not embedded into UI")
