@@ -161,7 +161,54 @@ All: 48 kHz, −14 LUFS, −1.5 dBTP, Rec.709. Burmese in Pyidaungsu, typeset.
 
 ---
 
-## 8. What it cost, and what is still missing
+## 8. How to assemble it — you need one file, and this is how you get it
+
+Right now this film is **three separate 5-second clips**, each with its own
+audio. That is what generation produces. Joining them is an edit, and it has to
+happen on a machine that can download the files — the ZYNTH build container's
+network policy blocks the OpenArt CDN, so the assembly cannot be done from
+inside the agent session.
+
+### The five-minute version — CapCut on your phone
+
+1. Open your OpenArt library and **download all three clips** (chaos, resolve,
+   the form) plus the anchor still.
+2. CapCut → **New project** → import all three → drop them on the timeline in
+   this order: **chaos → resolve → the form**.
+3. Trim each clip so the cut lands on movement, not on a pause. Roughly 5s / 5s /
+   5s is already right — do not stretch anything.
+4. **Do not add music.** The single most damaging thing you can do to this film
+   is drop a CapCut track under it. The sound is the idea.
+5. Insert **one second of silence** at the very end of the resolve clip, just
+   before the form appears. Split the clip, mute the tail. This is the silence
+   at 0:10 and it is what makes the strike land.
+6. Text at the end, over the black space in the final shot:
+   **ရှုပ်ထွေးမှုထဲမှ ဖန်တီးမှု။** then **Creativity, out of chaos.** then
+   **ZYNTH — The Intelligence of Creativity.** Use **Pyidaungsu** for the
+   Burmese — if CapCut does not have it, typeset that card separately and import
+   it as an image.
+7. Export **1080p, 24fps, high bitrate**.
+
+That gives you a shareable film today.
+
+### The proper version — DaVinci Resolve
+
+Same order, plus the things CapCut cannot do well:
+
+- **Grade first, look second.** Normalise all three clips to one black point and
+  one gold hue before touching the look. This is what makes three generations
+  read as one shoot.
+- **Fairlight:** the generated audio is raw material, not a mix. Duck the chaos
+  hiss under the emerging tone in shot 2, hard-cut to true digital silence for
+  one second, then let the strike hit at full range. Master to **−14 LUFS,
+  −1.5 dBTP, 48 kHz**.
+- **Titles:** typeset in Fusion or as imported PNGs. Never generate Burmese type
+  inside a model.
+- Export **1080p Rec.709**, then reframe 9:16 and 1:1 from the same timeline.
+
+---
+
+## 9. What it cost, and what is still missing
 
 **Total spent: 705 OpenArt credits.** Balance 735 → **30**.
 
