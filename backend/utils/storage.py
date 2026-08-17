@@ -27,6 +27,7 @@ from typing import Any
 from config import get_settings
 from utils.logging_config import get_logger
 from utils.tools import write_file, ToolResult
+from utils.dual_store import save_output
 
 logger = get_logger("utils.storage")
 
@@ -106,19 +107,22 @@ def load_latest_report(report_type: str, department: str = "reports") -> dict[st
 
 
 def _maybe_upload_to_gdrive(relative_path: str, content: str, department: str) -> None:
-    """Upload to Google Drive if configured. Non-blocking — logs and continues on failure.
+    """Mirror the saved document through the durable GitHub + Drive writer.
 
-    To enable: set ZYNTH_GDRIVE_FOLDER_ID in .env and make sure the Google
-    Drive MCP server is running (it's already connected in your Claude Code
-    session). The MCP tools are available when running via claude.ai/code
-    but not in standalone Python — so this is a no-op in production unless
-    you add explicit Google Drive API calls here.
+    The dual-save path is deliberately best-effort: when Railway does not yet
+    provide GOOGLE_SERVICE_ACCOUNT_JSON and DRIVE_DELIVERABLES_FOLDER it
+    records Drive as pending while preserving the local output. This keeps
+    internal 24/7 workstreams productive without turning an unavailable Drive
+    credential into a failed agent run.
     """
-    settings = get_settings()
-    if not settings.google_drive_folder_id:
-        return
-    logger.info(
-        "Google Drive upload configured (folder: %s) — integrate via GDrive MCP or API: %s",
-        settings.google_drive_folder_id,
-        relative_path,
+    path = Path(relative_path)
+    ext = path.suffix.lstrip(".") or "txt"
+    title = path.stem
+    status = save_output(
+        title=title,
+        content=content,
+        department=department,
+        kind="agent_document",
+        ext=ext,
     )
+    logger.info("Dual-save status for %s: github=%s drive=%s", relative_path, status.get("github"), status.get("drive"))
