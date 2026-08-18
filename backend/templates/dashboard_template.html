@@ -111,6 +111,16 @@ border-left:1px solid rgba(34,211,238,.18);padding:64px 24px 24px;font-size:14px
 .toc a{font-size:10px;letter-spacing:.04em;padding:5px 10px;border-radius:999px;border:1px solid var(--line);
 color:var(--dim);text-decoration:none}
 .toc a:hover{border-color:var(--teal);color:var(--teal)}
+.ask{border-radius:14px;padding:20px;margin:0 0 22px;background:rgba(10,16,19,.7);border:1px solid rgba(34,211,238,.22)}
+.ask textarea{width:100%;min-height:74px;background:rgba(5,7,8,.7);border:1px solid var(--line);border-radius:9px;
+padding:11px 13px;color:var(--text);font-family:inherit;font-size:13.5px;line-height:1.6;resize:vertical}
+.ask textarea::placeholder{color:var(--dim)}
+.ask .row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
+.ask select{background:rgba(5,7,8,.7);border:1px solid var(--line);border-radius:8px;padding:8px 10px;
+color:var(--text);font-family:inherit;font-size:12px}
+.ask button.go{padding:9px 18px;border-radius:8px;border:0;background:var(--teal);color:#04222a;
+font-family:inherit;font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer}
+.ask .msg{font-size:11.5px;margin-top:10px;line-height:1.6}
 .sec-cov{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin:0 0 22px}
 .sec-cov div{border-radius:9px;padding:9px 12px;background:rgba(10,16,19,.6);border:1px solid var(--line);
 display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11.5px}
@@ -222,7 +232,7 @@ const PAGES={
   <p class="stamp">Prospect list is hand-maintained in this file — it is the one panel the vault scan does not yet source. Everything else on this dashboard is scanned.</p></div>`,
 
  proposals:()=>`<div class="wrapx">${head("Proposals",
-   `${VAULT.counts.proposals} in the library — ${VAULT.counts.full_documents} complete client documents, ${VAULT.counts.composed-VAULT.counts.full_documents} short composed, ${VAULT.counts.pooled} concepts. ${VAULT.counts.in_drive} in Google Drive.`)}
+   `${VAULT.counts.proposals} in the library — ${VAULT.counts.full_documents} complete client documents, ${VAULT.counts.composed-VAULT.counts.full_documents} short composed, ${VAULT.counts.pooled} concepts. ${VAULT.counts.with_docx} have a .docx you can download, ${VAULT.counts.in_drive} in Google Drive.`)}
   <div class="filters">
    <input id="q" type="search" placeholder="Search title or sector…" autocomplete="off">
    <button class="fbtn on" data-f="state" data-v="all">ALL</button>
@@ -233,6 +243,19 @@ const PAGES={
    <button class="fbtn on" data-f="market" data-v="all">ANY MARKET</button>
    <button class="fbtn" data-f="market" data-v="MM">MM</button>
    <button class="fbtn" data-f="market" data-v="SG">SG</button>
+  </div>
+  <div class="ask">
+   <div class="eyebrow" style="margin-bottom:8px">ASK ZYNTH TO PRODUCE SOMETHING</div>
+   <textarea id="askt" placeholder="e.g. Write a full proposal for Manufacturing — Myanmar — factory brand launch, gold-standard depth"></textarea>
+   <div class="row">
+    <select id="askd">
+     <option>Proposal</option><option>Production</option><option>Project</option>
+     <option>Program</option><option>Event</option><option>Creative</option><option>Research</option>
+    </select>
+    <button class="go" id="askgo">QUEUE IT</button>
+    <span style="font-size:11px;color:var(--dim)">goes to the founder task queue → Telegram → produced</span>
+   </div>
+   <div class="msg" id="askm"></div>
   </div>
   <div class="eyebrow">SECTOR COVERAGE — ★ full document · ● composed · ○ concept only</div>
   <div class="sec-cov">${sectorCoverage()}</div>
@@ -322,6 +345,23 @@ function renderProposals(){
 }
 function wireProposals(){
   renderProposals();
+  const t=document.getElementById("askt"),d=document.getElementById("askd"),
+        g=document.getElementById("askgo"),m=document.getElementById("askm");
+  if(g)g.onclick=async()=>{
+    const title=(t.value||"").trim();
+    if(!title){m.style.color="var(--dim)";m.textContent="Type what you want produced first.";return;}
+    m.style.color="var(--dim)";m.textContent="Queueing…";
+    try{
+      const r=await fetch("/api/task",{method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({action:"add",title:`[${d.value}] ${title}`,department:d.value})});
+      const j=await r.json();
+      if(j.ok){m.style.color=C.tealSoft;m.textContent="✓ Queued. It appears in your Telegram task list and the founder brief.";t.value="";}
+      else{m.style.color=C.gold;m.textContent="Server said no: "+(j.error||"unknown");}
+    }catch(e){
+      m.style.color=C.gold;
+      m.innerHTML="Not connected to the server from here. This panel only queues work on the live Railway page (<code>/command</code>) — on a static copy, ask in chat or Telegram instead.";
+    }
+  };
   document.getElementById("q").oninput=e=>{F.q=e.target.value;renderProposals();};
   document.querySelectorAll(".fbtn").forEach(b=>b.onclick=()=>{
     F[b.dataset.f]=b.dataset.v;
@@ -373,8 +413,9 @@ function openReader(title){
   if(composed&&d.full&&d.sections&&d.sections.length){
     const drive=d.drive_url||d.doc_url||"";
     body=`<p style="font-size:12px;color:var(--dim);margin:0 0 18px">${[d.sector,d.market,d.type].filter(Boolean).map(esc).join(" · ")} · ${d.sections.length} sections · ${d.words.toLocaleString()} words</p>`
-     +(drive?"":`<div class="drivewarn"><strong>Not in Google Drive yet.</strong> The full document is in the repo and rendered below in full.
-       A Drive/Docs link appears here the moment Drive is connected — see docs/DRIVE_SETUP_GUIDE.md.</div>`)
+     +(drive?"":`<div class="drivewarn"><strong>Not in Google Drive yet</strong> — Drive credentials are not set on Railway.
+       The .docx below is real and downloads from Railway now; a Google Docs link appears here the moment Drive is connected
+       (see <code>docs/DRIVE_SETUP_GUIDE.md</code>).</div>`)
      +`<div class="toc">`+d.sections.filter(x=>x.level===2).map((x,i)=>`<a href="#sec${i}">${esc(x.h.slice(0,42))}</a>`).join("")+`</div>`
      +`<div class="doc">`+d.sections.map((x,i)=>
         (x.level===2?`<h3 id="sec${i}">${esc(x.h)}</h3>`:`<h4>${esc(x.h)}</h4>`)+mdToHtml(x.md)).join("")+`</div>`;
@@ -405,7 +446,8 @@ function openReader(title){
   RI.innerHTML=`<div class="rhead"><span style="font-size:10px;letter-spacing:.25em;color:${composed?C.gold:C.dim}">${composed?"FULLY COMPOSED · CLIENT-READY":"CONCEPT · NOT YET WRITTEN"}</span>
    <button class="iconbtn" id="rx" aria-label="Close">${SVG(I.x,18)}</button></div>
    <div class="rbody"><h1>${esc(title)}</h1>${body}
-   <div class="btnrow">${d&&(d.drive_url||d.doc_url)?`<a href="${esc(d.drive_url||d.doc_url)}" target="_blank" rel="noopener" style="background:${C.gold};color:#0A0A0A">OPEN IN GOOGLE DOCS</a>`:""}
+   <div class="btnrow">${d&&d.docx_url?`<a href="${esc(d.docx_url)}" style="background:${C.gold};color:#0A0A0A">DOWNLOAD .DOCX${d.docx_kb?" · "+d.docx_kb+" KB":""}</a>`:""}
+   ${d&&(d.drive_url||d.doc_url)?`<a href="${esc(d.drive_url||d.doc_url)}" target="_blank" rel="noopener" style="background:transparent;border:1px solid ${C.gold};color:${C.gold}">OPEN IN GOOGLE DOCS</a>`:""}
    ${d&&d.url?`<a href="${esc(d.url)}" target="_blank" rel="noopener" style="background:transparent;border:1px solid ${C.gold};color:${C.gold}">OPEN ARTIFACT</a>`:""}
    <button style="background:transparent;border:1px solid #2a3a40;color:var(--dim)">${esc(d&&d.file?d.file:"in repo")}</button></div></div>`;
   R.classList.add("on");RI.scrollTop=0;

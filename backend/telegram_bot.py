@@ -142,6 +142,29 @@ def _start_dashboard_server() -> None:
                     self.send_response(500); self.end_headers()
                     self.wfile.write(f"constellation error: {exc}".encode())
                 return
+            if self.path.startswith("/docs/"):
+                # serve exported proposal .docx — filename-sanitised, extension-locked
+                try:
+                    import os as _os
+                    from pathlib import Path as _P
+                    name = _os.path.basename(self.path.split("?")[0])
+                    root = _P(__file__).resolve().parent.parent / "deliverables" / "proposals" / "docx"
+                    target = (root / name).resolve()
+                    if (not str(target).startswith(str(root.resolve()))
+                            or target.suffix.lower() != ".docx" or not target.is_file()):
+                        self.send_response(404); self.end_headers(); self.wfile.write(b"not found"); return
+                    body = target.read_bytes()
+                    self.send_response(200)
+                    self.send_header("Content-Type",
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+                    self.send_header("Content-Disposition", f'attachment; filename="{name}"')
+                    self.send_header("Content-Length", str(len(body)))
+                    self.end_headers()
+                    self.wfile.write(body)
+                except Exception as exc:
+                    self.send_response(500); self.end_headers()
+                    self.wfile.write(f"docs error: {exc}".encode())
+                return
             if self.path.startswith("/command"):
                 try:
                     from utils.command_ui import render as _render_command

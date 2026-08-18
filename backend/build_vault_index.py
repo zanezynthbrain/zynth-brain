@@ -258,8 +258,22 @@ def deliverables() -> list[dict]:
 
 
 # ---------------------------------------------------------------- main
+def docx_manifest() -> dict:
+    p = ROOT / "backend" / "outputs" / "docx-manifest.json"
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
 def build() -> dict:
     comp = composed_proposals()
+    man = docx_manifest()
+    for p in comp:
+        hit = man.get(p["title"])
+        if hit:
+            p["docx_url"] = hit["url"]
+            p["docx_kb"] = hit["kb"]
     pool = pooled_proposals()
     seen = {p["title"].lower() for p in comp}
     pool = [p for p in pool if p["title"].lower() not in seen]
@@ -276,6 +290,7 @@ def build() -> dict:
         "composed": len(comp),
         "full_documents": sum(1 for p in comp if p.get("full")),
         "in_drive": sum(1 for p in comp if p.get("drive_url") or p.get("doc_url")),
+        "with_docx": sum(1 for p in comp if p.get("docx_url")),
         "pooled": len(pool),
         "agents": len(data["agents"]),
         "skills": len(data["skills"]),
