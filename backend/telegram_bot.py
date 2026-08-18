@@ -142,6 +142,19 @@ def _start_dashboard_server() -> None:
                     self.send_response(500); self.end_headers()
                     self.wfile.write(f"constellation error: {exc}".encode())
                 return
+            if self.path.startswith("/command"):
+                try:
+                    from utils.command_ui import render as _render_command
+                    html = _render_command(force="refresh" in self.path).encode("utf-8")
+                    self.send_response(200)
+                    self.send_header("Content-Type", "text/html; charset=utf-8")
+                    self.send_header("Cache-Control", "no-store")
+                    self.end_headers()
+                    self.wfile.write(html)
+                except Exception as exc:
+                    self.send_response(500); self.end_headers()
+                    self.wfile.write(f"command dashboard error: {exc}".encode())
+                return
             if self.path.startswith("/second-brain"):
                 try:
                     from utils.second_brain import build_state
