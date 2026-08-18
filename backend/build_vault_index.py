@@ -81,6 +81,46 @@ def tiers(investment: str) -> list[dict]:
     return out
 
 
+_FM = re.compile(r"\A---\n(.*?)\n---\n", re.S)
+
+
+def front_matter(text: str) -> dict:
+    m = _FM.match(text)
+    if not m:
+        return {}
+    out = {}
+    for line in m.group(1).splitlines():
+        k, _, v = line.partition(":")
+        if _:
+            out[k.strip()] = v.strip()
+    return out
+
+
+def sections(text: str) -> list[dict]:
+    """Every `## heading` and its body, so a full client document survives the scan.
+
+    Short five-field proposals have no `##` headings and yield [] — they keep
+    rendering from their fields, unchanged.
+    """
+    body = _FM.sub("", text)
+    parts = re.split(r"^(#{2,4})\s+(.+)$", body, flags=re.M)
+    if len(parts) < 4:
+        return []
+    out = []
+    for i in range(1, len(parts), 3):
+        hashes, heading, chunk = parts[i], parts[i + 1], parts[i + 2]
+        md = chunk.strip()
+        if md:
+            out.append({"level": len(hashes), "h": heading.strip(), "md": md})
+    if out:
+        # a .docx may start at Heading 2; rebase so the shallowest heading is
+        # always level 2, otherwise the reader's table of contents is empty
+        base = min(x["level"] for x in out)
+        for x in out:
+            x["level"] = x["level"] - base + 2
+    return out
+
+
 def markdown_link(text: str) -> str:
     m = re.search(r"\[Open [^\]]*\]\((https?://[^\s)]+)\)", text)
     return m.group(1) if m else ""
@@ -97,6 +137,8 @@ def composed_proposals() -> list[dict]:
         if f.name.startswith("00"):
             continue
         t = f.read_text(encoding="utf-8")
+        fm = front_matter(t)
+        secs = sections(t)
         h1 = re.search(r"^#\s+(.+)$", t, re.M)
         title = re.sub(r"\s*★.*$", "", h1.group(1) if h1 else f.stem).strip()
         inv = field(t, "Investment (3 tiers)") or field(t, "Investment")
@@ -116,6 +158,11 @@ def composed_proposals() -> list[dict]:
             "tiers": tiers(inv),
             "edge": field(t, "ZYNTH edge"),
             "url": markdown_link(t),
+            "doc_url": fm.get("doc_url", ""),
+            "drive_url": fm.get("drive_url", ""),
+            "sections": secs,
+            "full": bool(secs),
+            "words": len(t.split()),
             "composed": True,
         })
     return items
@@ -227,6 +274,8 @@ def build() -> dict:
     data["counts"] = {
         "proposals": len(data["proposals"]),
         "composed": len(comp),
+        "full_documents": sum(1 for p in comp if p.get("full")),
+        "in_drive": sum(1 for p in comp if p.get("drive_url") or p.get("doc_url")),
         "pooled": len(pool),
         "agents": len(data["agents"]),
         "skills": len(data["skills"]),

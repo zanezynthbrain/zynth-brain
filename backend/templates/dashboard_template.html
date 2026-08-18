@@ -65,7 +65,7 @@ border:0;border-top:1px solid #101a1e;cursor:pointer;font-family:inherit;color:#
 .orow:first-child{border-top:0}.orow:hover{background:rgba(34,211,238,.06)}
 #reader{position:fixed;inset:0;z-index:40;display:none;justify-content:center;background:rgba(3,5,6,.7);backdrop-filter:blur(6px)}
 #reader.on{display:flex}
-#readerin{width:100%;max-width:672px;height:100%;overflow-y:auto;background:var(--bg);border-left:1px solid var(--line);border-right:1px solid var(--line)}
+#readerin{width:100%;max-width:672px;height:100%;overflow-y:auto;overflow-x:hidden;background:var(--bg);border-left:1px solid var(--line);border-right:1px solid var(--line)}
 .rhead{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;padding:16px 32px;
 background:rgba(5,7,8,.9);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
 .rbody{padding:32px}.rbody h1{font-size:24px;font-weight:300;margin:0 0 8px}
@@ -93,6 +93,31 @@ border-left:1px solid rgba(34,211,238,.18);padding:64px 24px 24px;font-size:14px
 .krow{display:flex;justify-content:space-between;gap:12px;padding:8px 0;font-size:12px;border-bottom:1px solid var(--line)}
 .iconbtn{background:transparent;border:0;color:var(--text);cursor:pointer;padding:6px;line-height:0;opacity:.6}
 .iconbtn:hover{opacity:1}
+.doc h3{font-size:15px;font-weight:600;margin:28px 0 10px;color:var(--text);letter-spacing:.01em}
+.doc h4{font-size:12px;font-weight:600;margin:20px 0 8px;color:var(--tealSoft);letter-spacing:.06em;text-transform:uppercase}
+.doc p{font-size:14px;line-height:1.75;color:#c9d3d8;margin:0 0 12px}
+.doc ul{margin:0 0 14px;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.doc li{font-size:14px;line-height:1.65;color:#c9d3d8;display:flex;gap:9px}
+.doc li:before{content:"◆";color:var(--gold);flex-shrink:0}
+.doc{max-width:100%;overflow-wrap:anywhere}
+.doc .tw{overflow-x:auto;max-width:100%;margin:0 0 18px;border:1px solid var(--line);border-radius:10px;-webkit-overflow-scrolling:touch}
+.doc table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:420px}
+.doc th,.doc td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;color:#c9d3d8;overflow-wrap:anywhere;max-width:340px}
+.doc th{background:rgba(34,211,238,.07);color:var(--tealSoft);font-weight:600;letter-spacing:.04em;white-space:nowrap}
+.doc td{font-variant-numeric:tabular-nums}
+.doc tr:last-child td{border-bottom:0}
+.doc strong{color:var(--text);font-weight:600}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 28px}
+.toc a{font-size:10px;letter-spacing:.04em;padding:5px 10px;border-radius:999px;border:1px solid var(--line);
+color:var(--dim);text-decoration:none}
+.toc a:hover{border-color:var(--teal);color:var(--teal)}
+.sec-cov{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin:0 0 22px}
+.sec-cov div{border-radius:9px;padding:9px 12px;background:rgba(10,16,19,.6);border:1px solid var(--line);
+display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11.5px}
+.sec-cov .nm{color:#c9d3d8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sec-cov .ct{font-variant-numeric:tabular-nums;letter-spacing:.06em;white-space:nowrap;font-size:10px}
+.drivewarn{border-radius:10px;padding:12px 14px;font-size:11.5px;line-height:1.6;color:#c9a94e;
+background:rgba(212,175,55,.07);border:1px solid rgba(212,175,55,.25);margin:0 0 20px}
 .stamp{font-size:9px;color:rgba(138,151,160,.55);margin-top:20px;letter-spacing:.04em}
 @media (max-width:820px){
  #side{width:60px}#side .brandsub,#side nav span,#side .vault{display:none}
@@ -197,17 +222,20 @@ const PAGES={
   <p class="stamp">Prospect list is hand-maintained in this file — it is the one panel the vault scan does not yet source. Everything else on this dashboard is scanned.</p></div>`,
 
  proposals:()=>`<div class="wrapx">${head("Proposals",
-   `${VAULT.counts.proposals} in the library — ${VAULT.counts.composed} fully composed and client-ready, ${VAULT.counts.pooled} concepts in the pool.`)}
+   `${VAULT.counts.proposals} in the library — ${VAULT.counts.full_documents} complete client documents, ${VAULT.counts.composed-VAULT.counts.full_documents} short composed, ${VAULT.counts.pooled} concepts. ${VAULT.counts.in_drive} in Google Drive.`)}
   <div class="filters">
    <input id="q" type="search" placeholder="Search title or sector…" autocomplete="off">
    <button class="fbtn on" data-f="state" data-v="all">ALL</button>
    <button class="fbtn" data-f="state" data-v="composed">COMPOSED</button>
+   <button class="fbtn" data-f="state" data-v="full">FULL DOCS</button>
    <button class="fbtn" data-f="state" data-v="concept">CONCEPTS</button>
    <span style="width:12px"></span>
    <button class="fbtn on" data-f="market" data-v="all">ANY MARKET</button>
    <button class="fbtn" data-f="market" data-v="MM">MM</button>
    <button class="fbtn" data-f="market" data-v="SG">SG</button>
   </div>
+  <div class="eyebrow">SECTOR COVERAGE — ★ full document · ● composed · ○ concept only</div>
+  <div class="sec-cov">${sectorCoverage()}</div>
   <div id="pcount" class="eyebrow"></div>
   <div class="grid3" id="pgrid"></div></div>`,
 
@@ -230,6 +258,42 @@ const PAGES={
    <span style="flex:1">${esc(o.t)}</span><span style="font-size:10px;color:var(--dim);opacity:.7">${esc(o.file||"")}</span>${chip(o.cat,col(o.cat))}<span style="color:var(--dim);line-height:0">${SVG(I.chev,14)}</span></button>`).join("")}</div></div>`;}
 };
 
+/* ---- sector coverage: shows where the library is thin, instead of claiming it is complete ---- */
+function normSector(s){
+  /* the vault and the generated pool name sectors differently ("F&B",
+     "Food & Beverage", "F&B & Restaurant"). Keyword rules merge them so the
+     coverage map counts one sector once. */
+  const t=(s||"").toLowerCase();
+  const R=[[/bank|fintech|financ|payment|wallet/,"Banking & Fintech"],
+   [/f&b|food|beverage|restaurant|qsr/,"F&B"],
+   [/retail|shopping|mall|fashion|e-commerce|ecommerce/,"Retail"],
+   [/health|medic|pharma|clinic|wellness/,"Healthcare"],
+   [/educat|edtech|school|learning/,"Education"],
+   [/real estate|property|proptech/,"Real Estate"],
+   [/hospitality|hotel|tourism|travel|resort/,"Hospitality"],
+   [/manufactur|industr|factory/,"Manufacturing"],
+   [/telecom|technology|saas|software/,"Telecom & Tech"],
+   [/automotive|auto|vehicle/,"Automotive"],
+   [/fmcg|consumer goods/,"FMCG"],
+   [/marketing|advertis|agency/,"Marketing & Advertising"],
+   [/energy|utilit/,"Energy"],[/logistic|supply/,"Logistics"],
+   [/ngo|impact|social/,"NGO & Impact"]];
+  for(const[re,name]of R)if(re.test(t))return name;
+  return (s||"Unclassified").split("/")[0].split("(")[0].trim()||"Unclassified";
+}
+function sectorCoverage(){
+  const m={};
+  PROPOSALS.forEach(p=>{const k=normSector(p.sector);
+    (m[k]=m[k]||{full:0,comp:0,con:0})[p.full?"full":p.composed?"comp":"con"]++;});
+  return Object.entries(m).sort((a,b)=>
+      (b[1].full-a[1].full)||(b[1].comp-a[1].comp)||(b[1].con-a[1].con)||a[0].localeCompare(b[0]))
+    .map(([k,v])=>{
+      const strong=v.full||v.comp;
+      return `<div style="border-color:${strong?hx(C.gold,.3):"var(--line)"}"><span class="nm">${esc(k)}</span>
+      <span class="ct">${v.full?`<span style="color:${C.gold}">★${v.full}</span> `:""}${v.comp?`<span style="color:${C.tealSoft}">●${v.comp}</span> `:""}<span style="color:${strong?"var(--dim)":"#6b7780"}">○${v.con}</span></span></div>`;
+    }).join("");
+}
+
 /* ---- proposals: search + filters ---- */
 let F={state:"all",market:"all",q:""};
 function propCard(p){
@@ -239,13 +303,14 @@ function propCard(p){
     <span style="line-height:0">${star(c)}</span><span style="color:var(--dim);line-height:0">${SVG(I.ext,13)}</span></div>
    <div class="t">${esc(p.title)}</div>
    <div class="chips">${p.sector?chip(p.sector.slice(0,26),c?C.gold:C.dim):""}${p.market?chip(p.market.slice(0,18)):""}${p.type?chip(p.type.slice(0,22),C.dim):""}</div>
-   ${c?`<div style="font-size:9px;margin-top:10px;letter-spacing:.1em;color:var(--tealSoft)">● FULLY COMPOSED</div>`
+   ${c?`<div style="font-size:9px;margin-top:10px;letter-spacing:.1em;color:${p.full?C.gold:C.tealSoft}">${p.full?"★ FULL DOCUMENT · "+p.sections.length+" SECTIONS":"● FULLY COMPOSED"}</div>`
       :`<div style="font-size:9px;margin-top:10px;letter-spacing:.1em;color:rgba(138,151,160,.7)">○ CONCEPT${p.month?" · "+esc(p.month):""}</div>`}</button>`;
 }
 function renderProposals(){
   const q=F.q.toLowerCase();
   const list=PROPOSALS.filter(p=>{
     if(F.state==="composed"&&!p.composed)return false;
+    if(F.state==="full"&&!p.full)return false;
     if(F.state==="concept"&&p.composed)return false;
     if(F.market!=="all"&&!(p.market||"").toUpperCase().includes(F.market))return false;
     if(q&&!((p.title+" "+(p.sector||"")+" "+(p.type||"")).toLowerCase().includes(q)))return false;
@@ -264,6 +329,37 @@ function wireProposals(){
     renderProposals();});
 }
 
+/* ---- markdown -> html, enough for a real client document ---- */
+function mdInline(t){
+  return esc(t).replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>")
+               .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,'<a href="$2" target="_blank" rel="noopener" style="color:var(--teal)">$1</a>');
+}
+function mdToHtml(md){
+  const lines=md.split("\n");const out=[];let i=0;
+  const flushList=buf=>{if(buf.length){out.push("<ul>"+buf.map(x=>"<li>"+mdInline(x)+"</li>").join("")+"</ul>");buf.length=0;}};
+  const buf=[];
+  while(i<lines.length){
+    const ln=lines[i];
+    if(/^\s*\|.*\|\s*$/.test(ln)){                       // table
+      flushList(buf);
+      const rows=[];
+      while(i<lines.length&&/^\s*\|.*\|\s*$/.test(lines[i])){
+        const cells=lines[i].trim().replace(/^\||\|$/g,"").split(/(?<!\\)\|/).map(c=>c.replace(/\\\|/g,"|").trim());
+        rows.push(cells);i++;}
+      const clean=rows.filter(r=>!r.every(c=>/^-{2,}$/.test(c)||c===""));
+      if(clean.length){
+        out.push('<div class="tw"><table><thead><tr>'+clean[0].map(c=>"<th>"+mdInline(c)+"</th>").join("")+"</tr></thead><tbody>"+
+          clean.slice(1).map(r=>"<tr>"+r.map(c=>"<td>"+mdInline(c)+"</td>").join("")+"</tr>").join("")+"</tbody></table></div>");}
+      continue;}
+    if(/^\s*[-*]\s+/.test(ln)){buf.push(ln.replace(/^\s*[-*]\s+/,""));i++;continue;}
+    if(/^\s*$/.test(ln)){flushList(buf);i++;continue;}
+    if(/^#{3,4}\s+/.test(ln)){flushList(buf);out.push("<h4>"+mdInline(ln.replace(/^#+\s+/,""))+"</h4>");i++;continue;}
+    flushList(buf);out.push("<p>"+mdInline(ln)+"</p>");i++;
+  }
+  flushList(buf);
+  return out.join("");
+}
+
 /* ---- reader ---- */
 const R=document.getElementById("reader"),RI=document.getElementById("readerin");
 document.getElementById("page").addEventListener("click",e=>{const o=e.target.closest("[data-open]");if(o)openReader(o.dataset.open);});
@@ -274,7 +370,15 @@ function openReader(title){
   const blk=(l,h)=>`<div class="blk"><div class="lab">${l}</div>${h}</div>`;
   const composed=d&&d.composed;
   let body="";
-  if(composed){
+  if(composed&&d.full&&d.sections&&d.sections.length){
+    const drive=d.drive_url||d.doc_url||"";
+    body=`<p style="font-size:12px;color:var(--dim);margin:0 0 18px">${[d.sector,d.market,d.type].filter(Boolean).map(esc).join(" · ")} · ${d.sections.length} sections · ${d.words.toLocaleString()} words</p>`
+     +(drive?"":`<div class="drivewarn"><strong>Not in Google Drive yet.</strong> The full document is in the repo and rendered below in full.
+       A Drive/Docs link appears here the moment Drive is connected — see docs/DRIVE_SETUP_GUIDE.md.</div>`)
+     +`<div class="toc">`+d.sections.filter(x=>x.level===2).map((x,i)=>`<a href="#sec${i}">${esc(x.h.slice(0,42))}</a>`).join("")+`</div>`
+     +`<div class="doc">`+d.sections.map((x,i)=>
+        (x.level===2?`<h3 id="sec${i}">${esc(x.h)}</h3>`:`<h4>${esc(x.h)}</h4>`)+mdToHtml(x.md)).join("")+`</div>`;
+  }else if(composed){
     body=`<p style="font-size:12px;color:var(--dim);margin:0 0 32px">${[d.sector,d.market,d.type].filter(Boolean).map(esc).join(" · ")}</p>`+
       (d.idea?blk("THE BIG IDEA",`<p style="font-size:14px;line-height:1.7;color:#c9d3d8;margin:0">${esc(d.idea)}</p>`):"")+
       (d.deliverables&&d.deliverables.length?blk("KEY DELIVERABLES",
@@ -301,7 +405,8 @@ function openReader(title){
   RI.innerHTML=`<div class="rhead"><span style="font-size:10px;letter-spacing:.25em;color:${composed?C.gold:C.dim}">${composed?"FULLY COMPOSED · CLIENT-READY":"CONCEPT · NOT YET WRITTEN"}</span>
    <button class="iconbtn" id="rx" aria-label="Close">${SVG(I.x,18)}</button></div>
    <div class="rbody"><h1>${esc(title)}</h1>${body}
-   <div class="btnrow">${d&&d.url?`<a href="${esc(d.url)}" target="_blank" rel="noopener" style="background:${C.gold};color:#0A0A0A">OPEN FULL DOCUMENT</a>`:""}
+   <div class="btnrow">${d&&(d.drive_url||d.doc_url)?`<a href="${esc(d.drive_url||d.doc_url)}" target="_blank" rel="noopener" style="background:${C.gold};color:#0A0A0A">OPEN IN GOOGLE DOCS</a>`:""}
+   ${d&&d.url?`<a href="${esc(d.url)}" target="_blank" rel="noopener" style="background:transparent;border:1px solid ${C.gold};color:${C.gold}">OPEN ARTIFACT</a>`:""}
    <button style="background:transparent;border:1px solid #2a3a40;color:var(--dim)">${esc(d&&d.file?d.file:"in repo")}</button></div></div>`;
   R.classList.add("on");RI.scrollTop=0;
   document.getElementById("rx").onclick=()=>R.classList.remove("on");
