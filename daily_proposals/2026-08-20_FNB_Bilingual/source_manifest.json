@@ -1,0 +1,264 @@
+{
+  "date": "2026-08-20",
+  "industry": "Food & Beverage / FMCG",
+  "scope": "Ten concept proposals, each in English and English–Myanmar hybrid language treatment for September–December 2026 planning.",
+  "schedule_request": {
+    "cadence": "every two hours",
+    "active_update_status": "attempted twice; duplicate temporal schedule registration error",
+    "requested_playbook": "/home/ubuntu/bilingual_zynth_schedule_playbook.txt"
+  },
+  "concepts": [
+    {
+      "number": 1,
+      "title": "The First Crunch",
+      "title_myanmar": "ပထမဆုံး ကြွပ်ရွသံ",
+      "format": "Experiential sampling roadshow + social-first ASMR challenge",
+      "window": "8–20 September · back-to-routine sampling window",
+      "sponsorship": "Optional co-sponsorship with a retail mall / local radio food segment; inventory TBC",
+      "english": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_01_The_First_Crunch_English.docx",
+      "hybrid": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_01_The_First_Crunch_Hybrid_English_Myanmar.docx",
+      "assets": [
+        "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/assets/2026-08-20_ZYNTH_FNB_the_first_crunch_SketchDesign.png",
+        "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/assets/2026-08-20_ZYNTH_FNB_the_first_crunch_3DDesign_Package.png"
+      ],
+      "budget_mmk": {
+        "lean": 32000000,
+        "recommended": 56000000,
+        "flagship": 92000000
+      }
+    },
+    {
+      "number": 2,
+      "title": "Rain, Steam, Repeat",
+      "title_myanmar": "မိုး၊ အငွေ့၊ ထပ်မံခံစား",
+      "format": "Delivery-partner pop-up + comfort-food creator content series",
+      "window": "15–30 September · monsoon comfort-food window",
+      "sponsorship": "Delivery / e-commerce partner integration proposed; commercial terms TBC",
+      "english": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_02_Rain_Steam_Repeat_English.docx",
+      "hybrid": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_02_Rain_Steam_Repeat_Hybrid_English_Myanmar.docx",
+      "assets": [
+        "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/assets/2026-08-20_ZYNTH_FNB_rain_steam_repeat_SketchDesign.png",
+        "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/assets/2026-08-20_ZYNTH_FNB_rain_steam_repeat_3DDesign_Package.png"
+      ],
+      "budget_mmk": {
+        "lean": 28000000,
+        "recommended": 48000000,
+        "flagship": 78000000
+      }
+    },
+    {
+      "number": 3,
+      "title": "Lights, Bites, Together",
+      "title_myanmar": "မီးရောင်နဲ့ အရသာ—အတူတကွ",
+      "format": "Thadingyut seasonal retail activation + family gifting campaign",
+      "window": "16–27 October · Thadingyut gifting and reunion planning",
+      "sponsorship": "Mall, retail chain or family-entertainment sponsorship package proposed; TBC",
+      "english": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_03_Lights_Bites_Together_English.docx",
+      "hybrid": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_03_Lights_Bites_Together_Hybrid_English_Myanmar.docx",
+      "assets": [
+        "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/assets/2026-08-20_ZYNTH_FNB_lights_bites_together_SketchDesign.png",
+        "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/assets/2026-08-20_ZYNTH_FNB_lights_bites_together_3DDesign_Package.png"
+      ],
+      "budget_mmk": {
+        "lean": 50000000,
+        "recommended": 88000000,
+        "flagship": 145000000
+      }
+    },
+    {
+      "number": 4,
+      "title": "The Pantry of Possibility",
+      "title_myanmar": "အရသာဖြစ်နိုင်ခြေများ၏ စားစရာခန်း",
+      "format": "B2B exhibition pavilion + distributor workshop + sensory product theatre",
+      "window": "20–31 October · trade-show readiness and distributor momentum",
+      "sponsorship": "Trade-show content-theatre or registration sponsorship proposed; organiser inventory TBC",
+      "english": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_04_The_Pantry_of_Possibility_English.docx",
+      "hybrid": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_04_The_Pantry_of_Possibility_Hybrid_English_Myanmar.docx",
+      "assets": [
+        "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/assets/2026-08-20_ZYNTH_FNB_the_pantry_of_possibility_SketchDesign.png",
+        "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/assets/2026-08-20_ZYNTH_FNB_the_pantry_of_possibility_3DDesign_Package.png"
+      ],
+      "budget_mmk": {
+        "lean": 76000000,
+        "recommended": 135000000,
+        "flagship": 215000000
+      }
+    },
+    {
+      "number": 5,
+      "title": "Taste That Travels",
+      "title_myanmar": "ခရီးသွားသော အရသာ",
+      "format": "Exhibition sponsorship + export/distributor account-based campaign",
+      "window": "30 October–1 November · proposed FoodBev / Retail Sourcing Expo window",
+      "sponsorship": "Title, zone or buyer-lounge sponsorship subject to organiser quote and rights package",
+      "english": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_05_Taste_That_Travels_English.docx",
+      "hybrid": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_05_Taste_That_Travels_Hybrid_English_Myanmar.docx",
+      "assets": [
+        "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/assets/2026-08-20_ZYNTH_FNB_taste_that_travels_SketchDesign.png",
+        "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/assets/2026-08-20_ZYNTH_FNB_taste_that_travels_3DDesign_Package.png"
+      ],
+      "budget_mmk": {
+        "lean": 90000000,
+        "recommended": 158000000,
+        "flagship": 248000000
+      }
+    },
+    {
+      "number": 6,
+      "title": "First Light, First Bite",
+      "title_myanmar": "အလင်းဦးနဲ့ ပထမအရသာ",
+      "format": "Cultural night-market activation + community food programme",
+      "window": "20–24 November · Tazaungdaing cultural-market planning",
+      "sponsorship": "Community-market, local-media or township-partner sponsorship proposed; permits and cultural review required",
+      "english": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_06_First_Light_First_Bite_English.docx",
+      "hybrid": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_06_First_Light_First_Bite_Hybrid_English_Myanmar.docx",
+      "assets": [
+        "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/assets/2026-08-20_ZYNTH_FNB_first_light_first_bite_SketchDesign.png",
+        "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/assets/2026-08-20_ZYNTH_FNB_first_light_first_bite_3DDesign_Package.png"
+      ],
+      "budget_mmk": {
+        "lean": 55000000,
+        "recommended": 98000000,
+        "flagship": 160000000
+      }
+    },
+    {
+      "number": 7,
+      "title": "The Sound of Home",
+      "title_myanmar": "အိမ်ရဲ့ အသံ",
+      "format": "Influencer-led ASMR content relay + retail endcap activation",
+      "window": "10–30 November · creator-led sensory content season",
+      "sponsorship": "Creator-network and retail-endcap co-funding proposed; rights and disclosures TBC",
+      "english": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_07_The_Sound_of_Home_English.docx",
+      "hybrid": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_07_The_Sound_of_Home_Hybrid_English_Myanmar.docx",
+      "assets": [
+        "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/assets/2026-08-20_ZYNTH_FNB_the_sound_of_home_Storyboard.png"
+      ],
+      "budget_mmk": {
+        "lean": 24000000,
+        "recommended": 44000000,
+        "flagship": 72000000
+      }
+    },
+    {
+      "number": 8,
+      "title": "Made for the Table",
+      "title_myanmar": "စားပွဲအတွက် ဖန်တီးထားသည်",
+      "format": "Local-ingredient community programme + retail story series",
+      "window": "1–6 December · National Day local-sourcing content window",
+      "sponsorship": "Retailer, producer association or local-content sponsorship proposed; participation and claims TBC",
+      "english": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_08_Made_for_the_Table_English.docx",
+      "hybrid": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_08_Made_for_the_Table_Hybrid_English_Myanmar.docx",
+      "assets": [
+        "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/assets/2026-08-20_ZYNTH_FNB_made_for_the_table_SketchDesign.png",
+        "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/assets/2026-08-20_ZYNTH_FNB_made_for_the_table_3DDesign_Package.png"
+      ],
+      "budget_mmk": {
+        "lean": 38000000,
+        "recommended": 68000000,
+        "flagship": 110000000
+      }
+    },
+    {
+      "number": 9,
+      "title": "Sip the Year Brighter",
+      "title_myanmar": "နှစ်သစ်ကို ပိုလင်းလက်စွာ သောက်စို့",
+      "format": "Beverage sponsorship + micro-festival + responsible enjoyment campaign",
+      "window": "10–25 December · year-end celebration and Christmas planning",
+      "sponsorship": "Venue, music, food-court or transport-partner sponsorship proposed; all rights and permits TBC",
+      "english": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_09_Sip_the_Year_Brighter_English.docx",
+      "hybrid": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_09_Sip_the_Year_Brighter_Hybrid_English_Myanmar.docx",
+      "assets": [
+        "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/assets/2026-08-20_ZYNTH_FNB_sip_the_year_brighter_SketchDesign.png",
+        "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/assets/2026-08-20_ZYNTH_FNB_sip_the_year_brighter_3DDesign_Package.png"
+      ],
+      "budget_mmk": {
+        "lean": 72000000,
+        "recommended": 128000000,
+        "flagship": 205000000
+      }
+    },
+    {
+      "number": 10,
+      "title": "The Last Good Bite",
+      "title_myanmar": "နှစ်ကုန်ရဲ့ အကောင်းဆုံး တစ်ကိုက်",
+      "format": "CRM/reactivation campaign + retail loyalty closeout + referral mechanic",
+      "window": "26–31 December · year-end CRM and retail reactivation",
+      "sponsorship": "Retail loyalty, payment or delivery-partner contribution proposed; commercial terms TBC",
+      "english": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_10_The_Last_Good_Bite_English.docx",
+      "hybrid": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/proposals/2026-08-20_ZYNTH_FNB_10_The_Last_Good_Bite_Hybrid_English_Myanmar.docx",
+      "assets": [
+        "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/assets/2026-08-20_ZYNTH_FNB_the_last_good_bite_Storyboard.png"
+      ],
+      "budget_mmk": {
+        "lean": 18000000,
+        "recommended": 34000000,
+        "flagship": 60000000
+      }
+    }
+  ],
+  "workbook": "/home/ubuntu/zynth_bilingual_fnb_2026-08-20/2026-08-20_ZYNTH_FNB_Bilingual_Cycle_Index.xlsx",
+  "sources": [
+    {
+      "id": 1,
+      "title": "Myanmar Economic Monitor, June 2026: Shock Amid Fragility",
+      "url": "https://reliefweb.int/report/myanmar/myanmar-economic-monitor-june-2026-shock-amid-fragility-enmy",
+      "date": "2026-06-16",
+      "supports": "2026 macro pressure: weak demand, fuel/logistics costs, inflation and operating uncertainty."
+    },
+    {
+      "id": 2,
+      "title": "Digital 2026: Myanmar",
+      "url": "https://datareportal.com/reports/digital-2026-myanmar",
+      "date": "2025-11-08",
+      "supports": "Late-2025 digital planning indicators: 39.8m internet users, 62.5m mobile connections and 21.0m social identities."
+    },
+    {
+      "id": 3,
+      "title": "Holiday List of 2026 — Consulate General of Myanmar, Los Angeles",
+      "url": "https://myanmarcgla.org/index.php/holiday-list-of-2026",
+      "date": "2025-12-29",
+      "supports": "Public dates used in this planning calendar: 26–27 Oct Thadingyut, 23–24 Nov Tazaungdaing, 4 Dec National Day; client must confirm local operating calendars."
+    },
+    {
+      "id": 4,
+      "title": "Local delicacies take centre stage at Taste of the Golden Land 2026",
+      "url": "https://www.gnlm.com.mm/local-delicacies-take-centre-stage-at-taste-of-the-golden-land-2026-this-july/",
+      "date": "2026-07-15",
+      "supports": "Evidence of a Yangon food festival format that combines regional cuisines, brand participation, activity programmes and photo moments."
+    },
+    {
+      "id": 5,
+      "title": "City Mall Myanmar — Food category catalogue",
+      "url": "https://www.citymall.com.mm/citymall/my/%E1%80%95%E1%80%85%E1%80%B9%E1%80%85%E1%80%8A%E1%80%BA%E1%80%B8%E1%80%A1%E1%80%99%E1%80%BB%E1%80%AD%E1%80%AF%E1%80%B8%E1%80%A1%E1%80%85%E1%80%AC%E1%80%B8%E1%80%99%E1%80%BB%E1%80%AC%E1%80%B8/%E1%80%85%E1%80%AC%E1%80%B8%E1%80%9E%E1%80%B1%E1%80%AC%E1%80%80%E1%80%BA%E1%80%80%E1%80%AF%E1%80%94%E1%80%BA%E1%80%95%E1%80%85%E1%80%B9%E1%80%85%E1%80%8A%E1%80%BA%E1%80%B8%E1%80%99%E1%80%BB%E1%80%AC%E1%80%B8/c/id01?q=%3Abestselling&page=169",
+      "date": "accessed 2026-08-20",
+      "supports": "Myanmar-language retail context and publicly visible food brands/products, including City Selection, Yummy, Popy, Pa Pa, Feel and Penguin."
+    },
+    {
+      "id": 6,
+      "title": "2026 Agriculture Related Trade Shows and Conferences — USDA FAS",
+      "url": "https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=2026%20Agriculture%20Related%20Trade%20Shows%20and%20Conferences_Rangoon_Burma%20-%20Union%20of_BM2026-0003.pdf",
+      "date": "2026-01-22",
+      "supports": "Publicly indexed 2026 food-and-beverage/retail-show opportunity; exact venue, dates and sponsorship inventory require organiser confirmation."
+    },
+    {
+      "id": 7,
+      "title": "Myanmar Advertising Costs 2026: Facebook, Google, TikTok Rate Card",
+      "url": "https://marketingmyanmar.com/myanmar-advertising-costs-2026-facebook-google-tiktok-rate-card/",
+      "date": "2026-03-20",
+      "supports": "Indicative platform planning ranges that are expressly proxy-based where Myanmar platform data is unavailable."
+    },
+    {
+      "id": 8,
+      "title": "Yoma Bank — Currency Exchange Rates",
+      "url": "https://www.yomabank.com/en/rates/",
+      "date": "2026-08-18",
+      "supports": "Dated planning USD/MMK reference: MMK 3,658 per USD for trade-related transactions; not a binding supplier or settlement rate."
+    }
+  ],
+  "publication": {
+    "local": "complete",
+    "google_drive": "pending",
+    "github": "pending"
+  }
+}
