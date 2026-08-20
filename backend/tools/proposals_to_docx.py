@@ -145,8 +145,14 @@ def build_one(p: dict) -> Path | None:
                "Market FX applies. 50% deposit on signature.", size=8, space_after=0)
 
     OUTDIR.mkdir(parents=True, exist_ok=True)
-    name = f"{date.today().isoformat()}_Proposal_{slug(p['title'])}.docx"
+    stem = f"_Proposal_{slug(p['title'])}.docx"
+    name = f"{date.today().isoformat()}{stem}"
     path = OUTDIR / name
+    # a re-run on a later date would otherwise leave the previous dated copy
+    # behind — 25 files for 23 proposals, and no way to tell which is current
+    for old in OUTDIR.glob(f"*{stem}"):
+        if old.name != name:
+            old.unlink()
     doc.save(path)
     return path
 
