@@ -1,0 +1,305 @@
+{
+  "date": "2026-08-20",
+  "proposals": [
+    {
+      "industry": "Hospitality",
+      "title": "The Check-In That Counts",
+      "format": "Creator-led content series + hotel micro-experience + CRM reactivation",
+      "docx": "/home/ubuntu/zynth_daily_2026-08-20/proposals/2026-08-20_ZYNTH_Hospitality_The_Check_In_That_Counts.docx",
+      "budget_mmk": {
+        "lean": 55000000,
+        "recommended": 95000000,
+        "flagship": 145000000
+      },
+      "assets": [
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_the_check_in_that_counts_SketchDesign.png",
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_the_check_in_that_counts_3DDesign_Hero.png"
+      ],
+      "sources": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ]
+    },
+    {
+      "industry": "Financial Services",
+      "title": "Money in Motion",
+      "format": "SME executive forum + CRM lead funnel + relationship-manager enablement",
+      "docx": "/home/ubuntu/zynth_daily_2026-08-20/proposals/2026-08-20_ZYNTH_Financial_Services_Money_in_Motion.docx",
+      "budget_mmk": {
+        "lean": 70000000,
+        "recommended": 120000000,
+        "flagship": 185000000
+      },
+      "assets": [
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_money_in_motion_SketchDesign.png",
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_money_in_motion_3DDesign_Hero.png"
+      ],
+      "sources": [
+        1,
+        2,
+        5,
+        6,
+        8,
+        9
+      ]
+    },
+    {
+      "industry": "Healthcare",
+      "title": "Care Closer",
+      "format": "Community screening programme + referral pathway + clinician content series",
+      "docx": "/home/ubuntu/zynth_daily_2026-08-20/proposals/2026-08-20_ZYNTH_Healthcare_Care_Closer.docx",
+      "budget_mmk": {
+        "lean": 48000000,
+        "recommended": 82000000,
+        "flagship": 135000000
+      },
+      "assets": [
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_care_closer_SketchDesign.png",
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_care_closer_3DDesign_Hero.png"
+      ],
+      "sources": [
+        1,
+        2,
+        5,
+        8,
+        9
+      ]
+    },
+    {
+      "industry": "Education",
+      "title": "Future Ready Lab",
+      "format": "Masterclass series + admissions funnel + alumni proof content",
+      "docx": "/home/ubuntu/zynth_daily_2026-08-20/proposals/2026-08-20_ZYNTH_Education_Future_Ready_Lab.docx",
+      "budget_mmk": {
+        "lean": 42000000,
+        "recommended": 76000000,
+        "flagship": 118000000
+      },
+      "assets": [
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_future_ready_lab_SketchDesign.png",
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_future_ready_lab_3DDesign_Hero.png"
+      ],
+      "sources": [
+        1,
+        2,
+        5,
+        8,
+        9
+      ]
+    },
+    {
+      "industry": "Automotive / EV",
+      "title": "Charge the Weekend",
+      "format": "EV roadshow + dealer event + test-drive lead funnel",
+      "docx": "/home/ubuntu/zynth_daily_2026-08-20/proposals/2026-08-20_ZYNTH_Automotive_EV_Charge_the_Weekend.docx",
+      "budget_mmk": {
+        "lean": 95000000,
+        "recommended": 165000000,
+        "flagship": 260000000
+      },
+      "assets": [
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_charge_the_weekend_SketchDesign.png",
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_charge_the_weekend_3DDesign_Hero.png"
+      ],
+      "sources": [
+        1,
+        2,
+        5,
+        6,
+        8,
+        9
+      ]
+    },
+    {
+      "industry": "Telecom / Technology",
+      "title": "Signal to Story",
+      "format": "Innovation exhibition + account-based marketing + partner demo theatre",
+      "docx": "/home/ubuntu/zynth_daily_2026-08-20/proposals/2026-08-20_ZYNTH_Telecom_Technology_Signal_to_Story.docx",
+      "budget_mmk": {
+        "lean": 88000000,
+        "recommended": 150000000,
+        "flagship": 235000000
+      },
+      "assets": [
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_signal_to_story_SketchDesign.png",
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_signal_to_story_3DDesign_Hero.png"
+      ],
+      "sources": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9
+      ]
+    },
+    {
+      "industry": "Real Estate",
+      "title": "Your Next Chapter",
+      "format": "Show-apartment experience + paid digital funnel + referral open house",
+      "docx": "/home/ubuntu/zynth_daily_2026-08-20/proposals/2026-08-20_ZYNTH_Real_Estate_Your_Next_Chapter.docx",
+      "budget_mmk": {
+        "lean": 78000000,
+        "recommended": 138000000,
+        "flagship": 220000000
+      },
+      "assets": [
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_your_next_chapter_SketchDesign.png",
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_your_next_chapter_3DDesign_Hero.png"
+      ],
+      "sources": [
+        1,
+        2,
+        5,
+        6,
+        8,
+        9
+      ]
+    },
+    {
+      "industry": "Manufacturing / B2B",
+      "title": "Built for the Next Shift",
+      "format": "Trade-show pavilion + distributor workshop + sales enablement content",
+      "docx": "/home/ubuntu/zynth_daily_2026-08-20/proposals/2026-08-20_ZYNTH_Manufacturing_B2B_Built_for_the_Next_Shift.docx",
+      "budget_mmk": {
+        "lean": 65000000,
+        "recommended": 112000000,
+        "flagship": 175000000
+      },
+      "assets": [
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_built_for_the_next_shift_SketchDesign.png",
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_built_for_the_next_shift_3DDesign_Hero.png"
+      ],
+      "sources": [
+        1,
+        5,
+        6,
+        8,
+        9
+      ]
+    },
+    {
+      "industry": "Beauty / Wellness",
+      "title": "Proof in the Mirror",
+      "format": "Social-first challenge + retail pop-up + sampling-to-CRM conversion",
+      "docx": "/home/ubuntu/zynth_daily_2026-08-20/proposals/2026-08-20_ZYNTH_Beauty_Wellness_Proof_in_the_Mirror.docx",
+      "budget_mmk": {
+        "lean": 36000000,
+        "recommended": 64000000,
+        "flagship": 98000000
+      },
+      "assets": [
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_proof_in_the_mirror_SketchDesign.png",
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_proof_in_the_mirror_3DDesign_Hero.png"
+      ],
+      "sources": [
+        1,
+        2,
+        5,
+        6,
+        8,
+        9
+      ]
+    },
+    {
+      "industry": "NGO / Social Impact",
+      "title": "Small Acts, Visible Change",
+      "format": "Community programme + documentary content series + donor conversion funnel",
+      "docx": "/home/ubuntu/zynth_daily_2026-08-20/proposals/2026-08-20_ZYNTH_NGO_Social_Impact_Small_Acts_Visible_Change.docx",
+      "budget_mmk": {
+        "lean": 28000000,
+        "recommended": 52000000,
+        "flagship": 90000000
+      },
+      "assets": [
+        "/home/ubuntu/zynth_daily_2026-08-20/assets/2026-08-20_ZYNTH_small_acts_visible_change_Storyboard.png"
+      ],
+      "sources": [
+        1,
+        2,
+        5,
+        8,
+        9
+      ]
+    }
+  ],
+  "monitoring_report": "/home/ubuntu/zynth_daily_2026-08-20/2026-08-20_ZYNTH_Daily_Myanmar_Brand_Activity_Monitoring.docx",
+  "workbook": "/home/ubuntu/zynth_daily_2026-08-20/2026-08-20_ZYNTH_Monitoring_and_Proposal_Index.xlsx",
+  "sources": [
+    {
+      "id": 1,
+      "title": "Myanmar Economic Monitor, June 2026: Shock Amid Fragility",
+      "url": "https://reliefweb.int/report/myanmar/myanmar-economic-monitor-june-2026-shock-amid-fragility-enmy",
+      "date": "2026-06-16",
+      "supports": "Macro conditions, fuel shock, inflation, weak demand, operating uncertainty."
+    },
+    {
+      "id": 2,
+      "title": "Digital 2026: Myanmar",
+      "url": "https://datareportal.com/reports/digital-2026-myanmar",
+      "date": "2025-11-08",
+      "supports": "Internet, mobile and social-media planning context; late-2025 data used for 2026 planning."
+    },
+    {
+      "id": 3,
+      "title": "Myanmar Ministry of Hotels and Tourism — Tourism Statistics",
+      "url": "https://tourism.gov.mm/en/tourism-statistics",
+      "date": "accessed 2026-08-20",
+      "supports": "Official tourism statistics archive and sector source hierarchy."
+    },
+    {
+      "id": 4,
+      "title": "LOTTE HOTEL YANGON — Event Spaces",
+      "url": "https://www.lottehotel.com/yangon-hotel/en/wedding-convention/convention/overview",
+      "date": "accessed 2026-08-20",
+      "supports": "Venue capacity and event-space existence; live page presented a bot challenge, so quotation required."
+    },
+    {
+      "id": 5,
+      "title": "Myanmar Advertising Costs 2026: Facebook, Google, TikTok Rate Card",
+      "url": "https://marketingmyanmar.com/myanmar-advertising-costs-2026-facebook-google-tiktok-rate-card/",
+      "date": "2026-03-20",
+      "supports": "Indicative Myanmar digital media ranges, explicitly proxy-based where platform data is unavailable."
+    },
+    {
+      "id": 6,
+      "title": "Yoma Bank — Currency Exchange Rates",
+      "url": "https://www.yomabank.com/en/rates/",
+      "date": "2026-08-18",
+      "supports": "Dated indicative USD/MMK assumption: MMK 3,658 trade-related average selling price; rates are not binding."
+    },
+    {
+      "id": 7,
+      "title": "World Bank Myanmar Overview",
+      "url": "https://www.worldbank.org/en/country/myanmar/overview",
+      "date": "accessed 2026-08-20",
+      "supports": "First-party World Bank Myanmar publication hub and country context."
+    },
+    {
+      "id": 8,
+      "title": "ZYNTH internal planning knowledge — Myanmar event landscape",
+      "url": "https://github.com/zanezynthbrain/zynth-brain/blob/main/backend/knowledge/22_myanmar_event_landscape.md",
+      "date": "accessed 2026-08-20",
+      "supports": "Internal planning ranges and venue/vendor starting points; all require RFQ validation."
+    },
+    {
+      "id": 9,
+      "title": "ZYNTH internal planning knowledge — pricing and standards",
+      "url": "https://github.com/zanezynthbrain/zynth-brain/blob/main/backend/knowledge/09_pricing_and_standards.md",
+      "date": "accessed 2026-08-20",
+      "supports": "Agency fee models, deposit convention, contingency and service standards; not supplier quotes."
+    }
+  ],
+  "publication": {
+    "local": "complete",
+    "google_drive": "pending",
+    "github": "pending"
+  }
+}
