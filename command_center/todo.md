@@ -1,0 +1,27 @@
+# Project TODO
+
+- [x] Define a normalized industry, tiering, campaign-form, proposal-stage, production-stage, and publication-status vocabulary for Myanmar-first agency operations.
+- [x] Research and rank the complete Myanmar industry opportunity universe, including all user-listed verticals and additional relevant sectors.
+- [x] Create a tiered Myanmar business intelligence hub with pitch-readiness scores, public-source evidence, and bilingual fields.
+- [x] Build a CEO command dashboard with real-time KPI cards, status rings, budget totals, industry coverage, and activity feed.
+- [x] Implement proposal tracking with the exact stages: Draft, Review, Pitched, Negotiating, Won, Lost, On Hold.
+- [x] Implement filters for industry, language, date, campaign type, budget tier, seasonal window, owner, and stage.
+- [x] Build a bilingual proposal viewer that presents title, Myanmar title, concept, budget packages, ROI scenarios, seasonal rationale, and document links.
+- [x] Build commercial-video project tracking for storyboard, pre-production, production, post-production, and delivery.
+- [x] Add commercial-video project fields for tagline, client, production house, talent, timeline, storyline, storyboard, budget, deliverables, and approvals.
+- [x] Create an exhaustive industry-by-campaign/event/program matrix that covers activation, roadshow, exhibition, sponsorship, seasonal campaigns, ASMR, commercial video, B2B, CRM, and related forms.
+- [x] Create a two-hour production-cycle feed with batch records, output counts, active industry, document statuses, failures, and publication status.
+- [ ] Track both Google Drive and GitHub synchronization concurrently with exact URLs, commits, timestamps, failures, and retry status.
+- [x] Add automatic notification records for new batches, proposal-stage changes, sync failures, and approaching seasonal deadlines.
+- [x] Create a ZYNTH master-prompt library with versioning, run-brief variable editor, Claude Code guide, and one-click copy interaction.
+- [x] Support English and English–Myanmar hybrid content throughout the dashboard and data model.
+- [x] Create database schema, migrations, typed API procedures, and Vitest coverage for all implemented workflows.
+- [ ] Verify desktop and mobile dashboard rendering, loading states, empty states, error states, and accessibility.
+- [ ] Bind the active two-hour production schedule to the published command-center callback and verify its first automated Drive/GitHub dashboard update.
+- [ ] Synchronize the completed command-center work to the selected GitHub repository and attach accurate publication status.
+- [x] Add status-ring visuals and automatic dashboard polling for executive real-time awareness.
+- [x] Implement the missing proposal owner filter in the API, dashboard UI, and regression tests.
+- [ ] Add failure-detail and failure-timestamp fields to production batch tracking, persist them in scheduled ingestion, and surface them in the sync audit UI.
+- [ ] Add edit controls for timeline and storyboard fields on existing commercial video projects, and show approvals inside a project-detail workflow rather than only a separate approval console.
+- [ ] Add UI-level verification/tests for SyncAuditPanel rendering of githubUrl, syncRetryStatus, and per-destination timestamps/failure states.
+- [ ] Record mobile viewport and accessibility QA for the key command-center routes.

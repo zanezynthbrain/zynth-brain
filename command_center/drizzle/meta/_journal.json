@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1787245964684,
+      "tag": "0000_even_crystal",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1787246480763,
+      "tag": "0001_odd_speed",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1787246875501,
+      "tag": "0002_bizarre_diamondback",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1787247470410,
+      "tag": "0003_productive_sir_ram",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1787247956133,
+      "tag": "0004_living_boom_boom",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1787248200968,
+      "tag": "0005_last_chamber",
+      "breakpoints": true
+    }
+  ]
+}

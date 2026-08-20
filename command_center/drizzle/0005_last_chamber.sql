@@ -1,0 +1,1 @@
+ALTER TABLE `production_batches` ADD `sync_failed_at` timestamp;
