@@ -299,7 +299,7 @@
   ],
   "publication": {
     "local": "complete",
-    "google_drive": "pending",
-    "github": "pending"
+    "google_drive": {"status": "complete", "folder_url": "https://drive.google.com/drive/folders/10TDzVgj0iBxvULvGnrsXtjVnAcA8gNj-"},
+    "github": {"status": "complete", "repository": "https://github.com/zanezynthbrain/zynth-brain", "commit": "d7c9863", "path": "daily_proposals/2026-08-20/"}
   }
 }
