@@ -176,14 +176,27 @@ class VarietyRegistry:
                 return True
         return False
 
-    def _pick(self, dim: str, taken: set[str], rng: random.Random) -> str:
-        """Least-used value first, so the vocabulary spreads instead of clumping."""
+    def _pick(self, dim: str, taken: set[str], rng: random.Random,
+              in_cycle: dict[str, int] | None = None) -> str:
+        """Least-used value first, so the vocabulary spreads instead of clumping.
+
+        `taken` is a hard exclusion (dimensions that must be unique in a cycle).
+        `in_cycle` counts what this cycle has used so far and is a soft weight —
+        without it, a dimension with a small vocabulary (budget_scale has three
+        values) picks the same least-used value for all ten concepts, which is
+        how a cycle ends up entirely "lean pilot".
+        """
         counts = self._used_counts(dim)
+        in_cycle = in_cycle or {}
         pool = [v for v in DIMENSIONS[dim] if v not in taken]
         if not pool:                       # cycle longer than the vocabulary
             pool = list(DIMENSIONS[dim])
-        least = min(counts.get(v, 0) for v in pool)
-        best = [v for v in pool if counts.get(v, 0) == least]
+        # in-cycle usage dominates history, so a cycle spreads across the
+        # vocabulary before it starts optimising against the archive
+        def weight(v: str) -> tuple[int, int]:
+            return (in_cycle.get(v, 0), counts.get(v, 0))
+        least = min(weight(v) for v in pool)
+        best = [v for v in pool if weight(v) == least]
         return rng.choice(best)
 
     # ---------------------------------------------------------------- plan
@@ -193,12 +206,14 @@ class VarietyRegistry:
         history = self.data["concepts"]
         briefs: list[dict] = []
         taken = {d: set() for d in DIMENSIONS}
+        in_cycle: dict[str, dict[str, int]] = {d: {} for d in DIMENSIONS}
 
         for i in range(count):
             for _attempt in range(400):
                 b = {"industry": industry, "n": i + 1}
                 for d in DIMENSIONS:
-                    b[d] = self._pick(d, taken[d] if d in UNIQUE_IN_CYCLE else set(), rng)
+                    b[d] = self._pick(d, taken[d] if d in UNIQUE_IN_CYCLE else set(),
+                                      rng, in_cycle[d])
                 if not self._collides(b, briefs) and not self._collides(b, history):
                     break
             else:
@@ -207,6 +222,8 @@ class VarietyRegistry:
                 b["relaxed"] = True
             for d in UNIQUE_IN_CYCLE:
                 taken[d].add(b[d])
+            for d in DIMENSIONS:
+                in_cycle[d][b[d]] = in_cycle[d].get(b[d], 0) + 1
             briefs.append(b)
         return briefs
 

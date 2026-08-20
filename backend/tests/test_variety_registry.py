@@ -109,3 +109,26 @@ def test_every_brief_is_complete(reg):
         for dim in DIMENSIONS:
             assert b.get(dim), f"{dim} missing from brief {b['n']}"
         assert b["industry"] == "Automotive / EV"
+
+
+def test_budget_scale_varies_within_a_cycle(reg):
+    """A small vocabulary must still spread — not ten identical budget scales."""
+    briefs = reg.plan_cycle("Hospitality / tourism / MICE", 10)
+    scales = {b["budget_scale"] for b in briefs}
+    assert len(scales) >= 3, f"budget scale did not vary: {scales}"
+
+
+def test_season_varies_within_a_cycle(reg):
+    briefs = reg.plan_cycle("Beauty / wellness", 10)
+    assert len({b["season"] for b in briefs}) >= 4
+
+
+def test_soft_dimensions_spread_evenly(reg):
+    """No soft-dimension value should dominate a cycle."""
+    briefs = reg.plan_cycle("Telecom / technology", 10)
+    for dim in ("budget_scale", "season", "behaviour"):
+        counts: dict[str, int] = {}
+        for b in briefs:
+            counts[b[dim]] = counts.get(b[dim], 0) + 1
+        assert max(counts.values()) <= max(4, 10 // len(counts) + 2), \
+            f"{dim} clumped: {counts}"
