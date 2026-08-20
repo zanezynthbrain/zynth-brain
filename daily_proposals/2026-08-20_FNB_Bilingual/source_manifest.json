@@ -258,7 +258,7 @@
   ],
   "publication": {
     "local": "complete",
-    "google_drive": "pending",
-    "github": "pending"
+    "google_drive": {"status": "complete", "folder_url": "https://drive.google.com/drive/folders/1U0G9j_EG_L0vcm679CDR1CEGDtMNlD64"},
+    "github": {"status": "complete", "repository": "https://github.com/zanezynthbrain/zynth-brain", "commit": "a756cfc", "path": "daily_proposals/2026-08-20_FNB_Bilingual/"}
   }
 }
