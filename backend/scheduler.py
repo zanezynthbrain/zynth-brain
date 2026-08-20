@@ -615,6 +615,63 @@ async def run_brand_creative() -> None:
             pass
 
 
+async def run_proposal_cycle() -> None:
+    """Every 2 hours: plan ONE 10-concept proposal cycle that overlaps nothing.
+
+    Follows the founder's production spec — one industry per invocation from a
+    non-repeating rotation, ten materially distinct concepts, and a cumulative
+    registry so future cycles cannot reuse an industry, event form, creative
+    territory, commercial tension, behaviour change, conversion mechanic,
+    budget scale or seasonal hook that has already been used.
+
+    This job PLANS and queues. It does not write the documents — writing runs
+    on the Anthropic API and is gated behind the founder, so the cycle brief
+    lands in the queue and the MD releases it."""
+    logger.info("📐 Proposal cycle starting")
+    try:
+        from utils.variety_registry import VarietyRegistry
+
+        reg = VarietyRegistry()
+        industry = reg.next_industry()
+        briefs = reg.plan_cycle(industry, 10)
+        run_id = datetime.now().strftime("%Y-%m-%dT%H:%M")
+        reg.claim_cycle(industry, briefs, run_id=run_id)
+
+        queued = 0
+        try:
+            from utils.creative_queue import enqueue
+            for b in briefs:
+                enqueue({
+                    "kind": "proposal",
+                    "industry": industry,
+                    "run_id": run_id,
+                    "brief": b,
+                    "standard": "docs/PROPOSAL_GOLD_STANDARD.md",
+                })
+                queued += 1
+        except Exception:
+            logger.exception("Queueing proposal cycle failed")
+
+        relaxed = sum(1 for b in briefs if b.get("relaxed"))
+        cov = reg.coverage()
+        note = f"\n⚠️ {relaxed} concept(s) reused a dimension — vocabulary is running thin" if relaxed else ""
+        await send_message(
+            f"📐 <b>Proposal cycle planned</b> — {html.escape(industry)}\n"
+            f"{len(briefs)} concepts, none overlapping · {queued} queued\n"
+            f"Industries covered {len(cov['industries_done'])}/{len(cov['industries_done']) + len(cov['industries_left'])}"
+            f"{note}\n"
+            f"<i>Writing is not automatic — release with /cqueue.</i>"
+        )
+        logger.info("📐 Proposal cycle planned: %s (%d concepts)", industry, len(briefs))
+    except Exception as exc:
+        logger.exception("Proposal cycle failed: %s", exc)
+        try:
+            from utils import mistakes
+            mistakes.record("proposal_cycle", "cycle failed", type(exc).__name__, "error")
+        except Exception:
+            pass
+
+
 async def run_creative_prep() -> None:
     """Nightly: write ONE commercial-video brief and ONE 3D event-scene spec and
     put them in the creative queue.
@@ -841,6 +898,19 @@ def _gated(job_key: str, fn):
 def build_scheduler(settings=None) -> AsyncIOScheduler:
     settings = settings or get_settings()
     scheduler = AsyncIOScheduler(timezone=settings.scheduler_timezone)
+
+    # Proposal cycle — every 2 hours, one industry, 10 non-overlapping concepts
+    scheduler.add_job(
+        _gated("proposal_cycle", run_proposal_cycle),
+        CronTrigger(
+            hour="*/2",
+            minute=5,
+            timezone=settings.scheduler_timezone,
+        ),
+        id="proposal_cycle",
+        name="Proposal cycle every 2 hours (10 non-overlapping concepts)",
+        replace_existing=True,
+    )
 
     # Morning CEO brief
     scheduler.add_job(

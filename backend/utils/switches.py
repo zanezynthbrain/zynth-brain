@@ -39,6 +39,7 @@ SWITCHES = [
     ("fx_refresh",            "Daily FX rate refresh",                  False, False),
     ("publisher",             "Publish MD-approved posts at their time", False, True),
     ("brand_creative",        "Nightly brand content/design month",     False, False),
+    ("proposal_cycle",        "Proposal cycle every 2 hours (10 concepts, no overlap)", False, False),
     ("creative_prep",         "Nightly video + 3D brief prep (queued, not generated)", False, False),
 ]
 _DEFAULTS = {k: d for k, _, _, d in SWITCHES}
