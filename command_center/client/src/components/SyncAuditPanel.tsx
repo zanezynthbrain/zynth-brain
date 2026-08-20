@@ -1,4 +1,5 @@
 // @ts-nocheck
+import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Github, HardDrive } from "lucide-react";
 

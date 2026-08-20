@@ -11,17 +11,18 @@
 - [x] Add commercial-video project fields for tagline, client, production house, talent, timeline, storyline, storyboard, budget, deliverables, and approvals.
 - [x] Create an exhaustive industry-by-campaign/event/program matrix that covers activation, roadshow, exhibition, sponsorship, seasonal campaigns, ASMR, commercial video, B2B, CRM, and related forms.
 - [x] Create a two-hour production-cycle feed with batch records, output counts, active industry, document statuses, failures, and publication status.
-- [ ] Track both Google Drive and GitHub synchronization concurrently with exact URLs, commits, timestamps, failures, and retry status.
+- [x] Track both Google Drive and GitHub synchronization concurrently with exact URLs, commits, timestamps, failures, and retry status.
 - [x] Add automatic notification records for new batches, proposal-stage changes, sync failures, and approaching seasonal deadlines.
 - [x] Create a ZYNTH master-prompt library with versioning, run-brief variable editor, Claude Code guide, and one-click copy interaction.
 - [x] Support English and English–Myanmar hybrid content throughout the dashboard and data model.
 - [x] Create database schema, migrations, typed API procedures, and Vitest coverage for all implemented workflows.
 - [ ] Verify desktop and mobile dashboard rendering, loading states, empty states, error states, and accessibility.
 - [ ] Bind the active two-hour production schedule to the published command-center callback and verify its first automated Drive/GitHub dashboard update.
-- [ ] Synchronize the completed command-center work to the selected GitHub repository and attach accurate publication status.
+- [x] Synchronize the completed command-center work to the selected GitHub repository and attach accurate publication status.
 - [x] Add status-ring visuals and automatic dashboard polling for executive real-time awareness.
 - [x] Implement the missing proposal owner filter in the API, dashboard UI, and regression tests.
-- [ ] Add failure-detail and failure-timestamp fields to production batch tracking, persist them in scheduled ingestion, and surface them in the sync audit UI.
-- [ ] Add edit controls for timeline and storyboard fields on existing commercial video projects, and show approvals inside a project-detail workflow rather than only a separate approval console.
-- [ ] Add UI-level verification/tests for SyncAuditPanel rendering of githubUrl, syncRetryStatus, and per-destination timestamps/failure states.
-- [ ] Record mobile viewport and accessibility QA for the key command-center routes.
+- [x] Add failure-detail and failure-timestamp fields to production batch tracking, persist them in scheduled ingestion, and surface them in the sync audit UI.
+- [x] Add edit controls for timeline and storyboard fields on existing commercial video projects, and show approvals inside a project-detail workflow rather than only a separate approval console.
+- [ ] Perform and record a manual accessibility QA pass across all key routes, covering keyboard access, focus visibility, labels, contrast, and dialog/select behavior.
+- [ ] Add a DOM-rendered component test for SyncAuditPanel covering Drive/GitHub links, retry state, destination timestamps, and failure detail.
+- [ ] Complete and record final mobile viewport QA for command, proposals, production, coverage, prompts, notifications, and intelligence routes.
