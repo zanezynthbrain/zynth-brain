@@ -1,0 +1,29 @@
+{
+  "document_count": 20,
+  "asset_count": 10,
+  "english_count": 10,
+  "hybrid_count": 10,
+  "missing_sections": [],
+  "myanmar_hybrid_hits": 10,
+  "bad_docx": [],
+  "manifest_counts": {
+    "proposalCount": 10,
+    "documentCount": 20,
+    "videoConceptCount": 10
+  },
+  "manifest_proposals": 10,
+  "workbook_sheets": [
+    "Proposal Index",
+    "Source Log",
+    "Budget Summary"
+  ],
+  "registry_last_cycle": {
+    "industry": "Retail & shopping malls",
+    "industryCode": "retail",
+    "run_id": "2026-08-21T00:12:00Z",
+    "count": 10,
+    "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+  },
+  "sha256_manifest": "2ed570d78a4c8102eeeab0ab9ddbc6b771b9fc1ebbc4d7a5514bba0d568864c4",
+  "pass": true
+}

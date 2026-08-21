@@ -1,0 +1,341 @@
+{
+  "batchCode": "ZYNTH-20260821-RETAIL-BILINGUAL",
+  "industryCode": "retail",
+  "selectedIndustry": "Retail / Shopping Malls",
+  "scheduledAt": "2026-08-21T00:12:00Z",
+  "createdAt": "2026-08-21T00:12:00Z",
+  "proposalCount": 10,
+  "documentCount": 20,
+  "videoConceptCount": 10,
+  "proposals": [
+    {
+      "n": 1,
+      "title": "Basket Reset",
+      "myanmarTitle": "ခြင်းတောင်းကို ပြန်စီ",
+      "format": "In-store navigation + scan-to-save activation",
+      "budgetMMK": {
+        "lean": 18000000,
+        "recommended": 34000000,
+        "flagship": 62000000
+      },
+      "documents": [
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_01_basket-reset_English.docx",
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_01_basket-reset_Hybrid_English_Myanmar.docx"
+      ],
+      "asset": "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/assets/2026-08-21_ZYNTH_Retail_01_basket-reset_Sketch_3D_Design_Package.png",
+      "videoConcept": true,
+      "sourceIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "n": 2,
+      "title": "The Curated Hour",
+      "myanmarTitle": "ရွေးချယ်ပေးတဲ့ တစ်နာရီ",
+      "format": "Appointment-only gifting pop-up",
+      "budgetMMK": {
+        "lean": 22000000,
+        "recommended": 42000000,
+        "flagship": 78000000
+      },
+      "documents": [
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_02_the-curated-hour_English.docx",
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_02_the-curated-hour_Hybrid_English_Myanmar.docx"
+      ],
+      "asset": "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/assets/2026-08-21_ZYNTH_Retail_02_the-curated-hour_Sketch_3D_Design_Package.png",
+      "videoConcept": true,
+      "sourceIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "n": 3,
+      "title": "Source to Shelf",
+      "myanmarTitle": "အရင်းအမြစ်မှ စင်ပေါ်သို့",
+      "format": "Retail provenance exhibition + QR proof cards",
+      "budgetMMK": {
+        "lean": 26000000,
+        "recommended": 52000000,
+        "flagship": 96000000
+      },
+      "documents": [
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_03_source-to-shelf_English.docx",
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_03_source-to-shelf_Hybrid_English_Myanmar.docx"
+      ],
+      "asset": "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/assets/2026-08-21_ZYNTH_Retail_03_source-to-shelf_Sketch_3D_Design_Package.png",
+      "videoConcept": true,
+      "sourceIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "n": 4,
+      "title": "Retail Makers Forum",
+      "myanmarTitle": "လက်လီလုပ်ငန်းရှင်များ ဖိုရမ်",
+      "format": "B2B retail forum + supplier matching",
+      "budgetMMK": {
+        "lean": 30000000,
+        "recommended": 58000000,
+        "flagship": 110000000
+      },
+      "documents": [
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_04_retail-makers-forum_English.docx",
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_04_retail-makers-forum_Hybrid_English_Myanmar.docx"
+      ],
+      "asset": "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/assets/2026-08-21_ZYNTH_Retail_04_retail-makers-forum_Sketch_3D_Design_Package.png",
+      "videoConcept": true,
+      "sourceIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "n": 5,
+      "title": "Try Before Trust",
+      "myanmarTitle": "ယုံကြည်မီ စမ်းကြည့်",
+      "format": "Sampling bar + timed demo + Viber reminder opt-in",
+      "budgetMMK": {
+        "lean": 16000000,
+        "recommended": 31000000,
+        "flagship": 56000000
+      },
+      "documents": [
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_05_try-before-trust_English.docx",
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_05_try-before-trust_Hybrid_English_Myanmar.docx"
+      ],
+      "asset": "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/assets/2026-08-21_ZYNTH_Retail_05_try-before-trust_Sketch_3D_Design_Package.png",
+      "videoConcept": true,
+      "sourceIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "n": 6,
+      "title": "Lights On Together",
+      "myanmarTitle": "အတူတူ မီးထွန်းကြမယ်",
+      "format": "Thadingyut community-lighting sponsorship activation",
+      "budgetMMK": {
+        "lean": 24000000,
+        "recommended": 48000000,
+        "flagship": 88000000
+      },
+      "documents": [
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_06_lights-on-together_English.docx",
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_06_lights-on-together_Hybrid_English_Myanmar.docx"
+      ],
+      "asset": "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/assets/2026-08-21_ZYNTH_Retail_06_lights-on-together_Sketch_3D_Design_Package.png",
+      "videoConcept": true,
+      "sourceIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "n": 7,
+      "title": "Learn the Shelf",
+      "myanmarTitle": "စင်ပေါ်ကနေ သင်ယူ",
+      "format": "Weekly micro-masterclass in-store",
+      "budgetMMK": {
+        "lean": 14000000,
+        "recommended": 28000000,
+        "flagship": 50000000
+      },
+      "documents": [
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_07_learn-the-shelf_English.docx",
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_07_learn-the-shelf_Hybrid_English_Myanmar.docx"
+      ],
+      "asset": "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/assets/2026-08-21_ZYNTH_Retail_07_learn-the-shelf_Sketch_3D_Design_Package.png",
+      "videoConcept": true,
+      "sourceIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "n": 8,
+      "title": "Return the Value",
+      "myanmarTitle": "တန်ဖိုးကို ပြန်ပေး",
+      "format": "Take-back points + monthly public report-back",
+      "budgetMMK": {
+        "lean": 20000000,
+        "recommended": 39000000,
+        "flagship": 72000000
+      },
+      "documents": [
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_08_return-the-value_English.docx",
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_08_return-the-value_Hybrid_English_Myanmar.docx"
+      ],
+      "asset": "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/assets/2026-08-21_ZYNTH_Retail_08_return-the-value_Sketch_3D_Design_Package.png",
+      "videoConcept": true,
+      "sourceIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "n": 9,
+      "title": "Creator Cart",
+      "myanmarTitle": "ဖန်တီးသူနဲ့ ရွေးတဲ့ခြင်းတောင်း",
+      "format": "Creator-led shoppable content + store route",
+      "budgetMMK": {
+        "lean": 12000000,
+        "recommended": 26000000,
+        "flagship": 54000000
+      },
+      "documents": [
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_09_creator-cart_English.docx",
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_09_creator-cart_Hybrid_English_Myanmar.docx"
+      ],
+      "asset": "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/assets/2026-08-21_ZYNTH_Retail_09_creator-cart_Digital_UI_Storyboard.png",
+      "videoConcept": true,
+      "sourceIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "n": 10,
+      "title": "One More Reason",
+      "myanmarTitle": "နောက်ထပ် အကြောင်းပြချက်တစ်ခု",
+      "format": "Paid digital funnel + CRM reactivation + content series",
+      "budgetMMK": {
+        "lean": 10000000,
+        "recommended": 23000000,
+        "flagship": 47000000
+      },
+      "documents": [
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_10_one-more-reason_English.docx",
+        "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/proposals/2026-08-21_ZYNTH_Retail_10_one-more-reason_Hybrid_English_Myanmar.docx"
+      ],
+      "asset": "/home/ubuntu/zynth-brain/daily_proposals/2026-08-21_Retail_Bilingual/assets/2026-08-21_ZYNTH_Retail_10_one-more-reason_Digital_UI_Storyboard.png",
+      "videoConcept": true,
+      "sourceIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "Myanmar Ministry of Foreign Affairs — Public Holidays",
+      "url": "https://www.mofa.gov.mm/about-myanmar/public-holidays/",
+      "date": "accessed 2026-08-21",
+      "supports": "Official 2026 public-holiday dates; Thadingyut 25–27 October 2026."
+    },
+    {
+      "id": 2,
+      "title": "6th Edition Myanmar Retail Sourcing Expo — 2026",
+      "url": "https://www.fibre2fashion.com/trade-fairs/6th-edition-myanmar-retail-sourcing-expo-2026-66372",
+      "date": "accessed 2026-08-21",
+      "supports": "Published 30 October–1 November 2026, Myanmar Plaza Yangon; retail/supplier/manufacturer audience and seminar context."
+    },
+    {
+      "id": 3,
+      "title": "Myanmar Economic Monitor, June 2026: Shock Amid Fragility",
+      "url": "https://reliefweb.int/report/myanmar/myanmar-economic-monitor-june-2026-shock-amid-fragility-enmy",
+      "date": "2026-06-16",
+      "supports": "Macro pressure, fuel shock, inflation, weak demand, operating uncertainty."
+    },
+    {
+      "id": 4,
+      "title": "Digital 2026: Myanmar",
+      "url": "https://datareportal.com/reports/digital-2026-myanmar",
+      "date": "2025-11-08",
+      "supports": "Planning context for internet, mobile, and social channels; late-2025 data used for 2026 planning."
+    },
+    {
+      "id": 5,
+      "title": "Myanmar Advertising Costs 2026",
+      "url": "https://marketingmyanmar.com/myanmar-advertising-costs-2026-facebook-google-tiktok-rate-card/",
+      "date": "2026-03-20",
+      "supports": "Indicative paid-media ranges; proxy-based and not a platform quotation."
+    },
+    {
+      "id": 6,
+      "title": "World Bank Myanmar Overview",
+      "url": "https://www.worldbank.org/en/country/myanmar/overview",
+      "date": "accessed 2026-08-21",
+      "supports": "Country context and first-party publication hub."
+    },
+    {
+      "id": 7,
+      "title": "ZYNTH internal planning knowledge — Myanmar event landscape",
+      "url": "https://github.com/zanezynthbrain/zynth-brain/blob/main/backend/knowledge/22_myanmar_event_landscape.md",
+      "date": "accessed 2026-08-21",
+      "supports": "Starting-point local production ranges; every item requires RFQ validation."
+    },
+    {
+      "id": 8,
+      "title": "ZYNTH internal planning knowledge — pricing and standards",
+      "url": "https://github.com/zanezynthbrain/zynth-brain/blob/main/backend/knowledge/09_pricing_and_standards.md",
+      "date": "accessed 2026-08-21",
+      "supports": "Agency fee, contingency, deposit, and reporting conventions; not supplier quotes."
+    }
+  ],
+  "notes": "All budget values are planning ranges, not supplier quotations or guarantees. Sponsorship, permits, partner rights, venues, talent, claims and inventory are proposed/TBC unless explicitly sourced."
+}

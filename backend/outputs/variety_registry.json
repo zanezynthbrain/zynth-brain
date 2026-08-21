@@ -1,0 +1,215 @@
+{
+ "cycles": [
+  {
+   "industry": "Hospitality / tourism / MICE",
+   "run_id": "2026-08-20T00:00Z",
+   "count": 1,
+   "source_batch": "2026-08-20",
+   "prior_batch_multi_industry": true
+  },
+  {
+   "industry": "Financial services",
+   "run_id": "2026-08-20T00:00Z",
+   "count": 1,
+   "source_batch": "2026-08-20",
+   "prior_batch_multi_industry": true
+  },
+  {
+   "industry": "Healthcare",
+   "run_id": "2026-08-20T00:00Z",
+   "count": 1,
+   "source_batch": "2026-08-20",
+   "prior_batch_multi_industry": true
+  },
+  {
+   "industry": "Education",
+   "run_id": "2026-08-20T00:00Z",
+   "count": 1,
+   "source_batch": "2026-08-20",
+   "prior_batch_multi_industry": true
+  },
+  {
+   "industry": "Automotive / EV",
+   "run_id": "2026-08-20T00:00Z",
+   "count": 1,
+   "source_batch": "2026-08-20",
+   "prior_batch_multi_industry": true
+  },
+  {
+   "industry": "Telecom / technology",
+   "run_id": "2026-08-20T00:00Z",
+   "count": 1,
+   "source_batch": "2026-08-20",
+   "prior_batch_multi_industry": true
+  },
+  {
+   "industry": "Real estate",
+   "run_id": "2026-08-20T00:00Z",
+   "count": 1,
+   "source_batch": "2026-08-20",
+   "prior_batch_multi_industry": true
+  },
+  {
+   "industry": "Manufacturing / B2B",
+   "run_id": "2026-08-20T00:00Z",
+   "count": 1,
+   "source_batch": "2026-08-20",
+   "prior_batch_multi_industry": true
+  },
+  {
+   "industry": "Beauty / wellness",
+   "run_id": "2026-08-20T00:00Z",
+   "count": 1,
+   "source_batch": "2026-08-20",
+   "prior_batch_multi_industry": true
+  },
+  {
+   "industry": "NGO / social impact",
+   "run_id": "2026-08-20T00:00Z",
+   "count": 1,
+   "source_batch": "2026-08-20",
+   "prior_batch_multi_industry": true
+  },
+  {
+   "industry": "Retail & shopping malls",
+   "industryCode": "retail",
+   "run_id": "2026-08-21T00:12:00Z",
+   "count": 10,
+   "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+  }
+ ],
+ "concepts": [
+  {
+   "industry": "Retail & shopping malls",
+   "industryCode": "retail",
+   "n": 1,
+   "form": "retail activation",
+   "territory": "relief from friction",
+   "tension": "price is the only comparison",
+   "behaviour": "build a planned basket and return within 30 days",
+   "mechanic": "retail scan",
+   "budget_scale": "mid-weight integrated",
+   "season": "year-end / new year",
+   "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+  },
+  {
+   "industry": "Retail & shopping malls",
+   "industryCode": "retail",
+   "n": 2,
+   "form": "pop-up",
+   "territory": "craft and mastery",
+   "tension": "choice is overwhelming",
+   "behaviour": "book a guided shopping appointment",
+   "mechanic": "appointment booking",
+   "budget_scale": "flagship multi-market",
+   "season": "festival gifting season",
+   "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+  },
+  {
+   "industry": "Retail & shopping malls",
+   "industryCode": "retail",
+   "n": 3,
+   "form": "exhibition",
+   "territory": "transparency",
+   "tension": "quality cannot be verified before buying",
+   "behaviour": "choose a verified product and share its proof card",
+   "mechanic": "published performance record",
+   "budget_scale": "lean pilot",
+   "season": "no seasonal hook",
+   "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+  },
+  {
+   "industry": "Retail & shopping malls",
+   "industryCode": "retail",
+   "n": 4,
+   "form": "executive forum",
+   "territory": "competence and safety",
+   "tension": "the service disappears after the sale",
+   "behaviour": "bring a decision-maker and request a named follow-up",
+   "mechanic": "named-staff request",
+   "budget_scale": "mid-weight integrated",
+   "season": "harvest / year-end business cycle",
+   "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+  },
+  {
+   "industry": "Retail & shopping malls",
+   "industryCode": "retail",
+   "n": 5,
+   "form": "experiential sampling",
+   "territory": "proof over promise",
+   "tension": "the promise is not believed",
+   "behaviour": "trial a product and opt into a reminder channel",
+   "mechanic": "trial unit",
+   "budget_scale": "flagship multi-market",
+   "season": "monsoon",
+   "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+  },
+  {
+   "industry": "Retail & shopping malls",
+   "industryCode": "retail",
+   "n": 6,
+   "form": "sponsorship activation",
+   "territory": "belonging",
+   "tension": "the category is invisible",
+   "behaviour": "refer a household and redeem a shared offer",
+   "mechanic": "referral code",
+   "budget_scale": "lean pilot",
+   "season": "thadingyut",
+   "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+  },
+  {
+   "industry": "Retail & shopping malls",
+   "industryCode": "retail",
+   "n": 7,
+   "form": "workshop series",
+   "territory": "curiosity and discovery",
+   "tension": "nobody explains anything",
+   "behaviour": "attend a recurring session and complete a teach-back",
+   "mechanic": "teach-back / comprehension check",
+   "budget_scale": "mid-weight integrated",
+   "season": "school intake",
+   "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+  },
+  {
+   "industry": "Retail & shopping malls",
+   "industryCode": "retail",
+   "n": 8,
+   "form": "community programme",
+   "territory": "generosity",
+   "tension": "convenience beat the relationship",
+   "behaviour": "return used items or packaging and make a repeat purchase",
+   "mechanic": "community report-back",
+   "budget_scale": "flagship multi-market",
+   "season": "year-end / new year",
+   "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+  },
+  {
+   "industry": "Retail & shopping malls",
+   "industryCode": "retail",
+   "n": 9,
+   "form": "creator collaboration",
+   "territory": "recognition of the overlooked",
+   "tension": "the first purchase never repeats",
+   "behaviour": "use a creator code and return for a second purchase",
+   "mechanic": "referral code",
+   "budget_scale": "lean pilot",
+   "season": "festival gifting season",
+   "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+  },
+  {
+   "industry": "Retail & shopping malls",
+   "industryCode": "retail",
+   "n": 10,
+   "form": "paid digital funnel",
+   "territory": "continuity and reliability",
+   "tension": "the buyer fears being oversold",
+   "behaviour": "opt into a reminder and convert after a proof-led sequence",
+   "mechanic": "opt-in reminder channel",
+   "budget_scale": "mid-weight integrated",
+   "season": "no seasonal hook",
+   "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+  }
+ ],
+ "updated": "2026-08-21T00:12:00Z",
+ "registry_note": "Reconstructed on 2026-08-21 from the verified 2026-08-20 source_manifest.json because the documented registry file was absent. The immediate prior run used the ten industries above; next selection must be outside that set."
+}
