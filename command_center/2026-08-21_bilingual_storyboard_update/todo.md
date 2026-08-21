@@ -1,0 +1,64 @@
+# Project TODO
+
+- [x] Define a normalized industry, tiering, campaign-form, proposal-stage, production-stage, and publication-status vocabulary for Myanmar-first agency operations.
+- [x] Research and rank the complete Myanmar industry opportunity universe, including all user-listed verticals and additional relevant sectors.
+- [x] Create a tiered Myanmar business intelligence hub with pitch-readiness scores, public-source evidence, and bilingual fields.
+- [x] Build a CEO command dashboard with real-time KPI cards, status rings, budget totals, industry coverage, and activity feed.
+- [x] Implement proposal tracking with the exact stages: Draft, Review, Pitched, Negotiating, Won, Lost, On Hold.
+- [x] Implement filters for industry, language, date, campaign type, budget tier, seasonal window, owner, and stage.
+- [x] Build a bilingual proposal viewer that presents title, Myanmar title, concept, budget packages, ROI scenarios, seasonal rationale, and document links.
+- [x] Build commercial-video project tracking for storyboard, pre-production, production, post-production, and delivery.
+- [x] Add commercial-video project fields for tagline, client, production house, talent, timeline, storyline, storyboard, budget, deliverables, and approvals.
+- [x] Create an exhaustive industry-by-campaign/event/program matrix that covers activation, roadshow, exhibition, sponsorship, seasonal campaigns, ASMR, commercial video, B2B, CRM, and related forms.
+- [x] Create a two-hour production-cycle feed with batch records, output counts, active industry, document statuses, failures, and publication status.
+- [x] Track both Google Drive and GitHub synchronization concurrently with exact URLs, commits, timestamps, failures, and retry status.
+- [x] Add automatic notification records for new batches, proposal-stage changes, sync failures, and approaching seasonal deadlines.
+- [x] Create a ZYNTH master-prompt library with versioning, run-brief variable editor, Claude Code guide, and one-click copy interaction.
+- [x] Support English and English–Myanmar hybrid content throughout the dashboard and data model.
+- [x] Create database schema, migrations, typed API procedures, and Vitest coverage for all implemented workflows.
+- [ ] Verify desktop and mobile dashboard rendering, loading states, empty states, error states, and accessibility.
+- [ ] Bind the active two-hour production schedule to the published command-center callback and verify its first automated Drive/GitHub dashboard update.
+- [x] Synchronize the completed command-center work to the selected GitHub repository and attach accurate publication status.
+- [x] Add status-ring visuals and automatic dashboard polling for executive real-time awareness.
+- [x] Implement the missing proposal owner filter in the API, dashboard UI, and regression tests.
+- [x] Add failure-detail and failure-timestamp fields to production batch tracking, persist them in scheduled ingestion, and surface them in the sync audit UI.
+- [x] Add edit controls for timeline and storyboard fields on existing commercial video projects, and show approvals inside a project-detail workflow rather than only a separate approval console.
+- [ ] Perform and record a manual accessibility QA pass across all key routes, covering keyboard access, focus visibility, labels, contrast, and dialog/select behavior.
+- [ ] Add a DOM-rendered component test for SyncAuditPanel covering Drive/GitHub links, retry state, destination timestamps, and failure detail.
+- [ ] Complete and record final mobile viewport QA for command, proposals, production, coverage, prompts, notifications, and intelligence routes.
+
+- [ ] Update the existing GitHub-backed production workflow without creating a replacement dashboard.
+- [ ] Set the two-hour production standard to include proposals and commercial storyboards in every applicable batch.
+- [ ] Route Myanmar-facing commercial-storyboard outputs in natural Myanmar language and international-facing outputs in English.
+- [ ] Add international commercial-storyboard fields for mood, vibe, narrative, audience message, tagline, dialogue/VO, shot list, camera angle, lens, movement, framing, lighting, production design, sound design, music, color palette, color grading, edit rhythm, VFX, post-production, deliverables, usage rights, talent, client, production house, approvals, budget, schedule, risks, and versioning.
+- [ ] Add professional pre-production, production, post-production, review, approval, delivery, and archive gates to the two-hour output workflow.
+- [ ] Update the active schedule playbook so every batch posts truthful proposal, storyboard, language, Drive, GitHub, and dashboard status into the existing Command Center.
+- [ ] Validate the updated workflow and publish the resulting existing-project checkpoint with exact status and limitations.
+- [ ] Bind and verify the active two-hour schedule callback after the schedule service accepts the updated playbook.
+- [ ] Complete route-level accessibility, mobile, and dashboard publication QA for the updated workflow.
+- [ ] Synchronize the updated source and production standard into the selected GitHub repository with an auditable commit.
+- [ ] Update the dashboard prompt library and workflow documentation with the approved Myanmar/international storyboard standard.
+- [ ] Produce and register a first bilingual commercial-storyboard verification batch after the updated schedule is active.
+- [ ] Maintain the rule that proposal claims, testimonials, ratings, brand contacts, sponsorship rights, and commercial outcomes must never be fabricated.
+- [ ] Preserve the existing dashboard and data model as the source of truth rather than creating a separate dashboard.
+- [ ] Add a clear production-status distinction between proposal-only, storyboard-ready, production-approved, delivered, and archived outputs.
+- [ ] Record all source, language, creative, production, approval, sync, and publication metadata in the existing audit trail.
+- [ ] Keep Myanmar-first planning as the default and support Singapore/international expansion through explicit market and language fields rather than assumptions.
+- [ ] Include camera, lighting, sound, grading, and post-production details in the client-pitch-ready commercial proposal rather than treating storyboard visuals as decorative assets.
+- [ ] Include a clear CEO-level summary of the current two-hour run, next run, blockers, and required approvals in the existing dashboard.
+- [ ] Use only verified public sources and date-first research for each new proposal and commercial storyboard batch.
+- [ ] Preserve an explicit disclaimer that all budgets, schedules, rights, permits, talent, venue, supplier, and performance figures require validation and approval.
+- [ ] Treat every recurring run as one industry with ten distinct campaign/storyboard concepts unless a new user-approved rotation rule is provided.
+- [ ] Keep one full-English and one English–Myanmar hybrid Word proposal for each applicable concept.
+- [ ] Ensure all storyboard and commercial-video documents identify whether the source is editable, client-viewable, or conceptual-only.
+- [ ] Keep all future outputs synchronized to Google Drive, GitHub, and the existing dashboard when each destination is authorized and technically available.
+- [ ] Do not claim the schedule callback is live until a completed callback is verified in the existing dashboard audit record.
+- [ ] Add a schedule-service blocker note if the platform continues rejecting the existing schedule update as duplicate registration.
+- [ ] Retain the existing full event/campaign/industry coverage matrix and extend it with cinematic-commercial production formats.
+- [ ] Include agency, production-house, talent, client, supplier, legal, compliance, and approval responsibilities in each commercial workflow.
+- [ ] Include final export specifications for 16:9, 9:16, 1:1, short cutdowns, subtitles, Myanmar/English language versions, audio mix, master file, and archive package where relevant.
+- [ ] Include audience-emotion and message-recall reasoning for every commercial concept.
+- [ ] Include a production feasibility bridge from creative intent to buildable, shootable, licensable, and approvable execution.
+- [ ] Record all limitations, unresolved TBCs, access restrictions, and quote/RFQ dependencies in the source manifest and dashboard.
+- [ ] Keep the user-facing operating instructions concise and bilingual when the production batch is delivered.
+- [ ] Do not start a separate app or dashboard unless the user explicitly requests a replacement rather than an update.
