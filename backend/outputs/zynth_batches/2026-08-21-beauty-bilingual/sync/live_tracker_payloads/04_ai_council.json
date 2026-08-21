@@ -1,0 +1,94 @@
+{
+  "params": {
+    "spreadsheetId": "1lJd6DkGcKrCAiETw9qadftFZhc-uXDNBr8Q1JlHLqMo",
+    "range": "AI Council!B:O",
+    "valueInputOption": "USER_ENTERED",
+    "insertDataOption": "INSERT_ROWS",
+    "includeValuesInResponse": false
+  },
+  "json": {
+    "majorDimension": "ROWS",
+    "values": [
+      [
+        "AIC-2026-BEAUTY-01",
+        "ZYNTH-20260821-BEAUTY-BILINGUAL",
+        "Evidence",
+        "Manus internal structured review",
+        "v1.0",
+        "Beauty feasibility review stored in Drive archive",
+        4,
+        "Platform, agency-role, policy and workflow sources separated with limits",
+        "No product, label, claim, account, access or compliance fact validated",
+        "Conditional advance to client selection workshop",
+        "Hold for human/client approval",
+        "Client evidence/legal owner",
+        "Approve factual product/claims/label-pack matrix at G1",
+        "2026-08-21 UTC"
+      ],
+      [
+        "AIC-2026-BEAUTY-02",
+        "ZYNTH-20260821-BEAUTY-BILINGUAL",
+        "Strategy",
+        "Manus internal structured review",
+        "v1.0",
+        "Portfolio uniqueness review stored in validation",
+        10,
+        "Ten distinct campaign formats and social/TikTok roles",
+        "Do not launch all ten before brand/inventory/route/capacity review",
+        "Conditional advance to selection workshop",
+        "Hold for human/client approval",
+        "Client commercial owner",
+        "Select maximum three campaign pilots",
+        "2026-08-21 UTC"
+      ],
+      [
+        "AIC-2026-BEAUTY-03",
+        "ZYNTH-20260821-BEAUTY-BILINGUAL",
+        "Social / TikTok",
+        "Manus internal structured review",
+        "v1.0",
+        "All campaign preparation routes stored in proposals/workbook",
+        10,
+        "Every campaign has organic, TikTok, measurement and required-setup preparation",
+        "Account, policy, targeting, creator rights, moderation, privacy and paid-media eligibility unverified",
+        "Hold for G4 social feasibility",
+        "Hold",
+        "Client social/legal/data owner",
+        "Name policy, privacy, moderation and escalation owners",
+        "2026-08-21 UTC"
+      ],
+      [
+        "AIC-2026-BEAUTY-04",
+        "ZYNTH-20260821-BEAUTY-BILINGUAL",
+        "Creative",
+        "Manus internal structured review",
+        "v1.0",
+        "Ten treatments and 120 frames stored in Drive archive",
+        10,
+        "Separate COM records with vertical-safe versioning cues",
+        "Treatments are not shoot-ready or rights-cleared scripts",
+        "Hold for G5 production approval",
+        "Hold",
+        "Client brand/legal owner",
+        "Approve final script, claims, cast, location and rights",
+        "2026-08-21 UTC"
+      ],
+      [
+        "AIC-2026-BEAUTY-05",
+        "ZYNTH-20260821-BEAUTY-BILINGUAL",
+        "Measurement",
+        "Manus internal structured review",
+        "v1.0",
+        "Monitoring workbook and scenario rules stored in Drive archive",
+        10,
+        "KPIs focus on controlled content signals and consented actions",
+        "Scenarios are not financial, reach, sales, ROI, efficacy or performance forecasts",
+        "Conditional advance to tracking",
+        "Hold for human/client approval",
+        "Client data/sales owner",
+        "Replace assumptions with approved funnel, consent and attribution definitions",
+        "2026-08-21 UTC"
+      ]
+    ]
+  }
+}

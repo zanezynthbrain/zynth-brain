@@ -1,0 +1,62 @@
+{
+  "params": {
+    "spreadsheetId": "1lJd6DkGcKrCAiETw9qadftFZhc-uXDNBr8Q1JlHLqMo",
+    "range": "Research & Sources!B:K",
+    "valueInputOption": "USER_ENTERED",
+    "insertDataOption": "INSERT_ROWS",
+    "includeValuesInResponse": false
+  },
+  "json": {
+    "majorDimension": "ROWS",
+    "values": [
+      [
+        "BEA-S01",
+        "TikTok For Business",
+        "Official beauty guide",
+        "Beauty awareness, interaction, commerce/lead routes and organic-support context",
+        "No proof of client feature access, eligibility, performance, cost, conversion or local availability",
+        "https://ads.tiktok.com/business/en-US/blog/beauty-advertising-tiktok-guide",
+        "21 Aug 2026",
+        "High",
+        "ZYNTH Research",
+        "Context only"
+      ],
+      [
+        "BEA-S02",
+        "Food and Drug Administration, Myanmar",
+        "Official agency site",
+        "Agency role includes safety/quality for cosmetics and a cosmetic control division",
+        "No evidence any client product, label, claim, sample or campaign is approved",
+        "https://www.fda.gov.mm/",
+        "21 Aug 2026",
+        "High",
+        "ZYNTH Research",
+        "Agency-role boundary only"
+      ],
+      [
+        "BEA-S03",
+        "TikTok For Business",
+        "Official advertising policy",
+        "Healthcare/cosmetic-procedure policy restriction context",
+        "Eligibility is market/client/account/creative specific; do not infer approval",
+        "https://ads.tiktok.com/resources/help/article/tiktok-ads-policy-healthcare-pharmaceuticals",
+        "21 Aug 2026",
+        "High",
+        "ZYNTH Research",
+        "Policy boundary only"
+      ],
+      [
+        "BEA-S04",
+        "Lebo Lion",
+        "Third-party YouTube masterclass",
+        "Contextual profile/calendar/hook/CTA/engagement/analytics workflow opinions",
+        "Non-Myanmar third-party opinion; not policy, local proof or client result evidence",
+        "https://www.youtube.com/watch?v=Wa7aHXpMw_4",
+        "21 Aug 2026",
+        "Low",
+        "ZYNTH Research",
+        "Context only"
+      ]
+    ]
+  }
+}

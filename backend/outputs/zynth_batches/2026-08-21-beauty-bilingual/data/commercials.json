@@ -1,0 +1,1265 @@
+{
+  "batchCode": "ZYNTH-20260821-BEAUTY-BILINGUAL",
+  "commercials": [
+    {
+      "id": "COM-2026-BEAUTY-01",
+      "linkedCampaign": "CMP-2026-BEAUTY-01",
+      "titleEn": "The Question in the Mirror",
+      "titleMm": "မှန်ရှေ့က မေးခွန်း",
+      "format": "brand education film",
+      "tension": "Beauty shoppers may see ingredient language without a brand-approved way to ask what a product is, is not, and requires them to verify.",
+      "objective": "Create a brand-safe, bilingual storytelling direction that supports an approved campaign route; no product, treatment, efficacy, safety, diagnostic, price, availability or outcome claim.",
+      "territory": "A better beauty decision starts with a permitted question",
+      "hook": "A mirror fogs with vague claims; one clear question reveals a calm, client-approved information path.",
+      "visualStyle": "refined close detail, human calm, editorial typography and vertical-safe framing; exact brand system TBC.",
+      "location": "proposed/TBC controlled studio, client-approved retail/consultation set or fabricated set; no real clinical, treatment or operational location assumed.",
+      "storyboardStatus": "12-frame detailed storyboard complete",
+      "productionStatus": "Not started",
+      "rightsClaims": "All product facts, claims, pack artwork, cast, music, user-generated content, creators, locations, interfaces, subtitles, platform formats and release rights TBC.",
+      "storyboard": [
+        {
+          "frame": 1,
+          "timeWindow": "00:00–00:03",
+          "visualAction": "Opening macro: a proposed/TBC beauty-world detail introduces “The Question in the Mirror”.",
+          "camera": "Macro glide",
+          "audio": "Soft room tone",
+          "onScreenText": "ZYNTH BEAUTY / proposed direction",
+          "purpose": "Set the atmosphere without a product claim."
+        },
+        {
+          "frame": 2,
+          "timeWindow": "00:03–00:06",
+          "visualAction": "A human hand pauses before an ambiguous, fictional beauty cue.",
+          "camera": "Close handheld",
+          "audio": "One breath / fabric sound",
+          "onScreenText": "A question can be beautiful.",
+          "purpose": "Introduce tension."
+        },
+        {
+          "frame": 3,
+          "timeWindow": "00:06–00:09",
+          "visualAction": "Typography names the tension in controlled, non-medical language.",
+          "camera": "Static graphic overlay",
+          "audio": "Minimal tonal pulse",
+          "onScreenText": "No claim. Start with clarity.",
+          "purpose": "Protect claim boundary."
+        },
+        {
+          "frame": 4,
+          "timeWindow": "00:09–00:13",
+          "visualAction": "The protagonist chooses an information card, not a product outcome.",
+          "camera": "Over-shoulder",
+          "audio": "Paper fold",
+          "onScreenText": "Read / confirm / ask.",
+          "purpose": "Show informed choice."
+        },
+        {
+          "frame": 5,
+          "timeWindow": "00:13–00:17",
+          "visualAction": "A second participant adds a different perspective.",
+          "camera": "Two-shot",
+          "audio": "Soft conversational texture",
+          "onScreenText": "Your routine, your terms.",
+          "purpose": "Add community without testimonial."
+        },
+        {
+          "frame": 6,
+          "timeWindow": "00:17–00:21",
+          "visualAction": "A proposed/TBC brand-world cue becomes an abstract colour/texture/light composition.",
+          "camera": "Slow orbit",
+          "audio": "Warm tonal swell",
+          "onScreenText": "Beauty without pressure.",
+          "purpose": "Express creative territory."
+        },
+        {
+          "frame": 7,
+          "timeWindow": "00:21–00:25",
+          "visualAction": "A protected consent prompt appears on a fictional interface.",
+          "camera": "Screen insert",
+          "audio": "Single notification tone",
+          "onScreenText": "Choose your next step.",
+          "purpose": "Show consent gate."
+        },
+        {
+          "frame": 8,
+          "timeWindow": "00:25–00:29",
+          "visualAction": "Vertical-safe composition reframes the moment for social cutdown.",
+          "camera": "9:16 crop move",
+          "audio": "Rhythmic edit tick",
+          "onScreenText": "For TikTok / social: asset route TBC",
+          "purpose": "Signal versioning, not approval."
+        },
+        {
+          "frame": 9,
+          "timeWindow": "00:29–00:33",
+          "visualAction": "The human action resolves into a calm, open-ended gesture.",
+          "camera": "Medium slow motion",
+          "audio": "Room tone returns",
+          "onScreenText": "No promise. Just a clearer path.",
+          "purpose": "Resolve without efficacy."
+        },
+        {
+          "frame": 10,
+          "timeWindow": "00:33–00:37",
+          "visualAction": "Bilingual line appears with Myanmar title.",
+          "camera": "Graphic dissolve",
+          "audio": "Soft music rise",
+          "onScreenText": "မှန်ရှေ့က မေးခွန်း",
+          "purpose": "Land bilingual identity."
+        },
+        {
+          "frame": 11,
+          "timeWindow": "00:37–00:42",
+          "visualAction": "Client-approved legal/claims placeholder panel replaces any commercial claim.",
+          "camera": "Clean end-card hold",
+          "audio": "Audio fades",
+          "onScreenText": "Product / price / availability / claim TBC",
+          "purpose": "Show approval requirement."
+        },
+        {
+          "frame": 12,
+          "timeWindow": "00:42–00:45",
+          "visualAction": "Final CTA directs to approved information, booking or retailer-assistance destination.",
+          "camera": "Static end card",
+          "audio": "Single chime",
+          "onScreenText": "Client-approved CTA required",
+          "purpose": "End with gated action."
+        }
+      ]
+    },
+    {
+      "id": "COM-2026-BEAUTY-02",
+      "linkedCampaign": "CMP-2026-BEAUTY-02",
+      "titleEn": "Seven Small Moments",
+      "titleMm": "အသေးစိတ် အချိန် ၇ ချက်",
+      "format": "routine film",
+      "tension": "A product shelf can feel like a list of promises rather than a calm, client-verified routine conversation.",
+      "objective": "Create a brand-safe, bilingual storytelling direction that supports an approved campaign route; no product, treatment, efficacy, safety, diagnostic, price, availability or outcome claim.",
+      "territory": "A routine is built from small, chosen moments",
+      "hook": "Seven ordinary pauses become a fictional routine map rather than a promise of transformation.",
+      "visualStyle": "refined close detail, human calm, editorial typography and vertical-safe framing; exact brand system TBC.",
+      "location": "proposed/TBC controlled studio, client-approved retail/consultation set or fabricated set; no real clinical, treatment or operational location assumed.",
+      "storyboardStatus": "12-frame detailed storyboard complete",
+      "productionStatus": "Not started",
+      "rightsClaims": "All product facts, claims, pack artwork, cast, music, user-generated content, creators, locations, interfaces, subtitles, platform formats and release rights TBC.",
+      "storyboard": [
+        {
+          "frame": 1,
+          "timeWindow": "00:00–00:03",
+          "visualAction": "Opening macro: a proposed/TBC beauty-world detail introduces “Seven Small Moments”.",
+          "camera": "Macro glide",
+          "audio": "Soft room tone",
+          "onScreenText": "ZYNTH BEAUTY / proposed direction",
+          "purpose": "Set the atmosphere without a product claim."
+        },
+        {
+          "frame": 2,
+          "timeWindow": "00:03–00:06",
+          "visualAction": "A human hand pauses before an ambiguous, fictional beauty cue.",
+          "camera": "Close handheld",
+          "audio": "One breath / fabric sound",
+          "onScreenText": "A question can be beautiful.",
+          "purpose": "Introduce tension."
+        },
+        {
+          "frame": 3,
+          "timeWindow": "00:06–00:09",
+          "visualAction": "Typography names the tension in controlled, non-medical language.",
+          "camera": "Static graphic overlay",
+          "audio": "Minimal tonal pulse",
+          "onScreenText": "No claim. Start with clarity.",
+          "purpose": "Protect claim boundary."
+        },
+        {
+          "frame": 4,
+          "timeWindow": "00:09–00:13",
+          "visualAction": "The protagonist chooses an information card, not a product outcome.",
+          "camera": "Over-shoulder",
+          "audio": "Paper fold",
+          "onScreenText": "Read / confirm / ask.",
+          "purpose": "Show informed choice."
+        },
+        {
+          "frame": 5,
+          "timeWindow": "00:13–00:17",
+          "visualAction": "A second participant adds a different perspective.",
+          "camera": "Two-shot",
+          "audio": "Soft conversational texture",
+          "onScreenText": "Your routine, your terms.",
+          "purpose": "Add community without testimonial."
+        },
+        {
+          "frame": 6,
+          "timeWindow": "00:17–00:21",
+          "visualAction": "A proposed/TBC brand-world cue becomes an abstract colour/texture/light composition.",
+          "camera": "Slow orbit",
+          "audio": "Warm tonal swell",
+          "onScreenText": "Beauty without pressure.",
+          "purpose": "Express creative territory."
+        },
+        {
+          "frame": 7,
+          "timeWindow": "00:21–00:25",
+          "visualAction": "A protected consent prompt appears on a fictional interface.",
+          "camera": "Screen insert",
+          "audio": "Single notification tone",
+          "onScreenText": "Choose your next step.",
+          "purpose": "Show consent gate."
+        },
+        {
+          "frame": 8,
+          "timeWindow": "00:25–00:29",
+          "visualAction": "Vertical-safe composition reframes the moment for social cutdown.",
+          "camera": "9:16 crop move",
+          "audio": "Rhythmic edit tick",
+          "onScreenText": "For TikTok / social: asset route TBC",
+          "purpose": "Signal versioning, not approval."
+        },
+        {
+          "frame": 9,
+          "timeWindow": "00:29–00:33",
+          "visualAction": "The human action resolves into a calm, open-ended gesture.",
+          "camera": "Medium slow motion",
+          "audio": "Room tone returns",
+          "onScreenText": "No promise. Just a clearer path.",
+          "purpose": "Resolve without efficacy."
+        },
+        {
+          "frame": 10,
+          "timeWindow": "00:33–00:37",
+          "visualAction": "Bilingual line appears with Myanmar title.",
+          "camera": "Graphic dissolve",
+          "audio": "Soft music rise",
+          "onScreenText": "အသေးစိတ် အချိန် ၇ ချက်",
+          "purpose": "Land bilingual identity."
+        },
+        {
+          "frame": 11,
+          "timeWindow": "00:37–00:42",
+          "visualAction": "Client-approved legal/claims placeholder panel replaces any commercial claim.",
+          "camera": "Clean end-card hold",
+          "audio": "Audio fades",
+          "onScreenText": "Product / price / availability / claim TBC",
+          "purpose": "Show approval requirement."
+        },
+        {
+          "frame": 12,
+          "timeWindow": "00:42–00:45",
+          "visualAction": "Final CTA directs to approved information, booking or retailer-assistance destination.",
+          "camera": "Static end card",
+          "audio": "Single chime",
+          "onScreenText": "Client-approved CTA required",
+          "purpose": "End with gated action."
+        }
+      ]
+    },
+    {
+      "id": "COM-2026-BEAUTY-03",
+      "linkedCampaign": "CMP-2026-BEAUTY-03",
+      "titleEn": "A Colour With a Voice",
+      "titleMm": "အသံရှိတဲ့ အရောင်",
+      "format": "self-expression film",
+      "tension": "Makeup choice can become performative when shoppers feel they must copy a trend instead of describing a preferred look.",
+      "objective": "Create a brand-safe, bilingual storytelling direction that supports an approved campaign route; no product, treatment, efficacy, safety, diagnostic, price, availability or outcome claim.",
+      "territory": "A shade can begin with a feeling, not a rule",
+      "hook": "Hands collect colour words and arrange a mood board; no real shade match or product claim is shown.",
+      "visualStyle": "refined close detail, human calm, editorial typography and vertical-safe framing; exact brand system TBC.",
+      "location": "proposed/TBC controlled studio, client-approved retail/consultation set or fabricated set; no real clinical, treatment or operational location assumed.",
+      "storyboardStatus": "12-frame detailed storyboard complete",
+      "productionStatus": "Not started",
+      "rightsClaims": "All product facts, claims, pack artwork, cast, music, user-generated content, creators, locations, interfaces, subtitles, platform formats and release rights TBC.",
+      "storyboard": [
+        {
+          "frame": 1,
+          "timeWindow": "00:00–00:03",
+          "visualAction": "Opening macro: a proposed/TBC beauty-world detail introduces “A Colour With a Voice”.",
+          "camera": "Macro glide",
+          "audio": "Soft room tone",
+          "onScreenText": "ZYNTH BEAUTY / proposed direction",
+          "purpose": "Set the atmosphere without a product claim."
+        },
+        {
+          "frame": 2,
+          "timeWindow": "00:03–00:06",
+          "visualAction": "A human hand pauses before an ambiguous, fictional beauty cue.",
+          "camera": "Close handheld",
+          "audio": "One breath / fabric sound",
+          "onScreenText": "A question can be beautiful.",
+          "purpose": "Introduce tension."
+        },
+        {
+          "frame": 3,
+          "timeWindow": "00:06–00:09",
+          "visualAction": "Typography names the tension in controlled, non-medical language.",
+          "camera": "Static graphic overlay",
+          "audio": "Minimal tonal pulse",
+          "onScreenText": "No claim. Start with clarity.",
+          "purpose": "Protect claim boundary."
+        },
+        {
+          "frame": 4,
+          "timeWindow": "00:09–00:13",
+          "visualAction": "The protagonist chooses an information card, not a product outcome.",
+          "camera": "Over-shoulder",
+          "audio": "Paper fold",
+          "onScreenText": "Read / confirm / ask.",
+          "purpose": "Show informed choice."
+        },
+        {
+          "frame": 5,
+          "timeWindow": "00:13–00:17",
+          "visualAction": "A second participant adds a different perspective.",
+          "camera": "Two-shot",
+          "audio": "Soft conversational texture",
+          "onScreenText": "Your routine, your terms.",
+          "purpose": "Add community without testimonial."
+        },
+        {
+          "frame": 6,
+          "timeWindow": "00:17–00:21",
+          "visualAction": "A proposed/TBC brand-world cue becomes an abstract colour/texture/light composition.",
+          "camera": "Slow orbit",
+          "audio": "Warm tonal swell",
+          "onScreenText": "Beauty without pressure.",
+          "purpose": "Express creative territory."
+        },
+        {
+          "frame": 7,
+          "timeWindow": "00:21–00:25",
+          "visualAction": "A protected consent prompt appears on a fictional interface.",
+          "camera": "Screen insert",
+          "audio": "Single notification tone",
+          "onScreenText": "Choose your next step.",
+          "purpose": "Show consent gate."
+        },
+        {
+          "frame": 8,
+          "timeWindow": "00:25–00:29",
+          "visualAction": "Vertical-safe composition reframes the moment for social cutdown.",
+          "camera": "9:16 crop move",
+          "audio": "Rhythmic edit tick",
+          "onScreenText": "For TikTok / social: asset route TBC",
+          "purpose": "Signal versioning, not approval."
+        },
+        {
+          "frame": 9,
+          "timeWindow": "00:29–00:33",
+          "visualAction": "The human action resolves into a calm, open-ended gesture.",
+          "camera": "Medium slow motion",
+          "audio": "Room tone returns",
+          "onScreenText": "No promise. Just a clearer path.",
+          "purpose": "Resolve without efficacy."
+        },
+        {
+          "frame": 10,
+          "timeWindow": "00:33–00:37",
+          "visualAction": "Bilingual line appears with Myanmar title.",
+          "camera": "Graphic dissolve",
+          "audio": "Soft music rise",
+          "onScreenText": "အသံရှိတဲ့ အရောင်",
+          "purpose": "Land bilingual identity."
+        },
+        {
+          "frame": 11,
+          "timeWindow": "00:37–00:42",
+          "visualAction": "Client-approved legal/claims placeholder panel replaces any commercial claim.",
+          "camera": "Clean end-card hold",
+          "audio": "Audio fades",
+          "onScreenText": "Product / price / availability / claim TBC",
+          "purpose": "Show approval requirement."
+        },
+        {
+          "frame": 12,
+          "timeWindow": "00:42–00:45",
+          "visualAction": "Final CTA directs to approved information, booking or retailer-assistance destination.",
+          "camera": "Static end card",
+          "audio": "Single chime",
+          "onScreenText": "Client-approved CTA required",
+          "purpose": "End with gated action."
+        }
+      ]
+    },
+    {
+      "id": "COM-2026-BEAUTY-04",
+      "linkedCampaign": "CMP-2026-BEAUTY-04",
+      "titleEn": "Pause the Scroll",
+      "titleMm": "Scroll ကိုခဏရပ်",
+      "format": "short-form manifesto",
+      "tension": "Short-form beauty content can pressure people to seek an instant result rather than understand a routine’s permitted use.",
+      "objective": "Create a brand-safe, bilingual storytelling direction that supports an approved campaign route; no product, treatment, efficacy, safety, diagnostic, price, availability or outcome claim.",
+      "territory": "A pause can be more useful than a promise",
+      "hook": "A fast feed slows into one minute of breath, a fictional prompt and a clear next question.",
+      "visualStyle": "refined close detail, human calm, editorial typography and vertical-safe framing; exact brand system TBC.",
+      "location": "proposed/TBC controlled studio, client-approved retail/consultation set or fabricated set; no real clinical, treatment or operational location assumed.",
+      "storyboardStatus": "12-frame detailed storyboard complete",
+      "productionStatus": "Not started",
+      "rightsClaims": "All product facts, claims, pack artwork, cast, music, user-generated content, creators, locations, interfaces, subtitles, platform formats and release rights TBC.",
+      "storyboard": [
+        {
+          "frame": 1,
+          "timeWindow": "00:00–00:03",
+          "visualAction": "Opening macro: a proposed/TBC beauty-world detail introduces “Pause the Scroll”.",
+          "camera": "Macro glide",
+          "audio": "Soft room tone",
+          "onScreenText": "ZYNTH BEAUTY / proposed direction",
+          "purpose": "Set the atmosphere without a product claim."
+        },
+        {
+          "frame": 2,
+          "timeWindow": "00:03–00:06",
+          "visualAction": "A human hand pauses before an ambiguous, fictional beauty cue.",
+          "camera": "Close handheld",
+          "audio": "One breath / fabric sound",
+          "onScreenText": "A question can be beautiful.",
+          "purpose": "Introduce tension."
+        },
+        {
+          "frame": 3,
+          "timeWindow": "00:06–00:09",
+          "visualAction": "Typography names the tension in controlled, non-medical language.",
+          "camera": "Static graphic overlay",
+          "audio": "Minimal tonal pulse",
+          "onScreenText": "No claim. Start with clarity.",
+          "purpose": "Protect claim boundary."
+        },
+        {
+          "frame": 4,
+          "timeWindow": "00:09–00:13",
+          "visualAction": "The protagonist chooses an information card, not a product outcome.",
+          "camera": "Over-shoulder",
+          "audio": "Paper fold",
+          "onScreenText": "Read / confirm / ask.",
+          "purpose": "Show informed choice."
+        },
+        {
+          "frame": 5,
+          "timeWindow": "00:13–00:17",
+          "visualAction": "A second participant adds a different perspective.",
+          "camera": "Two-shot",
+          "audio": "Soft conversational texture",
+          "onScreenText": "Your routine, your terms.",
+          "purpose": "Add community without testimonial."
+        },
+        {
+          "frame": 6,
+          "timeWindow": "00:17–00:21",
+          "visualAction": "A proposed/TBC brand-world cue becomes an abstract colour/texture/light composition.",
+          "camera": "Slow orbit",
+          "audio": "Warm tonal swell",
+          "onScreenText": "Beauty without pressure.",
+          "purpose": "Express creative territory."
+        },
+        {
+          "frame": 7,
+          "timeWindow": "00:21–00:25",
+          "visualAction": "A protected consent prompt appears on a fictional interface.",
+          "camera": "Screen insert",
+          "audio": "Single notification tone",
+          "onScreenText": "Choose your next step.",
+          "purpose": "Show consent gate."
+        },
+        {
+          "frame": 8,
+          "timeWindow": "00:25–00:29",
+          "visualAction": "Vertical-safe composition reframes the moment for social cutdown.",
+          "camera": "9:16 crop move",
+          "audio": "Rhythmic edit tick",
+          "onScreenText": "For TikTok / social: asset route TBC",
+          "purpose": "Signal versioning, not approval."
+        },
+        {
+          "frame": 9,
+          "timeWindow": "00:29–00:33",
+          "visualAction": "The human action resolves into a calm, open-ended gesture.",
+          "camera": "Medium slow motion",
+          "audio": "Room tone returns",
+          "onScreenText": "No promise. Just a clearer path.",
+          "purpose": "Resolve without efficacy."
+        },
+        {
+          "frame": 10,
+          "timeWindow": "00:33–00:37",
+          "visualAction": "Bilingual line appears with Myanmar title.",
+          "camera": "Graphic dissolve",
+          "audio": "Soft music rise",
+          "onScreenText": "Scroll ကိုခဏရပ်",
+          "purpose": "Land bilingual identity."
+        },
+        {
+          "frame": 11,
+          "timeWindow": "00:37–00:42",
+          "visualAction": "Client-approved legal/claims placeholder panel replaces any commercial claim.",
+          "camera": "Clean end-card hold",
+          "audio": "Audio fades",
+          "onScreenText": "Product / price / availability / claim TBC",
+          "purpose": "Show approval requirement."
+        },
+        {
+          "frame": 12,
+          "timeWindow": "00:42–00:45",
+          "visualAction": "Final CTA directs to approved information, booking or retailer-assistance destination.",
+          "camera": "Static end card",
+          "audio": "Single chime",
+          "onScreenText": "Client-approved CTA required",
+          "purpose": "End with gated action."
+        }
+      ]
+    },
+    {
+      "id": "COM-2026-BEAUTY-05",
+      "linkedCampaign": "CMP-2026-BEAUTY-05",
+      "titleEn": "The Return Ritual",
+      "titleMm": "ပြန်လာတဲ့ Ritual",
+      "format": "aftercare film",
+      "tension": "Sustainability language can become vague if a beauty brand has not confirmed what packaging, refill, return or aftercare proposition is actually available.",
+      "objective": "Create a brand-safe, bilingual storytelling direction that supports an approved campaign route; no product, treatment, efficacy, safety, diagnostic, price, availability or outcome claim.",
+      "territory": "Care continues after the first use",
+      "hook": "A mock pack moves through a reading, caring and returning ritual without asserting a live programme.",
+      "visualStyle": "refined close detail, human calm, editorial typography and vertical-safe framing; exact brand system TBC.",
+      "location": "proposed/TBC controlled studio, client-approved retail/consultation set or fabricated set; no real clinical, treatment or operational location assumed.",
+      "storyboardStatus": "12-frame detailed storyboard complete",
+      "productionStatus": "Not started",
+      "rightsClaims": "All product facts, claims, pack artwork, cast, music, user-generated content, creators, locations, interfaces, subtitles, platform formats and release rights TBC.",
+      "storyboard": [
+        {
+          "frame": 1,
+          "timeWindow": "00:00–00:03",
+          "visualAction": "Opening macro: a proposed/TBC beauty-world detail introduces “The Return Ritual”.",
+          "camera": "Macro glide",
+          "audio": "Soft room tone",
+          "onScreenText": "ZYNTH BEAUTY / proposed direction",
+          "purpose": "Set the atmosphere without a product claim."
+        },
+        {
+          "frame": 2,
+          "timeWindow": "00:03–00:06",
+          "visualAction": "A human hand pauses before an ambiguous, fictional beauty cue.",
+          "camera": "Close handheld",
+          "audio": "One breath / fabric sound",
+          "onScreenText": "A question can be beautiful.",
+          "purpose": "Introduce tension."
+        },
+        {
+          "frame": 3,
+          "timeWindow": "00:06–00:09",
+          "visualAction": "Typography names the tension in controlled, non-medical language.",
+          "camera": "Static graphic overlay",
+          "audio": "Minimal tonal pulse",
+          "onScreenText": "No claim. Start with clarity.",
+          "purpose": "Protect claim boundary."
+        },
+        {
+          "frame": 4,
+          "timeWindow": "00:09–00:13",
+          "visualAction": "The protagonist chooses an information card, not a product outcome.",
+          "camera": "Over-shoulder",
+          "audio": "Paper fold",
+          "onScreenText": "Read / confirm / ask.",
+          "purpose": "Show informed choice."
+        },
+        {
+          "frame": 5,
+          "timeWindow": "00:13–00:17",
+          "visualAction": "A second participant adds a different perspective.",
+          "camera": "Two-shot",
+          "audio": "Soft conversational texture",
+          "onScreenText": "Your routine, your terms.",
+          "purpose": "Add community without testimonial."
+        },
+        {
+          "frame": 6,
+          "timeWindow": "00:17–00:21",
+          "visualAction": "A proposed/TBC brand-world cue becomes an abstract colour/texture/light composition.",
+          "camera": "Slow orbit",
+          "audio": "Warm tonal swell",
+          "onScreenText": "Beauty without pressure.",
+          "purpose": "Express creative territory."
+        },
+        {
+          "frame": 7,
+          "timeWindow": "00:21–00:25",
+          "visualAction": "A protected consent prompt appears on a fictional interface.",
+          "camera": "Screen insert",
+          "audio": "Single notification tone",
+          "onScreenText": "Choose your next step.",
+          "purpose": "Show consent gate."
+        },
+        {
+          "frame": 8,
+          "timeWindow": "00:25–00:29",
+          "visualAction": "Vertical-safe composition reframes the moment for social cutdown.",
+          "camera": "9:16 crop move",
+          "audio": "Rhythmic edit tick",
+          "onScreenText": "For TikTok / social: asset route TBC",
+          "purpose": "Signal versioning, not approval."
+        },
+        {
+          "frame": 9,
+          "timeWindow": "00:29–00:33",
+          "visualAction": "The human action resolves into a calm, open-ended gesture.",
+          "camera": "Medium slow motion",
+          "audio": "Room tone returns",
+          "onScreenText": "No promise. Just a clearer path.",
+          "purpose": "Resolve without efficacy."
+        },
+        {
+          "frame": 10,
+          "timeWindow": "00:33–00:37",
+          "visualAction": "Bilingual line appears with Myanmar title.",
+          "camera": "Graphic dissolve",
+          "audio": "Soft music rise",
+          "onScreenText": "ပြန်လာတဲ့ Ritual",
+          "purpose": "Land bilingual identity."
+        },
+        {
+          "frame": 11,
+          "timeWindow": "00:37–00:42",
+          "visualAction": "Client-approved legal/claims placeholder panel replaces any commercial claim.",
+          "camera": "Clean end-card hold",
+          "audio": "Audio fades",
+          "onScreenText": "Product / price / availability / claim TBC",
+          "purpose": "Show approval requirement."
+        },
+        {
+          "frame": 12,
+          "timeWindow": "00:42–00:45",
+          "visualAction": "Final CTA directs to approved information, booking or retailer-assistance destination.",
+          "camera": "Static end card",
+          "audio": "Single chime",
+          "onScreenText": "Client-approved CTA required",
+          "purpose": "End with gated action."
+        }
+      ]
+    },
+    {
+      "id": "COM-2026-BEAUTY-06",
+      "linkedCampaign": "CMP-2026-BEAUTY-06",
+      "titleEn": "After the Day",
+      "titleMm": "တစ်နေ့တာပြီးနောက်",
+      "format": "evening brand film",
+      "tension": "After-work customers can need a quieter way to ask routine questions, without the brand implying a clinical or therapeutic consultation.",
+      "objective": "Create a brand-safe, bilingual storytelling direction that supports an approved campaign route; no product, treatment, efficacy, safety, diagnostic, price, availability or outcome claim.",
+      "territory": "Quiet confidence deserves a place to land",
+      "hook": "An evening desk opens for a calm, non-medical routine question.",
+      "visualStyle": "refined close detail, human calm, editorial typography and vertical-safe framing; exact brand system TBC.",
+      "location": "proposed/TBC controlled studio, client-approved retail/consultation set or fabricated set; no real clinical, treatment or operational location assumed.",
+      "storyboardStatus": "12-frame detailed storyboard complete",
+      "productionStatus": "Not started",
+      "rightsClaims": "All product facts, claims, pack artwork, cast, music, user-generated content, creators, locations, interfaces, subtitles, platform formats and release rights TBC.",
+      "storyboard": [
+        {
+          "frame": 1,
+          "timeWindow": "00:00–00:03",
+          "visualAction": "Opening macro: a proposed/TBC beauty-world detail introduces “After the Day”.",
+          "camera": "Macro glide",
+          "audio": "Soft room tone",
+          "onScreenText": "ZYNTH BEAUTY / proposed direction",
+          "purpose": "Set the atmosphere without a product claim."
+        },
+        {
+          "frame": 2,
+          "timeWindow": "00:03–00:06",
+          "visualAction": "A human hand pauses before an ambiguous, fictional beauty cue.",
+          "camera": "Close handheld",
+          "audio": "One breath / fabric sound",
+          "onScreenText": "A question can be beautiful.",
+          "purpose": "Introduce tension."
+        },
+        {
+          "frame": 3,
+          "timeWindow": "00:06–00:09",
+          "visualAction": "Typography names the tension in controlled, non-medical language.",
+          "camera": "Static graphic overlay",
+          "audio": "Minimal tonal pulse",
+          "onScreenText": "No claim. Start with clarity.",
+          "purpose": "Protect claim boundary."
+        },
+        {
+          "frame": 4,
+          "timeWindow": "00:09–00:13",
+          "visualAction": "The protagonist chooses an information card, not a product outcome.",
+          "camera": "Over-shoulder",
+          "audio": "Paper fold",
+          "onScreenText": "Read / confirm / ask.",
+          "purpose": "Show informed choice."
+        },
+        {
+          "frame": 5,
+          "timeWindow": "00:13–00:17",
+          "visualAction": "A second participant adds a different perspective.",
+          "camera": "Two-shot",
+          "audio": "Soft conversational texture",
+          "onScreenText": "Your routine, your terms.",
+          "purpose": "Add community without testimonial."
+        },
+        {
+          "frame": 6,
+          "timeWindow": "00:17–00:21",
+          "visualAction": "A proposed/TBC brand-world cue becomes an abstract colour/texture/light composition.",
+          "camera": "Slow orbit",
+          "audio": "Warm tonal swell",
+          "onScreenText": "Beauty without pressure.",
+          "purpose": "Express creative territory."
+        },
+        {
+          "frame": 7,
+          "timeWindow": "00:21–00:25",
+          "visualAction": "A protected consent prompt appears on a fictional interface.",
+          "camera": "Screen insert",
+          "audio": "Single notification tone",
+          "onScreenText": "Choose your next step.",
+          "purpose": "Show consent gate."
+        },
+        {
+          "frame": 8,
+          "timeWindow": "00:25–00:29",
+          "visualAction": "Vertical-safe composition reframes the moment for social cutdown.",
+          "camera": "9:16 crop move",
+          "audio": "Rhythmic edit tick",
+          "onScreenText": "For TikTok / social: asset route TBC",
+          "purpose": "Signal versioning, not approval."
+        },
+        {
+          "frame": 9,
+          "timeWindow": "00:29–00:33",
+          "visualAction": "The human action resolves into a calm, open-ended gesture.",
+          "camera": "Medium slow motion",
+          "audio": "Room tone returns",
+          "onScreenText": "No promise. Just a clearer path.",
+          "purpose": "Resolve without efficacy."
+        },
+        {
+          "frame": 10,
+          "timeWindow": "00:33–00:37",
+          "visualAction": "Bilingual line appears with Myanmar title.",
+          "camera": "Graphic dissolve",
+          "audio": "Soft music rise",
+          "onScreenText": "တစ်နေ့တာပြီးနောက်",
+          "purpose": "Land bilingual identity."
+        },
+        {
+          "frame": 11,
+          "timeWindow": "00:37–00:42",
+          "visualAction": "Client-approved legal/claims placeholder panel replaces any commercial claim.",
+          "camera": "Clean end-card hold",
+          "audio": "Audio fades",
+          "onScreenText": "Product / price / availability / claim TBC",
+          "purpose": "Show approval requirement."
+        },
+        {
+          "frame": 12,
+          "timeWindow": "00:42–00:45",
+          "visualAction": "Final CTA directs to approved information, booking or retailer-assistance destination.",
+          "camera": "Static end card",
+          "audio": "Single chime",
+          "onScreenText": "Client-approved CTA required",
+          "purpose": "End with gated action."
+        }
+      ]
+    },
+    {
+      "id": "COM-2026-BEAUTY-07",
+      "linkedCampaign": "CMP-2026-BEAUTY-07",
+      "titleEn": "The Language of Texture",
+      "titleMm": "Texture ရဲ့ ဘာသာစကား",
+      "format": "macro sensory film",
+      "tension": "Beauty texture is often shown visually, but customers may need a brand-approved, hygienic and non-medical way to explore it.",
+      "objective": "Create a brand-safe, bilingual storytelling direction that supports an approved campaign route; no product, treatment, efficacy, safety, diagnostic, price, availability or outcome claim.",
+      "territory": "Texture is detail, not diagnosis",
+      "hook": "Macro studio visuals turn fictional material swatches into a language of curiosity.",
+      "visualStyle": "refined close detail, human calm, editorial typography and vertical-safe framing; exact brand system TBC.",
+      "location": "proposed/TBC controlled studio, client-approved retail/consultation set or fabricated set; no real clinical, treatment or operational location assumed.",
+      "storyboardStatus": "12-frame detailed storyboard complete",
+      "productionStatus": "Not started",
+      "rightsClaims": "All product facts, claims, pack artwork, cast, music, user-generated content, creators, locations, interfaces, subtitles, platform formats and release rights TBC.",
+      "storyboard": [
+        {
+          "frame": 1,
+          "timeWindow": "00:00–00:03",
+          "visualAction": "Opening macro: a proposed/TBC beauty-world detail introduces “The Language of Texture”.",
+          "camera": "Macro glide",
+          "audio": "Soft room tone",
+          "onScreenText": "ZYNTH BEAUTY / proposed direction",
+          "purpose": "Set the atmosphere without a product claim."
+        },
+        {
+          "frame": 2,
+          "timeWindow": "00:03–00:06",
+          "visualAction": "A human hand pauses before an ambiguous, fictional beauty cue.",
+          "camera": "Close handheld",
+          "audio": "One breath / fabric sound",
+          "onScreenText": "A question can be beautiful.",
+          "purpose": "Introduce tension."
+        },
+        {
+          "frame": 3,
+          "timeWindow": "00:06–00:09",
+          "visualAction": "Typography names the tension in controlled, non-medical language.",
+          "camera": "Static graphic overlay",
+          "audio": "Minimal tonal pulse",
+          "onScreenText": "No claim. Start with clarity.",
+          "purpose": "Protect claim boundary."
+        },
+        {
+          "frame": 4,
+          "timeWindow": "00:09–00:13",
+          "visualAction": "The protagonist chooses an information card, not a product outcome.",
+          "camera": "Over-shoulder",
+          "audio": "Paper fold",
+          "onScreenText": "Read / confirm / ask.",
+          "purpose": "Show informed choice."
+        },
+        {
+          "frame": 5,
+          "timeWindow": "00:13–00:17",
+          "visualAction": "A second participant adds a different perspective.",
+          "camera": "Two-shot",
+          "audio": "Soft conversational texture",
+          "onScreenText": "Your routine, your terms.",
+          "purpose": "Add community without testimonial."
+        },
+        {
+          "frame": 6,
+          "timeWindow": "00:17–00:21",
+          "visualAction": "A proposed/TBC brand-world cue becomes an abstract colour/texture/light composition.",
+          "camera": "Slow orbit",
+          "audio": "Warm tonal swell",
+          "onScreenText": "Beauty without pressure.",
+          "purpose": "Express creative territory."
+        },
+        {
+          "frame": 7,
+          "timeWindow": "00:21–00:25",
+          "visualAction": "A protected consent prompt appears on a fictional interface.",
+          "camera": "Screen insert",
+          "audio": "Single notification tone",
+          "onScreenText": "Choose your next step.",
+          "purpose": "Show consent gate."
+        },
+        {
+          "frame": 8,
+          "timeWindow": "00:25–00:29",
+          "visualAction": "Vertical-safe composition reframes the moment for social cutdown.",
+          "camera": "9:16 crop move",
+          "audio": "Rhythmic edit tick",
+          "onScreenText": "For TikTok / social: asset route TBC",
+          "purpose": "Signal versioning, not approval."
+        },
+        {
+          "frame": 9,
+          "timeWindow": "00:29–00:33",
+          "visualAction": "The human action resolves into a calm, open-ended gesture.",
+          "camera": "Medium slow motion",
+          "audio": "Room tone returns",
+          "onScreenText": "No promise. Just a clearer path.",
+          "purpose": "Resolve without efficacy."
+        },
+        {
+          "frame": 10,
+          "timeWindow": "00:33–00:37",
+          "visualAction": "Bilingual line appears with Myanmar title.",
+          "camera": "Graphic dissolve",
+          "audio": "Soft music rise",
+          "onScreenText": "Texture ရဲ့ ဘာသာစကား",
+          "purpose": "Land bilingual identity."
+        },
+        {
+          "frame": 11,
+          "timeWindow": "00:37–00:42",
+          "visualAction": "Client-approved legal/claims placeholder panel replaces any commercial claim.",
+          "camera": "Clean end-card hold",
+          "audio": "Audio fades",
+          "onScreenText": "Product / price / availability / claim TBC",
+          "purpose": "Show approval requirement."
+        },
+        {
+          "frame": 12,
+          "timeWindow": "00:42–00:45",
+          "visualAction": "Final CTA directs to approved information, booking or retailer-assistance destination.",
+          "camera": "Static end card",
+          "audio": "Single chime",
+          "onScreenText": "Client-approved CTA required",
+          "purpose": "End with gated action."
+        }
+      ]
+    },
+    {
+      "id": "COM-2026-BEAUTY-08",
+      "linkedCampaign": "CMP-2026-BEAUTY-08",
+      "titleEn": "No Comparison Needed",
+      "titleMm": "နှိုင်းယှဉ်စရာမလို",
+      "format": "community film",
+      "tension": "Beauty messaging can unintentionally exploit insecurities or reinforce a narrow ideal.",
+      "objective": "Create a brand-safe, bilingual storytelling direction that supports an approved campaign route; no product, treatment, efficacy, safety, diagnostic, price, availability or outcome claim.",
+      "territory": "Beauty can make room for your own voice",
+      "hook": "Different people write personal choices, while the film avoids testimonial or body-image pressure.",
+      "visualStyle": "refined close detail, human calm, editorial typography and vertical-safe framing; exact brand system TBC.",
+      "location": "proposed/TBC controlled studio, client-approved retail/consultation set or fabricated set; no real clinical, treatment or operational location assumed.",
+      "storyboardStatus": "12-frame detailed storyboard complete",
+      "productionStatus": "Not started",
+      "rightsClaims": "All product facts, claims, pack artwork, cast, music, user-generated content, creators, locations, interfaces, subtitles, platform formats and release rights TBC.",
+      "storyboard": [
+        {
+          "frame": 1,
+          "timeWindow": "00:00–00:03",
+          "visualAction": "Opening macro: a proposed/TBC beauty-world detail introduces “No Comparison Needed”.",
+          "camera": "Macro glide",
+          "audio": "Soft room tone",
+          "onScreenText": "ZYNTH BEAUTY / proposed direction",
+          "purpose": "Set the atmosphere without a product claim."
+        },
+        {
+          "frame": 2,
+          "timeWindow": "00:03–00:06",
+          "visualAction": "A human hand pauses before an ambiguous, fictional beauty cue.",
+          "camera": "Close handheld",
+          "audio": "One breath / fabric sound",
+          "onScreenText": "A question can be beautiful.",
+          "purpose": "Introduce tension."
+        },
+        {
+          "frame": 3,
+          "timeWindow": "00:06–00:09",
+          "visualAction": "Typography names the tension in controlled, non-medical language.",
+          "camera": "Static graphic overlay",
+          "audio": "Minimal tonal pulse",
+          "onScreenText": "No claim. Start with clarity.",
+          "purpose": "Protect claim boundary."
+        },
+        {
+          "frame": 4,
+          "timeWindow": "00:09–00:13",
+          "visualAction": "The protagonist chooses an information card, not a product outcome.",
+          "camera": "Over-shoulder",
+          "audio": "Paper fold",
+          "onScreenText": "Read / confirm / ask.",
+          "purpose": "Show informed choice."
+        },
+        {
+          "frame": 5,
+          "timeWindow": "00:13–00:17",
+          "visualAction": "A second participant adds a different perspective.",
+          "camera": "Two-shot",
+          "audio": "Soft conversational texture",
+          "onScreenText": "Your routine, your terms.",
+          "purpose": "Add community without testimonial."
+        },
+        {
+          "frame": 6,
+          "timeWindow": "00:17–00:21",
+          "visualAction": "A proposed/TBC brand-world cue becomes an abstract colour/texture/light composition.",
+          "camera": "Slow orbit",
+          "audio": "Warm tonal swell",
+          "onScreenText": "Beauty without pressure.",
+          "purpose": "Express creative territory."
+        },
+        {
+          "frame": 7,
+          "timeWindow": "00:21–00:25",
+          "visualAction": "A protected consent prompt appears on a fictional interface.",
+          "camera": "Screen insert",
+          "audio": "Single notification tone",
+          "onScreenText": "Choose your next step.",
+          "purpose": "Show consent gate."
+        },
+        {
+          "frame": 8,
+          "timeWindow": "00:25–00:29",
+          "visualAction": "Vertical-safe composition reframes the moment for social cutdown.",
+          "camera": "9:16 crop move",
+          "audio": "Rhythmic edit tick",
+          "onScreenText": "For TikTok / social: asset route TBC",
+          "purpose": "Signal versioning, not approval."
+        },
+        {
+          "frame": 9,
+          "timeWindow": "00:29–00:33",
+          "visualAction": "The human action resolves into a calm, open-ended gesture.",
+          "camera": "Medium slow motion",
+          "audio": "Room tone returns",
+          "onScreenText": "No promise. Just a clearer path.",
+          "purpose": "Resolve without efficacy."
+        },
+        {
+          "frame": 10,
+          "timeWindow": "00:33–00:37",
+          "visualAction": "Bilingual line appears with Myanmar title.",
+          "camera": "Graphic dissolve",
+          "audio": "Soft music rise",
+          "onScreenText": "နှိုင်းယှဉ်စရာမလို",
+          "purpose": "Land bilingual identity."
+        },
+        {
+          "frame": 11,
+          "timeWindow": "00:37–00:42",
+          "visualAction": "Client-approved legal/claims placeholder panel replaces any commercial claim.",
+          "camera": "Clean end-card hold",
+          "audio": "Audio fades",
+          "onScreenText": "Product / price / availability / claim TBC",
+          "purpose": "Show approval requirement."
+        },
+        {
+          "frame": 12,
+          "timeWindow": "00:42–00:45",
+          "visualAction": "Final CTA directs to approved information, booking or retailer-assistance destination.",
+          "camera": "Static end card",
+          "audio": "Single chime",
+          "onScreenText": "Client-approved CTA required",
+          "purpose": "End with gated action."
+        }
+      ]
+    },
+    {
+      "id": "COM-2026-BEAUTY-09",
+      "linkedCampaign": "CMP-2026-BEAUTY-09",
+      "titleEn": "Read Before Repeat",
+      "titleMm": "ထပ်မလုပ်ခင် ဖတ်ပါ",
+      "format": "pack literacy film",
+      "tension": "Packaging can become only an aesthetic signal when users cannot easily find client-approved use, disposal, batch, label or care information.",
+      "objective": "Create a brand-safe, bilingual storytelling direction that supports an approved campaign route; no product, treatment, efficacy, safety, diagnostic, price, availability or outcome claim.",
+      "territory": "The pack can invite a clearer question",
+      "hook": "A mock pack opens into simple “read, confirm, ask” pathways.",
+      "visualStyle": "refined close detail, human calm, editorial typography and vertical-safe framing; exact brand system TBC.",
+      "location": "proposed/TBC controlled studio, client-approved retail/consultation set or fabricated set; no real clinical, treatment or operational location assumed.",
+      "storyboardStatus": "12-frame detailed storyboard complete",
+      "productionStatus": "Not started",
+      "rightsClaims": "All product facts, claims, pack artwork, cast, music, user-generated content, creators, locations, interfaces, subtitles, platform formats and release rights TBC.",
+      "storyboard": [
+        {
+          "frame": 1,
+          "timeWindow": "00:00–00:03",
+          "visualAction": "Opening macro: a proposed/TBC beauty-world detail introduces “Read Before Repeat”.",
+          "camera": "Macro glide",
+          "audio": "Soft room tone",
+          "onScreenText": "ZYNTH BEAUTY / proposed direction",
+          "purpose": "Set the atmosphere without a product claim."
+        },
+        {
+          "frame": 2,
+          "timeWindow": "00:03–00:06",
+          "visualAction": "A human hand pauses before an ambiguous, fictional beauty cue.",
+          "camera": "Close handheld",
+          "audio": "One breath / fabric sound",
+          "onScreenText": "A question can be beautiful.",
+          "purpose": "Introduce tension."
+        },
+        {
+          "frame": 3,
+          "timeWindow": "00:06–00:09",
+          "visualAction": "Typography names the tension in controlled, non-medical language.",
+          "camera": "Static graphic overlay",
+          "audio": "Minimal tonal pulse",
+          "onScreenText": "No claim. Start with clarity.",
+          "purpose": "Protect claim boundary."
+        },
+        {
+          "frame": 4,
+          "timeWindow": "00:09–00:13",
+          "visualAction": "The protagonist chooses an information card, not a product outcome.",
+          "camera": "Over-shoulder",
+          "audio": "Paper fold",
+          "onScreenText": "Read / confirm / ask.",
+          "purpose": "Show informed choice."
+        },
+        {
+          "frame": 5,
+          "timeWindow": "00:13–00:17",
+          "visualAction": "A second participant adds a different perspective.",
+          "camera": "Two-shot",
+          "audio": "Soft conversational texture",
+          "onScreenText": "Your routine, your terms.",
+          "purpose": "Add community without testimonial."
+        },
+        {
+          "frame": 6,
+          "timeWindow": "00:17–00:21",
+          "visualAction": "A proposed/TBC brand-world cue becomes an abstract colour/texture/light composition.",
+          "camera": "Slow orbit",
+          "audio": "Warm tonal swell",
+          "onScreenText": "Beauty without pressure.",
+          "purpose": "Express creative territory."
+        },
+        {
+          "frame": 7,
+          "timeWindow": "00:21–00:25",
+          "visualAction": "A protected consent prompt appears on a fictional interface.",
+          "camera": "Screen insert",
+          "audio": "Single notification tone",
+          "onScreenText": "Choose your next step.",
+          "purpose": "Show consent gate."
+        },
+        {
+          "frame": 8,
+          "timeWindow": "00:25–00:29",
+          "visualAction": "Vertical-safe composition reframes the moment for social cutdown.",
+          "camera": "9:16 crop move",
+          "audio": "Rhythmic edit tick",
+          "onScreenText": "For TikTok / social: asset route TBC",
+          "purpose": "Signal versioning, not approval."
+        },
+        {
+          "frame": 9,
+          "timeWindow": "00:29–00:33",
+          "visualAction": "The human action resolves into a calm, open-ended gesture.",
+          "camera": "Medium slow motion",
+          "audio": "Room tone returns",
+          "onScreenText": "No promise. Just a clearer path.",
+          "purpose": "Resolve without efficacy."
+        },
+        {
+          "frame": 10,
+          "timeWindow": "00:33–00:37",
+          "visualAction": "Bilingual line appears with Myanmar title.",
+          "camera": "Graphic dissolve",
+          "audio": "Soft music rise",
+          "onScreenText": "ထပ်မလုပ်ခင် ဖတ်ပါ",
+          "purpose": "Land bilingual identity."
+        },
+        {
+          "frame": 11,
+          "timeWindow": "00:37–00:42",
+          "visualAction": "Client-approved legal/claims placeholder panel replaces any commercial claim.",
+          "camera": "Clean end-card hold",
+          "audio": "Audio fades",
+          "onScreenText": "Product / price / availability / claim TBC",
+          "purpose": "Show approval requirement."
+        },
+        {
+          "frame": 12,
+          "timeWindow": "00:42–00:45",
+          "visualAction": "Final CTA directs to approved information, booking or retailer-assistance destination.",
+          "camera": "Static end card",
+          "audio": "Single chime",
+          "onScreenText": "Client-approved CTA required",
+          "purpose": "End with gated action."
+        }
+      ]
+    },
+    {
+      "id": "COM-2026-BEAUTY-10",
+      "linkedCampaign": "CMP-2026-BEAUTY-10",
+      "titleEn": "Permission to Begin Again",
+      "titleMm": "ပြန်စဖို့ ခွင့်ပြုချက်",
+      "format": "CRM reactivation film",
+      "tension": "Past customers may have a changing routine, but reactivation can become intrusive when consent, contact rights and product facts are unclear.",
+      "objective": "Create a brand-safe, bilingual storytelling direction that supports an approved campaign route; no product, treatment, efficacy, safety, diagnostic, price, availability or outcome claim.",
+      "territory": "The next routine begins with permission",
+      "hook": "An unsent message becomes a respectful choice: learn, revisit or pause.",
+      "visualStyle": "refined close detail, human calm, editorial typography and vertical-safe framing; exact brand system TBC.",
+      "location": "proposed/TBC controlled studio, client-approved retail/consultation set or fabricated set; no real clinical, treatment or operational location assumed.",
+      "storyboardStatus": "12-frame detailed storyboard complete",
+      "productionStatus": "Not started",
+      "rightsClaims": "All product facts, claims, pack artwork, cast, music, user-generated content, creators, locations, interfaces, subtitles, platform formats and release rights TBC.",
+      "storyboard": [
+        {
+          "frame": 1,
+          "timeWindow": "00:00–00:03",
+          "visualAction": "Opening macro: a proposed/TBC beauty-world detail introduces “Permission to Begin Again”.",
+          "camera": "Macro glide",
+          "audio": "Soft room tone",
+          "onScreenText": "ZYNTH BEAUTY / proposed direction",
+          "purpose": "Set the atmosphere without a product claim."
+        },
+        {
+          "frame": 2,
+          "timeWindow": "00:03–00:06",
+          "visualAction": "A human hand pauses before an ambiguous, fictional beauty cue.",
+          "camera": "Close handheld",
+          "audio": "One breath / fabric sound",
+          "onScreenText": "A question can be beautiful.",
+          "purpose": "Introduce tension."
+        },
+        {
+          "frame": 3,
+          "timeWindow": "00:06–00:09",
+          "visualAction": "Typography names the tension in controlled, non-medical language.",
+          "camera": "Static graphic overlay",
+          "audio": "Minimal tonal pulse",
+          "onScreenText": "No claim. Start with clarity.",
+          "purpose": "Protect claim boundary."
+        },
+        {
+          "frame": 4,
+          "timeWindow": "00:09–00:13",
+          "visualAction": "The protagonist chooses an information card, not a product outcome.",
+          "camera": "Over-shoulder",
+          "audio": "Paper fold",
+          "onScreenText": "Read / confirm / ask.",
+          "purpose": "Show informed choice."
+        },
+        {
+          "frame": 5,
+          "timeWindow": "00:13–00:17",
+          "visualAction": "A second participant adds a different perspective.",
+          "camera": "Two-shot",
+          "audio": "Soft conversational texture",
+          "onScreenText": "Your routine, your terms.",
+          "purpose": "Add community without testimonial."
+        },
+        {
+          "frame": 6,
+          "timeWindow": "00:17–00:21",
+          "visualAction": "A proposed/TBC brand-world cue becomes an abstract colour/texture/light composition.",
+          "camera": "Slow orbit",
+          "audio": "Warm tonal swell",
+          "onScreenText": "Beauty without pressure.",
+          "purpose": "Express creative territory."
+        },
+        {
+          "frame": 7,
+          "timeWindow": "00:21–00:25",
+          "visualAction": "A protected consent prompt appears on a fictional interface.",
+          "camera": "Screen insert",
+          "audio": "Single notification tone",
+          "onScreenText": "Choose your next step.",
+          "purpose": "Show consent gate."
+        },
+        {
+          "frame": 8,
+          "timeWindow": "00:25–00:29",
+          "visualAction": "Vertical-safe composition reframes the moment for social cutdown.",
+          "camera": "9:16 crop move",
+          "audio": "Rhythmic edit tick",
+          "onScreenText": "For TikTok / social: asset route TBC",
+          "purpose": "Signal versioning, not approval."
+        },
+        {
+          "frame": 9,
+          "timeWindow": "00:29–00:33",
+          "visualAction": "The human action resolves into a calm, open-ended gesture.",
+          "camera": "Medium slow motion",
+          "audio": "Room tone returns",
+          "onScreenText": "No promise. Just a clearer path.",
+          "purpose": "Resolve without efficacy."
+        },
+        {
+          "frame": 10,
+          "timeWindow": "00:33–00:37",
+          "visualAction": "Bilingual line appears with Myanmar title.",
+          "camera": "Graphic dissolve",
+          "audio": "Soft music rise",
+          "onScreenText": "ပြန်စဖို့ ခွင့်ပြုချက်",
+          "purpose": "Land bilingual identity."
+        },
+        {
+          "frame": 11,
+          "timeWindow": "00:37–00:42",
+          "visualAction": "Client-approved legal/claims placeholder panel replaces any commercial claim.",
+          "camera": "Clean end-card hold",
+          "audio": "Audio fades",
+          "onScreenText": "Product / price / availability / claim TBC",
+          "purpose": "Show approval requirement."
+        },
+        {
+          "frame": 12,
+          "timeWindow": "00:42–00:45",
+          "visualAction": "Final CTA directs to approved information, booking or retailer-assistance destination.",
+          "camera": "Static end card",
+          "audio": "Single chime",
+          "onScreenText": "Client-approved CTA required",
+          "purpose": "End with gated action."
+        }
+      ]
+    }
+  ]
+}

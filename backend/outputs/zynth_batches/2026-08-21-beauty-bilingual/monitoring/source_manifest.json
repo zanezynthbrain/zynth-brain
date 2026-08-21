@@ -1,0 +1,279 @@
+{
+  "batchCode": "ZYNTH-20260821-BEAUTY-BILINGUAL",
+  "counts": {
+    "campaignProposals": 10,
+    "socialTikTokPreparationRoutes": 10,
+    "commercialConcepts": 10,
+    "storyboardFrames": 120,
+    "wordDocuments": 20,
+    "markdownDocuments": 21,
+    "researchSources": 4
+  },
+  "files": [
+    {
+      "path": "ZYNTH_BEAUTY_Batch_Portfolio_Overview.md",
+      "bytes": 4176,
+      "sha256": "1c8aeaa82643f56efeadaa80b0d50a802ed0197d5b842fdc17ec8bec892affcb"
+    },
+    {
+      "path": "commercial_storyboards/01_the-question-in-the-mirror_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 40777,
+      "sha256": "43557213a20d7daeac41ba00f3770eea0a4b387f9c0fdbf690ceba7ffa4173a6"
+    },
+    {
+      "path": "commercial_storyboards/01_the-question-in-the-mirror_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3349,
+      "sha256": "5ef708e6b59fa23f61755b137ec82b73ebf83b70f6fbb3f084cacf1df1b18fea"
+    },
+    {
+      "path": "commercial_storyboards/02_seven-small-moments_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 40737,
+      "sha256": "4b9d41f834131b3ee0b046b0ea42c84f0129b8b95bd512418abe787b3ef7d172"
+    },
+    {
+      "path": "commercial_storyboards/02_seven-small-moments_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3302,
+      "sha256": "a82d261d2a23297f5fa689c394c5a6822ea955adc3ea829918106d49e5f1b823"
+    },
+    {
+      "path": "commercial_storyboards/03_a-colour-with-a-voice_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 40787,
+      "sha256": "4b9664a4fcb28381e68cb76a567f6c2342479a6f07367fe2f1d9da986cb600ba"
+    },
+    {
+      "path": "commercial_storyboards/03_a-colour-with-a-voice_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3298,
+      "sha256": "a3bba94bc8dc65c3d376606530e7849338dacdc4d3236d7d8f61fa08f94f4f0b"
+    },
+    {
+      "path": "commercial_storyboards/04_pause-the-scroll_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 40760,
+      "sha256": "be4df9514a65a8e3c4e77b14b8443fcc74b96dc1bdaa12a8f4c9a5cc57d99e7e"
+    },
+    {
+      "path": "commercial_storyboards/04_pause-the-scroll_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3259,
+      "sha256": "e9528a2be76898944b884c38a7face177149c0581db4a67fbeaeb90388214c93"
+    },
+    {
+      "path": "commercial_storyboards/05_the-return-ritual_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 40773,
+      "sha256": "397ac3bc49f9dfb521e642ee81dfa0dae1313a7444d657e83b40647f35362440"
+    },
+    {
+      "path": "commercial_storyboards/05_the-return-ritual_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3286,
+      "sha256": "603d267adee540d68273979f73f33569190e4538c6df0ce7efaad7bade715f54"
+    },
+    {
+      "path": "commercial_storyboards/06_after-the-day_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 40761,
+      "sha256": "5c8840860cba87358ee1d5922af2dc6356c0917f71909238e9b4c12ff1d59ee9"
+    },
+    {
+      "path": "commercial_storyboards/06_after-the-day_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3304,
+      "sha256": "4fd533fc9808463b959ed058ab7d494804965b7a1cb9a7260eb1b1228abdaa8f"
+    },
+    {
+      "path": "commercial_storyboards/07_the-language-of-texture_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 40759,
+      "sha256": "ca0c3dd62eddc13bb4964a7e616f9b8109c75c1236ecda3b90093cdbf3dee189"
+    },
+    {
+      "path": "commercial_storyboards/07_the-language-of-texture_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3285,
+      "sha256": "7c7925816b24719a6a827e455de98caa642ff097b6e3003792a74e6526af5691"
+    },
+    {
+      "path": "commercial_storyboards/08_no-comparison-needed_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 40759,
+      "sha256": "0952431285b924a38dd7b1d7dc018e9da16b49059806a6f0d5327d861b2e83d3"
+    },
+    {
+      "path": "commercial_storyboards/08_no-comparison-needed_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3268,
+      "sha256": "2adb34ddf7a6c4e2c5a9c7248bf4e35c50d917ff95b5763b29395de13e1546d2"
+    },
+    {
+      "path": "commercial_storyboards/09_read-before-repeat_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 40768,
+      "sha256": "9cc1ba593a0939c7cce11e39f3f1c96f144e2b7efb1188acafbacd52ba94c5b2"
+    },
+    {
+      "path": "commercial_storyboards/09_read-before-repeat_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3311,
+      "sha256": "09a269310999301a60339f655fcc51bb01c85af1f7d5058300a3c4585097ac0e"
+    },
+    {
+      "path": "commercial_storyboards/10_permission-to-begin-again_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 40763,
+      "sha256": "75b16293173d8a7e4bcd0f959a38188637561c67adaa70c3a66e0ca2b0688136"
+    },
+    {
+      "path": "commercial_storyboards/10_permission-to-begin-again_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3360,
+      "sha256": "3277921ecda5b1e2149c7d23b41aea495d1a23773da93a930595cbec114074d5"
+    },
+    {
+      "path": "data/campaigns.json",
+      "bytes": 40186,
+      "sha256": "8eefdde12c65b8b85585835233f4a1cd7aedf6cbf891dad4a551eb763c54eb70"
+    },
+    {
+      "path": "data/commercials.json",
+      "bytes": 58500,
+      "sha256": "1a9350c44bcd2839247f6bc0dcc9208ea05344d06c5aedc5d32f0bad39314dd5"
+    },
+    {
+      "path": "monitoring/ZYNTH-20260821-BEAUTY-Monitoring.xlsx",
+      "bytes": 32065,
+      "sha256": "2deb5458545f5424cfce9ff9971693634cdffce261dd515d5476efcf60a181f9"
+    },
+    {
+      "path": "monitoring/monitoring_report.md",
+      "bytes": 994,
+      "sha256": "5c9693bbad4e75f5f39c9207a71464cad1433f6298fd7ac147bd4c60234950bd"
+    },
+    {
+      "path": "proposals/01_ingredient-listening-bar_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 41910,
+      "sha256": "258d19a204d2b2bf4b8f8b06b21328bc7347c9d3a1e096dd9fbddb4db5373fa5"
+    },
+    {
+      "path": "proposals/01_ingredient-listening-bar_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 3639,
+      "sha256": "8a577a81e3710dc2e925ba82441cdbba33de2e627f643c02d2b1f20f370adfad"
+    },
+    {
+      "path": "proposals/02_my-routine-my-rhythm_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 41862,
+      "sha256": "11bc596f038102fb54a45741ea64297f918367cab17df04cc3429ff1cd4df256"
+    },
+    {
+      "path": "proposals/02_my-routine-my-rhythm_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 3507,
+      "sha256": "78c1e10bea1600026772209b7c1f562e730d9cecd477696bfeb7feb7c68323c3"
+    },
+    {
+      "path": "proposals/03_shade-story-studio_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 41878,
+      "sha256": "a9d2736e003c0b36b2cacd6eaee76aa623c02f26d84110594e105e1731c628f8"
+    },
+    {
+      "path": "proposals/03_shade-story-studio_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 3563,
+      "sha256": "a0209ed96502890338cba127033a5a9f54714c73c093bb033ea10a21bfe7d5b4"
+    },
+    {
+      "path": "proposals/04_the-60-second-reset_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 41856,
+      "sha256": "11e977da19897f2b6cad253d33bbd95f580b0135269a80ef9a9ce2b4887a5ecc"
+    },
+    {
+      "path": "proposals/04_the-60-second-reset_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 3411,
+      "sha256": "61921ec90aab4a2bc760aa81371f65b59c38b1ed5ad3ba9f63b8635bdc266c18"
+    },
+    {
+      "path": "proposals/05_refill-with-intention_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 41880,
+      "sha256": "9fc99ea8b64071c690cb24d768ddf36c23fb8da1a88961d802481ebee188addc"
+    },
+    {
+      "path": "proposals/05_refill-with-intention_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 3538,
+      "sha256": "6cde53a1e25839ca712e10e22b7b5ff6fb0642cc05530e0c5c76fcb1c5fc2050"
+    },
+    {
+      "path": "proposals/06_beauty-desk-after-dark_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 41854,
+      "sha256": "a45ce27f693b2db65fa73f6e259ef5f8e3c18345a0c4fc2dda3b8c5a41c15bf6"
+    },
+    {
+      "path": "proposals/06_beauty-desk-after-dark_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 3485,
+      "sha256": "a145bbe2f7dd6745684072088dfa251757a7b3b2ba505eb79fdc44c9da498ebc"
+    },
+    {
+      "path": "proposals/07_the-texture-library_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 41810,
+      "sha256": "d1c0e4f37946fd0d6d869937649054cc934a65b3d4c7a4de7075d8d6c395887e"
+    },
+    {
+      "path": "proposals/07_the-texture-library_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 3466,
+      "sha256": "cc10d50746ec6575d2b107fd944592e4e9ea8ede91132af25fb5c8edd4a22011"
+    },
+    {
+      "path": "proposals/08_glow-not-pressure_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 41811,
+      "sha256": "1dca0e5b3fb40d7724c042a4d914a361f86f0da5794702a4f4e69c5219aa6de6"
+    },
+    {
+      "path": "proposals/08_glow-not-pressure_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 3411,
+      "sha256": "943445ee96df2d61fe620cb74596f35b16160f7740cc219c0ed1c61a43f4ff64"
+    },
+    {
+      "path": "proposals/09_pack-to-purpose_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 41811,
+      "sha256": "454ef6d5e1130da061f9d6ad7f3f13a1de6b6a77d823116ef760a04078e0e7df"
+    },
+    {
+      "path": "proposals/09_pack-to-purpose_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 3456,
+      "sha256": "bafc9f2b4903675f9fc84425b551dab8424cf0c9d5a613054a9445f04a28a6e1"
+    },
+    {
+      "path": "proposals/10_the-next-routine_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 41851,
+      "sha256": "24cb2dffdea78747defcdddc7dc4e029754391434def09ab84a99d6cb5cc8a4d"
+    },
+    {
+      "path": "proposals/10_the-next-routine_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 3530,
+      "sha256": "cd3fca2a42b0b26e298e0e10ba7ac8cce2c86819c71bc6f1cdfb9ac2af6b031e"
+    },
+    {
+      "path": "research/beauty_social_research_notes.md",
+      "bytes": 4792,
+      "sha256": "21e1de6a41873e94205facddce1ab8701aa4276525112f0f5e24dbd173d1d6a9"
+    },
+    {
+      "path": "research/tiktok_beauty_video_context.md",
+      "bytes": 6757,
+      "sha256": "62e1249e1afd5e46e98340cfd0b56aaa18ab91e40cd4c557169c78fa276b3993"
+    },
+    {
+      "path": "scripts/generate_beauty_concepts.py",
+      "bytes": 19650,
+      "sha256": "bf35391e041208f4242f2c2ace1f36a44d26456b2b32f36af73a975153a8f874"
+    },
+    {
+      "path": "scripts/generate_beauty_monitoring.py",
+      "bytes": 14327,
+      "sha256": "f8b75faab4457a90ea92bf34a7ebc32c42bfca1e34e5a41ddae522bdd6229112"
+    },
+    {
+      "path": "scripts/generate_beauty_proposal_package.py",
+      "bytes": 17687,
+      "sha256": "f37901f291725d5ebfa92be91764188e542ee722913f013ef65cb3ad134ad2e6"
+    },
+    {
+      "path": "scripts/validate_beauty_batch.py",
+      "bytes": 3925,
+      "sha256": "f5eec23b4e4e02a2423018a27eedbed6ceb9ecdaed4acb487fcbaae878b84969"
+    },
+    {
+      "path": "validation/ai_council_feasibility_review.md",
+      "bytes": 5788,
+      "sha256": "8bba03833d8efd1a135fb704a0564bbe846b427cc38870b56976ffd972d348f7"
+    },
+    {
+      "path": "validation/batch_validation.md",
+      "bytes": 10257,
+      "sha256": "8edb8adb418464bf763086f5a7ee2bbd8cb13183a002b7642838489dc65ef2f8"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "majorDimension": "ROWS",
+  "range": "Ops!B23:N26",
+  "values": [
+    [
+      "TSK-2026-BEAUTY-001",
+      "ZYNTH-20260821-BEAUTY-BILINGUAL",
+      "Task",
+      "G1 Facts & claims",
+      "Select up to three Beauty campaign records and confirm product/claim/label/pack evidence scope",
+      "User / Final Approver",
+      "TBC",
+      "High",
+      "No client brand/product facts or claims owner named",
+      "Needs Human Decision",
+      "Choose priority CMP IDs",
+      "https://drive.google.com/drive/folders/1STqHBvLDMYfBcKVnZyeL1xoILAX4gfFD",
+      "2026-08-21 UTC"
+    ],
+    [
+      "APR-2026-BEAUTY-001",
+      "ZYNTH-20260821-BEAUTY-BILINGUAL",
+      "Approval",
+      "G4 Social/activation feasibility",
+      "Approve social/TikTok account/policy, creators, rights, privacy, moderation, hygiene, site and operations boundaries before release",
+      "Client social/legal/operations owner",
+      "TBC",
+      "Critical",
+      "Beauty claims, social policy, privacy, creator and hygiene dependencies",
+      "Needs Human Decision",
+      "No external activation or publishing authorised",
+      "https://drive.google.com/drive/folders/1STqHBvLDMYfBcKVnZyeL1xoILAX4gfFD",
+      "2026-08-21 UTC"
+    ],
+    [
+      "TSK-2026-BEAUTY-002",
+      "ZYNTH-20260821-BEAUTY-BILINGUAL",
+      "Task",
+      "G5 Production Cleared",
+      "Select up to three COM records for final script, rights and production feasibility",
+      "User / Final Approver",
+      "TBC",
+      "High",
+      "Commercials are treatments, not production-approved scripts",
+      "Needs Human Decision",
+      "Choose priority COM IDs",
+      "https://drive.google.com/drive/folders/1STqHBvLDMYfBcKVnZyeL1xoILAX4gfFD",
+      "2026-08-21 UTC"
+    ],
+    [
+      "TSK-2026-BEAUTY-003",
+      "SYSTEM-ZYNTH",
+      "Task",
+      "G7 Learn & Archive",
+      "Review Beauty batch learning after human selection and update same CMP/COM IDs",
+      "ZYNTH Data Owner",
+      "TBC",
+      "Medium",
+      "Manual tracker update and decision log required",
+      "Draft",
+      "Use Beauty archive as baseline",
+      "https://drive.google.com/drive/folders/1STqHBvLDMYfBcKVnZyeL1xoILAX4gfFD",
+      "2026-08-21 UTC"
+    ]
+  ]
+}

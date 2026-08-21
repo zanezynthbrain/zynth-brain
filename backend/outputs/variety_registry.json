@@ -105,6 +105,20 @@
       "drive_folder_id": "18GwI3Csba3Cus_NUksNSd0s912_unU7x",
       "tracker_sync_status": "verified",
       "command_center_callback_status": "not_sent_missing_environment"
+    },
+    {
+      "industry": "Beauty and cosmetics",
+      "industryCode": "beauty",
+      "run_id": "2026-08-21T07:50:00Z",
+      "count": 10,
+      "batch_code": "ZYNTH-20260821-BEAUTY-BILINGUAL",
+      "production_status": "validated_synced",
+      "channel_scope": "Integrated activation plus social media and TikTok preparation",
+      "validated_at": "2026-08-21T00:00:00Z",
+      "validation_status": "PASS 130/130",
+      "drive_folder_id": "1STqHBvLDMYfBcKVnZyeL1xoILAX4gfFD",
+      "tracker_sync_status": "verified",
+      "command_center_callback_status": "not_sent_missing_environment"
     }
   ],
   "concepts": [
@@ -370,7 +384,7 @@
     }
   ],
   "updated": "2026-08-21T00:00:00Z",
-  "registry_note": "Logistics completed as the immediate non-repeating batch after F&B: 10 campaign proposals, 10 separate commercial storyboards, 120 frames, locally validated 264/264, Drive archived and live tracker read-back verified. Command Center callback was attempted but not sent because the designated environment variables were unavailable; no alternate credentials were used.",
+  "registry_note": "Beauty/cosmetics completed as the user-requested next two-hour batch after Logistics: 10 integrated campaign proposals with dedicated social/TikTok preparation, 10 separate commercial storyboards, 120 frames, locally validated 130/130, Drive archived and live tracker read-back verified. Command Center callback was attempted but not sent because the designated environment variables were unavailable; no alternate credentials were used.",
   "selection_log": [
     {
       "batch_code": "ZYNTH-20260821-ENERGY-BILINGUAL",
@@ -413,6 +427,24 @@
       "validated_at": "2026-08-21T00:00:00Z",
       "validation_status": "PASS 264/264",
       "drive_folder_id": "18GwI3Csba3Cus_NUksNSd0s912_unU7x",
+      "tracker_sync_status": "verified",
+      "command_center_callback_status": "not_sent_missing_environment"
+    },
+    {
+      "batch_code": "ZYNTH-20260821-BEAUTY-BILINGUAL",
+      "industryCode": "beauty",
+      "industry": "Beauty and cosmetics",
+      "selection_status": "validated_synced",
+      "selected_at": "2026-08-21T07:50:00Z",
+      "prior_immediate_industryCode": "logistics",
+      "selection_rationale": "beauty is an allowed command-center industry code explicitly requested by the user and differs from the immediately prior logistics batch. The batch is reserved before research to preserve lifecycle integrity. Earlier 2026-08-20 adjacent beauty/wellness ideation does not replace this new dedicated cosmetics batch.",
+      "required_campaign_proposal_count": 10,
+      "required_commercial_storyboard_count": 10,
+      "campaign_channel_requirement": "Every campaign must include a social-media preparation workstream and a TikTok-specific preparation workstream where appropriate; these do not replace the separate commercial/storyboard track.",
+      "two_hour_sprint_model": true,
+      "validated_at": "2026-08-21T00:00:00Z",
+      "validation_status": "PASS 130/130",
+      "drive_folder_id": "1STqHBvLDMYfBcKVnZyeL1xoILAX4gfFD",
       "tracker_sync_status": "verified",
       "command_center_callback_status": "not_sent_missing_environment"
     }

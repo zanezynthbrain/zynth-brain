@@ -1,0 +1,12 @@
+{
+  "batchCode": "ZYNTH-20260821-BEAUTY-BILINGUAL",
+  "attemptedAt": "2026-08-21T00:00:00Z",
+  "operation": "Command Center lifecycle callback",
+  "status": "not_sent",
+  "reason": "SCHEDULED_TASK_ENDPOINT_BASE and/or SCHEDULED_TASK_COOKIE unavailable in sandbox environment; alternate tokens were not used",
+  "environment": {
+    "endpointPresent": false,
+    "cookiePresent": false
+  },
+  "remediation": "Configure the scheduled-task callback environment, then replay a client-approved callback from the designated integration surface."
+}
