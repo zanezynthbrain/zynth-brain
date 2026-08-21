@@ -1,0 +1,19 @@
+{
+  "batchCode": "ZYNTH-20260821-RETAIL-BILINGUAL",
+  "industryCode": "retail",
+  "status": "Complete",
+  "proposalCount": 10,
+  "documentCount": 20,
+  "videoConceptCount": 10,
+  "validation": {"status": "Passed", "documentCount": 20, "assetCount": 10, "englishCount": 10, "hybridCount": 10},
+  "driveSyncStatus": "Synced",
+  "driveFolderUrl": "https://drive.google.com/drive/folders/1eJQFUMzO1Vsu_UNt2BLFUjo8slA40doQ",
+  "driveUploadedCount": 34,
+  "githubSyncStatus": "Synced",
+  "githubRepository": "https://github.com/zanezynthbrain/zynth-brain",
+  "githubDirectoryUrl": "https://github.com/zanezynthbrain/zynth-brain/tree/main/daily_proposals/2026-08-21_Retail_Bilingual",
+  "githubCommitBeforeRecord": "66ee3bf4105503e5600694030f9edf00d7e4443d",
+  "callbackStatus": "Not configured",
+  "callbackError": "SCHEDULED_TASK_ENDPOINT_BASE and SCHEDULED_TASK_COOKIE were not present in the injected scheduled-task environment; no alternate endpoint or token was used.",
+  "recordedAt": "2026-08-21T00:14:00Z"
+}
