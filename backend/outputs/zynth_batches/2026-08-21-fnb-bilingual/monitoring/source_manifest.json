@@ -1,15 +1,58 @@
 {
   "batchCode": "ZYNTH-20260821-FNB-BILINGUAL",
-  "generatedAt": "2026-08-21T06:45:00Z",
-  "counts": {
-    "campaignProposals": 10,
-    "commercialConcepts": 10,
-    "storyboardFrames": 120,
-    "wordDocuments": 20,
-    "markdownDocuments": 21,
-    "researchSources": 9
+  "generatedAt": "2026-08-21T06:46:49Z",
+  "delivery": {
+    "batchCode": "ZYNTH-20260821-FNB-BILINGUAL",
+    "industryCode": "fnb",
+    "status": "Complete",
+    "completedAt": "2026-08-21T06:46:49Z",
+    "counts": {
+      "campaignProposals": 10,
+      "standaloneCommercialConcepts": 10,
+      "detailedStoryboardFrames": 120,
+      "wordDocuments": 20,
+      "markdownDocuments": 21,
+      "researchSources": 9,
+      "driveUploadedFiles": 50,
+      "liveTrackerRows": {
+        "campaigns": 10,
+        "commercials": 10,
+        "research": 9,
+        "aiCouncil": 5,
+        "ops": 4
+      }
+    },
+    "drive": {
+      "status": "Synced",
+      "folderUrl": "https://drive.google.com/drive/folders/1ro6elw2QGkIy7kxcw5zm5AScZRg3vaN_",
+      "contentsVerified": 50
+    },
+    "liveTracker": {
+      "status": "Updated",
+      "url": "https://docs.google.com/spreadsheets/d/1lJd6DkGcKrCAiETw9qadftFZhc-uXDNBr8Q1JlHLqMo/edit",
+      "dashboardTabUrl": "https://docs.google.com/spreadsheets/d/1lJd6DkGcKrCAiETw9qadftFZhc-uXDNBr8Q1JlHLqMo/edit#gid=906936946"
+    },
+    "github": {
+      "status": "Synced",
+      "directoryUrl": "https://github.com/zanezynthbrain/zynth-brain/tree/main/backend/outputs/zynth_batches/2026-08-21-fnb-bilingual",
+      "commit": "a5a009c29d9344fba94fb7eaaf894af319695867"
+    },
+    "commandCenterCallback": {
+      "status": "Not configured",
+      "errorSummary": "Approved scheduled-task endpoint and cookie were unavailable; no alternate endpoint or token was used."
+    },
+    "limitations": [
+      "Word preview does not reliably render Myanmar text; Markdown copies are the reliable Burmese-first reading layer.",
+      "AI Council review was internal/no-cost and does not represent external provider, client, legal, food-safety or production review.",
+      "All performance outcomes and budgets are planning assumptions; no external activation, shoot, spend or commercial commitment is authorised."
+    ]
   },
   "files": [
+    {
+      "path": "ZYNTH-20260821-FNB-BILINGUAL-Complete-Batch.zip",
+      "bytes": 899692,
+      "sha256": "a7639ad19ffb93ba593f8810e4b306905c76be7b0be9c9691ee37a3f543d53da"
+    },
     {
       "path": "ZYNTH_FNB_Batch_Portfolio_Overview.md",
       "bytes": 5856,
@@ -216,12 +259,12 @@
       "sha256": "54da519eacd5dfd6ee2c0d69ae43eae978feee7d049c8b73c19b290980eb1dd7"
     },
     {
-      "path": "proposals/09_the-buyer\u2019s-bite_Campaign_Proposal_MM-Bilingual.docx",
+      "path": "proposals/09_the-buyer’s-bite_Campaign_Proposal_MM-Bilingual.docx",
       "bytes": 40848,
       "sha256": "afde3189a7114bcd21537afa8b2a97afbdcce7e29ca3f4196d4070e0785d892b"
     },
     {
-      "path": "proposals/09_the-buyer\u2019s-bite_Campaign_Proposal_MM-Bilingual.md",
+      "path": "proposals/09_the-buyer’s-bite_Campaign_Proposal_MM-Bilingual.md",
       "bytes": 1553,
       "sha256": "a3b0b7f46553bbf33ed81565d0d132cac6d443ea1092513a65f573d4926137b2"
     },
@@ -241,6 +284,16 @@
       "sha256": "7774ce70ace31f7e3a89634ae91191fb33302b715d72c5548022eb66268ab861"
     },
     {
+      "path": "scripts/build_live_tracker_payloads.py",
+      "bytes": 8943,
+      "sha256": "d38feec4d4cb542f56190905bec6e6e52f35b6fbf3ecf0e45a9c0ae69fd359f0"
+    },
+    {
+      "path": "scripts/finalize_delivery_record.py",
+      "bytes": 2659,
+      "sha256": "6c5ae74b6114bcd619c24c405b311c283882dc2d95c4b7cbe5b1f4ea913902cc"
+    },
+    {
       "path": "scripts/generate_commercials.py",
       "bytes": 19268,
       "sha256": "293cf1c04a05c81e74f8123fa670875b6e5d543b9621cce9b0362d0bd49ef369"
@@ -256,9 +309,79 @@
       "sha256": "47093e101c22c5fd8c24cc65dbfdf19559514341b3ff1cd30d30256c0f686fcb"
     },
     {
+      "path": "scripts/upload_to_drive.sh",
+      "bytes": 1393,
+      "sha256": "7ff62c2ab6650a89559e5ed48e221b93c900b6afda883eaddf4d4e37e29df1e8"
+    },
+    {
+      "path": "scripts/validate_fnb_batch.py",
+      "bytes": 3607,
+      "sha256": "120dc6eeae30db93bdb128706825ee1d04736a0fbe48ec30fbab211ab004db09"
+    },
+    {
+      "path": "sync/delivery_record.json",
+      "bytes": 1807,
+      "sha256": "65dc99aa0143538c1afa952a9199b50b9d6fa286cac57b182f5037c5ec2bca03"
+    },
+    {
+      "path": "sync/drive_folder_listing.json",
+      "bytes": 16014,
+      "sha256": "72b6cd44735302876dd88b38b4df0d29892a0e6ff5de3e13ed80122ff3f69793"
+    },
+    {
+      "path": "sync/drive_upload_log.ndjson",
+      "bytes": 12806,
+      "sha256": "7e0a84bda1f0f236d14570ec8e40107c091d9604522f74a385045da017a4a9af"
+    },
+    {
+      "path": "sync/live_tracker_append_log.ndjson",
+      "bytes": 1000,
+      "sha256": "809bec388adc547c882f92be493de406a6ce987c53acd0c756682327005aee5c"
+    },
+    {
+      "path": "sync/live_tracker_payloads/01_campaigns.json",
+      "bytes": 11464,
+      "sha256": "9aeb23673b98592af1bc314abccffaee0ebef32110b90c4ae267ca6db975b98a"
+    },
+    {
+      "path": "sync/live_tracker_payloads/02_commercials.json",
+      "bytes": 11753,
+      "sha256": "397ec045c247b1ea4870431e389a83c889c60d24b7a1709260f6cb18a657a900"
+    },
+    {
+      "path": "sync/live_tracker_payloads/03_research.json",
+      "bytes": 4117,
+      "sha256": "c4a9ff428c76cdfbbfc0a43390781df3bb844be9a84a91031cf493c8d80c8bcf"
+    },
+    {
+      "path": "sync/live_tracker_payloads/04_ai_council.json",
+      "bytes": 3294,
+      "sha256": "78f7b3681d80eb25ac0c2c547d4f4b308c59e9a7552751cfa4ce2fa343723f66"
+    },
+    {
+      "path": "sync/live_tracker_payloads/05_ops.json",
+      "bytes": 2446,
+      "sha256": "6ceaaf916de13f020873653d2cc89259f5053420db1821fc103e3fc1dcdcd012"
+    },
+    {
+      "path": "validation/ai_council_feasibility_review.md",
+      "bytes": 6538,
+      "sha256": "f2bc6f3b6ac0316424b85c34e1124a10d079ca94368ca6686057f08bfdc0d843"
+    },
+    {
+      "path": "validation/ai_council_register.csv",
+      "bytes": 1687,
+      "sha256": "f96024dba0428b5a39372706d0d719c80612a6668380711c768e6623f67fc736"
+    },
+    {
+      "path": "validation/batch_validation.md",
+      "bytes": 23660,
+      "sha256": "6c54f5989e15f63c8080ce2f9e67fbb937c5578a8ec4a5b09b5a70aa72a6e671"
+    },
+    {
       "path": "validation/proposal_visual_qc.md",
-      "bytes": 2214,
-      "sha256": "6fa5cf4f583f65b1616122f1985abe8b0b5998d263673ab213669fadc13a5ccd"
+      "bytes": 3268,
+      "sha256": "2ed198d4a5f95187b5a7f20fa374be5d4e2263eab135fdd754bf155143b6cf25"
     }
   ]
 }

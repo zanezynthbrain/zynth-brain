@@ -1,0 +1,46 @@
+{
+  "batchCode": "ZYNTH-20260821-FNB-BILINGUAL",
+  "industryCode": "fnb",
+  "status": "Complete",
+  "completedAt": "2026-08-21T06:46:49Z",
+  "counts": {
+    "campaignProposals": 10,
+    "standaloneCommercialConcepts": 10,
+    "detailedStoryboardFrames": 120,
+    "wordDocuments": 20,
+    "markdownDocuments": 21,
+    "researchSources": 9,
+    "driveUploadedFiles": 50,
+    "liveTrackerRows": {
+      "campaigns": 10,
+      "commercials": 10,
+      "research": 9,
+      "aiCouncil": 5,
+      "ops": 4
+    }
+  },
+  "drive": {
+    "status": "Synced",
+    "folderUrl": "https://drive.google.com/drive/folders/1ro6elw2QGkIy7kxcw5zm5AScZRg3vaN_",
+    "contentsVerified": 50
+  },
+  "liveTracker": {
+    "status": "Updated",
+    "url": "https://docs.google.com/spreadsheets/d/1lJd6DkGcKrCAiETw9qadftFZhc-uXDNBr8Q1JlHLqMo/edit",
+    "dashboardTabUrl": "https://docs.google.com/spreadsheets/d/1lJd6DkGcKrCAiETw9qadftFZhc-uXDNBr8Q1JlHLqMo/edit#gid=906936946"
+  },
+  "github": {
+    "status": "Synced",
+    "directoryUrl": "https://github.com/zanezynthbrain/zynth-brain/tree/main/backend/outputs/zynth_batches/2026-08-21-fnb-bilingual",
+    "commit": "a5a009c29d9344fba94fb7eaaf894af319695867"
+  },
+  "commandCenterCallback": {
+    "status": "Not configured",
+    "errorSummary": "Approved scheduled-task endpoint and cookie were unavailable; no alternate endpoint or token was used."
+  },
+  "limitations": [
+    "Word preview does not reliably render Myanmar text; Markdown copies are the reliable Burmese-first reading layer.",
+    "AI Council review was internal/no-cost and does not represent external provider, client, legal, food-safety or production review.",
+    "All performance outcomes and budgets are planning assumptions; no external activation, shoot, spend or commercial commitment is authorised."
+  ]
+}
