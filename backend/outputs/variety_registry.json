@@ -92,6 +92,19 @@
       "count": 10,
       "batch_code": "ZYNTH-20260821-FNB-BILINGUAL",
       "production_status": "registered_research_pending"
+    },
+    {
+      "industry": "Logistics and supply chain",
+      "industryCode": "logistics",
+      "run_id": "2026-08-21T06:50:00Z",
+      "count": 10,
+      "batch_code": "ZYNTH-20260821-LOGISTICS-BILINGUAL",
+      "production_status": "validated_synced",
+      "validated_at": "2026-08-21T00:00:00Z",
+      "validation_status": "PASS 264/264",
+      "drive_folder_id": "18GwI3Csba3Cus_NUksNSd0s912_unU7x",
+      "tracker_sync_status": "verified",
+      "command_center_callback_status": "not_sent_missing_environment"
     }
   ],
   "concepts": [
@@ -356,8 +369,8 @@
       "batch_code": "ZYNTH-20260821-ENERGY-BILINGUAL"
     }
   ],
-  "updated": "2026-08-21T06:15:00Z",
-  "registry_note": "Reconstructed on 2026-08-21 from the verified 2026-08-20 source_manifest.json because the documented registry file was absent. The immediate prior run used the ten industries above; next selection must be outside that set. F&B was registered on 2026-08-21 as the next two-hour batch after Energy.",
+  "updated": "2026-08-21T00:00:00Z",
+  "registry_note": "Logistics completed as the immediate non-repeating batch after F&B: 10 campaign proposals, 10 separate commercial storyboards, 120 frames, locally validated 264/264, Drive archived and live tracker read-back verified. Command Center callback was attempted but not sent because the designated environment variables were unavailable; no alternate credentials were used.",
   "selection_log": [
     {
       "batch_code": "ZYNTH-20260821-ENERGY-BILINGUAL",
@@ -385,6 +398,23 @@
       "required_campaign_proposal_count": 10,
       "required_commercial_storyboard_count": 10,
       "two_hour_sprint_model": true
+    },
+    {
+      "batch_code": "ZYNTH-20260821-LOGISTICS-BILINGUAL",
+      "industryCode": "logistics",
+      "industry": "Logistics and supply chain",
+      "selection_status": "validated_synced",
+      "selected_at": "2026-08-21T06:50:00Z",
+      "prior_immediate_industryCode": "fnb",
+      "selection_rationale": "logistics is an allowed command-center industry code and differs from the immediately prior fnb batch. It was selected before research and concept development to preserve required batch variety.",
+      "required_campaign_proposal_count": 10,
+      "required_commercial_storyboard_count": 10,
+      "two_hour_sprint_model": true,
+      "validated_at": "2026-08-21T00:00:00Z",
+      "validation_status": "PASS 264/264",
+      "drive_folder_id": "18GwI3Csba3Cus_NUksNSd0s912_unU7x",
+      "tracker_sync_status": "verified",
+      "command_center_callback_status": "not_sent_missing_environment"
     }
   ]
 }

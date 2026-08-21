@@ -1,0 +1,74 @@
+{
+  "params": {
+    "spreadsheetId": "1lJd6DkGcKrCAiETw9qadftFZhc-uXDNBr8Q1JlHLqMo",
+    "range": "Ops!B:N",
+    "valueInputOption": "USER_ENTERED",
+    "insertDataOption": "INSERT_ROWS",
+    "includeValuesInResponse": false
+  },
+  "json": {
+    "majorDimension": "ROWS",
+    "values": [
+      [
+        "TSK-2026-LOGISTICS-001",
+        "ZYNTH-20260821-LOGISTICS-BILINGUAL",
+        "Task",
+        "G1 Research Cleared",
+        "Select up to three logistics campaign records for client feasibility scope",
+        "User / Final Approver",
+        "TBC",
+        "High",
+        "No client service/product facts or commercial owner named",
+        "Needs Human Decision",
+        "Choose priority CMP IDs",
+        "https://drive.google.com/drive/folders/18GwI3Csba3Cus_NUksNSd0s912_unU7x",
+        "2026-08-21 UTC"
+      ],
+      [
+        "APR-2026-LOGISTICS-001",
+        "ZYNTH-20260821-LOGISTICS-BILINGUAL",
+        "Approval",
+        "G4 Feasibility Cleared",
+        "Approve service/product facts, site/route safety, privacy, rights, permits, security and operational ownership before activation",
+        "Client operations / legal owner",
+        "TBC",
+        "Critical",
+        "Logistics safety, security, confidentiality and claims requirements",
+        "Needs Human Decision",
+        "No external activation authorised",
+        "https://drive.google.com/drive/folders/18GwI3Csba3Cus_NUksNSd0s912_unU7x",
+        "2026-08-21 UTC"
+      ],
+      [
+        "TSK-2026-LOGISTICS-002",
+        "ZYNTH-20260821-LOGISTICS-BILINGUAL",
+        "Task",
+        "G5 Production Cleared",
+        "Select up to three COM records for final script, site rights and production feasibility",
+        "User / Final Approver",
+        "TBC",
+        "High",
+        "Commercials are treatments, not production-approved scripts",
+        "Needs Human Decision",
+        "Choose priority COM IDs",
+        "https://drive.google.com/drive/folders/18GwI3Csba3Cus_NUksNSd0s912_unU7x",
+        "2026-08-21 UTC"
+      ],
+      [
+        "TSK-2026-LOGISTICS-003",
+        "SYSTEM-ZYNTH",
+        "Task",
+        "G7 Learn & Archive",
+        "Review Logistics batch learning after human selection and update same CMP/COM IDs",
+        "ZYNTH Data Owner",
+        "TBC",
+        "Medium",
+        "Manual tracker update and decision log required",
+        "Draft",
+        "Use Logistics archive as baseline",
+        "https://drive.google.com/drive/folders/18GwI3Csba3Cus_NUksNSd0s912_unU7x",
+        "2026-08-21 UTC"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,343 @@
+{
+  "batchCode": "ZYNTH-20260821-LOGISTICS-BILINGUAL",
+  "counts": {
+    "campaignProposals": 10,
+    "commercialConcepts": 10,
+    "storyboardFrames": 120,
+    "wordDocuments": 20,
+    "markdownDocuments": 21,
+    "researchSources": 6
+  },
+  "files": [
+    {
+      "path": "ZYNTH-20260821-LOGISTICS-BILINGUAL-Complete-Batch.zip",
+      "bytes": 878665,
+      "sha256": "618c3f727820a8fd9d0c3fbf79793659edbd447d6f7c225235b47fcd29c8d35c"
+    },
+    {
+      "path": "ZYNTH_LOGISTICS_Batch_Portfolio_Overview.md",
+      "bytes": 5098,
+      "sha256": "338e41fdf7fba0446e978d42a6c437f18c279ece726ebc973836e55fc010061c"
+    },
+    {
+      "path": "commercial_storyboards/01_the-handover_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 41066,
+      "sha256": "432324d8075350eca574420ce9d8c8029b3cbed46ca890f2067adf73c3092b7d"
+    },
+    {
+      "path": "commercial_storyboards/01_the-handover_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3757,
+      "sha256": "8beecbd3d6a30bc2b707902a4bcf2c5fca757bd576cad4aeb6b45885e977408d"
+    },
+    {
+      "path": "commercial_storyboards/02_a-clear-message_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 41081,
+      "sha256": "9a1457f381c4d90936e489a1d5bce0bfed0618a440ea81e0d6fbde13f1d60052"
+    },
+    {
+      "path": "commercial_storyboards/02_a-clear-message_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3826,
+      "sha256": "ca15b99b003237a51049b236f777b093c33828d89b0a1f9d114c7598735019bb"
+    },
+    {
+      "path": "commercial_storyboards/03_the-question-that-travels_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 41091,
+      "sha256": "21196542952ef9475e60d2a188362cfa4586a2b20982972172c79559a8e65db1"
+    },
+    {
+      "path": "commercial_storyboards/03_the-question-that-travels_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3837,
+      "sha256": "a5fd2e43c263480247303197d1828597c496c040fabee7503ac2833a70f08af6"
+    },
+    {
+      "path": "commercial_storyboards/04_before-the-peak_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 41059,
+      "sha256": "f3cf1e1aa6b1c47629b1c8415c46246f0907a8d41e20e30e4d92fbe09268a139"
+    },
+    {
+      "path": "commercial_storyboards/04_before-the-peak_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3767,
+      "sha256": "812e812fb7cbab2a66150986405b7bb03059de68e3594c3d0a9381df8c88b16a"
+    },
+    {
+      "path": "commercial_storyboards/05_the-return-that-restarts_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 41089,
+      "sha256": "2c18a79116fc6370b0ec791936c3ea228d6fb04f03a5cd5cb30e8026da0f8f87"
+    },
+    {
+      "path": "commercial_storyboards/05_the-return-that-restarts_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3825,
+      "sha256": "3f788ad6abd1702291fcc18eafe055aa88d07e75dfaae1bfa862ecf32503c974"
+    },
+    {
+      "path": "commercial_storyboards/06_known-confirmed-decided_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 41084,
+      "sha256": "3b8839a7ba802831af5fe6af12b8e3819e9dd41d7d4821ee82022cbfc786344b"
+    },
+    {
+      "path": "commercial_storyboards/06_known-confirmed-decided_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3866,
+      "sha256": "569a0027a8ceb4592a128c5892a924c10101b13b341b765cf5accd609eacb34d"
+    },
+    {
+      "path": "commercial_storyboards/07_the-signal-at-6-12_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 41074,
+      "sha256": "922a2585e59b4692684f2935ca6dbe0e86e5afd23e3be455f06b7725a8b341b0"
+    },
+    {
+      "path": "commercial_storyboards/07_the-signal-at-6-12_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3796,
+      "sha256": "113d7dc15ea02e7fbc743439d8d121ed396270a1290ec25318ef6610f3e7f05a"
+    },
+    {
+      "path": "commercial_storyboards/08_hands-on-the-route_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 41066,
+      "sha256": "91e97dcf4c2550ed76107998dc9f21e0643b93265a8cf1d77949553562b84bc6"
+    },
+    {
+      "path": "commercial_storyboards/08_hands-on-the-route_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3796,
+      "sha256": "4d2e37eff114923bea0efd558a4b92afd7e61afcf12aacd8352620e50b50b878"
+    },
+    {
+      "path": "commercial_storyboards/09_small-motions_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 41075,
+      "sha256": "ee36efbd6358392324d5e1ded6d83e09db41b5acf05c8313676994e55d94c7f0"
+    },
+    {
+      "path": "commercial_storyboards/09_small-motions_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3803,
+      "sha256": "801a29b70944090a611e306732cac48970ec10ee6c69c6fc6db0d3fc3123465d"
+    },
+    {
+      "path": "commercial_storyboards/10_the-next-decision_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 41070,
+      "sha256": "74c51c2fb23a8f2d9187f106c15b68fe9feabc0987bcb71f6de63f5ed3fd0acb"
+    },
+    {
+      "path": "commercial_storyboards/10_the-next-decision_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3812,
+      "sha256": "c6a7b16f602bb29f8d3726c9032a0bdf38fd98135e4ff27dc662cdcc9703423e"
+    },
+    {
+      "path": "data/campaigns.json",
+      "bytes": 15873,
+      "sha256": "7ebbd8e57ed14009a90042062567565d354caf4a69df4d14152a1a80386a6ef8"
+    },
+    {
+      "path": "data/commercials.json",
+      "bytes": 70288,
+      "sha256": "51f687647bf1097eedecdcb6d911c64bfab752df1c8bd845e78c80965438e177"
+    },
+    {
+      "path": "monitoring/ZYNTH-20260821-LOGISTICS-Monitoring.xlsx",
+      "bytes": 29545,
+      "sha256": "ff4c59b28185dcdb133fc07b7b84df550a552a797542835a302294df3f44769f"
+    },
+    {
+      "path": "monitoring/monitoring_report.md",
+      "bytes": 1087,
+      "sha256": "6edd45861b40f49f919882c86dc5261a5755229f335f33e8dbbfa6605bb2e625"
+    },
+    {
+      "path": "proposals/01_handover-hour_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40650,
+      "sha256": "e29393b5c7b62801411a23aae30e177815f2e4121eb69d7111d8f6ea4077d135"
+    },
+    {
+      "path": "proposals/01_handover-hour_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1245,
+      "sha256": "2076577af556ac3419e5c1971b2c3c72dfc775480e9bd864e56231d4d5c6ed70"
+    },
+    {
+      "path": "proposals/02_last-mile-ledger_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40635,
+      "sha256": "1de7f2deb13387f61edd0d1b9f293648e93b7b1ed552519d8ddd439126add7f7"
+    },
+    {
+      "path": "proposals/02_last-mile-ledger_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1236,
+      "sha256": "cfaff2e0414cb1fe2d46a692486e7b1e19f9ed43bfacf079d32467a5f0b6c23e"
+    },
+    {
+      "path": "proposals/03_the-cool-chain-question_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40650,
+      "sha256": "3ede008d4c151761b36399f2c1c517b9850aabed00d3e3022e4bee805150d04f"
+    },
+    {
+      "path": "proposals/03_the-cool-chain-question_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1217,
+      "sha256": "f6b8fac63d4df7e89d43bd53df793eee3fe8eaf43491a7c51197a0552c676bd0"
+    },
+    {
+      "path": "proposals/04_route-before-rush_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40624,
+      "sha256": "da5ce51d14946934cadfb208bfd8f875dc38005efd7cbf0f5976ff5896929ba2"
+    },
+    {
+      "path": "proposals/04_route-before-rush_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1196,
+      "sha256": "fcc58b364c16e2d8adb2cb22ee23f24d9070210165cf2c4a13e62265c6a5c3a4"
+    },
+    {
+      "path": "proposals/05_return-with-reason_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40631,
+      "sha256": "ff2cbc73893d66dbdbbea9593033d3f343d6f63391dd78eda9e833ed944b4d25"
+    },
+    {
+      "path": "proposals/05_return-with-reason_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1267,
+      "sha256": "055fcb5aead69313ad9519ff5c40939d03d0268fb9a12aaed50704fe3e769a1b"
+    },
+    {
+      "path": "proposals/06_dock-to-decision_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40647,
+      "sha256": "d04a13b59287401fe4258420ee652a51ae0ea529df7301c1d2496de84e7ec5c6"
+    },
+    {
+      "path": "proposals/06_dock-to-decision_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1215,
+      "sha256": "c80d340dcaaa8dde3dd7bf763f43e19862f73c5cc5b74120553ce20e4c465f33"
+    },
+    {
+      "path": "proposals/07_signal-in-transit_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40607,
+      "sha256": "42aed462c36273fb034853c54d4e03702b91c35a10b1a5a05e3f82a10760f9ef"
+    },
+    {
+      "path": "proposals/07_signal-in-transit_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1145,
+      "sha256": "84d0a2519bfd4a2fbb35853c40b2b887456f5e2f8d71fbe1a024af632c993868"
+    },
+    {
+      "path": "proposals/08_every-stop-counts_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40631,
+      "sha256": "ac60e3a9942fea6b89585db59d86c682eef346fc39734006c75772e6e32a3d9c"
+    },
+    {
+      "path": "proposals/08_every-stop-counts_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1179,
+      "sha256": "9d4ee9eb7c2dd56dbb29c0fb9263e98e1d2bf2174d5cdd4a72fa4ecfa2dd2d2a"
+    },
+    {
+      "path": "proposals/09_the-30-minute-warehouse_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40648,
+      "sha256": "e18004a73c25eb172d3b34de2f6b9e386ce1cafd8f21b740908cc019ea8bd13a"
+    },
+    {
+      "path": "proposals/09_the-30-minute-warehouse_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1156,
+      "sha256": "5bcb603d90d1e629aba33a6228dd941937ba0efeb57e18e3b9c74964d8bd3fda"
+    },
+    {
+      "path": "proposals/10_the-resilience-desk_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40678,
+      "sha256": "8c453a664266c3df5bb51523416b931c6a667695d333302c3abc812fe6bbefe5"
+    },
+    {
+      "path": "proposals/10_the-resilience-desk_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1216,
+      "sha256": "f4b23701982291a8195ee84dfc22f1e5aa1a22151c62c0ff54c4b00e39e0109d"
+    },
+    {
+      "path": "research/verified_source_notes.md",
+      "bytes": 5254,
+      "sha256": "cb61c6739ea2435f9926aa9f567aa7fa1561d4296eeaac6e3508a16d9417dc46"
+    },
+    {
+      "path": "scripts/build_live_tracker_payloads.py",
+      "bytes": 7821,
+      "sha256": "01b0b5317e4e9401c683df20bcae45701b77b76f51a42b80594ed5846906e071"
+    },
+    {
+      "path": "scripts/generate_logistics_commercials.py",
+      "bytes": 8832,
+      "sha256": "8a0970f40223eda5257a843f34bd8851510f725cfcff8700898a17205d494083"
+    },
+    {
+      "path": "scripts/generate_logistics_monitoring.py",
+      "bytes": 14542,
+      "sha256": "3db02eaab0efc3907084c81dea72b58ff483a574a3fb652b26dbd5e87fa2d43f"
+    },
+    {
+      "path": "scripts/generate_logistics_proposal_package.py",
+      "bytes": 16707,
+      "sha256": "a9c3025c84854d25ce66ab9af44c20c0fcb4aa3d202d772f9f4addcf27e1ceb8"
+    },
+    {
+      "path": "scripts/upload_to_drive.sh",
+      "bytes": 1382,
+      "sha256": "272a1ee8e514092ed018f7f1a007040be6b3c03ac75ec6d6edc4c2a4f4f6a5f7"
+    },
+    {
+      "path": "scripts/validate_logistics_batch.py",
+      "bytes": 3161,
+      "sha256": "262f10cbd3893a224592c0c4d373ea86ce1abf9821f2022636266291c2e239ad"
+    },
+    {
+      "path": "sync/drive_folder_listing.json",
+      "bytes": 15738,
+      "sha256": "263ae8c192790cca32bd7c06fec02bfe8e48a67af6a34884faf9d4016e9f450b"
+    },
+    {
+      "path": "sync/drive_upload_log.ndjson",
+      "bytes": 12571,
+      "sha256": "882f9c852599e3adb65b3b2434a6f89959af520f8d5350ccb689f32596b55465"
+    },
+    {
+      "path": "sync/live_tracker_append_log.ndjson",
+      "bytes": 1000,
+      "sha256": "609b9fc5bb9c2acab7f9efdcc6918458c6123cb643f0a072f2199f106d54b7f0"
+    },
+    {
+      "path": "sync/live_tracker_payloads/01_campaigns.json",
+      "bytes": 10939,
+      "sha256": "ee6a6390a66a1b0c78d43e8b43df0c52f90f7f6420f1dd6990ce722c2108ec02"
+    },
+    {
+      "path": "sync/live_tracker_payloads/02_commercials.json",
+      "bytes": 13000,
+      "sha256": "5c921fe6425a53ed079e75912320226bf0717b64c5cbc22fc5f1392e231604e7"
+    },
+    {
+      "path": "sync/live_tracker_payloads/03_research.json",
+      "bytes": 2995,
+      "sha256": "e2e5d3fe0532b408fc95db419065a8561624afed47252b23e5ddb97b3f0118ff"
+    },
+    {
+      "path": "sync/live_tracker_payloads/04_ai_council.json",
+      "bytes": 3310,
+      "sha256": "5b8db627b70c2f8189a5fc35dc751b57262baaeaffd597d7fca4bf94de43f6c5"
+    },
+    {
+      "path": "sync/live_tracker_payloads/05_ops.json",
+      "bytes": 2533,
+      "sha256": "51443560b2418915cac6cf35f60e05813bb38f70cbe288bcd39b7272c56dec68"
+    },
+    {
+      "path": "sync/live_tracker_readback.json",
+      "bytes": 30353,
+      "sha256": "7555525d34fea913edd20c30d71c7c00f5801751e0c06d2994ab6d967c4fd66e"
+    },
+    {
+      "path": "sync/live_tracker_verification.md",
+      "bytes": 1689,
+      "sha256": "e6049c9a616cda4144049b68833c21ef70bef61b78eae09ff746ee49a51b90f5"
+    },
+    {
+      "path": "validation/ai_council_feasibility_review.md",
+      "bytes": 4913,
+      "sha256": "f22176dc7bbcff8661d39900be1d23b4be02b373f0ae23425b96d8b64b8fcd03"
+    },
+    {
+      "path": "validation/batch_validation.md",
+      "bytes": 28001,
+      "sha256": "a83dcd7279ca0a293e0acb0e732e79154e4cd5c21db688ccadcb879add398b55"
+    },
+    {
+      "path": "validation/proposal_visual_qc.md",
+      "bytes": 2644,
+      "sha256": "7f2659e5fa38d3882c9f02cfa5b96171c1caa8fe5b9873b973cc8339fe1e0271"
+    }
+  ]
+}

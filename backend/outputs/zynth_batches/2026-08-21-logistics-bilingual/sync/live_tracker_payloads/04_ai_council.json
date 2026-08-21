@@ -1,0 +1,94 @@
+{
+  "params": {
+    "spreadsheetId": "1lJd6DkGcKrCAiETw9qadftFZhc-uXDNBr8Q1JlHLqMo",
+    "range": "AI Council!B:O",
+    "valueInputOption": "USER_ENTERED",
+    "insertDataOption": "INSERT_ROWS",
+    "includeValuesInResponse": false
+  },
+  "json": {
+    "majorDimension": "ROWS",
+    "values": [
+      [
+        "AIC-2026-LOGISTICS-01",
+        "ZYNTH-20260821-LOGISTICS-BILINGUAL",
+        "Evidence",
+        "Manus internal structured review",
+        "v1.0",
+        "Batch feasibility review stored in Drive archive",
+        6,
+        "Public source scope and use limits documented",
+        "No route, capacity, partner or service claim validated",
+        "Conditional advance to client selection workshop",
+        "Hold for human/client approval",
+        "Client evidence owner",
+        "Clear factual service/product and claim brief at G1",
+        "2026-08-21 UTC"
+      ],
+      [
+        "AIC-2026-LOGISTICS-02",
+        "ZYNTH-20260821-LOGISTICS-BILINGUAL",
+        "Strategy",
+        "Manus internal structured review",
+        "v1.0",
+        "Portfolio uniqueness review stored in validation",
+        10,
+        "Ten distinct campaign formats and mechanisms",
+        "Do not execute all ten without capacity and risk review",
+        "Conditional advance to selection workshop",
+        "Hold for human/client approval",
+        "Client commercial owner",
+        "Select maximum three initial campaign pilots",
+        "2026-08-21 UTC"
+      ],
+      [
+        "AIC-2026-LOGISTICS-03",
+        "ZYNTH-20260821-LOGISTICS-BILINGUAL",
+        "Creative",
+        "Manus internal structured review",
+        "v1.0",
+        "Ten commercial treatments and 120 frames stored in Drive archive",
+        10,
+        "Independent COM records with CTA and gates",
+        "Treatments are not shoot-ready or rights-cleared scripts",
+        "Hold for G5 production approval",
+        "Hold",
+        "Client brand/legal owner",
+        "Approve final script, claims, cast, location and rights",
+        "2026-08-21 UTC"
+      ],
+      [
+        "AIC-2026-LOGISTICS-04",
+        "ZYNTH-20260821-LOGISTICS-BILINGUAL",
+        "Operations",
+        "Manus internal structured review",
+        "v1.0",
+        "Site/route safety, privacy and operations risk controls stored in review",
+        10,
+        "Required approvals cover operations and data boundaries",
+        "No live site, route, driver, cargo or data activity independently cleared",
+        "Hold for G4 feasibility approval",
+        "Hold",
+        "Client operations owner",
+        "Name site, safety, privacy, security and escalation owners",
+        "2026-08-21 UTC"
+      ],
+      [
+        "AIC-2026-LOGISTICS-05",
+        "ZYNTH-20260821-LOGISTICS-BILINGUAL",
+        "Measurement",
+        "Manus internal structured review",
+        "v1.0",
+        "Monitoring workbook and scenario rules stored in Drive archive",
+        10,
+        "KPIs focus on controlled discovery actions",
+        "Scenarios are not financial, transit, capacity or performance forecasts",
+        "Conditional advance to tracking",
+        "Hold for human/client approval",
+        "Client data/sales owner",
+        "Replace assumptions with funnel, margin, capacity, inventory and attribution data",
+        "2026-08-21 UTC"
+      ]
+    ]
+  }
+}

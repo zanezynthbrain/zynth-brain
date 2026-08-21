@@ -1,0 +1,86 @@
+{
+  "params": {
+    "spreadsheetId": "1lJd6DkGcKrCAiETw9qadftFZhc-uXDNBr8Q1JlHLqMo",
+    "range": "Research & Sources!B:K",
+    "valueInputOption": "USER_ENTERED",
+    "insertDataOption": "INSERT_ROWS",
+    "includeValuesInResponse": false
+  },
+  "json": {
+    "majorDimension": "ROWS",
+    "values": [
+      [
+        "LOG-S01",
+        "Myanmar Logistics Institute / MIFFA",
+        "Local logistics-training website",
+        "Capability context: communication, critical thinking, customer service, organisational and problem-solving skills",
+        "No endorsement, partnership, trainer, course, venue or contact permission",
+        "https://myanmarlogisticsinstitute.com/",
+        "21 Aug 2026",
+        "Medium",
+        "ZYNTH Research",
+        "Context only"
+      ],
+      [
+        "LOG-S02",
+        "EuroCham Myanmar",
+        "Current event page",
+        "Historic online logistics briefing and resilience-topic context",
+        "Historic member-exclusive event only; no route/service/partner claim",
+        "https://eurocham-myanmar.org/events/logistics-briefing-current-global-trade-transport-insights-for-businesses-in-myanmar/",
+        "12 Mar 2026",
+        "Medium",
+        "ZYNTH Research",
+        "Cleared with limitation"
+      ],
+      [
+        "LOG-S03",
+        "Myanma Port Authority",
+        "Official annual trade overview",
+        "2025 vessel-call and trade tables published by port category",
+        "Historical data only; no current capacity, route, lead-time or port-condition claim",
+        "https://www.mpa.gov.mm/annual-trade-overview/",
+        "2025 data",
+        "High",
+        "ZYNTH Research",
+        "Cleared with limitation"
+      ],
+      [
+        "LOG-S04",
+        "Myanma Port Authority",
+        "Official project page",
+        "Port-planning, national logistics/transport-plan coordination and stakeholder-format context",
+        "Historic/suspended project detail; not a current project status, permit or partnership",
+        "https://www.mpa.gov.mm/development_projects/project-for-formulation-of-port-master-plan/",
+        "21 Aug 2026",
+        "High",
+        "ZYNTH Research",
+        "Cleared with limitation"
+      ],
+      [
+        "LOG-S05",
+        "Global New Light of Myanmar",
+        "Search-discovered local-publisher result",
+        "Association reconstitution discovery context",
+        "Protected source not human-validated; not for client-facing claims",
+        "https://www.gnlm.com.mm/miffa-reconstituted-as-myanmar-logistics-association-mla/",
+        "10 Aug 2026",
+        "Low",
+        "ZYNTH Research",
+        "Unverified"
+      ],
+      [
+        "LOG-S06",
+        "Myanmar Government",
+        "Official holiday calendar",
+        "Q4 2026 timing guardrail",
+        "Calendar only; not an operations/demand/availability forecast",
+        "https://myanmar.gov.mm/upcoming-holidays",
+        "21 Aug 2026",
+        "High",
+        "ZYNTH Research",
+        "Cleared"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,276 @@
+# ZYNTH Logistics Batch Validation
+
+**Batch:** `ZYNTH-20260821-LOGISTICS-BILINGUAL`  
+**Pass checks:** 264  
+**Exceptions:** 0  
+
+## Result
+
+**PASS**
+
+## Checks Passed
+
+- PASS — Campaign count: 10
+- PASS — Commercial count: 10
+- PASS — Storyboard-frame count: 120
+- PASS — Campaign unique format: 10/10
+- PASS — Campaign unique commercialTension: 10/10
+- PASS — Campaign unique conversionMechanism: 10/10
+- PASS — Campaign unique creativeTerritory: 10/10
+- PASS — Campaign unique seasonalLogic: 10/10
+- PASS — Commercial unique format: 10/10
+- PASS — Commercial unique territory: 10/10
+- PASS — Campaign Word documents: 10
+- PASS — Campaign Markdown documents: 10
+- PASS — Commercial Word documents: 10
+- PASS — Commercial Markdown documents: 10
+- PASS — Campaign heading Commercial Brief: 01_handover-hour_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 01_handover-hour_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 01_handover-hour_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 01_handover-hour_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 01_handover-hour_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 01_handover-hour_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Commercial Brief: 02_last-mile-ledger_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 02_last-mile-ledger_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 02_last-mile-ledger_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 02_last-mile-ledger_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 02_last-mile-ledger_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 02_last-mile-ledger_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Commercial Brief: 03_the-cool-chain-question_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 03_the-cool-chain-question_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 03_the-cool-chain-question_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 03_the-cool-chain-question_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 03_the-cool-chain-question_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 03_the-cool-chain-question_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Commercial Brief: 04_route-before-rush_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 04_route-before-rush_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 04_route-before-rush_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 04_route-before-rush_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 04_route-before-rush_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 04_route-before-rush_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Commercial Brief: 05_return-with-reason_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 05_return-with-reason_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 05_return-with-reason_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 05_return-with-reason_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 05_return-with-reason_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 05_return-with-reason_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Commercial Brief: 06_dock-to-decision_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 06_dock-to-decision_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 06_dock-to-decision_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 06_dock-to-decision_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 06_dock-to-decision_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 06_dock-to-decision_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Commercial Brief: 07_signal-in-transit_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 07_signal-in-transit_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 07_signal-in-transit_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 07_signal-in-transit_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 07_signal-in-transit_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 07_signal-in-transit_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Commercial Brief: 08_every-stop-counts_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 08_every-stop-counts_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 08_every-stop-counts_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 08_every-stop-counts_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 08_every-stop-counts_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 08_every-stop-counts_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Commercial Brief: 09_the-30-minute-warehouse_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 09_the-30-minute-warehouse_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 09_the-30-minute-warehouse_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 09_the-30-minute-warehouse_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 09_the-30-minute-warehouse_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 09_the-30-minute-warehouse_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Commercial Brief: 10_the-resilience-desk_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 10_the-resilience-desk_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 10_the-resilience-desk_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 10_the-resilience-desk_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 10_the-resilience-desk_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 10_the-resilience-desk_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 01_the-handover_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 01_the-handover_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 01_the-handover_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 01_the-handover_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 01_the-handover_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 02_a-clear-message_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 02_a-clear-message_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 02_a-clear-message_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 02_a-clear-message_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 02_a-clear-message_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 03_the-question-that-travels_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 03_the-question-that-travels_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 03_the-question-that-travels_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 03_the-question-that-travels_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 03_the-question-that-travels_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 04_before-the-peak_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 04_before-the-peak_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 04_before-the-peak_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 04_before-the-peak_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 04_before-the-peak_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 05_the-return-that-restarts_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 05_the-return-that-restarts_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 05_the-return-that-restarts_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 05_the-return-that-restarts_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 05_the-return-that-restarts_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 06_known-confirmed-decided_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 06_known-confirmed-decided_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 06_known-confirmed-decided_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 06_known-confirmed-decided_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 06_known-confirmed-decided_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 07_the-signal-at-6-12_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 07_the-signal-at-6-12_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 07_the-signal-at-6-12_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 07_the-signal-at-6-12_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 07_the-signal-at-6-12_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 08_hands-on-the-route_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 08_hands-on-the-route_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 08_hands-on-the-route_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 08_hands-on-the-route_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 08_hands-on-the-route_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 09_small-motions_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 09_small-motions_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 09_small-motions_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 09_small-motions_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 09_small-motions_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 10_the-next-decision_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 10_the-next-decision_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 10_the-next-decision_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 10_the-next-decision_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 10_the-next-decision_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — No unverified phrase: official partner: 01_handover-hour_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 01_handover-hour_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 01_handover-hour_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 01_handover-hour_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 01_handover-hour_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 01_handover-hour_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 01_handover-hour_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 02_last-mile-ledger_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 02_last-mile-ledger_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 02_last-mile-ledger_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 02_last-mile-ledger_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 02_last-mile-ledger_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 02_last-mile-ledger_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 02_last-mile-ledger_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 03_the-cool-chain-question_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 03_the-cool-chain-question_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 03_the-cool-chain-question_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 03_the-cool-chain-question_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 03_the-cool-chain-question_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 03_the-cool-chain-question_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 03_the-cool-chain-question_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 04_route-before-rush_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 04_route-before-rush_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 04_route-before-rush_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 04_route-before-rush_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 04_route-before-rush_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 04_route-before-rush_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 04_route-before-rush_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 05_return-with-reason_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 05_return-with-reason_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 05_return-with-reason_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 05_return-with-reason_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 05_return-with-reason_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 05_return-with-reason_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 05_return-with-reason_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 06_dock-to-decision_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 06_dock-to-decision_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 06_dock-to-decision_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 06_dock-to-decision_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 06_dock-to-decision_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 06_dock-to-decision_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 06_dock-to-decision_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 07_signal-in-transit_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 07_signal-in-transit_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 07_signal-in-transit_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 07_signal-in-transit_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 07_signal-in-transit_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 07_signal-in-transit_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 07_signal-in-transit_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 08_every-stop-counts_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 08_every-stop-counts_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 08_every-stop-counts_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 08_every-stop-counts_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 08_every-stop-counts_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 08_every-stop-counts_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 08_every-stop-counts_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 09_the-30-minute-warehouse_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 09_the-30-minute-warehouse_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 09_the-30-minute-warehouse_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 09_the-30-minute-warehouse_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 09_the-30-minute-warehouse_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 09_the-30-minute-warehouse_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 09_the-30-minute-warehouse_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 10_the-resilience-desk_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 10_the-resilience-desk_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 10_the-resilience-desk_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 10_the-resilience-desk_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 10_the-resilience-desk_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 10_the-resilience-desk_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 10_the-resilience-desk_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 01_the-handover_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 01_the-handover_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 01_the-handover_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 01_the-handover_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 01_the-handover_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 01_the-handover_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 01_the-handover_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 02_a-clear-message_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 02_a-clear-message_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 02_a-clear-message_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 02_a-clear-message_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 02_a-clear-message_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 02_a-clear-message_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 02_a-clear-message_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 03_the-question-that-travels_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 03_the-question-that-travels_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 03_the-question-that-travels_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 03_the-question-that-travels_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 03_the-question-that-travels_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 03_the-question-that-travels_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 03_the-question-that-travels_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 04_before-the-peak_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 04_before-the-peak_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 04_before-the-peak_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 04_before-the-peak_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 04_before-the-peak_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 04_before-the-peak_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 04_before-the-peak_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 05_the-return-that-restarts_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 05_the-return-that-restarts_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 05_the-return-that-restarts_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 05_the-return-that-restarts_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 05_the-return-that-restarts_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 05_the-return-that-restarts_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 05_the-return-that-restarts_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 06_known-confirmed-decided_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 06_known-confirmed-decided_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 06_known-confirmed-decided_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 06_known-confirmed-decided_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 06_known-confirmed-decided_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 06_known-confirmed-decided_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 06_known-confirmed-decided_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 07_the-signal-at-6-12_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 07_the-signal-at-6-12_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 07_the-signal-at-6-12_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 07_the-signal-at-6-12_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 07_the-signal-at-6-12_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 07_the-signal-at-6-12_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 07_the-signal-at-6-12_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 08_hands-on-the-route_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 08_hands-on-the-route_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 08_hands-on-the-route_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 08_hands-on-the-route_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 08_hands-on-the-route_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 08_hands-on-the-route_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 08_hands-on-the-route_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 09_small-motions_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 09_small-motions_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 09_small-motions_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 09_small-motions_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 09_small-motions_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 09_small-motions_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 09_small-motions_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 10_the-next-decision_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 10_the-next-decision_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 10_the-next-decision_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed delivery: 10_the-next-decision_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: guaranteed capacity: 10_the-next-decision_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: transit time guarantee: 10_the-next-decision_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 10_the-next-decision_Commercial_Storyboard_MM-Bilingual.md
