@@ -194,7 +194,7 @@ metrics = [
     ('Commercial concepts', '=COUNTA(Commercials!B7:B200)', 'Standalone commercial/storyboard seeds'),
     ('Research claims', '=COUNTA(\'Research & Sources\'!B7:B200)', 'Verified/context claims logged'),
     ('Pending AI decisions', '=COUNTIF(\'AI Council\'!K7:K200,"Pending")', 'Human decision required'),
-    ('Open / at-risk tasks', '=COUNTIFS(Ops!J7:J200,"<>Closed",Ops!J7:J200,"<>Completed")', 'Operational follow-through'),
+    ('Open / at-risk tasks', '=COUNTIFS(Ops!K7:K200,"<>",Ops!K7:K200,"<>Closed",Ops!K7:K200,"<>Completed")', 'Operational follow-through'),
     ('Approved / live campaigns', '=COUNTIF(Campaigns!J7:J200,"Approved")+COUNTIF(Campaigns!J7:J200,"Live")', 'Ready or currently active'),
 ]
 for i, (label, formula, note) in enumerate(metrics):
