@@ -1,0 +1,370 @@
+{
+  "cycles": [
+    {
+      "industry": "Hospitality / tourism / MICE",
+      "run_id": "2026-08-20T00:00Z",
+      "count": 1,
+      "source_batch": "2026-08-20",
+      "prior_batch_multi_industry": true
+    },
+    {
+      "industry": "Financial services",
+      "run_id": "2026-08-20T00:00Z",
+      "count": 1,
+      "source_batch": "2026-08-20",
+      "prior_batch_multi_industry": true
+    },
+    {
+      "industry": "Healthcare",
+      "run_id": "2026-08-20T00:00Z",
+      "count": 1,
+      "source_batch": "2026-08-20",
+      "prior_batch_multi_industry": true
+    },
+    {
+      "industry": "Education",
+      "run_id": "2026-08-20T00:00Z",
+      "count": 1,
+      "source_batch": "2026-08-20",
+      "prior_batch_multi_industry": true
+    },
+    {
+      "industry": "Automotive / EV",
+      "run_id": "2026-08-20T00:00Z",
+      "count": 1,
+      "source_batch": "2026-08-20",
+      "prior_batch_multi_industry": true
+    },
+    {
+      "industry": "Telecom / technology",
+      "run_id": "2026-08-20T00:00Z",
+      "count": 1,
+      "source_batch": "2026-08-20",
+      "prior_batch_multi_industry": true
+    },
+    {
+      "industry": "Real estate",
+      "run_id": "2026-08-20T00:00Z",
+      "count": 1,
+      "source_batch": "2026-08-20",
+      "prior_batch_multi_industry": true
+    },
+    {
+      "industry": "Manufacturing / B2B",
+      "run_id": "2026-08-20T00:00Z",
+      "count": 1,
+      "source_batch": "2026-08-20",
+      "prior_batch_multi_industry": true
+    },
+    {
+      "industry": "Beauty / wellness",
+      "run_id": "2026-08-20T00:00Z",
+      "count": 1,
+      "source_batch": "2026-08-20",
+      "prior_batch_multi_industry": true
+    },
+    {
+      "industry": "NGO / social impact",
+      "run_id": "2026-08-20T00:00Z",
+      "count": 1,
+      "source_batch": "2026-08-20",
+      "prior_batch_multi_industry": true
+    },
+    {
+      "industry": "Retail & shopping malls",
+      "industryCode": "retail",
+      "run_id": "2026-08-21T00:12:00Z",
+      "count": 10,
+      "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+    },
+    {
+      "industry": "Energy and solar adoption",
+      "industryCode": "energy",
+      "run_id": "2026-08-21T03:31:00Z",
+      "count": 10,
+      "batch_code": "ZYNTH-20260821-ENERGY-BILINGUAL",
+      "production_status": "validated_locally_pending_sync"
+    }
+  ],
+  "concepts": [
+    {
+      "industry": "Retail & shopping malls",
+      "industryCode": "retail",
+      "n": 1,
+      "form": "retail activation",
+      "territory": "relief from friction",
+      "tension": "price is the only comparison",
+      "behaviour": "build a planned basket and return within 30 days",
+      "mechanic": "retail scan",
+      "budget_scale": "mid-weight integrated",
+      "season": "year-end / new year",
+      "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+    },
+    {
+      "industry": "Retail & shopping malls",
+      "industryCode": "retail",
+      "n": 2,
+      "form": "pop-up",
+      "territory": "craft and mastery",
+      "tension": "choice is overwhelming",
+      "behaviour": "book a guided shopping appointment",
+      "mechanic": "appointment booking",
+      "budget_scale": "flagship multi-market",
+      "season": "festival gifting season",
+      "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+    },
+    {
+      "industry": "Retail & shopping malls",
+      "industryCode": "retail",
+      "n": 3,
+      "form": "exhibition",
+      "territory": "transparency",
+      "tension": "quality cannot be verified before buying",
+      "behaviour": "choose a verified product and share its proof card",
+      "mechanic": "published performance record",
+      "budget_scale": "lean pilot",
+      "season": "no seasonal hook",
+      "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+    },
+    {
+      "industry": "Retail & shopping malls",
+      "industryCode": "retail",
+      "n": 4,
+      "form": "executive forum",
+      "territory": "competence and safety",
+      "tension": "the service disappears after the sale",
+      "behaviour": "bring a decision-maker and request a named follow-up",
+      "mechanic": "named-staff request",
+      "budget_scale": "mid-weight integrated",
+      "season": "harvest / year-end business cycle",
+      "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+    },
+    {
+      "industry": "Retail & shopping malls",
+      "industryCode": "retail",
+      "n": 5,
+      "form": "experiential sampling",
+      "territory": "proof over promise",
+      "tension": "the promise is not believed",
+      "behaviour": "trial a product and opt into a reminder channel",
+      "mechanic": "trial unit",
+      "budget_scale": "flagship multi-market",
+      "season": "monsoon",
+      "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+    },
+    {
+      "industry": "Retail & shopping malls",
+      "industryCode": "retail",
+      "n": 6,
+      "form": "sponsorship activation",
+      "territory": "belonging",
+      "tension": "the category is invisible",
+      "behaviour": "refer a household and redeem a shared offer",
+      "mechanic": "referral code",
+      "budget_scale": "lean pilot",
+      "season": "thadingyut",
+      "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+    },
+    {
+      "industry": "Retail & shopping malls",
+      "industryCode": "retail",
+      "n": 7,
+      "form": "workshop series",
+      "territory": "curiosity and discovery",
+      "tension": "nobody explains anything",
+      "behaviour": "attend a recurring session and complete a teach-back",
+      "mechanic": "teach-back / comprehension check",
+      "budget_scale": "mid-weight integrated",
+      "season": "school intake",
+      "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+    },
+    {
+      "industry": "Retail & shopping malls",
+      "industryCode": "retail",
+      "n": 8,
+      "form": "community programme",
+      "territory": "generosity",
+      "tension": "convenience beat the relationship",
+      "behaviour": "return used items or packaging and make a repeat purchase",
+      "mechanic": "community report-back",
+      "budget_scale": "flagship multi-market",
+      "season": "year-end / new year",
+      "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+    },
+    {
+      "industry": "Retail & shopping malls",
+      "industryCode": "retail",
+      "n": 9,
+      "form": "creator collaboration",
+      "territory": "recognition of the overlooked",
+      "tension": "the first purchase never repeats",
+      "behaviour": "use a creator code and return for a second purchase",
+      "mechanic": "referral code",
+      "budget_scale": "lean pilot",
+      "season": "festival gifting season",
+      "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+    },
+    {
+      "industry": "Retail & shopping malls",
+      "industryCode": "retail",
+      "n": 10,
+      "form": "paid digital funnel",
+      "territory": "continuity and reliability",
+      "tension": "the buyer fears being oversold",
+      "behaviour": "opt into a reminder and convert after a proof-led sequence",
+      "mechanic": "opt-in reminder channel",
+      "budget_scale": "mid-weight integrated",
+      "season": "no seasonal hook",
+      "batch_code": "ZYNTH-20260821-RETAIL-BILINGUAL"
+    },
+    {
+      "industry": "Energy and solar adoption",
+      "industryCode": "energy",
+      "n": 1,
+      "form": "Executive diagnostic pop-up and appointment-led proof lab",
+      "territory": "Every Watt Has a Job",
+      "tension": "Operations leaders cannot quickly translate power interruptions into a decision-ready resilience brief.",
+      "behaviour": "Move from passive interest to a booked, client-authorised load and continuity assessment.",
+      "mechanic": "A 12-minute 'critical-load card' produces a named assessment booking and consented follow-up.",
+      "budget_scale": "Consultation-led: spend prioritises facilitation, data-capture workflow and compact proof modules over crowd scale.",
+      "season": "Proposed for September 2026 as a pre-Q4 continuity-planning clinic; date and venue TBC.",
+      "batch_code": "ZYNTH-20260821-ENERGY-BILINGUAL"
+    },
+    {
+      "industry": "Energy and solar adoption",
+      "industryCode": "energy",
+      "n": 2,
+      "form": "C&I mobile demonstration roadshow",
+      "territory": "See the System, See the Decision",
+      "tension": "Commercial buyers see technical options but lack a comparable route from current energy use to a scoped solution.",
+      "behaviour": "Move from brochure collection to a client-approved site-survey request.",
+      "mechanic": "A 'bill-to-blueprint' station turns a volunteered consumption range into a survey request, subject to consent and engineering validation.",
+      "budget_scale": "Route-led: spend changes primarily with stop count, transport, temporary engineering, crew travel and local permissions.",
+      "season": "Proposed October 2026 business-continuity route, scheduled away from the 25–27 October Thadingyut public holidays; route/venue/permits TBC.",
+      "batch_code": "ZYNTH-20260821-ENERGY-BILINGUAL"
+    },
+    {
+      "industry": "Energy and solar adoption",
+      "industryCode": "energy",
+      "n": 3,
+      "form": "Micro-business product launch and after-dark retail activation",
+      "territory": "Keep the Small Things Moving",
+      "tension": "Small operators fear a solution will be complicated, expensive or disruptive to install.",
+      "behaviour": "Move from uncertainty to a verified product-demo appointment and affordability conversation.",
+      "mechanic": "A four-task night-shift demo unlocks a QR appointment slot; no saving, output or availability claim is made at the activation.",
+      "budget_scale": "Demo-module-led: spend prioritises safe task-zone fabrication, controlled lighting and customer appointment operations.",
+      "season": "Proposed for early November 2026, before the 23–24 November Tazaungdaing public holidays; client-approved retail venue and operating hours TBC.",
+      "batch_code": "ZYNTH-20260821-ENERGY-BILINGUAL"
+    },
+    {
+      "industry": "Energy and solar adoption",
+      "industryCode": "energy",
+      "n": 4,
+      "form": "Invitation-only executive site walk and press-preview format",
+      "territory": "Nothing Hidden in the Light",
+      "tension": "Decision-makers want proof of installation quality and after-sales thinking, not only product claims.",
+      "behaviour": "Move from generic interest to a governed tender or engineering-scoping conversation.",
+      "mechanic": "A signed visitor checklist and a 'questions for your site' card prompt a follow-up technical briefing.",
+      "budget_scale": "Assurance-led: spend scales with controlled access, safety, documentation, technical staging and small-group hospitality rather than audience volume.",
+      "season": "Proposed for late November 2026 after the listed Tazaungdaing holidays, subject to client site, safety, stakeholder and permission approvals.",
+      "batch_code": "ZYNTH-20260821-ENERGY-BILINGUAL"
+    },
+    {
+      "industry": "Energy and solar adoption",
+      "industryCode": "energy",
+      "n": 5,
+      "form": "Installer masterclass and service-readiness programme",
+      "territory": "Knowledge Keeps the Promise",
+      "tension": "A growing category requires buyers to understand the quality of handover and service, while practitioners need a consistent customer-explanation standard.",
+      "behaviour": "Move from ad-hoc selling to a client-approved learning pathway and consented lead-routing standard.",
+      "mechanic": "A practical knowledge check and service-script rehearsal qualify attendees for a next-step accreditation conversation, not a public credential claim.",
+      "budget_scale": "Capability-led: spend focuses on curriculum, facilitation, participant operations, assessment design and reusable training capture.",
+      "season": "Proposed for the first half of December 2026 as a year-end capability reset; programme partner, venue and accreditation status TBC.",
+      "batch_code": "ZYNTH-20260821-ENERGY-BILINGUAL"
+    },
+    {
+      "industry": "Energy and solar adoption",
+      "industryCode": "energy",
+      "n": 6,
+      "form": "Fleet/dealer event with energy-and-mobility demonstration",
+      "territory": "Energy Moves With You",
+      "tension": "Fleet and dealer leaders may treat electrification and energy resilience as separate decisions.",
+      "behaviour": "Move from generic EV curiosity to a booked fleet-readiness workshop.",
+      "mechanic": "A route-board session captures operational variables and books a client-reviewed feasibility conversation.",
+      "budget_scale": "Mobility-forum-led: spend varies by vehicle/hardware access, safety marshals, executive hospitality and interactive route-board technology.",
+      "season": "Proposed for September–October 2026 business-planning season; venue, vehicle access, charger hardware and permissions TBC.",
+      "batch_code": "ZYNTH-20260821-ENERGY-BILINGUAL"
+    },
+    {
+      "industry": "Energy and solar adoption",
+      "industryCode": "energy",
+      "n": 7,
+      "form": "Community listening programme and proposed/TBC social-impact activation",
+      "territory": "Listen Before You Light",
+      "tension": "Community-energy conversations can become performative if local priorities, safeguards and selection criteria are not visible.",
+      "behaviour": "Move from passive awareness to consented participation in an evidence-led community needs conversation.",
+      "mechanic": "A facilitated needs wall and opt-in feedback card generate a transparent, non-binding shortlisting brief.",
+      "budget_scale": "Safeguarding-led: spend is reserved for facilitation, accessibility, consent, translation, local logistics and transparent report-back—not unverified giving claims.",
+      "season": "Proposed for December 2026 community reflection period; partner, location, participation safeguards and any delivery commitment TBC.",
+      "batch_code": "ZYNTH-20260821-ENERGY-BILINGUAL"
+    },
+    {
+      "industry": "Energy and solar adoption",
+      "industryCode": "energy",
+      "n": 8,
+      "form": "Paid digital funnel and interactive decision UI",
+      "territory": "Start With Your Day",
+      "tension": "Prospects can research equipment but struggle to know what information is needed before a meaningful conversation.",
+      "behaviour": "Move from unqualified clicks to a consented, information-ready assessment booking.",
+      "mechanic": "A five-step calculator captures the user's priority, not an installation promise, then routes to a reviewed booking flow.",
+      "budget_scale": "Performance-led: spend flexes between media, UX, analytics instrumentation, localisation and CRM rather than physical fabrication.",
+      "season": "Proposed for December 2026 budget-planning and re-engagement windows; media inventory, data policy and destination experience TBC.",
+      "batch_code": "ZYNTH-20260821-ENERGY-BILINGUAL"
+    },
+    {
+      "industry": "Energy and solar adoption",
+      "industryCode": "energy",
+      "n": 9,
+      "form": "Proof-led content series and monitored social challenge",
+      "territory": "Ask for the Evidence",
+      "tension": "Performance claims can blur together when buyers cannot see how a solution is evaluated in normal working conditions.",
+      "behaviour": "Move from passive video viewing to a consented request for a verification-oriented consultation.",
+      "mechanic": "Each episode ends with a question checklist and a voluntary booking prompt, never a public endurance or performance guarantee.",
+      "budget_scale": "Editorial-led: spend scales with episode count, subject-matter review, studio controls, post-production versioning and moderation capacity.",
+      "season": "Proposed for late November through December 2026 as a Q4 proof-and-planning content series; challenge mechanic and claims review TBC.",
+      "batch_code": "ZYNTH-20260821-ENERGY-BILINGUAL"
+    },
+    {
+      "industry": "Energy and solar adoption",
+      "industryCode": "energy",
+      "n": 10,
+      "form": "CRM reactivation and account-based decision-sprint programme",
+      "territory": "The Next Decision Is Still Yours",
+      "tension": "Qualified conversations can stall when a buyer's internal timeline changes, even though the underlying need remains.",
+      "behaviour": "Move from dormant lead status to an explicit close, defer or re-scope decision.",
+      "mechanic": "A three-message 'renewal window' offers a one-click priority choice and a booked decision sprint only to consented contacts.",
+      "budget_scale": "Precision-CRM-led: spend concentrates on segmentation, content personalisation, workflow governance, sales enablement and measurement rather than reach media.",
+      "season": "Proposed for December 2026, avoiding 4 December National Day and 25 December Christmas Day communication dates unless the client confirms operational suitability.",
+      "batch_code": "ZYNTH-20260821-ENERGY-BILINGUAL"
+    }
+  ],
+  "updated": "2026-08-21T03:31:00Z",
+  "registry_note": "Reconstructed on 2026-08-21 from the verified 2026-08-20 source_manifest.json because the documented registry file was absent. The immediate prior run used the ten industries above; next selection must be outside that set.",
+  "selection_log": [
+    {
+      "batch_code": "ZYNTH-20260821-ENERGY-BILINGUAL",
+      "industryCode": "energy",
+      "industry": "Energy and solar adoption",
+      "selection_status": "validated_locally_pending_sync",
+      "selected_at": "2026-08-21T03:15:00Z",
+      "prior_immediate_industryCode": "retail",
+      "selection_rationale": "The industry is an allowed code and differs from the immediately prior retail batch; concepts, mechanics, territories and budget structures will be differentiated from the prior-run registry.",
+      "validated_at": "2026-08-21T03:31:00Z",
+      "proposal_count": 10,
+      "document_count": 20,
+      "video_concept_count": 10,
+      "design_package_count": 18,
+      "validation_status": "PASS 37/37"
+    }
+  ]
+}

@@ -1,0 +1,387 @@
+{
+  "batchCode": "ZYNTH-20260821-ENERGY-BILINGUAL",
+  "industryCode": "energy",
+  "createdAt": "2026-08-21T03:30:00Z",
+  "status": "Created locally; sync statuses must be updated only after verified destinations.",
+  "researchSources": {
+    "S01": "https://www.reuters.com/sustainability/climate-energy/war-torn-myanmar-embraces-solar-tackle-power-crisis-2025-11-14/",
+    "S02": "https://english.news.cn/20260118/765dc93ac49a481d8ffbcc1972c01516/c.html",
+    "S03": "https://www.smartpowermyanmar.org/",
+    "S04": "https://www.gnlm.com.mm/efficiently-generate-solar-energy-for-the-state/",
+    "S05": [
+      "https://www.mofa.gov.mm/about-myanmar/public-holidays/",
+      "https://myanmar.gov.mm/upcoming-holidays"
+    ],
+    "S06": "https://www.youtube.com/watch?v=9-S7urcEX2U"
+  },
+  "deliverableCounts": {
+    "concepts": 10,
+    "wordDocuments": 20,
+    "videoTreatments": 10,
+    "designPackages": 18,
+    "designFiles": 36,
+    "monitoringWorkbooks": 1
+  },
+  "sync": {
+    "drive": "Pending",
+    "github": "Pending",
+    "commandCenter": "Not configured — injected callback variables absent at environment check"
+  },
+  "files": [
+    {
+      "path": "data/concepts.json",
+      "bytes": 46497,
+      "sha256": "6dd79e5624d8f1de6ad888063ae6b93f272dfd9850aa4d5a0753999a4e68c084"
+    },
+    {
+      "path": "design_packages/01_continuity-clinic/01_continuity-clinic_3d.png",
+      "bytes": 79163,
+      "sha256": "fd8cdb73dc053190383ae6d5ba963f8a67deac0bf0f40ad284292a851bde9a0a"
+    },
+    {
+      "path": "design_packages/01_continuity-clinic/01_continuity-clinic_3d.svg",
+      "bytes": 4194,
+      "sha256": "8515e713b58d8b3d35f88934451b3f35801c89ce0bb6e8a0c00bd5a569af77bc"
+    },
+    {
+      "path": "design_packages/01_continuity-clinic/01_continuity-clinic_sketch.png",
+      "bytes": 89510,
+      "sha256": "15f2f1e6a4624e32597ce8846eab3b8a386fe5750dec03d11a507ba2fe4de3b1"
+    },
+    {
+      "path": "design_packages/01_continuity-clinic/01_continuity-clinic_sketch.svg",
+      "bytes": 4190,
+      "sha256": "9231253ec770f2e335bbf19a327441f5b7ae88974c1cdd775808220c87b961b9"
+    },
+    {
+      "path": "design_packages/02_power-proof-roadshow/02_power-proof-roadshow_3d.png",
+      "bytes": 80692,
+      "sha256": "7ef9b08aec47b9a7a235c1fbb4d6a0d63ecdb1679201f957f31ef1d8e21cc5c2"
+    },
+    {
+      "path": "design_packages/02_power-proof-roadshow/02_power-proof-roadshow_3d.svg",
+      "bytes": 4192,
+      "sha256": "9e7f0e34e6e55ad9c1654342738c9847de9a0ea6f6b79c3f071426a2168243c6"
+    },
+    {
+      "path": "design_packages/02_power-proof-roadshow/02_power-proof-roadshow_sketch.png",
+      "bytes": 91033,
+      "sha256": "2435fa6a8cb487d3ac5d9c665200ceea41f592cb2b87ec129ee1de14c6af36b0"
+    },
+    {
+      "path": "design_packages/02_power-proof-roadshow/02_power-proof-roadshow_sketch.svg",
+      "bytes": 4188,
+      "sha256": "a7e2b74368b53585cd3a7f9712c072bac37bd51aa365b434fdad74ba1a255b3c"
+    },
+    {
+      "path": "design_packages/03_night-shift-no-pause/03_night-shift-no-pause_3d.png",
+      "bytes": 80599,
+      "sha256": "d4517b4e6af482f0799704e23315f17a1f83518c05bb1250d939e6ab8385a665"
+    },
+    {
+      "path": "design_packages/03_night-shift-no-pause/03_night-shift-no-pause_3d.svg",
+      "bytes": 4175,
+      "sha256": "ae856e8fc7182e711cf1dbce79bedb16f5ca7de7e4a208b0ff65887f1f1eff3d"
+    },
+    {
+      "path": "design_packages/03_night-shift-no-pause/03_night-shift-no-pause_sketch.png",
+      "bytes": 90945,
+      "sha256": "f99d61463f509c1f9a231411ef8d4f5924473fcc5f28fba7cf4f913932253897"
+    },
+    {
+      "path": "design_packages/03_night-shift-no-pause/03_night-shift-no-pause_sketch.svg",
+      "bytes": 4171,
+      "sha256": "529c2caa19ef79bc5c17a58a18a6b0ae073224ac468789ccbf27adc7b00ae8ee"
+    },
+    {
+      "path": "design_packages/04_solar-open-house/04_solar-open-house_3d.png",
+      "bytes": 83465,
+      "sha256": "b473a36c498d489993507da154ebf457e7d9a0061e1b58ce13b6c0cb22a27ef1"
+    },
+    {
+      "path": "design_packages/04_solar-open-house/04_solar-open-house_3d.svg",
+      "bytes": 4247,
+      "sha256": "ab621663b97bf0e9d00ba2a1e9c643c0544dcb59dd388e9f943cc688b14c58ae"
+    },
+    {
+      "path": "design_packages/04_solar-open-house/04_solar-open-house_sketch.png",
+      "bytes": 93784,
+      "sha256": "7778475e4f8f7de70a6d485fb30892f4d5c2826804bf7057f8441a005ac7de1b"
+    },
+    {
+      "path": "design_packages/04_solar-open-house/04_solar-open-house_sketch.svg",
+      "bytes": 4243,
+      "sha256": "2831a8f40d5c8a5fe706a32e28127b9dc45d1401765c48c1ac0744ac90897ef6"
+    },
+    {
+      "path": "design_packages/05_energy-champions-academy/05_energy-champions-academy_3d.png",
+      "bytes": 81012,
+      "sha256": "38d927f16611f96872cbe04ff9aee50f4fe2fca7b70cb0ab80652ccb49f27ba8"
+    },
+    {
+      "path": "design_packages/05_energy-champions-academy/05_energy-champions-academy_3d.svg",
+      "bytes": 4142,
+      "sha256": "0fc0dcf3c909d7af051c38cf4ebd765b698d86d5a117bb5aa06019d66924f311"
+    },
+    {
+      "path": "design_packages/05_energy-champions-academy/05_energy-champions-academy_sketch.png",
+      "bytes": 91340,
+      "sha256": "9b72e013c890dc92e120f0addbdbe73b733c9888a8d218e811bf90f3df13586d"
+    },
+    {
+      "path": "design_packages/05_energy-champions-academy/05_energy-champions-academy_sketch.svg",
+      "bytes": 4138,
+      "sha256": "887ce54e01148b83dbe000843562b3d35a8139d14128af8ffdd4528e8deaf50f"
+    },
+    {
+      "path": "design_packages/06_charge-the-route/06_charge-the-route_3d.png",
+      "bytes": 80460,
+      "sha256": "0502d8f80843ad589b403160403afd6b7e343f3e0e35656fe65adba83161516e"
+    },
+    {
+      "path": "design_packages/06_charge-the-route/06_charge-the-route_3d.svg",
+      "bytes": 4214,
+      "sha256": "8f1325d4338e5e0a97190cb127a24b9f6a04f8665f9c9283686bf07381fe33d6"
+    },
+    {
+      "path": "design_packages/06_charge-the-route/06_charge-the-route_sketch.png",
+      "bytes": 90801,
+      "sha256": "4f04dc7b4728e54a727c61ac881daad08e08783e936ea1ea357008be7b817711"
+    },
+    {
+      "path": "design_packages/06_charge-the-route/06_charge-the-route_sketch.svg",
+      "bytes": 4210,
+      "sha256": "edff0cbf5eb9624f1bb53784c6367e8b9cd677e0613530744c6a543a31b3f349"
+    },
+    {
+      "path": "design_packages/07_light-for-what-matters/07_light-for-what-matters_3d.png",
+      "bytes": 81512,
+      "sha256": "d49f0c5a75dfa9a0609b3914701ce8575a54bf4463ad81efd8aa04279cb1525e"
+    },
+    {
+      "path": "design_packages/07_light-for-what-matters/07_light-for-what-matters_3d.svg",
+      "bytes": 4209,
+      "sha256": "6c6c41dfdce4822f0f7cb4050bb001750113f86f26890d6ecf2c033e2c445377"
+    },
+    {
+      "path": "design_packages/07_light-for-what-matters/07_light-for-what-matters_sketch.png",
+      "bytes": 91849,
+      "sha256": "9f42167bffbdc1466f952d3b9bb7b4c4dcd731c7397f57015453f6ce8d19036f"
+    },
+    {
+      "path": "design_packages/07_light-for-what-matters/07_light-for-what-matters_sketch.svg",
+      "bytes": 4205,
+      "sha256": "51fbad65d1b743f8566c3c94f397ef64450ccf3846e9183e0877f545e6237377"
+    },
+    {
+      "path": "design_packages/08_my-load-my-plan/08_my-load-my-plan_ui_experience_storyboard.png",
+      "bytes": 82140,
+      "sha256": "f43c2bc036a6490c3f5205d3ff28e42f7f2aa2468b5e8bd3c61a6fda0080db46"
+    },
+    {
+      "path": "design_packages/08_my-load-my-plan/08_my-load-my-plan_ui_experience_storyboard.svg",
+      "bytes": 4598,
+      "sha256": "f4675139afe8e32c9fe1ed66c46778b9b9d37a9d27903c214f3b87e81cb51a91"
+    },
+    {
+      "path": "design_packages/09_the-100-hour-test/09_the-100-hour-test_3d.png",
+      "bytes": 77738,
+      "sha256": "8c3378df913786b360f6dc0f1271f457b360a3fd5248842ea1ea4f7f95d71d08"
+    },
+    {
+      "path": "design_packages/09_the-100-hour-test/09_the-100-hour-test_3d.svg",
+      "bytes": 4162,
+      "sha256": "b0de1c551dcf930aca2c81ed6fc5fcf64b835a2558c4b9093eb128cad04c56b7"
+    },
+    {
+      "path": "design_packages/09_the-100-hour-test/09_the-100-hour-test_sketch.png",
+      "bytes": 88080,
+      "sha256": "1f6e2908f5fac6ec9176ff715c49a7330141cdb535e328edd70a9428b6243242"
+    },
+    {
+      "path": "design_packages/09_the-100-hour-test/09_the-100-hour-test_sketch.svg",
+      "bytes": 4158,
+      "sha256": "1ca714555870a16e148ec74390cdfbfd1ec1f94b937b27312c01ee941338ccad"
+    },
+    {
+      "path": "design_packages/10_renewal-window/10_renewal-window_ui_experience_storyboard.png",
+      "bytes": 83894,
+      "sha256": "9d20fa058646425bea4d4e73b8ca6d6ced09dad5ab18401aeee36df367b36c49"
+    },
+    {
+      "path": "design_packages/10_renewal-window/10_renewal-window_ui_experience_storyboard.svg",
+      "bytes": 4582,
+      "sha256": "dc7a31a2bf4238cfcab120e11716f895d047a521e9ed0efda6d84dd2d236eec4"
+    },
+    {
+      "path": "design_packages/README.md",
+      "bytes": 2388,
+      "sha256": "f9d0d2af156628652a5a465b4b2282d6c6ec5f9e861efa9d37532391ec07d7d8"
+    },
+    {
+      "path": "monitoring/ZYNTH-20260821-ENERGY-Monitoring.xlsx",
+      "bytes": 20419,
+      "sha256": "e6d3c37e0157369d8e1b668b16327074f6a78aeaaf4ceb38b4914d1d23d28555"
+    },
+    {
+      "path": "monitoring/monitoring_report.md",
+      "bytes": 3156,
+      "sha256": "b24930d2d8b2e60c24cb3cc2550c2f2e8ddfd08b7a02c41275b75659d135cb7a"
+    },
+    {
+      "path": "proposals/EN/01_continuity-clinic_EN.docx",
+      "bytes": 49981,
+      "sha256": "e26a5e0d3658143ca501e4403b4bddc225281b192aed8caac30d7fa2c75a81c1"
+    },
+    {
+      "path": "proposals/EN/02_power-proof-roadshow_EN.docx",
+      "bytes": 49878,
+      "sha256": "4a5f471904ae0a624d559029d4f7ceba898123df9afac2dc1be6434cfbf060dd"
+    },
+    {
+      "path": "proposals/EN/03_night-shift-no-pause_EN.docx",
+      "bytes": 49952,
+      "sha256": "2ef8a29a9d5c3f33458d0d62e512dbe373774a79c53cbaba97b1319bf9c02176"
+    },
+    {
+      "path": "proposals/EN/04_solar-open-house_EN.docx",
+      "bytes": 50055,
+      "sha256": "8d7471c8bf682ed842f64a4002c32d8bd69add4ba0a32d96b9014ac342778866"
+    },
+    {
+      "path": "proposals/EN/05_energy-champions-academy_EN.docx",
+      "bytes": 50013,
+      "sha256": "da5d42a72942334bcbae3962ba3067c0ff0b601d2c156e3c57a85a46b00b37c2"
+    },
+    {
+      "path": "proposals/EN/06_charge-the-route_EN.docx",
+      "bytes": 49827,
+      "sha256": "b23360bae22e676da072546724dc06a1eade3a10823c52cdb03a1b261d41d8a1"
+    },
+    {
+      "path": "proposals/EN/07_light-for-what-matters_EN.docx",
+      "bytes": 49881,
+      "sha256": "2d1e56622b111e669ef4d4e3779724b3f8625080b4238ea47df8c25f535928fd"
+    },
+    {
+      "path": "proposals/EN/08_my-load-my-plan_EN.docx",
+      "bytes": 49618,
+      "sha256": "44609c3e99d77d3d11e36ed5abd3e72b50d008a31ff6a5b1e2c56e6e9898d7cf"
+    },
+    {
+      "path": "proposals/EN/09_the-100-hour-test_EN.docx",
+      "bytes": 50030,
+      "sha256": "25cca9ab64673959b52b117ad0942a12d8a95117cf98e614759bdb97e9c762e7"
+    },
+    {
+      "path": "proposals/EN/10_renewal-window_EN.docx",
+      "bytes": 49578,
+      "sha256": "5c6561eea5e1f407d79299c19404fe6c4d7a5c215d13318558d6c2132f9e10df"
+    },
+    {
+      "path": "proposals/MM-Hybrid/01_continuity-clinic_MM-Hybrid.docx",
+      "bytes": 51822,
+      "sha256": "8e22d1dd93ca01da65c99398f8c98a1975845d308b381f3e6d25c4fdef9a0961"
+    },
+    {
+      "path": "proposals/MM-Hybrid/02_power-proof-roadshow_MM-Hybrid.docx",
+      "bytes": 51782,
+      "sha256": "3d2ab3bfb58393b4a43bf5a43655cad09f2b49863c7e0c9a531d4a38e10eecfb"
+    },
+    {
+      "path": "proposals/MM-Hybrid/03_night-shift-no-pause_MM-Hybrid.docx",
+      "bytes": 51843,
+      "sha256": "087403eb36d2b7dba9208b2b31cae35059bd0d0d8725de84e429869b5697a1bd"
+    },
+    {
+      "path": "proposals/MM-Hybrid/04_solar-open-house_MM-Hybrid.docx",
+      "bytes": 51853,
+      "sha256": "d13604b8a949c2f168beef7bf2a6d1d5bf27164c7294e5423ce904328a14fc5a"
+    },
+    {
+      "path": "proposals/MM-Hybrid/05_energy-champions-academy_MM-Hybrid.docx",
+      "bytes": 51938,
+      "sha256": "6a78f999e2de2c8424aead446900d89d619548929a059a3fabee0dc5f730daa5"
+    },
+    {
+      "path": "proposals/MM-Hybrid/06_charge-the-route_MM-Hybrid.docx",
+      "bytes": 51634,
+      "sha256": "ab77f3ff022e7863f10a15ff91fc90a5d5fcc5c0a013597280e0601484c4fc79"
+    },
+    {
+      "path": "proposals/MM-Hybrid/07_light-for-what-matters_MM-Hybrid.docx",
+      "bytes": 51730,
+      "sha256": "afa1a5d23f835e1768ed1dc7cd3168b9b64fd8c6315011c64791a946041b3c97"
+    },
+    {
+      "path": "proposals/MM-Hybrid/08_my-load-my-plan_MM-Hybrid.docx",
+      "bytes": 51400,
+      "sha256": "dba5bf0324c07999c286ad3b32d51c00a8ad69b97346cb00c9b7961d171b399e"
+    },
+    {
+      "path": "proposals/MM-Hybrid/09_the-100-hour-test_MM-Hybrid.docx",
+      "bytes": 51925,
+      "sha256": "79901a16e5b658bee13315241d97bdb45466bb35e821289c0f9f4c95e97b6b8d"
+    },
+    {
+      "path": "proposals/MM-Hybrid/10_renewal-window_MM-Hybrid.docx",
+      "bytes": 51364,
+      "sha256": "76979918b08ed89c45eb6e7b8abf28de92f2771363b1aa5f2ccfae7b90cbbd09"
+    },
+    {
+      "path": "proposals/proposal_generation_manifest.txt",
+      "bytes": 1002,
+      "sha256": "7d821fd52aa546cbc3051b193d102b1f24b5db3bf4794c71548fef50af91eb17"
+    },
+    {
+      "path": "research/variety_registry_postbatch.json",
+      "bytes": 17988,
+      "sha256": "a9c0f303c7bc358b2feb2cf849cb452e40d2027daae68676fe87159e249e78b6"
+    },
+    {
+      "path": "research/verified_source_notes.md",
+      "bytes": 4558,
+      "sha256": "c6f4d204fcfd3eba99a159435211f324c928768029f808bd4e49968367dbd31f"
+    },
+    {
+      "path": "research/video_evidence_livoltek.txt",
+      "bytes": 3535,
+      "sha256": "421a2326168fe63bb8e43b857aaa1eafef66da723c82e4599f85751bfe457de2"
+    },
+    {
+      "path": "scripts/finalize_registry.py",
+      "bytes": 1883,
+      "sha256": "9c357c8735fcb9981d7fd91dbd1febf848c5ae691dac0d0ff6898aefb9e1de93"
+    },
+    {
+      "path": "scripts/generate_design_packages.py",
+      "bytes": 19788,
+      "sha256": "e7002e45ad1b2b7a12f2807591d1482b015c3bcf004fb04c907c63de888787c6"
+    },
+    {
+      "path": "scripts/generate_monitoring.py",
+      "bytes": 22326,
+      "sha256": "a57236686324a3b88fea4cce5860c449934dc202674784dd6a1fb89f46a2d5d4"
+    },
+    {
+      "path": "scripts/generate_proposals.py",
+      "bytes": 52996,
+      "sha256": "562c3659e46fd35031edd43195f080db93c90879a119cd799f757abde0416513"
+    },
+    {
+      "path": "scripts/validate_batch.py",
+      "bytes": 4766,
+      "sha256": "c37dd04ef5b2f0a209008ba86526c2feacfe0fb3bdb050e14fe6d76fc01e4bff"
+    },
+    {
+      "path": "validation/batch_validation.md",
+      "bytes": 3012,
+      "sha256": "699d47ffd4762a3bc634ceabbb63470d2ae2f5ccf90639e1096a8c6f319d0a96"
+    },
+    {
+      "path": "validation/design_visual_qc.md",
+      "bytes": 1626,
+      "sha256": "4d7e57d192da11b2d24097388392103ef7e5a4922b24062ecb19b2a5a2662acc"
+    }
+  ]
+}

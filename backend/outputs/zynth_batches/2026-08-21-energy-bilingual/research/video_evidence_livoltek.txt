@@ -1,0 +1,56 @@
+Starting video analysis...
+Submitting video analysis task...
+Task submitted (ID: video-analysis-21bdb7a2-f580-4fa0-aaff-5877244fa0ff)
+[8s] Status: Analyzing video content with AI...
+[16s] Status: Analysis completed
+[16s] Analysis completed!
+Full analysis result saved to: /home/ubuntu/video_9-S7urcEX2U_analysis_20260821_031938.md
+Note: This tool performs AI-based visual and audio analysis, not verbatim transcription. For detailed speech transcription, use `manus-speech-to-text` instead.
+Analysis result:
+
+Based on the visual and audio evidence from the video, here are the details relevant to the January 2026 Myanmar Power and Solar Energy Storage Lighting Expo:
+
+### **Event Overview**
+*   **Event Name:** The 3rd Myanmar Power & Solar Energy Storage Lighting Expo 2026.
+*   **Dates:** January 26th – 28th, 2026.
+*   **Venue:** Yangon Convention Centre (YCC), Yangon, Myanmar.
+*   **Video Publisher/Focus:** Livoltek (identified as a "Member of Hexing").
+
+### **Direct Observations: Livoltek Booth & Products**
+The video documents a large exhibition booth for Livoltek featuring the following product categories and specific models:
+*   **Inverters:**
+    *   6kW Hybrid (Off-grid) PV Inverter with colorful touch display.
+    *   Three-Phase Hybrid Inverters (12kW and 30kW models).
+    *   Three-Phase Grid-tied Inverters (GT3 75-125K).
+    *   Hybrid (Off-grid) Solutions ranging from 7.5kW to 18kW.
+*   **Energy Storage/Batteries:**
+    *   15kWh LiFePO4 Battery (48V 314Ah) using "EVE Grade-A Cells."
+    *   Commercial & Industrial Lithium Battery (BHF-G) 50kWh.
+    *   Large-scale vertical battery racks for home and industrial use.
+*   **EV Charging:** Dedicated EV charger stations (AC and DC models visible).
+*   **Other Hardware:** Smart meters, solar panels (mounted on pole displays), and HEMS (Home Energy Management System) components.
+
+### **Visible Claims & Promotional Data**
+*   **Slogan:** "Power Your Life with Green Energy."
+*   **Efficiency:** A poster claims "90% Round-trip efficiency" for storage systems.
+*   **Pricing/Promotion:** A sign lists a "Combo Promotion" for an Inverter + Battery + Installation Accessories for 79 Lakhs (7.9 million) Myanmar Kyats.
+*   **Corporate Identity:** Livoltek is repeatedly identified as a "Member of Hexing," with a wall display showing a global service map and "Success Stories."
+
+### **Audience & Interactions**
+*   **Booth Activities:** Livoltek staff (wearing black suits or green lanyards) are seen demonstrating EV charger plug-ins, explaining battery rack configurations to groups, and holding one-on-one consultations at designated meeting tables.
+*   **Audience:** Attendees include individuals in business attire, traditional Myanmar dress, and monks.
+*   **Stated Roles:** Promotional materials specifically address "Reseller & Installer" partners.
+
+### **Other Visible Brands**
+While the video focuses on Livoltek, signage for other industry participants is visible in the background:
+*   Sigenergy
+*   JA Solar
+*   Pylontech
+*   Trina Solar
+*   Goodwe
+*   Solis
+
+### **Uncertainty & Limitations**
+*   **Audio:** The video contains background music; no spoken interviews or verbal presentations are provided.
+*   **Market Context:** While the event appears well-attended, the video does not provide data on total attendance numbers or specific sales figures.
+*   **Partnerships:** While other brands are visible, no specific joint ventures or formal partnerships between them and Livoltek are explicitly stated beyond their co-presence at the expo.

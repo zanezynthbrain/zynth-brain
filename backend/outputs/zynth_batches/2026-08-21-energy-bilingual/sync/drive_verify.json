@@ -1,0 +1,436 @@
+{
+  "files": [
+    {
+      "id": "10mnJB5BLa_9jFlpTVCAh0UEG3CNtNYuk",
+      "mimeType": "text/markdown",
+      "name": "validation__design_visual_qc.md",
+      "webViewLink": "https://drive.google.com/file/d/10mnJB5BLa_9jFlpTVCAh0UEG3CNtNYuk/view?usp=drivesdk"
+    },
+    {
+      "id": "12vlBZ50JfTP-LvIirVd__ZGXZo8R84Nd",
+      "mimeType": "text/markdown",
+      "name": "validation__batch_validation.md",
+      "webViewLink": "https://drive.google.com/file/d/12vlBZ50JfTP-LvIirVd__ZGXZo8R84Nd/view?usp=drivesdk"
+    },
+    {
+      "id": "13XvUMAtfv5DGiqZRPhrQSzO_mAkhruGX",
+      "mimeType": "text/plain",
+      "name": "scripts__validate_batch.py",
+      "webViewLink": "https://drive.google.com/file/d/13XvUMAtfv5DGiqZRPhrQSzO_mAkhruGX/view?usp=drivesdk"
+    },
+    {
+      "id": "116Mh27uqT3MI2CwAKQHVmErk8wejKy7a",
+      "mimeType": "text/plain",
+      "name": "scripts__generate_proposals.py",
+      "webViewLink": "https://drive.google.com/file/d/116Mh27uqT3MI2CwAKQHVmErk8wejKy7a/view?usp=drivesdk"
+    },
+    {
+      "id": "1YmA6ZAbZ6187rI91t3fxdu6hPm9X79_R",
+      "mimeType": "text/plain",
+      "name": "scripts__generate_monitoring.py",
+      "webViewLink": "https://drive.google.com/file/d/1YmA6ZAbZ6187rI91t3fxdu6hPm9X79_R/view?usp=drivesdk"
+    },
+    {
+      "id": "1yVYCmWynioIoQNvkn_AaylxzWsscDkZN",
+      "mimeType": "text/plain",
+      "name": "scripts__generate_design_packages.py",
+      "webViewLink": "https://drive.google.com/file/d/1yVYCmWynioIoQNvkn_AaylxzWsscDkZN/view?usp=drivesdk"
+    },
+    {
+      "id": "1RN-yAuQhZsZxZwXFTnKvmL2EFAuaA4XA",
+      "mimeType": "text/plain",
+      "name": "scripts__finalize_registry.py",
+      "webViewLink": "https://drive.google.com/file/d/1RN-yAuQhZsZxZwXFTnKvmL2EFAuaA4XA/view?usp=drivesdk"
+    },
+    {
+      "id": "1ULal0LXNxI_RmbLvhTDsmQ86Iz1yDyH8",
+      "mimeType": "text/plain",
+      "name": "research__video_evidence_livoltek.txt",
+      "webViewLink": "https://drive.google.com/file/d/1ULal0LXNxI_RmbLvhTDsmQ86Iz1yDyH8/view?usp=drivesdk"
+    },
+    {
+      "id": "1VnUqKuTRTR_mWVhPyWCr6rw1GfWh88ez",
+      "mimeType": "text/markdown",
+      "name": "research__verified_source_notes.md",
+      "webViewLink": "https://drive.google.com/file/d/1VnUqKuTRTR_mWVhPyWCr6rw1GfWh88ez/view?usp=drivesdk"
+    },
+    {
+      "id": "1C8CFS_-Kxwrs21yFzkyPcS2SE-nTDn97",
+      "mimeType": "application/json",
+      "name": "research__variety_registry_postbatch.json",
+      "webViewLink": "https://drive.google.com/file/d/1C8CFS_-Kxwrs21yFzkyPcS2SE-nTDn97/view?usp=drivesdk"
+    },
+    {
+      "id": "1jh2_8rxVYfNzReGFLpTecE4NCqb2M4dy",
+      "mimeType": "text/plain",
+      "name": "proposals__proposal_generation_manifest.txt",
+      "webViewLink": "https://drive.google.com/file/d/1jh2_8rxVYfNzReGFLpTecE4NCqb2M4dy/view?usp=drivesdk"
+    },
+    {
+      "id": "19xTn3RU2ilLCykEsBNkdC0xVqjEe75Jc",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__MM-Hybrid__10_renewal-window_MM-Hybrid.docx",
+      "webViewLink": "https://docs.google.com/document/d/19xTn3RU2ilLCykEsBNkdC0xVqjEe75Jc/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1VoulGzGbItQ2Wz88RUJJJV6qJUbb4GhW",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__MM-Hybrid__09_the-100-hour-test_MM-Hybrid.docx",
+      "webViewLink": "https://docs.google.com/document/d/1VoulGzGbItQ2Wz88RUJJJV6qJUbb4GhW/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1Tv-6rU0_JVxflmMoUYpGK1jrRqeaZxOT",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__MM-Hybrid__08_my-load-my-plan_MM-Hybrid.docx",
+      "webViewLink": "https://docs.google.com/document/d/1Tv-6rU0_JVxflmMoUYpGK1jrRqeaZxOT/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1KbFTocGZfDaAS8gPPsqvu61ZkGLyrjsf",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__MM-Hybrid__07_light-for-what-matters_MM-Hybrid.docx",
+      "webViewLink": "https://docs.google.com/document/d/1KbFTocGZfDaAS8gPPsqvu61ZkGLyrjsf/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1lHq-19HZkGB8pHg9aY7_UBgDznM_kGO6",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__MM-Hybrid__06_charge-the-route_MM-Hybrid.docx",
+      "webViewLink": "https://docs.google.com/document/d/1lHq-19HZkGB8pHg9aY7_UBgDznM_kGO6/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "16MRHqm_E9vOjm-wHoS2KiHpB-ltrUYQK",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__MM-Hybrid__05_energy-champions-academy_MM-Hybrid.docx",
+      "webViewLink": "https://docs.google.com/document/d/16MRHqm_E9vOjm-wHoS2KiHpB-ltrUYQK/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1aWmAJW5aWUqJsuWEw-3Sv0JmYnILzjLW",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__MM-Hybrid__04_solar-open-house_MM-Hybrid.docx",
+      "webViewLink": "https://docs.google.com/document/d/1aWmAJW5aWUqJsuWEw-3Sv0JmYnILzjLW/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1-8G3TKrnADiDfRRsgyBiN9wBaqhAMJek",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__MM-Hybrid__03_night-shift-no-pause_MM-Hybrid.docx",
+      "webViewLink": "https://docs.google.com/document/d/1-8G3TKrnADiDfRRsgyBiN9wBaqhAMJek/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1zYp-S8nNcrdoCXDo_YgZoyL22QwNJi_y",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__MM-Hybrid__02_power-proof-roadshow_MM-Hybrid.docx",
+      "webViewLink": "https://docs.google.com/document/d/1zYp-S8nNcrdoCXDo_YgZoyL22QwNJi_y/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1OsoFnViLXxCy2KvxPkdIymWEFC5491S5",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__MM-Hybrid__01_continuity-clinic_MM-Hybrid.docx",
+      "webViewLink": "https://docs.google.com/document/d/1OsoFnViLXxCy2KvxPkdIymWEFC5491S5/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1-OkkMvNHl8FyG8q9-SsJoEMq_rp-xfHt",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__EN__10_renewal-window_EN.docx",
+      "webViewLink": "https://docs.google.com/document/d/1-OkkMvNHl8FyG8q9-SsJoEMq_rp-xfHt/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1bx8QkbLg5R7lD-Fytn8gp1E0CzO_mvok",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__EN__09_the-100-hour-test_EN.docx",
+      "webViewLink": "https://docs.google.com/document/d/1bx8QkbLg5R7lD-Fytn8gp1E0CzO_mvok/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1P7o-lshJ4NVmdG_XTuHJIOJIQTtvgKsA",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__EN__08_my-load-my-plan_EN.docx",
+      "webViewLink": "https://docs.google.com/document/d/1P7o-lshJ4NVmdG_XTuHJIOJIQTtvgKsA/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "12i6c0pMhPeEskQYtQPzwKWpVFPKszaDu",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__EN__07_light-for-what-matters_EN.docx",
+      "webViewLink": "https://docs.google.com/document/d/12i6c0pMhPeEskQYtQPzwKWpVFPKszaDu/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "10JZDRaat5w3glWvrfvbLJiRKEYWCPz_f",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__EN__06_charge-the-route_EN.docx",
+      "webViewLink": "https://docs.google.com/document/d/10JZDRaat5w3glWvrfvbLJiRKEYWCPz_f/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1YQ7GsGnjLUSHv1koUsYU4pfWIreT-dfa",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__EN__05_energy-champions-academy_EN.docx",
+      "webViewLink": "https://docs.google.com/document/d/1YQ7GsGnjLUSHv1koUsYU4pfWIreT-dfa/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1fzOIqfojsc3E-10Ver6qyQZhigYgIBdl",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__EN__04_solar-open-house_EN.docx",
+      "webViewLink": "https://docs.google.com/document/d/1fzOIqfojsc3E-10Ver6qyQZhigYgIBdl/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1tDwriLNQArTcb_WXMnW1Bg6mlvr6AufJ",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__EN__03_night-shift-no-pause_EN.docx",
+      "webViewLink": "https://docs.google.com/document/d/1tDwriLNQArTcb_WXMnW1Bg6mlvr6AufJ/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "19grGhLLN1HneSL4GJF0L4LKgBIwftrbg",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__EN__02_power-proof-roadshow_EN.docx",
+      "webViewLink": "https://docs.google.com/document/d/19grGhLLN1HneSL4GJF0L4LKgBIwftrbg/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1Ddt-I6WHcVZxwEB0UQok6rLLBHR7J61t",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "proposals__EN__01_continuity-clinic_EN.docx",
+      "webViewLink": "https://docs.google.com/document/d/1Ddt-I6WHcVZxwEB0UQok6rLLBHR7J61t/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1rB2AuF93LFKDn4X8aeTHNT9TujrgrHMV",
+      "mimeType": "application/json",
+      "name": "monitoring__source_manifest.json",
+      "webViewLink": "https://drive.google.com/file/d/1rB2AuF93LFKDn4X8aeTHNT9TujrgrHMV/view?usp=drivesdk"
+    },
+    {
+      "id": "1VzHodLHusATyA9k2dzAQjAwaHZLx-2vY",
+      "mimeType": "text/markdown",
+      "name": "monitoring__monitoring_report.md",
+      "webViewLink": "https://drive.google.com/file/d/1VzHodLHusATyA9k2dzAQjAwaHZLx-2vY/view?usp=drivesdk"
+    },
+    {
+      "id": "1sE_AqotPvwcQmmk7PHljp12IgzvN2rw0",
+      "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "name": "monitoring__ZYNTH-20260821-ENERGY-Monitoring.xlsx",
+      "webViewLink": "https://docs.google.com/spreadsheets/d/1sE_AqotPvwcQmmk7PHljp12IgzvN2rw0/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1GTWTIQcb4R4cuHNkB7reidcwKi6Vo5K1",
+      "mimeType": "text/markdown",
+      "name": "design_packages__README.md",
+      "webViewLink": "https://drive.google.com/file/d/1GTWTIQcb4R4cuHNkB7reidcwKi6Vo5K1/view?usp=drivesdk"
+    },
+    {
+      "id": "1pACFgVulQLULLQCzO4FSuH9r9KcsI9Zn",
+      "mimeType": "image/svg+xml",
+      "name": "design_packages__10_renewal-window__10_renewal-window_ui_experience_storyboard.svg",
+      "webViewLink": "https://drive.google.com/file/d/1pACFgVulQLULLQCzO4FSuH9r9KcsI9Zn/view?usp=drivesdk"
+    },
+    {
+      "id": "1CqYpg1Nbnx5_mwmp0eKgGerDw2pvNNPQ",
+      "mimeType": "image/png",
+      "name": "design_packages__10_renewal-window__10_renewal-window_ui_experience_storyboard.png",
+      "webViewLink": "https://drive.google.com/file/d/1CqYpg1Nbnx5_mwmp0eKgGerDw2pvNNPQ/view?usp=drivesdk"
+    },
+    {
+      "id": "1g55nt8O8yl0u4Kr4D3O-ItmL8-wDWr51",
+      "mimeType": "image/svg+xml",
+      "name": "design_packages__09_the-100-hour-test__09_the-100-hour-test_sketch.svg",
+      "webViewLink": "https://drive.google.com/file/d/1g55nt8O8yl0u4Kr4D3O-ItmL8-wDWr51/view?usp=drivesdk"
+    },
+    {
+      "id": "1_eGq75RUHVFF4BHrCmA6jRaMr2zqmuv3",
+      "mimeType": "image/png",
+      "name": "design_packages__09_the-100-hour-test__09_the-100-hour-test_sketch.png",
+      "webViewLink": "https://drive.google.com/file/d/1_eGq75RUHVFF4BHrCmA6jRaMr2zqmuv3/view?usp=drivesdk"
+    },
+    {
+      "id": "1DFY6TJbss-s1pkUzRlCG_JMTjM9iUhEm",
+      "mimeType": "image/svg+xml",
+      "name": "design_packages__09_the-100-hour-test__09_the-100-hour-test_3d.svg",
+      "webViewLink": "https://drive.google.com/file/d/1DFY6TJbss-s1pkUzRlCG_JMTjM9iUhEm/view?usp=drivesdk"
+    },
+    {
+      "id": "1cZIWgHRh3Iqv727u3RNjMhtsoEK0xhq5",
+      "mimeType": "image/png",
+      "name": "design_packages__09_the-100-hour-test__09_the-100-hour-test_3d.png",
+      "webViewLink": "https://drive.google.com/file/d/1cZIWgHRh3Iqv727u3RNjMhtsoEK0xhq5/view?usp=drivesdk"
+    },
+    {
+      "id": "1HkPMWrny-dGH1-g7VAGBMxvb_4qqi2-M",
+      "mimeType": "image/svg+xml",
+      "name": "design_packages__08_my-load-my-plan__08_my-load-my-plan_ui_experience_storyboard.svg",
+      "webViewLink": "https://drive.google.com/file/d/1HkPMWrny-dGH1-g7VAGBMxvb_4qqi2-M/view?usp=drivesdk"
+    },
+    {
+      "id": "1mqJa54BrUZ42oQmIfzW0T79nzIXqapX8",
+      "mimeType": "image/png",
+      "name": "design_packages__08_my-load-my-plan__08_my-load-my-plan_ui_experience_storyboard.png",
+      "webViewLink": "https://drive.google.com/file/d/1mqJa54BrUZ42oQmIfzW0T79nzIXqapX8/view?usp=drivesdk"
+    },
+    {
+      "id": "1kG5RTuKeo6-04aT1pK7tlJzwNHnkY1uV",
+      "mimeType": "image/svg+xml",
+      "name": "design_packages__07_light-for-what-matters__07_light-for-what-matters_sketch.svg",
+      "webViewLink": "https://drive.google.com/file/d/1kG5RTuKeo6-04aT1pK7tlJzwNHnkY1uV/view?usp=drivesdk"
+    },
+    {
+      "id": "12tKp3MPWv7daegVe3n-vnS6Q6EpctdiD",
+      "mimeType": "image/png",
+      "name": "design_packages__07_light-for-what-matters__07_light-for-what-matters_sketch.png",
+      "webViewLink": "https://drive.google.com/file/d/12tKp3MPWv7daegVe3n-vnS6Q6EpctdiD/view?usp=drivesdk"
+    },
+    {
+      "id": "1HGg3Ur-60vGqC0VZlJi11Rad41zxiLoV",
+      "mimeType": "image/svg+xml",
+      "name": "design_packages__07_light-for-what-matters__07_light-for-what-matters_3d.svg",
+      "webViewLink": "https://drive.google.com/file/d/1HGg3Ur-60vGqC0VZlJi11Rad41zxiLoV/view?usp=drivesdk"
+    },
+    {
+      "id": "1K0eQwakWoiyHnAbWzk302sXWThzjW0mn",
+      "mimeType": "image/png",
+      "name": "design_packages__07_light-for-what-matters__07_light-for-what-matters_3d.png",
+      "webViewLink": "https://drive.google.com/file/d/1K0eQwakWoiyHnAbWzk302sXWThzjW0mn/view?usp=drivesdk"
+    },
+    {
+      "id": "1ufGALZAVSOp4lYgmn5-yA053imM2hn8O",
+      "mimeType": "image/svg+xml",
+      "name": "design_packages__06_charge-the-route__06_charge-the-route_sketch.svg",
+      "webViewLink": "https://drive.google.com/file/d/1ufGALZAVSOp4lYgmn5-yA053imM2hn8O/view?usp=drivesdk"
+    },
+    {
+      "id": "1hWSmKwxbgAVnHW-Q_4H8NhpBdMMwshMK",
+      "mimeType": "image/png",
+      "name": "design_packages__06_charge-the-route__06_charge-the-route_sketch.png",
+      "webViewLink": "https://drive.google.com/file/d/1hWSmKwxbgAVnHW-Q_4H8NhpBdMMwshMK/view?usp=drivesdk"
+    },
+    {
+      "id": "1mxoUa48GUUAUtidSIvUFGw6kFscsmFHY",
+      "mimeType": "image/svg+xml",
+      "name": "design_packages__06_charge-the-route__06_charge-the-route_3d.svg",
+      "webViewLink": "https://drive.google.com/file/d/1mxoUa48GUUAUtidSIvUFGw6kFscsmFHY/view?usp=drivesdk"
+    },
+    {
+      "id": "1naZwTGPt1lkq3tZ6VdDAjXkJ770fhzpe",
+      "mimeType": "image/png",
+      "name": "design_packages__06_charge-the-route__06_charge-the-route_3d.png",
+      "webViewLink": "https://drive.google.com/file/d/1naZwTGPt1lkq3tZ6VdDAjXkJ770fhzpe/view?usp=drivesdk"
+    },
+    {
+      "id": "1J5Xaz4FAo-ivJ0AEJD_3xSdEfiL4MY5F",
+      "mimeType": "image/svg+xml",
+      "name": "design_packages__05_energy-champions-academy__05_energy-champions-academy_sketch.svg",
+      "webViewLink": "https://drive.google.com/file/d/1J5Xaz4FAo-ivJ0AEJD_3xSdEfiL4MY5F/view?usp=drivesdk"
+    },
+    {
+      "id": "1t8Oxcpy19BY8vmtrMa8zlviU75pXemkh",
+      "mimeType": "image/png",
+      "name": "design_packages__05_energy-champions-academy__05_energy-champions-academy_sketch.png",
+      "webViewLink": "https://drive.google.com/file/d/1t8Oxcpy19BY8vmtrMa8zlviU75pXemkh/view?usp=drivesdk"
+    },
+    {
+      "id": "1skm1BzYYb-3JAzn8VfKN8LVrBSam5ApW",
+      "mimeType": "image/svg+xml",
+      "name": "design_packages__05_energy-champions-academy__05_energy-champions-academy_3d.svg",
+      "webViewLink": "https://drive.google.com/file/d/1skm1BzYYb-3JAzn8VfKN8LVrBSam5ApW/view?usp=drivesdk"
+    },
+    {
+      "id": "1d6GDmMR9iBHCeIo_xE22xXtd7IVfW9T_",
+      "mimeType": "image/png",
+      "name": "design_packages__05_energy-champions-academy__05_energy-champions-academy_3d.png",
+      "webViewLink": "https://drive.google.com/file/d/1d6GDmMR9iBHCeIo_xE22xXtd7IVfW9T_/view?usp=drivesdk"
+    },
+    {
+      "id": "1dSPfEYZbRDLgNwfR0erqiCfBM8uCeJAA",
+      "mimeType": "image/svg+xml",
+      "name": "design_packages__04_solar-open-house__04_solar-open-house_sketch.svg",
+      "webViewLink": "https://drive.google.com/file/d/1dSPfEYZbRDLgNwfR0erqiCfBM8uCeJAA/view?usp=drivesdk"
+    },
+    {
+      "id": "1hMNxpTWdEjnnOZIxx6pJB7u3USoSPZYy",
+      "mimeType": "image/png",
+      "name": "design_packages__04_solar-open-house__04_solar-open-house_sketch.png",
+      "webViewLink": "https://drive.google.com/file/d/1hMNxpTWdEjnnOZIxx6pJB7u3USoSPZYy/view?usp=drivesdk"
+    },
+    {
+      "id": "13KqLFVHOUENQVfRtOCr_AEkSrZcu2V9g",
+      "mimeType": "image/svg+xml",
+      "name": "design_packages__04_solar-open-house__04_solar-open-house_3d.svg",
+      "webViewLink": "https://drive.google.com/file/d/13KqLFVHOUENQVfRtOCr_AEkSrZcu2V9g/view?usp=drivesdk"
+    },
+    {
+      "id": "1JUNf6uvuqTpmcv1rnSo-Ws6DLew9i1Fp",
+      "mimeType": "image/png",
+      "name": "design_packages__04_solar-open-house__04_solar-open-house_3d.png",
+      "webViewLink": "https://drive.google.com/file/d/1JUNf6uvuqTpmcv1rnSo-Ws6DLew9i1Fp/view?usp=drivesdk"
+    },
+    {
+      "id": "1MuJhSzKzDjKkGkj43do1krZaltf9Dis-",
+      "mimeType": "image/svg+xml",
+      "name": "design_packages__03_night-shift-no-pause__03_night-shift-no-pause_sketch.svg",
+      "webViewLink": "https://drive.google.com/file/d/1MuJhSzKzDjKkGkj43do1krZaltf9Dis-/view?usp=drivesdk"
+    },
+    {
+      "id": "1H_EZtcxvbsunPXTWf4jY_6dzes_c298H",
+      "mimeType": "image/png",
+      "name": "design_packages__03_night-shift-no-pause__03_night-shift-no-pause_sketch.png",
+      "webViewLink": "https://drive.google.com/file/d/1H_EZtcxvbsunPXTWf4jY_6dzes_c298H/view?usp=drivesdk"
+    },
+    {
+      "id": "12po8Nw8yb9ouzTxiQV2FtSdJmJj7uvVG",
+      "mimeType": "image/svg+xml",
+      "name": "design_packages__03_night-shift-no-pause__03_night-shift-no-pause_3d.svg",
+      "webViewLink": "https://drive.google.com/file/d/12po8Nw8yb9ouzTxiQV2FtSdJmJj7uvVG/view?usp=drivesdk"
+    },
+    {
+      "id": "1HETW1tv-h5aKysQwtDmk320EwLfk0nbz",
+      "mimeType": "image/png",
+      "name": "design_packages__03_night-shift-no-pause__03_night-shift-no-pause_3d.png",
+      "webViewLink": "https://drive.google.com/file/d/1HETW1tv-h5aKysQwtDmk320EwLfk0nbz/view?usp=drivesdk"
+    },
+    {
+      "id": "1-G4qts8HJ5oT6imE46qruzDblgMor5xJ",
+      "mimeType": "image/svg+xml",
+      "name": "design_packages__02_power-proof-roadshow__02_power-proof-roadshow_sketch.svg",
+      "webViewLink": "https://drive.google.com/file/d/1-G4qts8HJ5oT6imE46qruzDblgMor5xJ/view?usp=drivesdk"
+    },
+    {
+      "id": "1A1ijYK4hocOxpay41zQacgGXk5rAWTh4",
+      "mimeType": "image/png",
+      "name": "design_packages__02_power-proof-roadshow__02_power-proof-roadshow_sketch.png",
+      "webViewLink": "https://drive.google.com/file/d/1A1ijYK4hocOxpay41zQacgGXk5rAWTh4/view?usp=drivesdk"
+    },
+    {
+      "id": "1Q7PLJ1RuoWLbDo4ZnmXLCIgiVJi4RSJG",
+      "mimeType": "image/svg+xml",
+      "name": "design_packages__02_power-proof-roadshow__02_power-proof-roadshow_3d.svg",
+      "webViewLink": "https://drive.google.com/file/d/1Q7PLJ1RuoWLbDo4ZnmXLCIgiVJi4RSJG/view?usp=drivesdk"
+    },
+    {
+      "id": "1JoQ0Z7KNLL8bwXzUPTWLMicXWptknWt-",
+      "mimeType": "image/png",
+      "name": "design_packages__02_power-proof-roadshow__02_power-proof-roadshow_3d.png",
+      "webViewLink": "https://drive.google.com/file/d/1JoQ0Z7KNLL8bwXzUPTWLMicXWptknWt-/view?usp=drivesdk"
+    },
+    {
+      "id": "1VynFQuvktmhVB9g5uaLFzymhG6lkWpNR",
+      "mimeType": "image/svg+xml",
+      "name": "design_packages__01_continuity-clinic__01_continuity-clinic_sketch.svg",
+      "webViewLink": "https://drive.google.com/file/d/1VynFQuvktmhVB9g5uaLFzymhG6lkWpNR/view?usp=drivesdk"
+    },
+    {
+      "id": "1hBk9h3FI5ChFakmrGUkwAgDtM-Ics-X0",
+      "mimeType": "image/png",
+      "name": "design_packages__01_continuity-clinic__01_continuity-clinic_sketch.png",
+      "webViewLink": "https://drive.google.com/file/d/1hBk9h3FI5ChFakmrGUkwAgDtM-Ics-X0/view?usp=drivesdk"
+    },
+    {
+      "id": "1a4geSrA-c7B3Jr0Ei2zUiXVgvmpTE-i5",
+      "mimeType": "image/svg+xml",
+      "name": "design_packages__01_continuity-clinic__01_continuity-clinic_3d.svg",
+      "webViewLink": "https://drive.google.com/file/d/1a4geSrA-c7B3Jr0Ei2zUiXVgvmpTE-i5/view?usp=drivesdk"
+    },
+    {
+      "id": "10mV4xzmsdmlc12Iz5D6ughxTXHrRuMCi",
+      "mimeType": "image/png",
+      "name": "design_packages__01_continuity-clinic__01_continuity-clinic_3d.png",
+      "webViewLink": "https://drive.google.com/file/d/10mV4xzmsdmlc12Iz5D6ughxTXHrRuMCi/view?usp=drivesdk"
+    },
+    {
+      "id": "1tmHzbjA-OLk5a6ZbB30XQHYsBx6eW1tQ",
+      "mimeType": "application/json",
+      "name": "data__concepts.json",
+      "webViewLink": "https://drive.google.com/file/d/1tmHzbjA-OLk5a6ZbB30XQHYsBx6eW1tQ/view?usp=drivesdk"
+    }
+  ]
+}
