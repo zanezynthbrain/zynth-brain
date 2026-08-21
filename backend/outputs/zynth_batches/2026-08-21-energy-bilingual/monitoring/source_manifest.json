@@ -2,7 +2,7 @@
   "batchCode": "ZYNTH-20260821-ENERGY-BILINGUAL",
   "industryCode": "energy",
   "createdAt": "2026-08-21T03:30:00Z",
-  "status": "Created locally; sync statuses must be updated only after verified destinations.",
+  "status": "Complete locally; Drive and GitHub synchronization verified. Command Center callback was not configured in the scheduled-task environment.",
   "researchSources": {
     "S01": "https://www.reuters.com/sustainability/climate-energy/war-torn-myanmar-embraces-solar-tackle-power-crisis-2025-11-14/",
     "S02": "https://english.news.cn/20260118/765dc93ac49a481d8ffbcc1972c01516/c.html",
@@ -23,9 +23,24 @@
     "monitoringWorkbooks": 1
   },
   "sync": {
-    "drive": "Pending",
-    "github": "Pending",
-    "commandCenter": "Not configured — injected callback variables absent at environment check"
+    "drive": {
+      "status": "Synced",
+      "syncedAt": "2026-08-21T03:32:48Z",
+      "verifiedFileCount": 72,
+      "folderUrl": "https://drive.google.com/drive/folders/1zjGF6D7Wi7vRX9sApLAJpvlZL5vKW5Oo",
+      "retryStatus": "Not needed"
+    },
+    "github": {
+      "status": "Synced",
+      "syncedAt": "2026-08-21T03:33:44Z",
+      "repositoryDirectoryUrl": "https://github.com/zanezynthbrain/zynth-brain/tree/main/backend/outputs/zynth_batches/2026-08-21-energy-bilingual",
+      "commit": "1bd2b3706329a96d9443407cef8b5ce9294d3c6c",
+      "retryStatus": "Not needed"
+    },
+    "commandCenter": {
+      "status": "Not configured",
+      "errorSummary": "SCHEDULED_TASK_ENDPOINT_BASE and SCHEDULED_TASK_COOKIE were not injected into this run; the approved callback mechanism could not be invoked."
+    }
   },
   "files": [
     {
