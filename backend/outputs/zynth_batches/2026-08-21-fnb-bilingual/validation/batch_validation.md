@@ -1,0 +1,236 @@
+# ZYNTH F&B Batch Validation
+
+**Batch:** `ZYNTH-20260821-FNB-BILINGUAL`  
+**Pass checks:** 224  
+**Exceptions:** 0  
+
+## Result
+
+**PASS**
+
+## Checks Passed
+
+- PASS — Campaign count: 10 records
+- PASS — Commercial count: 10 records
+- PASS — Storyboard frame count: 120 frames
+- PASS — Campaign unique format: 10/10
+- PASS — Campaign unique commercialTension: 10/10
+- PASS — Campaign unique conversionMechanism: 10/10
+- PASS — Campaign unique creativeTerritory: 10/10
+- PASS — Campaign unique seasonalLogic: 10/10
+- PASS — Commercial unique formats: 10/10
+- PASS — Commercial unique territories: 10/10
+- PASS — Campaign Word document count: 10
+- PASS — Campaign Markdown document count: 10
+- PASS — Commercial Word document count: 10
+- PASS — Commercial Markdown document count: 10
+- PASS — Campaign heading Commercial Brief: 01_origin-on-the-table_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 01_origin-on-the-table_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 01_origin-on-the-table_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 01_origin-on-the-table_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 01_origin-on-the-table_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 01_origin-on-the-table_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Commercial Brief: 02_the-flavour-find_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 02_the-flavour-find_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 02_the-flavour-find_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 02_the-flavour-find_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 02_the-flavour-find_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 02_the-flavour-find_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Commercial Brief: 03_the-15-minute-table_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 03_the-15-minute-table_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 03_the-15-minute-table_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 03_the-15-minute-table_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 03_the-15-minute-table_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 03_the-15-minute-table_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Commercial Brief: 04_the-better-break_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 04_the-better-break_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 04_the-better-break_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 04_the-better-break_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 04_the-better-break_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 04_the-better-break_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Commercial Brief: 05_one-dish,-many-hands_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 05_one-dish,-many-hands_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 05_one-dish,-many-hands_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 05_one-dish,-many-hands_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 05_one-dish,-many-hands_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 05_one-dish,-many-hands_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Commercial Brief: 06_the-quiet-cup_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 06_the-quiet-cup_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 06_the-quiet-cup_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 06_the-quiet-cup_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 06_the-quiet-cup_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 06_the-quiet-cup_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Commercial Brief: 07_a-city-of-small-tables_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 07_a-city-of-small-tables_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 07_a-city-of-small-tables_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 07_a-city-of-small-tables_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 07_a-city-of-small-tables_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 07_a-city-of-small-tables_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Commercial Brief: 08_the-shared-tray_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 08_the-shared-tray_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 08_the-shared-tray_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 08_the-shared-tray_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 08_the-shared-tray_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 08_the-shared-tray_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Commercial Brief: 09_the-buyer’s-bite_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 09_the-buyer’s-bite_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 09_the-buyer’s-bite_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 09_the-buyer’s-bite_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 09_the-buyer’s-bite_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 09_the-buyer’s-bite_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Commercial Brief: 10_second-serving_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Conversion Experience: 10_second-serving_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Budget Envelope: 10_second-serving_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Mandatory Preflight: 10_second-serving_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign heading Evidence and Use Limits: 10_second-serving_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Campaign boundary disclaimer: 10_second-serving_Campaign_Proposal_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 01_three-homes-one-ingredient_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 01_three-homes-one-ingredient_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 01_three-homes-one-ingredient_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 01_three-homes-one-ingredient_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 01_three-homes-one-ingredient_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 02_find-your-flavour_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 02_find-your-flavour_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 02_find-your-flavour_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 02_find-your-flavour_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 02_find-your-flavour_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 03_before-the-day-is-done_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 03_before-the-day-is-done_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 03_before-the-day-is-done_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 03_before-the-day-is-done_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 03_before-the-day-is-done_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 04_a-better-break-has-a-plan_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 04_a-better-break-has-a-plan_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 04_a-better-break-has-a-plan_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 04_a-better-break-has-a-plan_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 04_a-better-break-has-a-plan_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 05_the-making-is-the-meal_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 05_the-making-is-the-meal_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 05_the-making-is-the-meal_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 05_the-making-is-the-meal_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 05_the-making-is-the-meal_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 06_listen-to-the-cup_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 06_listen-to-the-cup_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 06_listen-to-the-cup_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 06_listen-to-the-cup_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 06_listen-to-the-cup_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 07_small-tables-long-stories_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 07_small-tables-long-stories_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 07_small-tables-long-stories_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 07_small-tables-long-stories_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 07_small-tables-long-stories_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 08_the-table-you-build_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 08_the-table-you-build_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 08_the-table-you-build_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 08_the-table-you-build_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 08_the-table-you-build_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 09_one-bite-then-the-brief_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 09_one-bite-then-the-brief_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 09_one-bite-then-the-brief_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 09_one-bite-then-the-brief_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 09_one-bite-then-the-brief_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Film Brief: 10_the-second-serving_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading 12-Frame Detailed Storyboard: 10_the-second-serving_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Production & Claims Gate: 10_the-second-serving_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial heading Evidence Boundary: 10_the-second-serving_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — Commercial treatment disclaimer: 10_the-second-serving_Commercial_Storyboard_MM-Bilingual.docx
+- PASS — No unverified phrase: official partner: 01_origin-on-the-table_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 01_origin-on-the-table_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 01_origin-on-the-table_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 01_origin-on-the-table_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 01_origin-on-the-table_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 02_the-flavour-find_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 02_the-flavour-find_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 02_the-flavour-find_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 02_the-flavour-find_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 02_the-flavour-find_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 03_the-15-minute-table_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 03_the-15-minute-table_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 03_the-15-minute-table_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 03_the-15-minute-table_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 03_the-15-minute-table_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 04_the-better-break_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 04_the-better-break_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 04_the-better-break_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 04_the-better-break_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 04_the-better-break_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 05_one-dish,-many-hands_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 05_one-dish,-many-hands_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 05_one-dish,-many-hands_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 05_one-dish,-many-hands_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 05_one-dish,-many-hands_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 06_the-quiet-cup_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 06_the-quiet-cup_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 06_the-quiet-cup_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 06_the-quiet-cup_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 06_the-quiet-cup_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 07_a-city-of-small-tables_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 07_a-city-of-small-tables_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 07_a-city-of-small-tables_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 07_a-city-of-small-tables_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 07_a-city-of-small-tables_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 08_the-shared-tray_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 08_the-shared-tray_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 08_the-shared-tray_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 08_the-shared-tray_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 08_the-shared-tray_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 09_the-buyer’s-bite_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 09_the-buyer’s-bite_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 09_the-buyer’s-bite_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 09_the-buyer’s-bite_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 09_the-buyer’s-bite_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 10_second-serving_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 10_second-serving_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 10_second-serving_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 10_second-serving_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 10_second-serving_Campaign_Proposal_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 01_three-homes-one-ingredient_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 01_three-homes-one-ingredient_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 01_three-homes-one-ingredient_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 01_three-homes-one-ingredient_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 01_three-homes-one-ingredient_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 02_find-your-flavour_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 02_find-your-flavour_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 02_find-your-flavour_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 02_find-your-flavour_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 02_find-your-flavour_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 03_before-the-day-is-done_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 03_before-the-day-is-done_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 03_before-the-day-is-done_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 03_before-the-day-is-done_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 03_before-the-day-is-done_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 04_a-better-break-has-a-plan_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 04_a-better-break-has-a-plan_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 04_a-better-break-has-a-plan_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 04_a-better-break-has-a-plan_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 04_a-better-break-has-a-plan_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 05_the-making-is-the-meal_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 05_the-making-is-the-meal_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 05_the-making-is-the-meal_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 05_the-making-is-the-meal_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 05_the-making-is-the-meal_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 06_listen-to-the-cup_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 06_listen-to-the-cup_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 06_listen-to-the-cup_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 06_listen-to-the-cup_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 06_listen-to-the-cup_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 07_small-tables-long-stories_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 07_small-tables-long-stories_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 07_small-tables-long-stories_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 07_small-tables-long-stories_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 07_small-tables-long-stories_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 08_the-table-you-build_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 08_the-table-you-build_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 08_the-table-you-build_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 08_the-table-you-build_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 08_the-table-you-build_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 09_one-bite-then-the-brief_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 09_one-bite-then-the-brief_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 09_one-bite-then-the-brief_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 09_one-bite-then-the-brief_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 09_one-bite-then-the-brief_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: official partner: 10_the-second-serving_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: confirmed sponsor: 10_the-second-serving_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: award-winning: 10_the-second-serving_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: health benefit: 10_the-second-serving_Commercial_Storyboard_MM-Bilingual.md
+- PASS — No unverified phrase: safe for: 10_the-second-serving_Commercial_Storyboard_MM-Bilingual.md

@@ -1,0 +1,122 @@
+{
+  "params": {
+    "spreadsheetId": "1lJd6DkGcKrCAiETw9qadftFZhc-uXDNBr8Q1JlHLqMo",
+    "range": "Research & Sources!B:K",
+    "valueInputOption": "USER_ENTERED",
+    "insertDataOption": "INSERT_ROWS",
+    "includeValuesInResponse": false
+  },
+  "json": {
+    "majorDimension": "ROWS",
+    "values": [
+      [
+        "FNB-S01",
+        "USDA Foreign Agricultural Service",
+        "Government market-report landing page",
+        "Food-service industry scope/context",
+        "No detailed local demand or market-size claim retained",
+        "https://www.fas.usda.gov/data/gain/2025/02/burma-food-service-hotel-restaurant-institutional",
+        "11 Feb 2025",
+        "Medium",
+        "ZYNTH Research",
+        "Context only"
+      ],
+      [
+        "FNB-S02",
+        "Xinhua",
+        "Public media/event coverage",
+        "Traditional food-show mechanics and regional-product discovery context",
+        "Historical event only; no future event or partnership claim",
+        "https://english.news.cn/20260726/49ff2f8a557b4825a58978e89ccccc61/c.html",
+        "26 Jul 2026",
+        "Medium",
+        "ZYNTH Research",
+        "Cleared with limitation"
+      ],
+      [
+        "FNB-S04",
+        "Myanmar Government",
+        "Official calendar",
+        "Q4 2026 Thadingyut, Tazaungdaing, National Day and Christmas timing guardrails",
+        "Calendar only; no demand or operating-hours claim",
+        "https://myanmar.gov.mm/upcoming-holidays",
+        "21 Aug 2026",
+        "High",
+        "ZYNTH Research",
+        "Cleared"
+      ],
+      [
+        "FNB-S05",
+        "Myanmar eVisa / Ministry of Immigration and Population",
+        "Official calendar",
+        "Cross-check of Q4 2026 public holiday dates",
+        "Calendar only",
+        "https://evisa.moip.gov.mm/notice/public-holiday",
+        "21 Aug 2026",
+        "High",
+        "ZYNTH Research",
+        "Cleared"
+      ],
+      [
+        "FNB-S06",
+        "Tilleke & Gibbins",
+        "Public legal commentary",
+        "Myanmar-language label review reminder for priority consumer products",
+        "Not legal advice or a current product-by-product compliance determination",
+        "https://www.tilleke.com/insights/myanmar-language-labeling-required-wide-range-products/",
+        "26 Oct 2018",
+        "Medium",
+        "ZYNTH Research",
+        "Use with limitation"
+      ],
+      [
+        "FNB-S07",
+        "Myanmar International TV",
+        "Official local coverage",
+        "Historic competition, exhibition, sales and regional-product event format",
+        "Historical only; no future venue/organiser/partner claim",
+        "https://www.myanmaritv.com/news/tastes-golden-land-myanmar-traditional-food-competition-and-exhibition",
+        "26 Jul 2026",
+        "Medium",
+        "ZYNTH Research",
+        "Cleared with limitation"
+      ],
+      [
+        "FNB-S08",
+        "Myanmar Ministry of Information",
+        "Official publisher",
+        "Historic panel, association, demo and booth format context",
+        "No forecast, partnership or performance claim",
+        "https://www.moi.gov.mm/moi%3Aeng/news/21664",
+        "27 Jul 2026",
+        "Medium",
+        "ZYNTH Research",
+        "Cleared with limitation"
+      ],
+      [
+        "FNB-S09",
+        "Global New Light of Myanmar / MNA",
+        "Local public publisher",
+        "Historic culture, regional display and exchange format context",
+        "No future sponsor, endorsement or opportunity claim",
+        "https://www.gnlm.com.mm/myanmar-urged-to-cultivate-signature-foods/",
+        "26 Jul 2026",
+        "Medium",
+        "ZYNTH Research",
+        "Cleared with limitation"
+      ],
+      [
+        "FNB-S10",
+        "Inter Myanmar Channel",
+        "First-hand public video analysis",
+        "Observed skills, demo, controlled tasting, seating and stage mechanics",
+        "All date, organiser, sponsor, brand and popularity statements separately unverified",
+        "https://www.youtube.com/watch?v=mbh1472c2HI",
+        "21 Aug 2026",
+        "Low",
+        "ZYNTH Research",
+        "Use with limitation"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,304 @@
+{
+  "files": [
+    {
+      "id": "1gvKKBFwcNRVhm2QvgYOmxSLbB-m5EEyk",
+      "mimeType": "text/csv",
+      "name": "ai_council_register.csv",
+      "webViewLink": "https://drive.google.com/file/d/1gvKKBFwcNRVhm2QvgYOmxSLbB-m5EEyk/view?usp=drivesdk"
+    },
+    {
+      "id": "16_z_Rr2rXv0YsfWw_B7QjI1eCZxP0QLb",
+      "mimeType": "text/markdown",
+      "name": "ai_council_feasibility_review.md",
+      "webViewLink": "https://drive.google.com/file/d/16_z_Rr2rXv0YsfWw_B7QjI1eCZxP0QLb/view?usp=drivesdk"
+    },
+    {
+      "id": "1yIoMaM8p8W39vwsrudtNgSwD5umv6eSF",
+      "mimeType": "text/markdown",
+      "name": "proposal_visual_qc.md",
+      "webViewLink": "https://drive.google.com/file/d/1yIoMaM8p8W39vwsrudtNgSwD5umv6eSF/view?usp=drivesdk"
+    },
+    {
+      "id": "1FA99JrY1ZtmlKLICdl4fzx26m2VzezDq",
+      "mimeType": "text/markdown",
+      "name": "batch_validation.md",
+      "webViewLink": "https://drive.google.com/file/d/1FA99JrY1ZtmlKLICdl4fzx26m2VzezDq/view?usp=drivesdk"
+    },
+    {
+      "id": "178a6EGdBsbmHi8b5Jk-RyjHL-dDSWBvH",
+      "mimeType": "text/markdown",
+      "name": "verified_source_notes.md",
+      "webViewLink": "https://drive.google.com/file/d/178a6EGdBsbmHi8b5Jk-RyjHL-dDSWBvH/view?usp=drivesdk"
+    },
+    {
+      "id": "1LUt3sV6LKt57VkPM2fBGaM4pjuRWaD9t",
+      "mimeType": "application/json",
+      "name": "source_manifest.json",
+      "webViewLink": "https://drive.google.com/file/d/1LUt3sV6LKt57VkPM2fBGaM4pjuRWaD9t/view?usp=drivesdk"
+    },
+    {
+      "id": "1jAUDcL8_wdc3UgpJlm-JBliPEUeX5eUL",
+      "mimeType": "text/markdown",
+      "name": "monitoring_report.md",
+      "webViewLink": "https://drive.google.com/file/d/1jAUDcL8_wdc3UgpJlm-JBliPEUeX5eUL/view?usp=drivesdk"
+    },
+    {
+      "id": "1pNIO40j6QDT6GeZ3Lalak-nt5bmObaQ5",
+      "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "name": "ZYNTH-20260821-FNB-Monitoring.xlsx",
+      "webViewLink": "https://docs.google.com/spreadsheets/d/1pNIO40j6QDT6GeZ3Lalak-nt5bmObaQ5/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1jBe3gGwayCP5I7GzocLZmDUqPPXaA9ml",
+      "mimeType": "text/markdown",
+      "name": "10_the-second-serving_Commercial_Storyboard_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/1jBe3gGwayCP5I7GzocLZmDUqPPXaA9ml/view?usp=drivesdk"
+    },
+    {
+      "id": "1xpzXzN1g61t9VVevzHiwXXzKJiyYhsEp",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "10_the-second-serving_Commercial_Storyboard_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/1xpzXzN1g61t9VVevzHiwXXzKJiyYhsEp/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "15AR4K-8dzJG3Sf0SzHvTnpIGf4cw7ggQ",
+      "mimeType": "text/markdown",
+      "name": "09_one-bite-then-the-brief_Commercial_Storyboard_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/15AR4K-8dzJG3Sf0SzHvTnpIGf4cw7ggQ/view?usp=drivesdk"
+    },
+    {
+      "id": "1gNP3vvpOgMLTmNEg78AeZ9o0HkdBlW4E",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "09_one-bite-then-the-brief_Commercial_Storyboard_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/1gNP3vvpOgMLTmNEg78AeZ9o0HkdBlW4E/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1kO9fz2gkNDogXnGM_Vj7B3-a9OfgQhlc",
+      "mimeType": "text/markdown",
+      "name": "08_the-table-you-build_Commercial_Storyboard_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/1kO9fz2gkNDogXnGM_Vj7B3-a9OfgQhlc/view?usp=drivesdk"
+    },
+    {
+      "id": "1Q2W-0aPJtQVhOau6nDVCMrCGBqlgWI1i",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "08_the-table-you-build_Commercial_Storyboard_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/1Q2W-0aPJtQVhOau6nDVCMrCGBqlgWI1i/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1CyGnO-NM1sZSZh3QeUAWPSrpsHuLmL7C",
+      "mimeType": "text/markdown",
+      "name": "07_small-tables-long-stories_Commercial_Storyboard_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/1CyGnO-NM1sZSZh3QeUAWPSrpsHuLmL7C/view?usp=drivesdk"
+    },
+    {
+      "id": "1xkrrtwqY2dY0U9Rd2denteQR_86l6gJB",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "07_small-tables-long-stories_Commercial_Storyboard_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/1xkrrtwqY2dY0U9Rd2denteQR_86l6gJB/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1MisKX8INiYG5J6SuN23i6JhxIvcbaVGG",
+      "mimeType": "text/markdown",
+      "name": "06_listen-to-the-cup_Commercial_Storyboard_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/1MisKX8INiYG5J6SuN23i6JhxIvcbaVGG/view?usp=drivesdk"
+    },
+    {
+      "id": "1BxnBeRsbAh8RVXKMMa0u-PMwgG-xNKKn",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "06_listen-to-the-cup_Commercial_Storyboard_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/1BxnBeRsbAh8RVXKMMa0u-PMwgG-xNKKn/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1GT--IK2jmkAlTSjdSkj5XyzVJ2gIMj2i",
+      "mimeType": "text/markdown",
+      "name": "05_the-making-is-the-meal_Commercial_Storyboard_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/1GT--IK2jmkAlTSjdSkj5XyzVJ2gIMj2i/view?usp=drivesdk"
+    },
+    {
+      "id": "12RR9pLl7_rb7Iy4HljpXssb7b22p2ylE",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "05_the-making-is-the-meal_Commercial_Storyboard_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/12RR9pLl7_rb7Iy4HljpXssb7b22p2ylE/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "139pPVVRgLBSdNK1x7iZZ-LWMUZKaDuVD",
+      "mimeType": "text/markdown",
+      "name": "04_a-better-break-has-a-plan_Commercial_Storyboard_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/139pPVVRgLBSdNK1x7iZZ-LWMUZKaDuVD/view?usp=drivesdk"
+    },
+    {
+      "id": "17Bt3Y9cSAewngxyskzUKaiJiFkI7FWAp",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "04_a-better-break-has-a-plan_Commercial_Storyboard_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/17Bt3Y9cSAewngxyskzUKaiJiFkI7FWAp/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1CzM3P9XxOYdEmY4cQWgzQHcaN56WZgfm",
+      "mimeType": "text/markdown",
+      "name": "03_before-the-day-is-done_Commercial_Storyboard_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/1CzM3P9XxOYdEmY4cQWgzQHcaN56WZgfm/view?usp=drivesdk"
+    },
+    {
+      "id": "1ugYKQvx19pmH1q1gsxBvcBtZivAcw-DT",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "03_before-the-day-is-done_Commercial_Storyboard_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/1ugYKQvx19pmH1q1gsxBvcBtZivAcw-DT/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1imxX8XOfvjwMA8IkL3r7zA63o4Pe-1yN",
+      "mimeType": "text/markdown",
+      "name": "02_find-your-flavour_Commercial_Storyboard_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/1imxX8XOfvjwMA8IkL3r7zA63o4Pe-1yN/view?usp=drivesdk"
+    },
+    {
+      "id": "1ixXFH17UZHZGur1uPT8ilgsHxOzrMRDe",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "02_find-your-flavour_Commercial_Storyboard_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/1ixXFH17UZHZGur1uPT8ilgsHxOzrMRDe/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1m1rWSK32AbS5xCizMlwO7l5CjbSvYsi5",
+      "mimeType": "text/markdown",
+      "name": "01_three-homes-one-ingredient_Commercial_Storyboard_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/1m1rWSK32AbS5xCizMlwO7l5CjbSvYsi5/view?usp=drivesdk"
+    },
+    {
+      "id": "1a1Z-uJbmuuFZWGqNJtgzT5J40UubqtbT",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "01_three-homes-one-ingredient_Commercial_Storyboard_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/1a1Z-uJbmuuFZWGqNJtgzT5J40UubqtbT/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1FHL5uWBBV0Vn1VC5_lzzzp5XauLUvvXp",
+      "mimeType": "text/markdown",
+      "name": "10_second-serving_Campaign_Proposal_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/1FHL5uWBBV0Vn1VC5_lzzzp5XauLUvvXp/view?usp=drivesdk"
+    },
+    {
+      "id": "1HrJTUsy2WKtRNquPjYqWRaPqt-jyYyXa",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "10_second-serving_Campaign_Proposal_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/1HrJTUsy2WKtRNquPjYqWRaPqt-jyYyXa/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1KkIyvgELrIW3KLUhfknkWjJrSAEtH7fr",
+      "mimeType": "text/markdown",
+      "name": "09_the-buyer’s-bite_Campaign_Proposal_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/1KkIyvgELrIW3KLUhfknkWjJrSAEtH7fr/view?usp=drivesdk"
+    },
+    {
+      "id": "1glncqWNFIiTDsC9vhlJzX4ZxjOWraTHN",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "09_the-buyer’s-bite_Campaign_Proposal_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/1glncqWNFIiTDsC9vhlJzX4ZxjOWraTHN/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1VFPkvXFqA26BCxTpMJmF6Sbnbb5N48-Q",
+      "mimeType": "text/markdown",
+      "name": "08_the-shared-tray_Campaign_Proposal_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/1VFPkvXFqA26BCxTpMJmF6Sbnbb5N48-Q/view?usp=drivesdk"
+    },
+    {
+      "id": "1Qr-Vd_2urbvhq_aShwZ0v6N_nqnj8SEc",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "08_the-shared-tray_Campaign_Proposal_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/1Qr-Vd_2urbvhq_aShwZ0v6N_nqnj8SEc/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1kmN0vdbK1GchS6fh6lvrogxEr1J_hiG8",
+      "mimeType": "text/markdown",
+      "name": "07_a-city-of-small-tables_Campaign_Proposal_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/1kmN0vdbK1GchS6fh6lvrogxEr1J_hiG8/view?usp=drivesdk"
+    },
+    {
+      "id": "1JxZFdhvYkZr_8xkeX_b-D0s4KgS69ErH",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "07_a-city-of-small-tables_Campaign_Proposal_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/1JxZFdhvYkZr_8xkeX_b-D0s4KgS69ErH/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "136LNbj4aGC0V8AtsToQfsJ8uTrvUUwhg",
+      "mimeType": "text/markdown",
+      "name": "06_the-quiet-cup_Campaign_Proposal_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/136LNbj4aGC0V8AtsToQfsJ8uTrvUUwhg/view?usp=drivesdk"
+    },
+    {
+      "id": "1FmE0Z4JpiU9a1KJkCDD7j9LnUcfGGdp8",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "06_the-quiet-cup_Campaign_Proposal_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/1FmE0Z4JpiU9a1KJkCDD7j9LnUcfGGdp8/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1yq17OcTtZQCxx9aOLuF_HW5_X1R1byWT",
+      "mimeType": "text/markdown",
+      "name": "05_one-dish,-many-hands_Campaign_Proposal_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/1yq17OcTtZQCxx9aOLuF_HW5_X1R1byWT/view?usp=drivesdk"
+    },
+    {
+      "id": "1aoqd7LbyTpAzhL5S832x5rU3dZvk-xID",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "05_one-dish,-many-hands_Campaign_Proposal_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/1aoqd7LbyTpAzhL5S832x5rU3dZvk-xID/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1WhJBM0ZJi6R-UaptfZKnIsSc1XhvW4xq",
+      "mimeType": "text/markdown",
+      "name": "04_the-better-break_Campaign_Proposal_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/1WhJBM0ZJi6R-UaptfZKnIsSc1XhvW4xq/view?usp=drivesdk"
+    },
+    {
+      "id": "15sOSOh08QaWXBeOlhFuJoTycXCJW1BAg",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "04_the-better-break_Campaign_Proposal_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/15sOSOh08QaWXBeOlhFuJoTycXCJW1BAg/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1XDx1n2Yjjb97lxRKegPZHbFNPCXSCtYj",
+      "mimeType": "text/markdown",
+      "name": "03_the-15-minute-table_Campaign_Proposal_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/1XDx1n2Yjjb97lxRKegPZHbFNPCXSCtYj/view?usp=drivesdk"
+    },
+    {
+      "id": "1VoKCFCg3l11s_qVYBOZ7u21Fq1QgSSoz",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "03_the-15-minute-table_Campaign_Proposal_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/1VoKCFCg3l11s_qVYBOZ7u21Fq1QgSSoz/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1DsNOVmbRO9Aw2uHT9rFsgnFt7SgNb69d",
+      "mimeType": "text/markdown",
+      "name": "02_the-flavour-find_Campaign_Proposal_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/1DsNOVmbRO9Aw2uHT9rFsgnFt7SgNb69d/view?usp=drivesdk"
+    },
+    {
+      "id": "12B2OcynO91r6ILiUPKk3MaSZAEWjsxh6",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "02_the-flavour-find_Campaign_Proposal_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/12B2OcynO91r6ILiUPKk3MaSZAEWjsxh6/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "1YqMeqZwL4GsTv--mULHo0Dx7TiTZcg0c",
+      "mimeType": "text/markdown",
+      "name": "01_origin-on-the-table_Campaign_Proposal_MM-Bilingual.md",
+      "webViewLink": "https://drive.google.com/file/d/1YqMeqZwL4GsTv--mULHo0Dx7TiTZcg0c/view?usp=drivesdk"
+    },
+    {
+      "id": "11P7EZAKzKY7x8gMbaWMDe1qlSY9BpSVb",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "name": "01_origin-on-the-table_Campaign_Proposal_MM-Bilingual.docx",
+      "webViewLink": "https://docs.google.com/document/d/11P7EZAKzKY7x8gMbaWMDe1qlSY9BpSVb/edit?usp=drivesdk&ouid=103242386193704001159&rtpof=true&sd=true"
+    },
+    {
+      "id": "10ai1p4CenSj55EvORn2OWn9cQhFBw5t0",
+      "mimeType": "text/markdown",
+      "name": "ZYNTH_FNB_Batch_Portfolio_Overview.md",
+      "webViewLink": "https://drive.google.com/file/d/10ai1p4CenSj55EvORn2OWn9cQhFBw5t0/view?usp=drivesdk"
+    },
+    {
+      "id": "1f3P5G3ZsjDIkwVYWaHL82AvbsprEscg7",
+      "mimeType": "application/zip",
+      "name": "ZYNTH-20260821-FNB-BILINGUAL-Complete-Batch.zip",
+      "webViewLink": "https://drive.google.com/file/d/1f3P5G3ZsjDIkwVYWaHL82AvbsprEscg7/view?usp=drivesdk"
+    }
+  ]
+}

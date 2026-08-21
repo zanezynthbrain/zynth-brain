@@ -84,6 +84,14 @@
       "count": 10,
       "batch_code": "ZYNTH-20260821-ENERGY-BILINGUAL",
       "production_status": "validated_locally_pending_sync"
+    },
+    {
+      "industry": "Food & beverage",
+      "industryCode": "fnb",
+      "run_id": "2026-08-21T06:15:00Z",
+      "count": 10,
+      "batch_code": "ZYNTH-20260821-FNB-BILINGUAL",
+      "production_status": "registered_research_pending"
     }
   ],
   "concepts": [
@@ -348,8 +356,8 @@
       "batch_code": "ZYNTH-20260821-ENERGY-BILINGUAL"
     }
   ],
-  "updated": "2026-08-21T03:31:00Z",
-  "registry_note": "Reconstructed on 2026-08-21 from the verified 2026-08-20 source_manifest.json because the documented registry file was absent. The immediate prior run used the ten industries above; next selection must be outside that set.",
+  "updated": "2026-08-21T06:15:00Z",
+  "registry_note": "Reconstructed on 2026-08-21 from the verified 2026-08-20 source_manifest.json because the documented registry file was absent. The immediate prior run used the ten industries above; next selection must be outside that set. F&B was registered on 2026-08-21 as the next two-hour batch after Energy.",
   "selection_log": [
     {
       "batch_code": "ZYNTH-20260821-ENERGY-BILINGUAL",
@@ -365,6 +373,18 @@
       "video_concept_count": 10,
       "design_package_count": 18,
       "validation_status": "PASS 37/37"
+    },
+    {
+      "batch_code": "ZYNTH-20260821-FNB-BILINGUAL",
+      "industryCode": "fnb",
+      "industry": "Food & beverage",
+      "selection_status": "registered_research_pending",
+      "selected_at": "2026-08-21T06:15:00Z",
+      "prior_immediate_industryCode": "energy",
+      "selection_rationale": "fnb is an allowed command-center industry code and differs from the immediately prior energy batch. It was selected before research and concept development to preserve required batch variety.",
+      "required_campaign_proposal_count": 10,
+      "required_commercial_storyboard_count": 10,
+      "two_hour_sprint_model": true
     }
   ]
 }

@@ -1,0 +1,5 @@
+{"payload":"01_campaigns.json","spreadsheetId":"1lJd6DkGcKrCAiETw9qadftFZhc-uXDNBr8Q1JlHLqMo","tableRange":"Campaigns!B5:W16","updatedRange":"Campaigns!B17:W26","updatedRows":10,"updatedCells":220}
+{"payload":"02_commercials.json","spreadsheetId":"1lJd6DkGcKrCAiETw9qadftFZhc-uXDNBr8Q1JlHLqMo","tableRange":"Commercials!B5:Y16","updatedRange":"Commercials!B17:Y26","updatedRows":10,"updatedCells":240}
+{"payload":"03_research.json","spreadsheetId":"1lJd6DkGcKrCAiETw9qadftFZhc-uXDNBr8Q1JlHLqMo","tableRange":"'Research & Sources'!B5:P12","updatedRange":"'Research & Sources'!B13:K21","updatedRows":9,"updatedCells":90}
+{"payload":"04_ai_council.json","spreadsheetId":"1lJd6DkGcKrCAiETw9qadftFZhc-uXDNBr8Q1JlHLqMo","tableRange":"'AI Council'!B5:Q16","updatedRange":"'AI Council'!B17:O21","updatedRows":5,"updatedCells":70}
+{"payload":"05_ops.json","spreadsheetId":"1lJd6DkGcKrCAiETw9qadftFZhc-uXDNBr8Q1JlHLqMo","tableRange":"Ops!B5:R14","updatedRange":"Ops!B15:N18","updatedRows":4,"updatedCells":52}

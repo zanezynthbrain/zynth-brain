@@ -1,0 +1,264 @@
+{
+  "batchCode": "ZYNTH-20260821-FNB-BILINGUAL",
+  "generatedAt": "2026-08-21T06:45:00Z",
+  "counts": {
+    "campaignProposals": 10,
+    "commercialConcepts": 10,
+    "storyboardFrames": 120,
+    "wordDocuments": 20,
+    "markdownDocuments": 21,
+    "researchSources": 9
+  },
+  "files": [
+    {
+      "path": "ZYNTH_FNB_Batch_Portfolio_Overview.md",
+      "bytes": 5856,
+      "sha256": "e4e50504daf29f11528c3e23767ad8eceefa6508ab450aab6fe6efce23b1588f"
+    },
+    {
+      "path": "commercial_storyboards/01_three-homes-one-ingredient_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 41143,
+      "sha256": "d6523682ba3a4660ba81b8700c3c5619482fc63838ac655636ffd0fc400fa39c"
+    },
+    {
+      "path": "commercial_storyboards/01_three-homes-one-ingredient_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3979,
+      "sha256": "bcfa3fc444e2fa4ad9e7143943b31c9f1a71a74c746b3234284c311fba9768fb"
+    },
+    {
+      "path": "commercial_storyboards/02_find-your-flavour_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 40943,
+      "sha256": "e38b8e9474b85c9a11126b25d74dca3e5e74d4cc4decf66f185382875e7c311c"
+    },
+    {
+      "path": "commercial_storyboards/02_find-your-flavour_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3749,
+      "sha256": "0060eefb577faa81ed6224de52501011fa953f1d3cfad1ccab6dbb7d692cfc57"
+    },
+    {
+      "path": "commercial_storyboards/03_before-the-day-is-done_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 41076,
+      "sha256": "02f2272ce646ed02bcf03989417ab7bd8a8e523bf18f350449efd2af34ef61cd"
+    },
+    {
+      "path": "commercial_storyboards/03_before-the-day-is-done_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3873,
+      "sha256": "6182bd07d57e00e1e85412439fdf7426b834878d419ec0b962288149dcef8e81"
+    },
+    {
+      "path": "commercial_storyboards/04_a-better-break-has-a-plan_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 41141,
+      "sha256": "95a9718f63eff3dbba5d312d88b07183db28589ded6d5cd2a54df73d69f79013"
+    },
+    {
+      "path": "commercial_storyboards/04_a-better-break-has-a-plan_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3978,
+      "sha256": "efeb9fe2bb63d0f1ee34aa4d55bdef8ddc515240ac799baebae6a8d15ff8df9f"
+    },
+    {
+      "path": "commercial_storyboards/05_the-making-is-the-meal_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 41076,
+      "sha256": "35530887860a5d6ab79b5235ea05ab42b4fa056b08cbda0d268780f695a54c9d"
+    },
+    {
+      "path": "commercial_storyboards/05_the-making-is-the-meal_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3928,
+      "sha256": "d273e4a85f7d728c18737dfc4327934dd036830b4c1b736fec4f21dc0f4a843b"
+    },
+    {
+      "path": "commercial_storyboards/06_listen-to-the-cup_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 40967,
+      "sha256": "6c7cf46a342c8fcbdeb375a411c733df39238f4d948dbbadc26895af45666973"
+    },
+    {
+      "path": "commercial_storyboards/06_listen-to-the-cup_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3805,
+      "sha256": "c451efa3bb4d6b8470d40efd04ccdc7fdb3944c4c633233b6e1860124376fcac"
+    },
+    {
+      "path": "commercial_storyboards/07_small-tables-long-stories_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 41150,
+      "sha256": "67e772a5af8db7d562725280ad09e685e9dd85c93fdcf379989f005b5b9f2510"
+    },
+    {
+      "path": "commercial_storyboards/07_small-tables-long-stories_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3995,
+      "sha256": "38ae95d68f1b559e47e324142f98a39b81515d5ec3b89750f10fcbdee399b115"
+    },
+    {
+      "path": "commercial_storyboards/08_the-table-you-build_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 40997,
+      "sha256": "3b88a697e94c3c9a45bfa1a46fd2520d3e9b2d96a5d1de2f973133086a7006ef"
+    },
+    {
+      "path": "commercial_storyboards/08_the-table-you-build_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3861,
+      "sha256": "da822dc317999a8f9d41a71291ff519c6d7ff5693bb9dfe5d5fdeda2227fee14"
+    },
+    {
+      "path": "commercial_storyboards/09_one-bite-then-the-brief_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 40989,
+      "sha256": "3596d73eede5456e5fc62ceae012b88655640da27f9bfdf0c089fb26fb385a68"
+    },
+    {
+      "path": "commercial_storyboards/09_one-bite-then-the-brief_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 3913,
+      "sha256": "743a30f85e77c96cc02a7879f7bcfcb2f7ce568a62d32169433ac5ba2679b847"
+    },
+    {
+      "path": "commercial_storyboards/10_the-second-serving_Commercial_Storyboard_MM-Bilingual.docx",
+      "bytes": 41165,
+      "sha256": "46a58b9adb6337f767eed197e181bface0a4c4c8f199b374056f9043727ee1c7"
+    },
+    {
+      "path": "commercial_storyboards/10_the-second-serving_Commercial_Storyboard_MM-Bilingual.md",
+      "bytes": 4003,
+      "sha256": "0fd2b54c51ae0e1781ab526b6e9239041569b3f29ca9cbf87bc643338a11ca28"
+    },
+    {
+      "path": "data/campaigns.json",
+      "bytes": 21977,
+      "sha256": "763d13fa742f64bbd81096d0d3638b102462060726132a6d6602ceaefc0596ce"
+    },
+    {
+      "path": "data/commercials.json",
+      "bytes": 70789,
+      "sha256": "d20dc35d5587bde2b2a03c4657ec8bdf19ae20b36f8c9f3d332bf9f46aab36ea"
+    },
+    {
+      "path": "monitoring/ZYNTH-20260821-FNB-Monitoring.xlsx",
+      "bytes": 31519,
+      "sha256": "227a3feef8533fc1b29e1c056a38c530c662a071ce832304bb42a977ec43964f"
+    },
+    {
+      "path": "monitoring/monitoring_report.md",
+      "bytes": 1274,
+      "sha256": "39288f51cd35c908a80943ecd5ca1edcf5453f09acaeb98f9c77d572515f8954"
+    },
+    {
+      "path": "proposals/01_origin-on-the-table_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 41005,
+      "sha256": "6b1afad7e50475475e99ec103c1e9b8e4be2c0afcee27241e858a1cb5045a848"
+    },
+    {
+      "path": "proposals/01_origin-on-the-table_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1673,
+      "sha256": "14ebddd49541b6fd7c51b039f00e6d6060f9f2348793b659a411f57d58fad333"
+    },
+    {
+      "path": "proposals/02_the-flavour-find_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40804,
+      "sha256": "b48294fd0c2887d6d8a1afa250bc7de162fa2096b3e224f2c8448a356b30865f"
+    },
+    {
+      "path": "proposals/02_the-flavour-find_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1465,
+      "sha256": "2cce553e807927e0a6a39a611b92e4a18fee1700f9b665e8d9abe8b818707484"
+    },
+    {
+      "path": "proposals/03_the-15-minute-table_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40714,
+      "sha256": "52c90e97ba107b7c7e126a8892a04a54639f7fc3a56e5f28d8b89e70c7c54904"
+    },
+    {
+      "path": "proposals/03_the-15-minute-table_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1499,
+      "sha256": "31d68263c339776fa088cfc127ccf8fa354e433e641d2bc9263e670ce6b454b8"
+    },
+    {
+      "path": "proposals/04_the-better-break_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40732,
+      "sha256": "86c914d407cb503366af50455c6d9bf4d12c6f92220972d47fc111508fa66606"
+    },
+    {
+      "path": "proposals/04_the-better-break_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1543,
+      "sha256": "ee0d790faa89c0241faaad7bd6c2cef7d7f5adb57cb2578b2e8a91aca888e7dd"
+    },
+    {
+      "path": "proposals/05_one-dish,-many-hands_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40830,
+      "sha256": "09b19119e0e26a9b08306e7b74f40bb196333597c122ed3778660a00f77f55ef"
+    },
+    {
+      "path": "proposals/05_one-dish,-many-hands_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1467,
+      "sha256": "0c27d32b616b18f22d2c8e1222f735875bb73cf200de499ff39da2e4fbc8b22f"
+    },
+    {
+      "path": "proposals/06_the-quiet-cup_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40713,
+      "sha256": "ea54d023ae32e1b1ec9750baea4588bfc807dd25944d20c291ce165024cf1512"
+    },
+    {
+      "path": "proposals/06_the-quiet-cup_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1490,
+      "sha256": "dd222633e17050cf588960e089bb555f70d94aa51b525a0bf1a4f23b67d96545"
+    },
+    {
+      "path": "proposals/07_a-city-of-small-tables_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40882,
+      "sha256": "4da7b7f4388152d5edb95a6f43916f374238226a277402675438381e9de51b40"
+    },
+    {
+      "path": "proposals/07_a-city-of-small-tables_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1580,
+      "sha256": "8759f67823ee2b5f084a38c299868e51c9b2cfac6427a7f8f326a82621ffb316"
+    },
+    {
+      "path": "proposals/08_the-shared-tray_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40741,
+      "sha256": "94e4bab83406dc113cebdba100975704656a56008c347136009279e0015b983d"
+    },
+    {
+      "path": "proposals/08_the-shared-tray_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1455,
+      "sha256": "54da519eacd5dfd6ee2c0d69ae43eae978feee7d049c8b73c19b290980eb1dd7"
+    },
+    {
+      "path": "proposals/09_the-buyer\u2019s-bite_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40848,
+      "sha256": "afde3189a7114bcd21537afa8b2a97afbdcce7e29ca3f4196d4070e0785d892b"
+    },
+    {
+      "path": "proposals/09_the-buyer\u2019s-bite_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1553,
+      "sha256": "a3b0b7f46553bbf33ed81565d0d132cac6d443ea1092513a65f573d4926137b2"
+    },
+    {
+      "path": "proposals/10_second-serving_Campaign_Proposal_MM-Bilingual.docx",
+      "bytes": 40845,
+      "sha256": "99df32921ddc543810e93cdbf92455a56be5ce93d4bd36967d27740f2ba40441"
+    },
+    {
+      "path": "proposals/10_second-serving_Campaign_Proposal_MM-Bilingual.md",
+      "bytes": 1616,
+      "sha256": "852ba4405da2960c76d211f34129f3fb7b27e55975ab4da55c07ea13fb9c84ad"
+    },
+    {
+      "path": "research/verified_source_notes.md",
+      "bytes": 9301,
+      "sha256": "7774ce70ace31f7e3a89634ae91191fb33302b715d72c5548022eb66268ab861"
+    },
+    {
+      "path": "scripts/generate_commercials.py",
+      "bytes": 19268,
+      "sha256": "293cf1c04a05c81e74f8123fa670875b6e5d543b9621cce9b0362d0bd49ef369"
+    },
+    {
+      "path": "scripts/generate_fnb_monitoring.py",
+      "bytes": 17112,
+      "sha256": "2a5fe94bc276a14c87ff89fc24bc0ea3cb0ffb63bd3319deeb500e22d0f1fc6c"
+    },
+    {
+      "path": "scripts/generate_fnb_proposal_package.py",
+      "bytes": 18066,
+      "sha256": "47093e101c22c5fd8c24cc65dbfdf19559514341b3ff1cd30d30256c0f686fcb"
+    },
+    {
+      "path": "validation/proposal_visual_qc.md",
+      "bytes": 2214,
+      "sha256": "6fa5cf4f583f65b1616122f1985abe8b0b5998d263673ab213669fadc13a5ccd"
+    }
+  ]
+}

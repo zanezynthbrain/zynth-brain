@@ -1,0 +1,94 @@
+{
+  "params": {
+    "spreadsheetId": "1lJd6DkGcKrCAiETw9qadftFZhc-uXDNBr8Q1JlHLqMo",
+    "range": "AI Council!B:O",
+    "valueInputOption": "USER_ENTERED",
+    "insertDataOption": "INSERT_ROWS",
+    "includeValuesInResponse": false
+  },
+  "json": {
+    "majorDimension": "ROWS",
+    "values": [
+      [
+        "AIC-2026-FNB-01",
+        "ZYNTH-20260821-FNB-BILINGUAL",
+        "Evidence",
+        "Manus internal structured review",
+        "v1.0",
+        "Batch feasibility review stored in Drive archive",
+        9,
+        "Public source scope and use limitations are documented",
+        "No future relationship or product claim is validated",
+        "Conditional advance to client selection workshop",
+        "Hold for human/client approval",
+        "Client evidence owner",
+        "Clear factual product/claims brief at G1",
+        "2026-08-21 UTC"
+      ],
+      [
+        "AIC-2026-FNB-02",
+        "ZYNTH-20260821-FNB-BILINGUAL",
+        "Strategy",
+        "Manus internal structured review",
+        "v1.0",
+        "Portfolio uniqueness review stored in batch validation",
+        10,
+        "Ten unique formats, tensions, mechanisms, territories and budget structures",
+        "Do not execute all ten without capacity and risk review",
+        "Conditional advance to selection workshop",
+        "Hold for human/client approval",
+        "Client commercial owner",
+        "Select maximum three initial campaign pilots",
+        "2026-08-21 UTC"
+      ],
+      [
+        "AIC-2026-FNB-03",
+        "ZYNTH-20260821-FNB-BILINGUAL",
+        "Creative",
+        "Manus internal structured review",
+        "v1.0",
+        "Ten commercial treatments and 120-frame storyboards stored in Drive archive",
+        10,
+        "Commercials are independent COM records with CTA and gates",
+        "Treatments are not shoot-ready or rights-cleared scripts",
+        "Hold for G5 production approval",
+        "Hold",
+        "Client brand/legal owner",
+        "Approve final script, claims, cast, location and rights",
+        "2026-08-21 UTC"
+      ],
+      [
+        "AIC-2026-FNB-04",
+        "ZYNTH-20260821-FNB-BILINGUAL",
+        "Operations",
+        "Manus internal structured review",
+        "v1.0",
+        "Food and experience risk register stored in Drive archive",
+        10,
+        "Required approval lists cover hygiene, allergy, consent, venue and rights",
+        "No venue, food safety or permit condition independently cleared",
+        "Hold for G4 feasibility approval",
+        "Hold",
+        "Client operations owner",
+        "Name food safety, venue, privacy and escalation owners",
+        "2026-08-21 UTC"
+      ],
+      [
+        "AIC-2026-FNB-05",
+        "ZYNTH-20260821-FNB-BILINGUAL",
+        "Measurement",
+        "Manus internal structured review",
+        "v1.0",
+        "Monitoring workbook and scenario rules stored in Drive archive",
+        10,
+        "KPIs focus on controlled actions and consented next steps",
+        "Scenarios are not financial forecasts or guarantees",
+        "Conditional advance to tracking",
+        "Hold for human/client approval",
+        "Client data/sales owner",
+        "Replace assumptions with funnel, margin, inventory, capacity and attribution data",
+        "2026-08-21 UTC"
+      ]
+    ]
+  }
+}
